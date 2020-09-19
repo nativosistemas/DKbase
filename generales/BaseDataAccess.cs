@@ -86,13 +86,11 @@ namespace DKbase.generales
 
                 using (SqlConnection connection = this.GetConnection())
                 {
-                    //
                     SqlCommand cmd = this.GetCommand(connection, procedureName, commandType);
                     if (parameters != null && parameters.Count > 0)
                     {
                         cmd.Parameters.AddRange(parameters.ToArray());
                     }
-
                     returnValue = cmd.ExecuteNonQuery();
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using DKbase.generales;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -31,6 +32,12 @@ namespace DKbase.baseDatos
             {
                 return false;
             }
+        }
+        public static DataTable RecuperarTodasSucursales()
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            return db.GetDataTable("Clientes.spRecuperarTodasSucursal", l);
         }
     }
 }

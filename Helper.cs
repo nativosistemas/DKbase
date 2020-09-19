@@ -18,7 +18,7 @@ namespace DKbase
         {
             set; get;
         }
-        public static string getFolderLog
+        public static string getFolder
         {
             set; get;
         }

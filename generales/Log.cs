@@ -72,7 +72,7 @@ namespace DKbase.generales
         {
             try
             {
-                string path = Helper.getPathSiteWeb + Helper.getFolderLog + "\\";//"";// HttpContext.Current.Server.MapPath(@"../" + Constantes.cArchivo_log + @"/");
+                string path =  Helper.getFolder + @"\Log\" + Helper.getTipoApp + "\\";
                 if (Directory.Exists(path) == false)
                 {
                     Directory.CreateDirectory(path);

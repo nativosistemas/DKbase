@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DKbase.dll;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DKbase.dll
+namespace DKbase.Models
 {
-   public class post_TomarPedidoConIdCarrito
+    public class TomarPedidoConIdCarritoRequest
     {
-        public  int pIdCarrito { get; set; }
+        public int pIdCarrito { get; set; }
         public string pLoginCliente { get; set; }
         public string pIdSucursal { get; set; }
         public string pMensajeEnFactura { get; set; }

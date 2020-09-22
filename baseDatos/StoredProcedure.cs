@@ -39,5 +39,16 @@ namespace DKbase.baseDatos
             List<SqlParameter> l = new List<SqlParameter>();
             return db.GetDataTable("Clientes.spRecuperarTodasSucursal", l);
         }
+        public static DataTable Login(string pNombreLogin, string pPassword, string pIp, string pHostName, string pUserAgent)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("login", pNombreLogin));
+            l.Add(db.GetParameter("Password", pPassword));
+            l.Add(db.GetParameter("Ip", pIp));
+            l.Add(db.GetParameter("Host", pHostName));
+            l.Add(db.GetParameter("UserName", pUserAgent));
+            return db.GetDataTable("Seguridad.spInicioSession", l);
+        }
     }
 }

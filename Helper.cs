@@ -14,10 +14,6 @@ namespace DKbase
         {
             set; get;
         }
-        public static string getPathSiteWeb
-        {
-            set; get;
-        }
         public static string getFolder
         {
             set; get;

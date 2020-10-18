@@ -15,35 +15,56 @@ namespace DKbase.generales
             string nombreFile = now.Year.ToString("0000") + now.Month.ToString("00") + now.Day.ToString("00") + Helper.getTipoApp + ".txt";
             Log.saveInFile("fecha: " + now.ToString() + " - pantalla: " + pantalla + " - mensaje :" + mensaje, nombreFile);
         }
+        private static string getParameters(MethodBase method, params object[] values)
+        {
+            ParameterInfo[] parms = method.GetParameters();
+            object[] namevalues = new object[2 * parms.Length];
+            string Parameters = string.Empty;
+            if (values.Length > 0)
+            {
+                for (int i = 0, j = 0; i < parms.Length; i++, j += 2)
+                {
+                    Parameters += "<" + parms[i].Name + ">";
+                    if (values[i].GetType() == typeof(List<cDllProductosAndCantidad>))
+                    {
+                        List<cDllProductosAndCantidad> list = (List<cDllProductosAndCantidad>)values[i];
+                        for (int y = 0; y < list.Count; y++)
+                        {
+                            Parameters += String.Format("codProductoNombre = {0} || cantidad = {1} || IdTransfer = {2} || isOferta = {3}", list[y].codProductoNombre, list[y].cantidad, list[y].IdTransfer, list[y].isOferta);
+                        }
+                    }
+                    else
+                    {
+                        Parameters += values[i];
+                    }
+                    Parameters += "</" + parms[i].Name + ">";
+                    Parameters += "</" + parms[i].Name + ">";
+                }
+            }
+            return Parameters;
+        }
+        public static void LogError(MethodBase method, string pMensaje, DateTime pFechaActual, params object[] values)
+        {
+            try
+            {
+                string Parameters = getParameters(method, values);
+                bool isNotGeneroError = baseDatos.StoredProcedure.spError(method.Name, Parameters, null,
+                      null,
+                     null,
+                    pMensaje,
+                   null,
+                   null, DateTime.Now, Helper.getTipoApp);
+            }
+            catch (Exception ex)
+            {
+                LogErrorFile(MethodBase.GetCurrentMethod().ToString(), ex.ToString());
+            }
+        }
         public static void LogError(MethodBase method, Exception pException, DateTime pFechaActual, params object[] values)
         {
             try
             {
-                ParameterInfo[] parms = method.GetParameters();
-                object[] namevalues = new object[2 * parms.Length];
-
-                string Parameters = string.Empty;
-                if (values.Length > 0)
-                {
-                    for (int i = 0, j = 0; i < parms.Length; i++, j += 2)
-                    {
-                        Parameters += "<" + parms[i].Name + ">";
-                        if (values[i].GetType() == typeof(List<cDllProductosAndCantidad>))
-                        {
-                            List<cDllProductosAndCantidad> list = (List<cDllProductosAndCantidad>)values[i];
-                            for (int y = 0; y < list.Count; y++)
-                            {
-                                Parameters += String.Format("codProductoNombre = {0} || cantidad = {1} || IdTransfer = {2} || isOferta = {3}", list[y].codProductoNombre, list[y].cantidad, list[y].IdTransfer, list[y].isOferta);
-                            }
-                        }
-                        else
-                        {
-                            Parameters += values[i];
-                        }
-                        Parameters += "</" + parms[i].Name + ">";
-                        Parameters += "</" + parms[i].Name + ">";
-                    }
-                }
+                string Parameters = getParameters(method, values);
                 grabarLog_generico(method.Name, pException, pFechaActual, Parameters, Helper.getTipoApp);
 
             }
@@ -72,7 +93,7 @@ namespace DKbase.generales
         {
             try
             {
-                string path =  Helper.getFolder + @"\Log\" + Helper.getTipoApp + "\\";
+                string path = Helper.getFolder + @"\Log\" + Helper.getTipoApp + "\\";
                 if (Directory.Exists(path) == false)
                 {
                     Directory.CreateDirectory(path);

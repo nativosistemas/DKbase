@@ -99,5 +99,11 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable RecuperarTodosClientes()
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            return db.GetDataTable("Clientes.spRecuperarTodosClientes", l);
+        }
     }
 }

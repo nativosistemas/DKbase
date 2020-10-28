@@ -1,4 +1,5 @@
-﻿using DKbase.generales;
+﻿using DKbase.Entities;
+using DKbase.generales;
 using DKbase.web.capaDatos;
 using System;
 using System.Collections.Generic;
@@ -157,6 +158,31 @@ namespace DKbase.web
                     {
                         resultado.Add(tabla.Rows[i]["cli_codrep"].ToString());
                     }
+                }
+            }
+            return resultado;
+        }
+        private static Farmacia ConvertToFarmacia(DataRow pItem)
+        {
+            Farmacia obj = new Farmacia();
+            if (pItem.Table.Columns.Contains("cli_codigo") && pItem["cli_codigo"] != DBNull.Value)
+                obj.id = Convert.ToInt32(pItem["cli_codigo"]);
+            if (pItem.Table.Columns.Contains("cli_nombre") && pItem["cli_nombre"] != DBNull.Value)
+                obj.nombre = Convert.ToString(pItem["cli_nombre"]);
+            if (pItem.Table.Columns.Contains("cli_dirección") && pItem["cli_dirección"] != DBNull.Value)
+                obj.direccion = Convert.ToString(pItem["cli_dirección"]);
+            return obj;
+        }
+        public static List<Farmacia> RecuperarFarmacias()
+        {
+            List<Farmacia> resultado = null;
+            DataTable tabla = capaClientes.RecuperarTodosClientes();
+            if (tabla != null)
+            {
+                resultado = new List<Farmacia>();
+                for (int i = 0; i < tabla.Rows.Count; i++)
+                {
+                    resultado.Add(ConvertToFarmacia(tabla.Rows[i]));
                 }
             }
             return resultado;

@@ -76,7 +76,7 @@ namespace DKbase.generales
             }
             return returnValue;
         }
-        public int ExecuteNonQuery(string procedureName, List<SqlParameter> parameters, CommandType commandType = CommandType.StoredProcedure)
+        public int ExecuteNonQuery(string procedureName, List<SqlParameter> parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
 
             int returnValue = -1;
@@ -102,7 +102,7 @@ namespace DKbase.generales
             return returnValue;
         }
 
-        public object ExecuteScalar(string procedureName, List<SqlParameter> parameters)
+        public object ExecuteScalar(string procedureName, List<SqlParameter> parameters = null)
         {
             object returnValue = null;
 
@@ -128,7 +128,7 @@ namespace DKbase.generales
             return returnValue;
         }
 
-        public SqlDataReader GetDataReader(string procedureName, List<SqlParameter> parameters, CommandType commandType = CommandType.StoredProcedure)
+        public SqlDataReader GetDataReader(string procedureName, List<SqlParameter> parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace DKbase.generales
 
             return null;
         }
-        public DataTable GetDataTable(string procedureName, List<SqlParameter> parameters, CommandType commandType = CommandType.StoredProcedure)
+        public DataTable GetDataTable(string procedureName, List<SqlParameter> parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace DKbase.generales
 
             return null;
         }
-        public DataSet GetDataSet(string procedureName, List<SqlParameter> parameters, CommandType commandType = CommandType.StoredProcedure)
+        public DataSet GetDataSet(string procedureName, List<SqlParameter> parameters = null, CommandType commandType = CommandType.StoredProcedure)
         {
             try
             {

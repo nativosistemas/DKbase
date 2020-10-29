@@ -15,14 +15,14 @@ namespace DKbase.Entities
         public int id { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
-        public List<ModuloDetalle> listaModuloDetalle { get; set; }
+        public List<ModuloDetalle> moduloDetalle { get; set; }
     }
     public class ModuloDetalle
     {
         public int id { get; set; }
         public int idModulo { get; set; }
-        public string nombreProducto { get; set; }
-        public string descripcionProducto { get; set; }
+        public string producto { get; set; }
+        public string descripcion { get; set; }
         public double precio { get; set; }
         public double precioDescuento { get; set; }
     }

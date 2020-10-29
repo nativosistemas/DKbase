@@ -209,7 +209,7 @@ namespace DKbase.web
             ModuloDetalle obj = new ModuloDetalle();
             if (pItem.Table.Columns.Contains("tde_codpro") && pItem["tde_codpro"] != DBNull.Value)
             {
-                obj.nombreProducto = pItem["tde_codpro"].ToString();
+                obj.producto = pItem["tde_codpro"].ToString();
             }
             if (pItem.Table.Columns.Contains("tde_codtfr") && pItem["tde_codtfr"] != DBNull.Value)
             {
@@ -217,7 +217,7 @@ namespace DKbase.web
             }
             if (pItem.Table.Columns.Contains("tde_descripcion") && pItem["tde_descripcion"] != DBNull.Value)
             {
-                obj.descripcionProducto = pItem["tde_descripcion"].ToString();
+                obj.descripcion = pItem["tde_descripcion"].ToString();
             }
             if (pItem.Table.Columns.Contains("tde_predescuento") && pItem["tde_predescuento"] != DBNull.Value)
             {
@@ -251,7 +251,7 @@ namespace DKbase.web
                             ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);
                             listaDetalle.Add(objDetalle);
                         }
-                        obj.listaModuloDetalle = listaDetalle;
+                        obj.moduloDetalle = listaDetalle;
                     }
                     resultado.Add(obj);
                 }

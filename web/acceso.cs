@@ -207,6 +207,11 @@ namespace DKbase.web
         public static ModuloDetalle ConvertToModuloDetalle(DataRow pItem)
         {
             ModuloDetalle obj = new ModuloDetalle();
+            if (pItem.Table.Columns.Contains("pro_codigo") && pItem["pro_codigo"] != DBNull.Value 
+                && pItem.Table.Columns.Contains("tde_codtfr") && pItem["tde_codtfr"] != DBNull.Value)
+            {
+                obj.id = pItem["tde_codtfr"].ToString() + "_" + pItem["pro_codigo"].ToString();
+            }
             if (pItem.Table.Columns.Contains("tde_codpro") && pItem["tde_codpro"] != DBNull.Value)
             {
                 obj.producto = pItem["tde_codpro"].ToString();

@@ -19,7 +19,7 @@ namespace DKbase.Entities
     }
     public class ModuloDetalle
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public int idModulo { get; set; }
         public string producto { get; set; }
         public string descripcion { get; set; }

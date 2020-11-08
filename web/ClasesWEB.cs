@@ -53,6 +53,11 @@ namespace DKbase.web
             get;
             set;
         }
+        public string usu_login
+        {
+            get;
+            set;
+        }
     }
     public class cUsuario
     {

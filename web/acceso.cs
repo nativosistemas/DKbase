@@ -162,107 +162,191 @@ namespace DKbase.web
             }
             return resultado;
         }
-        private static Farmacia ConvertToFarmacia(DataRow pItem)
-        {
-            Farmacia obj = new Farmacia();
-            if (pItem.Table.Columns.Contains("cli_codigo") && pItem["cli_codigo"] != DBNull.Value)
-                obj.id = Convert.ToInt32(pItem["cli_codigo"]);
-            if (pItem.Table.Columns.Contains("cli_nombre") && pItem["cli_nombre"] != DBNull.Value)
-                obj.nombre = Convert.ToString(pItem["cli_nombre"]);
-            if (pItem.Table.Columns.Contains("cli_dirección") && pItem["cli_dirección"] != DBNull.Value)
-                obj.direccion = Convert.ToString(pItem["cli_dirección"]);
-            return obj;
-        }
-        public static List<Farmacia> RecuperarFarmacias()
-        {
-            List<Farmacia> resultado = null;
-            DataTable tabla = capaClientes.RecuperarTodosClientes();
-            if (tabla != null)
-            {
-                resultado = new List<Farmacia>();
-                for (int i = 0; i < tabla.Rows.Count; i++)
-                {
-                    resultado.Add(ConvertToFarmacia(tabla.Rows[i]));
-                }
-            }
-            return resultado;
-        }
-        public static Modulo ConvertToModulo(DataRow pItem)
-        {
-            Modulo obj = new Modulo();
-            if (pItem.Table.Columns.Contains("tfr_codigo") && pItem["tfr_codigo"] != DBNull.Value)
-            {
-                obj.id = Convert.ToInt32(pItem["tfr_codigo"]);
-            }
-            if (pItem.Table.Columns.Contains("tfr_descripcion") && pItem["tfr_descripcion"] != DBNull.Value)
-            {
-                obj.descripcion = pItem["tfr_descripcion"].ToString();
-            }
-            if (pItem.Table.Columns.Contains("tfr_nombre") && pItem["tfr_nombre"] != DBNull.Value)
-            {
-                obj.nombre = pItem["tfr_nombre"].ToString();
-            }
-            return obj;
-        }
-        public static ModuloDetalle ConvertToModuloDetalle(DataRow pItem)
-        {
-            ModuloDetalle obj = new ModuloDetalle();
-            if (pItem.Table.Columns.Contains("pro_codigo") && pItem["pro_codigo"] != DBNull.Value 
-                && pItem.Table.Columns.Contains("tde_codtfr") && pItem["tde_codtfr"] != DBNull.Value)
-            {
-                obj.id = pItem["tde_codtfr"].ToString() + "_" + pItem["pro_codigo"].ToString();
-            }
-            if (pItem.Table.Columns.Contains("tde_codpro") && pItem["tde_codpro"] != DBNull.Value)
-            {
-                obj.producto = pItem["tde_codpro"].ToString();
-            }
-            if (pItem.Table.Columns.Contains("tde_codtfr") && pItem["tde_codtfr"] != DBNull.Value)
-            {
-                obj.idModulo = Convert.ToInt32(pItem["tde_codtfr"]);
-            }
-            if (pItem.Table.Columns.Contains("tde_descripcion") && pItem["tde_descripcion"] != DBNull.Value)
-            {
-                obj.descripcion = pItem["tde_descripcion"].ToString();
-            }
-            if (pItem.Table.Columns.Contains("tde_predescuento") && pItem["tde_predescuento"] != DBNull.Value)
-            {
-                obj.precioDescuento = Convert.ToDouble(pItem["tde_predescuento"]);
-            }
-            if (pItem.Table.Columns.Contains("tde_prepublico") && pItem["tde_prepublico"] != DBNull.Value)
-            {
-                obj.precio = Convert.ToDouble(pItem["tde_prepublico"]);
-            }
-            return obj;
-        }
-        public static List<Modulo> RecuperarTodosModulos()
-        {
-            List<Modulo> resultado = null;
-            DataSet dsResultado = capaModulo.RecuperarTodosTransferMasDetalle();
-            if (dsResultado != null)
-            {
-                resultado = new List<Modulo>();
-                DataTable tbTransfer = dsResultado.Tables[0];
-                for (int i = 0; i < tbTransfer.Rows.Count; i++)
-                {
-                    Modulo obj = ConvertToModulo(tbTransfer.Rows[i]);
-                    List<ModuloDetalle> listaDetalle = null;
-                    if (dsResultado.Tables.Count > 1)
-                    {
-                        listaDetalle = new List<ModuloDetalle>();
-                        DataTable tablaDetalle = dsResultado.Tables[1];
-                        DataRow[] listaFila = tablaDetalle.Select("tde_codtfr =" + obj.id);// obj.id == obj.tfr_codigo
-                        foreach (DataRow itemTransferDetalle in listaFila)
-                        {
-                            ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);
-                            listaDetalle.Add(objDetalle);
-                        }
-                        obj.moduloDetalle = listaDetalle;
-                    }
-                    resultado.Add(obj);
-                }
 
+        public static cClientes ConvertToCliente(DataRow pItem)
+        {
+            cClientes obj = new cClientes();
+            if (pItem["cli_codigo"] != DBNull.Value)
+            {
+                obj.cli_codigo = Convert.ToInt32(pItem["cli_codigo"]);
             }
-            return resultado;
+            if (pItem["cli_nombre"] != DBNull.Value)
+            {
+                obj.cli_nombre = pItem["cli_nombre"].ToString();
+            }
+            if (pItem["cli_dirección"] != DBNull.Value)
+            {
+                obj.cli_dirección = pItem["cli_dirección"].ToString();
+            }
+            if (pItem["cli_Telefono"] != DBNull.Value)
+            {
+                obj.cli_telefono = pItem["cli_Telefono"].ToString();
+            }
+            if (pItem["cli_localidad"] != DBNull.Value)
+            {
+                obj.cli_localidad = pItem["cli_localidad"].ToString();
+            }
+            if (pItem["cli_codprov"] != DBNull.Value)
+            {
+                obj.cli_codprov = pItem["cli_codprov"].ToString();
+            }
+            if (pItem["cli_email"] != DBNull.Value)
+            {
+                obj.cli_email = pItem["cli_email"].ToString();
+            }
+            if (pItem["cli_paginaweb"] != DBNull.Value)
+            {
+                obj.cli_paginaweb = pItem["cli_paginaweb"].ToString();
+            }
+            if (pItem["cli_codsuc"] != DBNull.Value)
+            {
+                obj.cli_codsuc = pItem["cli_codsuc"].ToString();
+            }
+            if (pItem["cli_pordesespmed"] != DBNull.Value)
+            {
+                obj.cli_pordesespmed = Convert.ToDecimal(pItem["cli_pordesespmed"]);
+            }
+            if (pItem["cli_pordesbetmed"] != DBNull.Value)
+            {
+                obj.cli_pordesbetmed = Convert.ToDecimal(pItem["cli_pordesbetmed"]);
+            }
+            if (pItem["cli_pordesnetos"] != DBNull.Value)
+            {
+                obj.cli_pordesnetos = Convert.ToDecimal(pItem["cli_pordesnetos"]);
+            }
+            if (pItem["cli_pordesfinperfcyo"] != DBNull.Value)
+            {
+                obj.cli_pordesfinperfcyo = Convert.ToDecimal(pItem["cli_pordesfinperfcyo"]);
+            }
+            if (pItem["cli_pordescomperfcyo"] != DBNull.Value)
+            {
+                obj.cli_pordescomperfcyo = Convert.ToDecimal(pItem["cli_pordescomperfcyo"]);
+            }
+            if (pItem["cli_deswebespmed"] != DBNull.Value)
+            {
+                obj.cli_deswebespmed = Convert.ToBoolean(pItem["cli_deswebespmed"]);
+            }
+            if (pItem["cli_deswebnetmed"] != DBNull.Value)
+            {
+                obj.cli_deswebnetmed = Convert.ToBoolean(pItem["cli_deswebnetmed"]);
+            }
+            if (pItem["cli_deswebnetacc"] != DBNull.Value)
+            {
+                obj.cli_deswebnetacc = Convert.ToBoolean(pItem["cli_deswebnetacc"]);
+            }
+            if (pItem["cli_deswebnetperpropio"] != DBNull.Value)
+            {
+                obj.cli_deswebnetperpropio = Convert.ToBoolean(pItem["cli_deswebnetperpropio"]);
+            }
+            if (pItem["cli_deswebnetpercyo"] != DBNull.Value)
+            {
+                obj.cli_deswebnetpercyo = Convert.ToBoolean(pItem["cli_deswebnetpercyo"]);
+            }
+            if (pItem["cli_destransfer"] != DBNull.Value)
+            {
+                obj.cli_destransfer = Convert.ToDecimal(pItem["cli_destransfer"]);
+            }
+            if (pItem["cli_login"] != DBNull.Value)
+            {
+                obj.cli_login = pItem["cli_login"].ToString();
+            }
+            if (pItem["cli_codtpoenv"] != DBNull.Value)
+            {
+                obj.cli_codtpoenv = pItem["cli_codtpoenv"].ToString();
+            }
+            if (pItem["cli_codrep"] != DBNull.Value)
+            {
+                obj.cli_codrep = pItem["cli_codrep"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("cli_isGLN"))
+            {
+                if (pItem["cli_isGLN"] != DBNull.Value)
+                {
+                    obj.cli_isGLN = Convert.ToBoolean(pItem["cli_isGLN"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_tomaOfertas"))
+            {
+                if (pItem["cli_tomaOfertas"] != DBNull.Value)
+                {
+                    obj.cli_tomaOfertas = Convert.ToBoolean(pItem["cli_tomaOfertas"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_tomaPerfumeria"))
+            {
+                if (pItem["cli_tomaPerfumeria"] != DBNull.Value)
+                {
+                    obj.cli_tomaPerfumeria = Convert.ToBoolean(pItem["cli_tomaPerfumeria"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_tomaTransfers"))
+            {
+                if (pItem["cli_tomaTransfers"] != DBNull.Value)
+                {
+                    obj.cli_tomaTransfers = Convert.ToBoolean(pItem["cli_tomaTransfers"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_password"))
+            {
+                if (pItem["cli_password"] != DBNull.Value)
+                {
+                    obj.cli_password = Convert.ToString(pItem["cli_password"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_estado"))
+            {
+                if (pItem["cli_estado"] != DBNull.Value)
+                {
+                    obj.cli_estado = Convert.ToString(pItem["cli_estado"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_tipo"))
+            {
+                if (pItem["cli_tipo"] != DBNull.Value)
+                {
+                    obj.cli_tipo = Convert.ToString(pItem["cli_tipo"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_mostrardireccion"))
+            {
+                if (pItem["cli_mostrardireccion"] != DBNull.Value)
+                {
+                    obj.cli_mostrardireccion = Convert.ToBoolean(pItem["cli_mostrardireccion"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_mostrarweb"))
+            {
+                if (pItem["cli_mostrarweb"] != DBNull.Value)
+                {
+                    obj.cli_mostrarweb = Convert.ToBoolean(pItem["cli_mostrarweb"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_mostrartelefono"))
+            {
+                if (pItem["cli_mostrartelefono"] != DBNull.Value)
+                {
+                    obj.cli_mostrartelefono = Convert.ToBoolean(pItem["cli_mostrartelefono"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_mostraremail"))
+            {
+                if (pItem["cli_mostraremail"] != DBNull.Value)
+                {
+                    obj.cli_mostraremail = Convert.ToBoolean(pItem["cli_mostraremail"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("cli_IdSucursalAlternativa") && pItem["cli_IdSucursalAlternativa"] != DBNull.Value)
+                obj.cli_IdSucursalAlternativa = Convert.ToString(pItem["cli_IdSucursalAlternativa"]);
+
+            if (pItem.Table.Columns.Contains("cli_AceptaPsicotropicos") && pItem["cli_AceptaPsicotropicos"] != DBNull.Value)
+                obj.cli_AceptaPsicotropicos = Convert.ToBoolean(pItem["cli_AceptaPsicotropicos"]);
+            if (pItem.Table.Columns.Contains("cli_promotor") && pItem["cli_promotor"] != DBNull.Value)
+                obj.cli_promotor = Convert.ToString(pItem["cli_promotor"]);
+            if (pItem.Table.Columns.Contains("cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto") && pItem["cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto"] != DBNull.Value)
+                obj.cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto = Convert.ToDecimal(pItem["cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto"]);
+            if (pItem.Table.Columns.Contains("cli_GrupoCliente") && pItem["cli_GrupoCliente"] != DBNull.Value)
+                obj.cli_GrupoCliente = Convert.ToString(pItem["cli_GrupoCliente"]);
+            return obj;
         }
     }
 }

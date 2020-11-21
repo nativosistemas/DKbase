@@ -32,54 +32,95 @@ namespace DKbase.app
         public static Modulo ConvertToModulo(DataRow pItem)
         {
             Modulo obj = new Modulo();
-            if (pItem.Table.Columns.Contains("tfr_codigo") && pItem["tfr_codigo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("mod_nroModulo") && pItem["mod_nroModulo"] != DBNull.Value)
             {
-                obj.id = Convert.ToInt32(pItem["tfr_codigo"]);
+                obj.id = Convert.ToInt32(pItem["mod_nroModulo"]);
             }
-            if (pItem.Table.Columns.Contains("tfr_descripcion") && pItem["tfr_descripcion"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("mod_cantidadMinimos") && pItem["mod_cantidadMinimos"] != DBNull.Value)
             {
-                obj.descripcion = pItem["tfr_descripcion"].ToString();
+                obj.cantidadMinimos = Convert.ToInt32(pItem["mod_cantidadMinimos"]);
             }
-            if (pItem.Table.Columns.Contains("tfr_nombre") && pItem["tfr_nombre"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("mod_idLaboratorio") && pItem["mod_idLaboratorio"] != DBNull.Value)
             {
-                obj.nombre = pItem["tfr_nombre"].ToString();
+                obj.idLaboratorio = Convert.ToInt32(pItem["mod_idLaboratorio"]);
             }
             return obj;
         }
         public static ModuloDetalle ConvertToModuloDetalle(DataRow pItem)
         {
             ModuloDetalle obj = new ModuloDetalle();
-            if (pItem.Table.Columns.Contains("pro_codigo") && pItem["pro_codigo"] != DBNull.Value
-                && pItem.Table.Columns.Contains("tde_codtfr") && pItem["tde_codtfr"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("dmo_id") && pItem["dmo_id"] != DBNull.Value)
             {
-                obj.id = pItem["tde_codtfr"].ToString() + "_" + pItem["pro_codigo"].ToString();
+                obj.id = Convert.ToInt32(pItem["dmo_id"].ToString());
             }
-            if (pItem.Table.Columns.Contains("tde_codpro") && pItem["tde_codpro"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("pro_nombre") && pItem["pro_nombre"] != DBNull.Value)
             {
-                obj.producto = pItem["tde_codpro"].ToString();
+                obj.producto = pItem["pro_nombre"].ToString();
             }
-            if (pItem.Table.Columns.Contains("tde_codtfr") && pItem["tde_codtfr"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("dmo_idModulo") && pItem["dmo_idModulo"] != DBNull.Value)
             {
-                obj.idModulo = Convert.ToInt32(pItem["tde_codtfr"]);
+                obj.idModulo = Convert.ToInt32(pItem["dmo_idModulo"]);
             }
-            if (pItem.Table.Columns.Contains("tde_descripcion") && pItem["tde_descripcion"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("dmo_orden") && pItem["dmo_orden"] != DBNull.Value)
             {
-                obj.descripcion = pItem["tde_descripcion"].ToString();
+                obj.orden = Convert.ToInt32(pItem["dmo_orden"]);
+            }            
+            if (pItem.Table.Columns.Contains("dmo_descripcion") && pItem["dmo_descripcion"] != DBNull.Value)
+            {
+                obj.descripcion = pItem["dmo_descripcion"].ToString();
             }
-            if (pItem.Table.Columns.Contains("tde_predescuento") && pItem["tde_predescuento"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("dmo_precio") && pItem["dmo_precio"] != DBNull.Value)
             {
-                obj.precioDescuento = Convert.ToDouble(pItem["tde_predescuento"]);
+                obj.precio = Convert.ToDouble(pItem["dmo_precio"]);
             }
-            if (pItem.Table.Columns.Contains("tde_prepublico") && pItem["tde_prepublico"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("dmo_precioDescuento") && pItem["dmo_precioDescuento"] != DBNull.Value)
             {
-                obj.precio = Convert.ToDouble(pItem["tde_prepublico"]);
+                obj.precioDescuento = Convert.ToDouble(pItem["dmo_precioDescuento"]);
+            }
+            if (pItem.Table.Columns.Contains("dmo_cantidadUnidades") && pItem["dmo_cantidadUnidades"] != DBNull.Value)
+            {
+                obj.cantidadUnidades = Convert.ToInt32(pItem["dmo_cantidadUnidades"]);
+            }            
+            return obj;
+        }
+        public static Laboratorio ConvertToLaboratorio(DataRow pItem)
+        {
+            Laboratorio obj = new Laboratorio();
+            if (pItem.Table.Columns.Contains("lab_id") && pItem["lab_id"] != DBNull.Value)
+            {
+                obj.id = Convert.ToInt32(pItem["lab_id"]);
+            }
+            if (pItem.Table.Columns.Contains("lab_laboratorio") && pItem["lab_laboratorio"] != DBNull.Value)
+            {
+                obj.nombre = pItem["lab_laboratorio"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("lab_nombreImagen") && pItem["lab_nombreImagen"] != DBNull.Value)
+            {
+                obj.imagen = pItem["lab_nombreImagen"].ToString();
             }
             return obj;
+        }
+        public static List<Laboratorio> GetLaboratorios()
+        {
+            List<Laboratorio> resultado = null;
+            DataSet dsResultado = capaModulo.spGetLaboratorios();
+            if (dsResultado != null)
+            {
+                resultado = new List<Laboratorio>();
+                DataTable tbTransfer = dsResultado.Tables[0];
+                for (int i = 0; i < tbTransfer.Rows.Count; i++)
+                {
+                    Laboratorio obj = ConvertToLaboratorio(tbTransfer.Rows[i]);
+                    resultado.Add(obj);
+                }
+
+            }
+            return resultado;
         }
         public static List<Modulo> RecuperarTodosModulos()
         {
             List<Modulo> resultado = null;
-            DataSet dsResultado = capaModulo.RecuperarTodosTransferMasDetalle();
+            DataSet dsResultado = capaModulo.spGetModulos();
             if (dsResultado != null)
             {
                 resultado = new List<Modulo>();
@@ -92,7 +133,7 @@ namespace DKbase.app
                     {
                         listaDetalle = new List<ModuloDetalle>();
                         DataTable tablaDetalle = dsResultado.Tables[1];
-                        DataRow[] listaFila = tablaDetalle.Select("tde_codtfr =" + obj.id);// obj.id == obj.tfr_codigo
+                        DataRow[] listaFila = tablaDetalle.Select("dmo_idModulo =" + obj.id);
                         foreach (DataRow itemTransferDetalle in listaFila)
                         {
                             ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);

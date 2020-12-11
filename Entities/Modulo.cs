@@ -20,8 +20,8 @@ namespace DKbase.Entities
     public class Modulo
     {
         public int id { get; set; }
-        //public string nombre { get; set; }
-        //public string descripcion { get; set; }
+        public string nombre_laboratorio { get; set; }
+        public string descripcion { get; set; }
         public int cantidadMinimos { get; set; }
         public int idLaboratorio { get; set; }
         public Laboratorio laboratorio { get; set; }

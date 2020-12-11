@@ -44,6 +44,14 @@ namespace DKbase.app
             {
                 obj.idLaboratorio = Convert.ToInt32(pItem["mod_idLaboratorio"]);
             }
+            if (pItem.Table.Columns.Contains("mod_descripcion") && pItem["mod_descripcion"] != DBNull.Value)
+            {
+                obj.descripcion = pItem["mod_descripcion"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("lab_laboratorio") && pItem["lab_laboratorio"] != DBNull.Value)
+            {
+                obj.nombre_laboratorio = pItem["lab_laboratorio"].ToString();
+            }
             return obj;
         }
         public static ModuloDetalle ConvertToModuloDetalle(DataRow pItem)
@@ -64,7 +72,7 @@ namespace DKbase.app
             if (pItem.Table.Columns.Contains("dmo_orden") && pItem["dmo_orden"] != DBNull.Value)
             {
                 obj.orden = Convert.ToInt32(pItem["dmo_orden"]);
-            }            
+            }
             if (pItem.Table.Columns.Contains("dmo_descripcion") && pItem["dmo_descripcion"] != DBNull.Value)
             {
                 obj.descripcion = pItem["dmo_descripcion"].ToString();
@@ -80,7 +88,7 @@ namespace DKbase.app
             if (pItem.Table.Columns.Contains("dmo_cantidadUnidades") && pItem["dmo_cantidadUnidades"] != DBNull.Value)
             {
                 obj.cantidadUnidades = Convert.ToInt32(pItem["dmo_cantidadUnidades"]);
-            }            
+            }
             return obj;
         }
         public static Laboratorio ConvertToLaboratorio(DataRow pItem)
@@ -117,6 +125,14 @@ namespace DKbase.app
             }
             return resultado;
         }
+        public static void DeleteLaboratorios(int id)
+        {
+            capaModulo.spDeleteLaboratorios(id);
+        }
+        public static int AddUpdateLaboratorios(int id, string nombre)
+        {
+            return capaModulo.spAddUpdateLaboratorios(id, nombre);
+        }
         public static List<Modulo> RecuperarTodosModulos()
         {
             List<Modulo> resultado = null;
@@ -146,6 +162,10 @@ namespace DKbase.app
 
             }
             return resultado;
+        }
+        public static void DeleteModulo(int id)
+        {
+            capaModulo.spDeleteModulo(id);
         }
     }
 }

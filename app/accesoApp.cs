@@ -119,20 +119,24 @@ namespace DKbase.app
                 for (int i = 0; i < tbTransfer.Rows.Count; i++)
                 {
                     Laboratorio obj = ConvertToLaboratorio(tbTransfer.Rows[i]);
+                   List<cArchivo> l_archivo = acceso.RecuperarTodosArchivos(obj.id, generales.Constantes.cLABORATORIO, string.Empty);
+                    if (l_archivo != null && l_archivo.Count > 0) {
+                        obj.imagen = l_archivo[0].arc_nombre;
+                    }
                     resultado.Add(obj);
                 }
 
             }
             return resultado;
         }
-        public static void DeleteLaboratorios(int id)
-        {
-            capaModulo.spDeleteLaboratorios(id);
-        }
-        public static int AddUpdateLaboratorios(int id, string nombre)
-        {
-            return capaModulo.spAddUpdateLaboratorios(id, nombre);
-        }
+        //public static void DeleteLaboratorios(int id)
+        //{
+        //    capaModulo.spDeleteLaboratorios(id);
+        //}
+        //public static int AddUpdateLaboratorios(int id, string nombre)
+        //{
+        //    return capaModulo.spAddUpdateLaboratorios(id, nombre);
+        //}
         public static List<Modulo> RecuperarTodosModulos()
         {
             List<Modulo> resultado = null;

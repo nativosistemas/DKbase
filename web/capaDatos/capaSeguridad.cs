@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DKbase.web.capaDatos
 {
-    class capaSeguridad
+   public class capaSeguridad
     {
         public static DataSet Login(string pNombreLogin, string pPassword, string pIp, string pHostName, string pUserAgent)
         {
@@ -90,6 +90,22 @@ namespace DKbase.web.capaDatos
                     Conn.Close();
                 }
             }
+        }
+        public static string obtenerStringEstado(int pIdEstado)
+        {
+            string resultado = string.Empty;
+            switch (pIdEstado.ToString())
+            {
+                case "1":
+                    return Constantes.cESTADO_STRING_SINESTADO;
+                case "2":
+                    return Constantes.cESTADO_STRING_ACTIVO;
+                case "3":
+                    return Constantes.cESTADO_STRING_INACTIVO;
+                default:
+                    break;
+            }
+            return resultado;
         }
     }
 }

@@ -348,5 +348,95 @@ namespace DKbase.web
                 obj.cli_GrupoCliente = Convert.ToString(pItem["cli_GrupoCliente"]);
             return obj;
         }
+        public static List<cArchivo> RecuperarTodosArchivos(int pArc_codRelacion, string pArc_galeria, string pFiltro)
+        {
+            List<cArchivo> lista = new List<cArchivo>();
+            DataSet dsResultado = capaRecurso.GestiónArchivo(null, pArc_codRelacion, pArc_galeria, null, null, null, null, null, null, null, null, null, pFiltro, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Archivo"].Rows)
+                {
+                    lista.Add(ConvertToArchivo(item));
+                }
+            }
+            return lista;
+
+        }
+        private static cArchivo ConvertToArchivo(DataRow pItem)
+        {
+            cArchivo obj = new cArchivo();
+
+            if (pItem["arc_codRecurso"] != DBNull.Value)
+            {
+                obj.arc_codRecurso = Convert.ToInt32(pItem["arc_codRecurso"]);
+            }
+            if (pItem["arc_codRelacion"] != DBNull.Value)
+            {
+                obj.arc_codRelacion = Convert.ToInt32(pItem["arc_codRelacion"]);
+            }
+            if (pItem["arc_galeria"] != DBNull.Value)
+            {
+                obj.arc_galeria = pItem["arc_galeria"].ToString();
+            }
+            if (pItem["arc_orden"] != DBNull.Value)
+            {
+                obj.arc_orden = Convert.ToInt32(pItem["arc_orden"]);
+            }
+            if (pItem["arc_tipo"] != DBNull.Value)
+            {
+                obj.arc_tipo = pItem["arc_tipo"].ToString();
+            }
+            if (pItem["arc_mime"] != DBNull.Value)
+            {
+                obj.arc_mime = pItem["arc_mime"].ToString();
+            }
+            if (pItem["arc_nombre"] != DBNull.Value)
+            {
+                obj.arc_nombre = pItem["arc_nombre"].ToString();
+            }
+            if (pItem["arc_titulo"] != DBNull.Value)
+            {
+                obj.arc_titulo = pItem["arc_titulo"].ToString();
+            }
+            if (pItem["arc_descripcion"] != DBNull.Value)
+            {
+                obj.arc_descripcion = pItem["arc_descripcion"].ToString();
+            }
+            if (pItem["arc_tipo"] != DBNull.Value)
+            {
+                obj.arc_tipo = pItem["arc_tipo"].ToString();
+            }
+            if (pItem["arc_codUsuarioUltMov"] != DBNull.Value)
+            {
+                obj.arc_codUsuarioUltMov = Convert.ToInt32(pItem["arc_codUsuarioUltMov"]);
+            }
+            if (pItem["NombreYapellido"] != DBNull.Value)
+            {
+                obj.NombreYapellido = pItem["NombreYapellido"].ToString();
+            }
+            if (pItem["arc_hash"] != DBNull.Value)
+            {
+                obj.arc_hash = pItem["arc_hash"].ToString();
+            }
+            if (pItem["arc_fecha"] != DBNull.Value)
+            {
+                obj.arc_fecha = Convert.ToDateTime(pItem["arc_fecha"]);
+                obj.arc_fechaToString = obj.arc_fecha.ToString();
+            }
+            if (pItem["arc_fechaUltMov"] != DBNull.Value)
+            {
+                obj.arc_fechaUltMov = Convert.ToDateTime(pItem["arc_fechaUltMov"]);
+            }
+            if (pItem["arc_estado"] != DBNull.Value)
+            {
+                obj.arc_estado = Convert.ToInt32(pItem["arc_estado"]);
+                obj.arc_estadoToString = capaSeguridad.obtenerStringEstado(obj.arc_estado);
+            }
+            if (pItem["arc_accion"] != DBNull.Value)
+            {
+                obj.arc_accion = Convert.ToInt32(pItem["arc_accion"]);
+            }
+            return obj;
+        }
     }
 }

@@ -34,10 +34,18 @@ namespace DKbase.generales
         {
             get { return "CAMBIOCONTRASEÑA"; }
         }
-        //public static string cSQL_ESCONTRASEÑACORRECTA
-        //{
-        //    get { return "ESCONTRASEÑACORRECTA"; }
-        //}
+        public static string cESTADO_STRING_SINESTADO
+        {
+            get { return "Sin Estado"; }
+        }
+        public static string cESTADO_STRING_ACTIVO
+        {
+            get { return "Activo"; }
+        }
+        public static string cESTADO_STRING_INACTIVO
+        {
+            get { return "Inactivo"; }
+        }
         public static string cSQL_PUBLICAR
         {
             get { return "PUBLICAR"; }
@@ -59,6 +67,9 @@ namespace DKbase.generales
         {
             get { return "ASC"; }
         }
-
+        public static string cLABORATORIO
+        {
+            get { return "laboratorio"; }
+        }
     }
 }

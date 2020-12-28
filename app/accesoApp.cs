@@ -24,6 +24,7 @@ namespace DKbase.app
                     o.direccion = oCliente.cli_dirección;
                     o.id = oCliente.cli_codigo;
                     o.nombre = oCliente.cli_nombre;
+                    o.objCliente = oCliente;
                     resultado.Add(o);
                 }
             }
@@ -89,6 +90,11 @@ namespace DKbase.app
             {
                 obj.cantidadUnidades = Convert.ToInt32(pItem["dmo_cantidadUnidades"]);
             }
+            if (pItem.Table.Columns.Contains("dmo_TieneEnCuentaDescuentoCliente") && pItem["dmo_TieneEnCuentaDescuentoCliente"] != DBNull.Value)
+            {
+                obj.isTieneEnCuentaDescuentoCliente = Convert.ToBoolean(pItem["dmo_TieneEnCuentaDescuentoCliente"]);
+            }
+            obj.objProducto = acceso.ConvertToProductos(pItem);
             return obj;
         }
         public static Laboratorio ConvertToLaboratorio(DataRow pItem)

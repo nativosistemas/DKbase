@@ -438,5 +438,82 @@ namespace DKbase.web
             }
             return obj;
         }
+        public static cProductos ConvertToProductos(DataRow pItem)
+        {
+            cProductos obj = new cProductos();
+            if (pItem.Table.Columns.Contains("pro_codigo") && pItem["pro_codigo"] != DBNull.Value)
+            {
+                obj.pro_codigo = pItem["pro_codigo"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("pro_nombre") && pItem["pro_nombre"] != DBNull.Value)
+            {
+                obj.pro_nombre = pItem["pro_nombre"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("pro_precio") && pItem["pro_precio"] != DBNull.Value)
+            {
+                obj.pro_precio = Convert.ToDecimal(pItem["pro_precio"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_preciofarmacia") && pItem["pro_preciofarmacia"] != DBNull.Value)
+            {
+                obj.pro_preciofarmacia = Convert.ToDecimal(pItem["pro_preciofarmacia"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_ofeunidades") && pItem["pro_ofeunidades"] != DBNull.Value)
+            {
+                obj.pro_ofeunidades = Convert.ToInt32(pItem["pro_ofeunidades"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_ofeporcentaje") && pItem["pro_ofeporcentaje"] != DBNull.Value)
+            {
+                obj.pro_ofeporcentaje = Convert.ToDecimal(pItem["pro_ofeporcentaje"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_neto") && pItem["pro_neto"] != DBNull.Value)
+            {
+                obj.pro_neto = Convert.ToBoolean(pItem["pro_neto"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_codtpopro") && pItem["pro_codtpopro"] != DBNull.Value)
+            {
+                obj.pro_codtpopro = pItem["pro_codtpopro"].ToString().ToUpper();
+            }
+            if (pItem.Table.Columns.Contains("pro_descuentoweb") && pItem["pro_descuentoweb"] != DBNull.Value)
+            {
+                obj.pro_descuentoweb = Convert.ToDecimal(pItem["pro_descuentoweb"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_laboratorio") && pItem["pro_laboratorio"] != DBNull.Value)
+            {
+                obj.pro_laboratorio = pItem["pro_laboratorio"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("pro_monodroga") && pItem["pro_monodroga"] != DBNull.Value)
+            {
+                obj.pro_monodroga = pItem["pro_monodroga"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("pro_codigobarra") && pItem["pro_codigobarra"] != DBNull.Value)
+            {
+                obj.pro_codigobarra = pItem["pro_codigobarra"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("pro_codigoalfabeta") && pItem["pro_codigoalfabeta"] != DBNull.Value)
+            {
+                obj.pro_codigoalfabeta = pItem["pro_codigoalfabeta"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("pro_isTrazable") && pItem["pro_isTrazable"] != DBNull.Value)
+            {
+                obj.pro_isTrazable = Convert.ToBoolean(pItem["pro_isTrazable"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_isCadenaFrio") && pItem["pro_isCadenaFrio"] != DBNull.Value)
+            {
+                obj.pro_isCadenaFrio = Convert.ToBoolean(pItem["pro_isCadenaFrio"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_acuerdo") && pItem["pro_acuerdo"] != DBNull.Value)
+            {
+                obj.pro_acuerdo = Convert.ToInt32(pItem["pro_acuerdo"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_PrecioBase") && pItem["pro_PrecioBase"] != DBNull.Value)
+            {
+                obj.pro_PrecioBase = Convert.ToDecimal(pItem["pro_PrecioBase"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_PorcARestarDelDtoDeCliente") && pItem["pro_PorcARestarDelDtoDeCliente"] != DBNull.Value)
+            {
+                obj.pro_PorcARestarDelDtoDeCliente = Convert.ToDecimal(pItem["pro_PorcARestarDelDtoDeCliente"]);
+            }
+            return obj;
+        }
     }
 }

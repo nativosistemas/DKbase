@@ -7,6 +7,7 @@ namespace DKbase.Entities
 
     public class Farmacia
     {
+        public web.capaDatos.cClientes objCliente { get; set; }
         public int id { get; set; }
         public string nombre { get; set; }
         public string direccion { get; set; }
@@ -29,6 +30,7 @@ namespace DKbase.Entities
     }
     public class ModuloDetalle
     {
+        public web.capaDatos.cProductos objProducto { get; set; }
         public int id { get; set; }
         public int idModulo { get; set; }
         public int orden { get; set; }
@@ -37,5 +39,7 @@ namespace DKbase.Entities
         public double precio { get; set; }
         public double precioDescuento { get; set; }
         public int cantidadUnidades { get; set; }
+        private bool _dmo_TieneEnCuentaDescuentoCliente = false;
+        public bool isTieneEnCuentaDescuentoCliente { get { return _dmo_TieneEnCuentaDescuentoCliente; } set { _dmo_TieneEnCuentaDescuentoCliente = value; } }
     }
 }

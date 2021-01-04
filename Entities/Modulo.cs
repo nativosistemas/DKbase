@@ -42,4 +42,19 @@ namespace DKbase.Entities
         private bool _dmo_TieneEnCuentaDescuentoCliente = false;
         public bool isTieneEnCuentaDescuentoCliente { get { return _dmo_TieneEnCuentaDescuentoCliente; } set { _dmo_TieneEnCuentaDescuentoCliente = value; } }
     }
+    public class AppPedido
+    {
+        public int id { get; set; }
+        public string promotor { get; set; }
+        public List<AppPedidoModulo> pedidoModulos { get; set; }
+        public DateTime? fechaApp { get; set; }    
+    }
+    public class AppPedidoModulo
+    {
+        public int id { get; set; }
+        public int idModulo { get; set; }
+        public int idFarmacia { get; set; }
+        public int cantidad { get; set; }
+        public DateTime? fechaApp { get; set; }
+    }
 }

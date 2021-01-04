@@ -39,7 +39,13 @@ namespace DKbase.generales
             parameterObject.Direction = ParameterDirection.Input;
             return parameterObject;
         }
-
+        public SqlParameter GetParameter(string parameter, object value, SqlDbType type)
+        {
+            SqlParameter parameterObject = new SqlParameter(parameter, value != null ? value : DBNull.Value);
+            parameterObject.SqlDbType = type;
+            parameterObject.Direction = ParameterDirection.Input;
+            return parameterObject;
+        }
         public SqlParameter GetParameterOut(string parameter, SqlDbType type, object value = null, ParameterDirection parameterDirection = ParameterDirection.InputOutput)
         {
             SqlParameter parameterObject = new SqlParameter(parameter, type);

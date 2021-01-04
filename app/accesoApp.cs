@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Xml.Linq;
 
 namespace DKbase.app
 {
@@ -125,8 +126,9 @@ namespace DKbase.app
                 for (int i = 0; i < tbTransfer.Rows.Count; i++)
                 {
                     Laboratorio obj = ConvertToLaboratorio(tbTransfer.Rows[i]);
-                   List<cArchivo> l_archivo = acceso.RecuperarTodosArchivos(obj.id, generales.Constantes.cLABORATORIO, string.Empty);
-                    if (l_archivo != null && l_archivo.Count > 0) {
+                    List<cArchivo> l_archivo = acceso.RecuperarTodosArchivos(obj.id, generales.Constantes.cLABORATORIO, string.Empty);
+                    if (l_archivo != null && l_archivo.Count > 0)
+                    {
                         obj.imagen = l_archivo[0].arc_nombre;
                     }
                     resultado.Add(obj);
@@ -176,6 +178,22 @@ namespace DKbase.app
         public static void DeleteModulo(int id)
         {
             capaModulo.spDeleteModulo(id);
+        }
+        public static int AddPedido(AppPedido pPedido)
+        {
+            string strXML = string.Empty;
+            strXML += "<Root>";
+            foreach (AppPedidoModulo item in pPedido.pedidoModulos)
+            {
+                List<XAttribute> listaAtributos = new List<XAttribute>();
+                listaAtributos.Add(new XAttribute("pmo_cantidad", item.cantidad));
+                listaAtributos.Add(new XAttribute("pmo_nroModulo", item.idModulo));
+                listaAtributos.Add(new XAttribute("pmo_codCliente", item.idFarmacia));
+                XElement nodo = new XElement("DetallePedido", listaAtributos);
+                strXML += nodo.ToString();
+            }
+            strXML += "</Root>";
+            return capaModulo.spAddPedido(pPedido.promotor, strXML);
         }
     }
 }

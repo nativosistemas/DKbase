@@ -34,17 +34,17 @@ namespace DKbase.app
         public static Modulo ConvertToModulo(DataRow pItem)
         {
             Modulo obj = new Modulo();
-            if (pItem.Table.Columns.Contains("mod_nroModulo") && pItem["mod_nroModulo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("mod_codModulo") && pItem["mod_codModulo"] != DBNull.Value)
             {
-                obj.id = Convert.ToInt32(pItem["mod_nroModulo"]);
+                obj.id = Convert.ToInt32(pItem["mod_codModulo"]);
             }
             if (pItem.Table.Columns.Contains("mod_cantidadMinimos") && pItem["mod_cantidadMinimos"] != DBNull.Value)
             {
                 obj.cantidadMinimos = Convert.ToInt32(pItem["mod_cantidadMinimos"]);
             }
-            if (pItem.Table.Columns.Contains("mod_idLaboratorio") && pItem["mod_idLaboratorio"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("mod_codLaboratorio") && pItem["mod_codLaboratorio"] != DBNull.Value)
             {
-                obj.idLaboratorio = Convert.ToInt32(pItem["mod_idLaboratorio"]);
+                obj.idLaboratorio = Convert.ToInt32(pItem["mod_codLaboratorio"]);
             }
             if (pItem.Table.Columns.Contains("mod_descripcion") && pItem["mod_descripcion"] != DBNull.Value)
             {
@@ -67,9 +67,9 @@ namespace DKbase.app
             {
                 obj.producto = pItem["pro_nombre"].ToString();
             }
-            if (pItem.Table.Columns.Contains("dmo_idModulo") && pItem["dmo_idModulo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("dmo_codModulo") && pItem["dmo_codModulo"] != DBNull.Value)
             {
-                obj.idModulo = Convert.ToInt32(pItem["dmo_idModulo"]);
+                obj.idModulo = Convert.ToInt32(pItem["dmo_codModulo"]);
             }
             if (pItem.Table.Columns.Contains("dmo_orden") && pItem["dmo_orden"] != DBNull.Value)
             {
@@ -101,9 +101,9 @@ namespace DKbase.app
         public static Laboratorio ConvertToLaboratorio(DataRow pItem)
         {
             Laboratorio obj = new Laboratorio();
-            if (pItem.Table.Columns.Contains("lab_id") && pItem["lab_id"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("lab_codLaboratorio") && pItem["lab_codLaboratorio"] != DBNull.Value)
             {
-                obj.id = Convert.ToInt32(pItem["lab_id"]);
+                obj.id = Convert.ToInt32(pItem["lab_codLaboratorio"]);
             }
             if (pItem.Table.Columns.Contains("lab_laboratorio") && pItem["lab_laboratorio"] != DBNull.Value)
             {
@@ -161,7 +161,7 @@ namespace DKbase.app
                     {
                         listaDetalle = new List<ModuloDetalle>();
                         DataTable tablaDetalle = dsResultado.Tables[1];
-                        DataRow[] listaFila = tablaDetalle.Select("dmo_idModulo =" + obj.id);
+                        DataRow[] listaFila = tablaDetalle.Select("dmo_codModulo =" + obj.id);
                         foreach (DataRow itemTransferDetalle in listaFila)
                         {
                             ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);

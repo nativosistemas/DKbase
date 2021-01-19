@@ -20,12 +20,12 @@ namespace DKbase.generales
             ParameterInfo[] parms = method.GetParameters();
             object[] namevalues = new object[2 * parms.Length];
             string Parameters = string.Empty;
-            if (values.Length > 0)
+            if (values != null && values.Length > 0)
             {
                 for (int i = 0, j = 0; i < parms.Length; i++, j += 2)
                 {
                     Parameters += "<" + parms[i].Name + ">";
-                    if (values[i].GetType() == typeof(List<cDllProductosAndCantidad>))
+                    if (values[i] != null && values[i].GetType() == typeof(List<cDllProductosAndCantidad>))
                     {
                         List<cDllProductosAndCantidad> list = (List<cDllProductosAndCantidad>)values[i];
                         for (int y = 0; y < list.Count; y++)
@@ -37,7 +37,6 @@ namespace DKbase.generales
                     {
                         Parameters += values[i];
                     }
-                    Parameters += "</" + parms[i].Name + ">";
                     Parameters += "</" + parms[i].Name + ">";
                 }
             }

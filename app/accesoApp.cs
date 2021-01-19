@@ -59,10 +59,10 @@ namespace DKbase.app
         public static ModuloDetalle ConvertToModuloDetalle(DataRow pItem)
         {
             ModuloDetalle obj = new ModuloDetalle();
-            if (pItem.Table.Columns.Contains("dmo_id") && pItem["dmo_id"] != DBNull.Value)
-            {
-                obj.id = Convert.ToInt32(pItem["dmo_id"].ToString());
-            }
+            //if (pItem.Table.Columns.Contains("dmo_id") && pItem["dmo_id"] != DBNull.Value)
+            //{
+            //    obj.id = Convert.ToInt32(pItem["dmo_id"].ToString());
+            //}
             if (pItem.Table.Columns.Contains("pro_nombre") && pItem["pro_nombre"] != DBNull.Value)
             {
                 obj.producto = pItem["pro_nombre"].ToString();

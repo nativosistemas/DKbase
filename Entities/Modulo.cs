@@ -31,7 +31,7 @@ namespace DKbase.Entities
     public class ModuloDetalle
     {
         public web.capaDatos.cProductos objProducto { get; set; }
-        public int id { get; set; }
+        //public int id { get; set; }
         public int idModulo { get; set; }
         public int orden { get; set; }
         public string producto { get; set; }

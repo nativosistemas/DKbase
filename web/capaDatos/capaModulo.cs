@@ -42,19 +42,22 @@ namespace DKbase.web.capaDatos
             BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
             return db.GetDataSet("app.spGetModulos");
         }
-        public static int spAddPedido(string pPromotor, string pTablaXml)
+        public static Guid spAddPedido(string pPromotor, string pTablaXml)
         {
-            int result = -1;
+            Guid result = Guid.Empty;
             try
             {
                 BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
                 List<SqlParameter> l = new List<SqlParameter>();
                 l.Add(db.GetParameter("promotor", pPromotor));
                 l.Add(db.GetParameter("strXML", pTablaXml, SqlDbType.Xml));
-                SqlParameter ParameterOut_idPedido = db.GetParameterOut("idPedido", SqlDbType.Int);
-                l.Add(ParameterOut_idPedido);
+                SqlParameter ParameterOut_GUID = db.GetParameterOut("GUID", SqlDbType.UniqueIdentifier);
+                l.Add(ParameterOut_GUID);
                 db.ExecuteNonQuery("app.spAddPedido", l);
-                result = Convert.ToInt32(ParameterOut_idPedido.Value);
+                if (ParameterOut_GUID.Value != DBNull.Value)
+                {
+                    result = Guid.Parse(ParameterOut_GUID.Value.ToString());
+                }
             }
             catch (Exception ex)
             {

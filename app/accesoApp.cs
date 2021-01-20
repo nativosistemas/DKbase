@@ -179,7 +179,7 @@ namespace DKbase.app
         {
             capaModulo.spDeleteModulo(id);
         }
-        public static int AddPedido(AppPedido pPedido)
+        public static Guid AddPedido(AppPedido pPedido)
         {
             string strXML = string.Empty;
             strXML += "<Root>";

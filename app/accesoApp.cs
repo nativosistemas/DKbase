@@ -34,17 +34,17 @@ namespace DKbase.app
         public static Modulo ConvertToModulo(DataRow pItem)
         {
             Modulo obj = new Modulo();
-            if (pItem.Table.Columns.Contains("mod_codModulo") && pItem["mod_codModulo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("mod_numeroModulo") && pItem["mod_numeroModulo"] != DBNull.Value)
             {
-                obj.id = Convert.ToInt32(pItem["mod_codModulo"]);
+                obj.id = Convert.ToInt32(pItem["mod_numeroModulo"]);
             }
             if (pItem.Table.Columns.Contains("mod_cantidadMinimos") && pItem["mod_cantidadMinimos"] != DBNull.Value)
             {
                 obj.cantidadMinimos = Convert.ToInt32(pItem["mod_cantidadMinimos"]);
             }
-            if (pItem.Table.Columns.Contains("mod_codLaboratorio") && pItem["mod_codLaboratorio"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("mod_cuitLaboratorio") && pItem["mod_cuitLaboratorio"] != DBNull.Value)
             {
-                obj.idLaboratorio = Convert.ToInt32(pItem["mod_codLaboratorio"]);
+                obj.idLaboratorio = Convert.ToInt64(pItem["mod_cuitLaboratorio"]);
             }
             if (pItem.Table.Columns.Contains("mod_descripcion") && pItem["mod_descripcion"] != DBNull.Value)
             {
@@ -59,17 +59,13 @@ namespace DKbase.app
         public static ModuloDetalle ConvertToModuloDetalle(DataRow pItem)
         {
             ModuloDetalle obj = new ModuloDetalle();
-            //if (pItem.Table.Columns.Contains("dmo_id") && pItem["dmo_id"] != DBNull.Value)
-            //{
-            //    obj.id = Convert.ToInt32(pItem["dmo_id"].ToString());
-            //}
             if (pItem.Table.Columns.Contains("pro_nombre") && pItem["pro_nombre"] != DBNull.Value)
             {
                 obj.producto = pItem["pro_nombre"].ToString();
             }
-            if (pItem.Table.Columns.Contains("dmo_codModulo") && pItem["dmo_codModulo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("dmo_numeroModulo") && pItem["dmo_numeroModulo"] != DBNull.Value)
             {
-                obj.idModulo = Convert.ToInt32(pItem["dmo_codModulo"]);
+                obj.idModulo = Convert.ToInt32(pItem["dmo_numeroModulo"]);
             }
             if (pItem.Table.Columns.Contains("dmo_orden") && pItem["dmo_orden"] != DBNull.Value)
             {
@@ -101,9 +97,9 @@ namespace DKbase.app
         public static Laboratorio ConvertToLaboratorio(DataRow pItem)
         {
             Laboratorio obj = new Laboratorio();
-            if (pItem.Table.Columns.Contains("lab_codLaboratorio") && pItem["lab_codLaboratorio"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("lab_cuit") && pItem["lab_cuit"] != DBNull.Value)
             {
-                obj.id = Convert.ToInt32(pItem["lab_codLaboratorio"]);
+                obj.id = Convert.ToInt64(pItem["lab_cuit"]);
             }
             if (pItem.Table.Columns.Contains("lab_laboratorio") && pItem["lab_laboratorio"] != DBNull.Value)
             {
@@ -126,7 +122,12 @@ namespace DKbase.app
                 for (int i = 0; i < tbTransfer.Rows.Count; i++)
                 {
                     Laboratorio obj = ConvertToLaboratorio(tbTransfer.Rows[i]);
-                    List<cArchivo> l_archivo = acceso.RecuperarTodosArchivos(obj.id, generales.Constantes.cLABORATORIO, string.Empty);
+                    int codigoLab = 0;
+                    if (tbTransfer.Rows[i].Table.Columns.Contains("lab_codigo") && tbTransfer.Rows[i]["lab_codigo"] != DBNull.Value)
+                    {
+                        codigoLab = Convert.ToInt32(tbTransfer.Rows[i]["lab_codigo"]);
+                    }
+                    List<cArchivo> l_archivo = acceso.RecuperarTodosArchivos(codigoLab, generales.Constantes.cLABORATORIO, string.Empty);
                     if (l_archivo != null && l_archivo.Count > 0)
                     {
                         obj.imagen = l_archivo[0].arc_nombre;
@@ -137,14 +138,6 @@ namespace DKbase.app
             }
             return resultado;
         }
-        //public static void DeleteLaboratorios(int id)
-        //{
-        //    capaModulo.spDeleteLaboratorios(id);
-        //}
-        //public static int AddUpdateLaboratorios(int id, string nombre)
-        //{
-        //    return capaModulo.spAddUpdateLaboratorios(id, nombre);
-        //}
         public static List<Modulo> RecuperarTodosModulos()
         {
             List<Modulo> resultado = null;
@@ -161,7 +154,7 @@ namespace DKbase.app
                     {
                         listaDetalle = new List<ModuloDetalle>();
                         DataTable tablaDetalle = dsResultado.Tables[1];
-                        DataRow[] listaFila = tablaDetalle.Select("dmo_codModulo =" + obj.id);
+                        DataRow[] listaFila = tablaDetalle.Select("dmo_numeroModulo =" + obj.id);
                         foreach (DataRow itemTransferDetalle in listaFila)
                         {
                             ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);

@@ -14,7 +14,7 @@ namespace DKbase.Entities
     }
     public class Laboratorio
     {
-        public int id { get; set; }
+        public long id { get; set; }
         public string nombre { get; set; }
         public string imagen { get; set; }
     }
@@ -24,7 +24,7 @@ namespace DKbase.Entities
         public string nombre_laboratorio { get; set; }
         public string descripcion { get; set; }
         public int cantidadMinimos { get; set; }
-        public int idLaboratorio { get; set; }
+        public long idLaboratorio { get; set; }
         public Laboratorio laboratorio { get; set; }
         public List<ModuloDetalle> moduloDetalle { get; set; }
     }

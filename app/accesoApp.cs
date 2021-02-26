@@ -101,6 +101,10 @@ namespace DKbase.app
             {
                 obj.id = Convert.ToInt64(pItem["lab_cuit"]);
             }
+            if (pItem.Table.Columns.Contains("lab_codigo") && pItem["lab_codigo"] != DBNull.Value)
+            {
+                obj.idParaArchivo = Convert.ToInt32(pItem["lab_codigo"]);
+            }
             if (pItem.Table.Columns.Contains("lab_laboratorio") && pItem["lab_laboratorio"] != DBNull.Value)
             {
                 obj.nombre = pItem["lab_laboratorio"].ToString();

@@ -14,6 +14,7 @@ namespace DKbase.Entities
     }
     public class Laboratorio
     {
+        public int idParaArchivo { get; set; }
         public long id { get; set; }
         public string nombre { get; set; }
         public string imagen { get; set; }

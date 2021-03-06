@@ -136,18 +136,22 @@ namespace DKbase.app
                     if (l_archivo != null && l_archivo.Count > 0)
                     {
                         obj.imagen = l_archivo[0].arc_nombre;
-
-                        using (System.Drawing.Image image = DKbase.generales.cThumbnail.obtenerImagen("laboratorio", obj.imagen, "400", "400", "#FFFFFF", false))
+                    }
+                    string imagen = obj.imagen;
+                    if (string.IsNullOrEmpty(imagen))
+                    {
+                        imagen = "amissingthumbnail0.png";
+                    }
+                    using (System.Drawing.Image image = DKbase.generales.cThumbnail.obtenerImagen("laboratorio", imagen, "400", "400", "#FFFFFF", false))
+                    {
+                        if (image != null)
                         {
-                            if (image != null)
+                            using (MemoryStream m = new MemoryStream())
                             {
-                                using (MemoryStream m = new MemoryStream())
-                                {
-                                    image.Save(m, image.RawFormat);
-                                    byte[] imageBytes = m.ToArray();
-                                    string base64String = Convert.ToBase64String(imageBytes);
-                                    obj.imagenBase64 = base64String;
-                                }
+                                image.Save(m, image.RawFormat);
+                                byte[] imageBytes = m.ToArray();
+                                string base64String = Convert.ToBase64String(imageBytes);
+                                obj.imagenBase64 = base64String;
                             }
                         }
                     }

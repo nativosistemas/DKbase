@@ -4,6 +4,7 @@ using DKbase.web.capaDatos;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Text;
 using System.Xml.Linq;
 
@@ -135,6 +136,20 @@ namespace DKbase.app
                     if (l_archivo != null && l_archivo.Count > 0)
                     {
                         obj.imagen = l_archivo[0].arc_nombre;
+
+                        using (System.Drawing.Image image = DKbase.generales.cThumbnail.obtenerImagen("laboratorio", obj.imagen, "400", "400", "#FFFFFF", false))
+                        {
+                            if (image != null)
+                            {
+                                using (MemoryStream m = new MemoryStream())
+                                {
+                                    image.Save(m, image.RawFormat);
+                                    byte[] imageBytes = m.ToArray();
+                                    string base64String = Convert.ToBase64String(imageBytes);
+                                    obj.imagenBase64 = base64String;
+                                }
+                            }
+                        }
                     }
                     resultado.Add(obj);
                 }

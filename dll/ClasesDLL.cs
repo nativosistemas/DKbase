@@ -159,6 +159,38 @@ namespace DKbase.dll
         public string NumeroNotaDeDebito { get; set; }
 
     }
+    public class cRecibo
+    {
+        public string Numero { get; set; }
+        public DateTime? Fecha { get; set; }
+        public string FechaToString { get; set; }
+        public string FechaAnulacion { get; set; }
+        public string Destinatario { get; set; }
+        public string DireccionDestinatario { get; set; }
+        public string LocalidadDestinatario { get; set; }
+        public string CondicionIVADestinatarioToString { get; set; }
+        public double CuitDestinatario { get; set; }
+        public int NumeroCliente { get; set; }
+        public int NumeroCuentaCorriente { get; set; }
+        public string TipoEnvioToString { get; set; }
+        public string CodigoReparto { get; set; }
+        public decimal MontoTotal { get; set; }
+        public string MontoTOTALenLetras { get; set; }
+        public string CantidadHojas { get; set; }
+        public string MontoEnDolares { get; set; }
+        public bool ComprobantePAMI { get; set; }
+        public List<cReciboDetalle> lista { get; set; }
+    }
+    public class cReciboDetalle
+    {
+        public string NumeroRecibo { get; set; }
+        public string NumeroHoja { get; set; }
+        public int NumeroItem { get; set; }
+        public string Descripcion { get; set; }
+        public string Importe { get; set; }
+        public string ID { get; set; }
+
+    }
     public class cNotaDeCredito
     {
         public string CantidadHojas { get; set; }

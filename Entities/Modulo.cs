@@ -49,7 +49,7 @@ namespace DKbase.Entities
         public int id { get; set; }
         public string promotor { get; set; }
         public List<AppPedidoModulo> pedidoModulos { get; set; }
-        public DateTime? fechaApp { get; set; }    
+        public DateTime? fechaApp { get; set; }
     }
     public class AppPedidoModulo
     {
@@ -58,5 +58,18 @@ namespace DKbase.Entities
         public int idFarmacia { get; set; }
         public int cantidad { get; set; }
         public DateTime? fechaApp { get; set; }
+    }
+    public class AppInfoPedido
+    {
+        public int pea_id { get; set; }
+        public Guid pea_guid { get; set; }
+        public string pea_promotor { get; set; }
+        public int pea_numeroModulo { get; set; }
+        public int pea_codCliente { get; set; }
+        public int pea_cantidad { get; set; }
+        public bool pea_procesado { get; set; }
+        public DateTime? pea_procesado_fecha { get; set; }
+        public int? pea_procesado_cantidad { get; set; }
+        public string pea_procesado_descripcion { get; set; }
     }
 }

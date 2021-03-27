@@ -116,6 +116,51 @@ namespace DKbase.app
             }
             return obj;
         }
+        public static AppInfoPedido ConvertToInfoPedido(DataRow pItem)
+        {
+            AppInfoPedido obj = new AppInfoPedido();
+            if (pItem.Table.Columns.Contains("pea_id") && pItem["pea_id"] != DBNull.Value)
+            {
+                obj.pea_id = Convert.ToInt32(pItem["pea_id"]);
+            }
+            if (pItem.Table.Columns.Contains("pea_guid") && pItem["pea_guid"] != DBNull.Value)
+            {
+                obj.pea_guid = Guid.Parse(pItem["pea_guid"].ToString());
+            }
+            if (pItem.Table.Columns.Contains("pea_promotor") && pItem["pea_promotor"] != DBNull.Value)
+            {
+                obj.pea_promotor = pItem["pea_promotor"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("pea_cantidad") && pItem["pea_cantidad"] != DBNull.Value)
+            {
+                obj.pea_cantidad = Convert.ToInt32(pItem["pea_cantidad"]);
+            }
+            if (pItem.Table.Columns.Contains("pea_codCliente") && pItem["pea_codCliente"] != DBNull.Value)
+            {
+                obj.pea_codCliente = Convert.ToInt32(pItem["pea_codCliente"]);
+            }
+            if (pItem.Table.Columns.Contains("pea_numeroModulo") && pItem["pea_numeroModulo"] != DBNull.Value)
+            {
+                obj.pea_numeroModulo = Convert.ToInt32(pItem["pea_numeroModulo"]);
+            }
+            if (pItem.Table.Columns.Contains("pea_procesado") && pItem["pea_procesado"] != DBNull.Value)
+            {
+                obj.pea_procesado = Convert.ToBoolean(pItem["pea_procesado"]);
+            }
+            if (pItem.Table.Columns.Contains("pea_procesado_fecha") && pItem["pea_procesado_fecha"] != DBNull.Value)
+            {
+                obj.pea_procesado_fecha = Convert.ToDateTime(pItem["pea_procesado_fecha"]);
+            }
+            if (pItem.Table.Columns.Contains("pea_procesado_cantidad") && pItem["pea_procesado_cantidad"] != DBNull.Value)
+            {
+                obj.pea_procesado_cantidad = Convert.ToInt32(pItem["pea_procesado_cantidad"]);
+            }
+            if (pItem.Table.Columns.Contains("pea_procesado_descripcion") && pItem["pea_procesado_descripcion"] != DBNull.Value)
+            {
+                obj.pea_procesado_descripcion = pItem["pea_procesado_descripcion"].ToString();
+            }
+            return obj;
+        }
         public static List<Laboratorio> GetLaboratorios()
         {
             List<Laboratorio> resultado = null;
@@ -210,6 +255,23 @@ namespace DKbase.app
             }
             strXML += "</Root>";
             return capaModulo.spAddPedido(pPedido.promotor, strXML);
+        }
+        public static List<AppInfoPedido> RecuperarTodoInfoPedidos(string pPromotor)
+        {
+            List<AppInfoPedido> resultado = null;
+            DataSet dsResultado = capaModulo.spGetInfoPedidos(pPromotor);
+            if (dsResultado != null)
+            {
+                resultado = new List<AppInfoPedido>();
+                DataTable tbInfo = dsResultado.Tables[0];
+                for (int i = 0; i < tbInfo.Rows.Count; i++)
+                {
+                    AppInfoPedido obj = ConvertToInfoPedido(tbInfo.Rows[i]);
+                    resultado.Add(obj);
+                }
+
+            }
+            return resultado;
         }
     }
 }

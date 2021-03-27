@@ -65,5 +65,12 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static DataSet spGetInfoPedidos(string pPromotor)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("promotor", pPromotor));
+            return db.GetDataSet("app.spGetInfoPedidos", l);
+        }
     }
 }

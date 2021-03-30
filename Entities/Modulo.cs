@@ -67,6 +67,7 @@ namespace DKbase.Entities
         public int pea_numeroModulo { get; set; }
         public int pea_codCliente { get; set; }
         public int pea_cantidad { get; set; }
+        public DateTime? pea_fecha { get; set; }
         public bool pea_procesado { get; set; }
         public DateTime? pea_procesado_fecha { get; set; }
         public int? pea_procesado_cantidad { get; set; }

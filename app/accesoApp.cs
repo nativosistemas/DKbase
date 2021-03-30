@@ -135,6 +135,10 @@ namespace DKbase.app
             {
                 obj.pea_cantidad = Convert.ToInt32(pItem["pea_cantidad"]);
             }
+            if (pItem.Table.Columns.Contains("pea_fecha") && pItem["pea_fecha"] != DBNull.Value)
+            {
+                obj.pea_fecha = Convert.ToDateTime(pItem["pea_fecha"]);
+            }
             if (pItem.Table.Columns.Contains("pea_codCliente") && pItem["pea_codCliente"] != DBNull.Value)
             {
                 obj.pea_codCliente = Convert.ToInt32(pItem["pea_codCliente"]);

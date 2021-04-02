@@ -513,6 +513,10 @@ namespace DKbase.web
             {
                 obj.pro_PorcARestarDelDtoDeCliente = Convert.ToDecimal(pItem["pro_PorcARestarDelDtoDeCliente"]);
             }
+            if (pItem.Table.Columns.Contains("pro_AltoCosto") && pItem["pro_AltoCosto"] != DBNull.Value)
+            {
+                obj.pro_AltoCosto= Convert.ToBoolean(pItem["pro_AltoCosto"]);
+            }
             return obj;
         }
     }

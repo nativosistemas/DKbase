@@ -59,7 +59,8 @@ namespace DKbase.web.capaDatos
         public decimal pro_PorcARestarDelDtoDeCliente { get; set; }
         public decimal pro_PrecioBase { get; set; }
         public bool pro_ProductoRequiereLote { get; set; }
-    }
+        public bool pro_AltoCosto { get; set; }
+}
     public class capaProductos
     {
     }

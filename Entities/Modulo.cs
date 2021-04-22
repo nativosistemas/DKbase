@@ -73,4 +73,11 @@ namespace DKbase.Entities
         public int? pea_procesado_cantidad { get; set; }
         public string pea_procesado_descripcion { get; set; }
     }
+    public class cSincronizadorApp
+    {
+        public List<AppInfoPedido> listaAppInfoPedido { get; set; }
+        public List<Laboratorio> listaLaboratorio { get; set; }
+        public List<Modulo> listaModulo { get; set; }
+        public List<Farmacia> listaFarmacia { get; set; }
+    }
 }

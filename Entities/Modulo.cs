@@ -79,5 +79,6 @@ namespace DKbase.Entities
         public List<Laboratorio> listaLaboratorio { get; set; }
         public List<Modulo> listaModulo { get; set; }
         public List<Farmacia> listaFarmacia { get; set; }
+        public Guid pedidoGuid { get; set; }
     }
 }

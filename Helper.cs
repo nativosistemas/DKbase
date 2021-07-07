@@ -14,6 +14,10 @@ namespace DKbase
         {
             set; get;
         }
+        public static string getConnectionStringSQL_Desarrollo
+        {
+            set; get;
+        }
         public static string getFolder
         {
             set; get;

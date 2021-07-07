@@ -113,7 +113,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, procedureName, sde_codigo,  sde_sucursal,  sde_sucursalDependiente,  accion);
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, procedureName, sde_codigo, sde_sucursal, sde_sucursalDependiente, accion);
                 return null;
             }
             finally
@@ -157,9 +157,13 @@ namespace DKbase.web.capaDatos
             BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
             return db.GetDataTable("Clientes.spRecuperarTodosClientes");
         }
-        public static DataTable spRecuperarTodosClientesByPromotor(string pPromotor)
+        public static DataTable spRecuperarTodosClientesByPromotor(string pPromotor, string pConnectionStringSQL = null)
         {
-            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            if (pConnectionStringSQL == null)
+            {
+                pConnectionStringSQL = Helper.getConnectionStringSQL;
+            }
+            SqlConnection Conn = new SqlConnection(pConnectionStringSQL);
             SqlCommand cmdComandoInicio = new SqlCommand("Clientes.spRecuperarTodosClientesByPromotor", Conn);
             cmdComandoInicio.CommandType = CommandType.StoredProcedure;
 

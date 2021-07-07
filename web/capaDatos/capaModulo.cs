@@ -32,22 +32,34 @@ namespace DKbase.web.capaDatos
             l.Add(db.GetParameter("id", lab_id));
             db.ExecuteNonQuery("app.spDeleteModulo", l);
         }
-        public static DataSet spGetLaboratorios()
+        public static DataSet spGetLaboratorios(string pConnectionStringSQL = null)
         {
-            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            if (pConnectionStringSQL == null)
+            {
+                pConnectionStringSQL = Helper.getConnectionStringSQL;
+            }
+            BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
             return db.GetDataSet("app.spGetLaboratorios");
         }
-        public static DataSet spGetModulos()
+        public static DataSet spGetModulos(string pConnectionStringSQL = null)
         {
-            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            if (pConnectionStringSQL == null)
+            {
+                pConnectionStringSQL = Helper.getConnectionStringSQL;
+            }
+            BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
             return db.GetDataSet("app.spGetModulos");
         }
-        public static Guid spAddPedido(string pPromotor, string pTablaXml)
+        public static Guid spAddPedido(string pPromotor, string pTablaXml, string pConnectionStringSQL = null)
         {
+            if (pConnectionStringSQL == null)
+            {
+                pConnectionStringSQL = Helper.getConnectionStringSQL;
+            }
             Guid result = Guid.Empty;
             try
             {
-                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
                 List<SqlParameter> l = new List<SqlParameter>();
                 l.Add(db.GetParameter("promotor", pPromotor));
                 l.Add(db.GetParameter("strXML", pTablaXml, SqlDbType.Xml));
@@ -65,12 +77,27 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static DataSet spGetInfoPedidos(string pPromotor)
+        public static DataSet spGetInfoPedidos(string pPromotor, string pConnectionStringSQL = null)
         {
-            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            if (pConnectionStringSQL == null)
+            {
+                pConnectionStringSQL = Helper.getConnectionStringSQL;
+            }
+            BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
             List<SqlParameter> l = new List<SqlParameter>();
             l.Add(db.GetParameter("promotor", pPromotor));
             return db.GetDataSet("app.spGetInfoPedidos", l);
+        }
+        public static DataSet spGetHistorialPedidos(string pPromotor, string pConnectionStringSQL = null)
+        {
+            if (pConnectionStringSQL == null)
+            {
+                pConnectionStringSQL = Helper.getConnectionStringSQL;
+            }
+            BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("promotor", pPromotor));
+            return db.GetDataSet("app.spGetHistorialPedidos", l);
         }
     }
 }

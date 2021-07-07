@@ -12,10 +12,10 @@ namespace DKbase.app
 {
     public class accesoApp
     {
-        public static List<Farmacia> RecuperarFarmacias(string pPromotor)
+        public static List<Farmacia> RecuperarFarmacias(string pPromotor, string pConnectionStringSQL = null)
         {
             List<Farmacia> resultado = null;
-            DataTable tablaClientes = DKbase.web.capaDatos.capaClientes.spRecuperarTodosClientesByPromotor(pPromotor);
+            DataTable tablaClientes = DKbase.web.capaDatos.capaClientes.spRecuperarTodosClientesByPromotor(pPromotor, pConnectionStringSQL);
             if (tablaClientes != null)
             {
                 resultado = new List<Farmacia>();
@@ -32,9 +32,13 @@ namespace DKbase.app
             }
             return resultado;
         }
-        public static Modulo ConvertToModulo(DataRow pItem)
+        public static Modulo ConvertToModulo(DataRow pItem, Modulo obj = null)
         {
-            Modulo obj = new Modulo();
+            //Modulo obj = new Modulo();
+            if (obj == null)
+            {
+                obj = new Modulo();
+            }
             if (pItem.Table.Columns.Contains("mod_numeroModulo") && pItem["mod_numeroModulo"] != DBNull.Value)
             {
                 obj.id = Convert.ToInt32(pItem["mod_numeroModulo"]);
@@ -116,9 +120,12 @@ namespace DKbase.app
             }
             return obj;
         }
-        public static AppInfoPedido ConvertToInfoPedido(DataRow pItem)
+        public static AppInfoPedido ConvertToInfoPedido(DataRow pItem, AppInfoPedido obj = null)
         {
-            AppInfoPedido obj = new AppInfoPedido();
+            if (obj == null)
+            {
+                obj = new AppInfoPedido();
+            }
             if (pItem.Table.Columns.Contains("pea_id") && pItem["pea_id"] != DBNull.Value)
             {
                 obj.pea_id = Convert.ToInt32(pItem["pea_id"]);
@@ -165,10 +172,24 @@ namespace DKbase.app
             }
             return obj;
         }
-        public static List<Laboratorio> GetLaboratorios()
+        public static List<ModuloDetalle> getList_ModuloDetalle(DataRow[] listaFila)
+        {           
+            List<ModuloDetalle> listaDetalle = null;
+            if (listaFila != null)
+            {
+                listaDetalle = new List<ModuloDetalle>();                
+                foreach (DataRow itemTransferDetalle in listaFila)
+                {
+                    ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);
+                    listaDetalle.Add(objDetalle);
+                }
+            }
+            return listaDetalle;
+        }
+        public static List<Laboratorio> GetLaboratorios(string pConnectionStringSQL = null)
         {
             List<Laboratorio> resultado = null;
-            DataSet dsResultado = capaModulo.spGetLaboratorios();
+            DataSet dsResultado = capaModulo.spGetLaboratorios(pConnectionStringSQL);
             if (dsResultado != null)
             {
                 resultado = new List<Laboratorio>();
@@ -210,10 +231,10 @@ namespace DKbase.app
             }
             return resultado;
         }
-        public static List<Modulo> RecuperarTodosModulos()
+        public static List<Modulo> RecuperarTodosModulos(string pConnectionStringSQL = null)
         {
             List<Modulo> resultado = null;
-            DataSet dsResultado = capaModulo.spGetModulos();
+            DataSet dsResultado = capaModulo.spGetModulos(pConnectionStringSQL);
             if (dsResultado != null)
             {
                 resultado = new List<Modulo>();
@@ -221,18 +242,10 @@ namespace DKbase.app
                 for (int i = 0; i < tbTransfer.Rows.Count; i++)
                 {
                     Modulo obj = ConvertToModulo(tbTransfer.Rows[i]);
-                    List<ModuloDetalle> listaDetalle = null;
                     if (dsResultado.Tables.Count > 1)
                     {
-                        listaDetalle = new List<ModuloDetalle>();
-                        DataTable tablaDetalle = dsResultado.Tables[1];
-                        DataRow[] listaFila = tablaDetalle.Select("dmo_numeroModulo =" + obj.id);
-                        foreach (DataRow itemTransferDetalle in listaFila)
-                        {
-                            ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);
-                            listaDetalle.Add(objDetalle);
-                        }
-                        obj.moduloDetalle = listaDetalle;
+                        DataRow[] listaFila = dsResultado.Tables[1].Select("dmo_numeroModulo =" + obj.id);
+                        obj.moduloDetalle = getList_ModuloDetalle(listaFila);
                     }
                     resultado.Add(obj);
                 }
@@ -244,7 +257,7 @@ namespace DKbase.app
         {
             capaModulo.spDeleteModulo(id);
         }
-        public static Guid AddPedido(AppPedido pPedido)
+        public static Guid AddPedido(AppPedido pPedido, string pConnectionStringSQL = null)
         {
             string strXML = string.Empty;
             strXML += "<Root>";
@@ -258,12 +271,12 @@ namespace DKbase.app
                 strXML += nodo.ToString();
             }
             strXML += "</Root>";
-            return capaModulo.spAddPedido(pPedido.promotor, strXML);
+            return capaModulo.spAddPedido(pPedido.promotor, strXML, pConnectionStringSQL);
         }
-        public static List<AppInfoPedido> RecuperarTodoInfoPedidos(string pPromotor)
+        public static List<AppInfoPedido> RecuperarTodoInfoPedidos(string pPromotor, string pConnectionStringSQL = null)
         {
             List<AppInfoPedido> resultado = null;
-            DataSet dsResultado = capaModulo.spGetInfoPedidos(pPromotor);
+            DataSet dsResultado = capaModulo.spGetInfoPedidos(pPromotor, pConnectionStringSQL);
             if (dsResultado != null)
             {
                 resultado = new List<AppInfoPedido>();
@@ -271,6 +284,29 @@ namespace DKbase.app
                 for (int i = 0; i < tbInfo.Rows.Count; i++)
                 {
                     AppInfoPedido obj = ConvertToInfoPedido(tbInfo.Rows[i]);
+                    resultado.Add(obj);
+                }
+
+            }
+            return resultado;
+        }
+        public static List<AppInfoPedido> RecuperarTodoPedidoModuloHistorial(string pPromotor, string pConnectionStringSQL = null)
+        {
+            List<AppInfoPedido> resultado = null;
+            DataSet dsResultado = capaModulo.spGetHistorialPedidos(pPromotor, pConnectionStringSQL);
+            if (dsResultado != null)
+            {
+                resultado = new List<AppInfoPedido>();
+                DataTable tbInfo = dsResultado.Tables[0];
+                for (int i = 0; i < tbInfo.Rows.Count; i++)
+                {
+                    AppInfoPedido obj = (AppInfoPedido)ConvertToModulo(tbInfo.Rows[i], new AppInfoPedido());
+                    obj = ConvertToInfoPedido(tbInfo.Rows[i], obj);
+                    if (dsResultado.Tables.Count > 1)
+                    {
+                        DataRow[] listaFila = dsResultado.Tables[1].Select("dmo_numeroModulo =" + obj.id + " and pmd_idPedido =" + obj.pea_id);
+                        obj.moduloDetalle = getList_ModuloDetalle(listaFila);
+                    }
                     resultado.Add(obj);
                 }
 

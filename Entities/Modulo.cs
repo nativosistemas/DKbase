@@ -59,7 +59,7 @@ namespace DKbase.Entities
         public int cantidad { get; set; }
         public DateTime? fechaApp { get; set; }
     }
-    public class AppInfoPedido
+    public class AppInfoPedido : Modulo
     {
         public int pea_id { get; set; }
         public Guid pea_guid { get; set; }
@@ -76,6 +76,7 @@ namespace DKbase.Entities
     public class cSincronizadorApp
     {
         public List<AppInfoPedido> listaAppInfoPedido { get; set; }
+        public List<AppInfoPedido> listaAppPedidoModuloHistorial { get; set; }
         public List<Laboratorio> listaLaboratorio { get; set; }
         public List<Modulo> listaModulo { get; set; }
         public List<Farmacia> listaFarmacia { get; set; }

@@ -40,8 +40,10 @@ namespace DKbase.web.capaDatos
         public bool pro_vtasolotransfer { get; set; }
         public int pro_acuerdo { get; set; }
         public string pri_nombreArchivo { get; set; }
-        private int _pri_ancho_ampliar = 1024;
-        private int _pri_alto_ampliar = 768;
+        private int _pri_ancho_ampliar = DKbase.generales.Constantes.cImg_ancho_ampliar_dafault;
+        private int _pri_alto_ampliar = DKbase.generales.Constantes.cImg_alto_ampliar_dafault;
+        public int? pri_ancho_ampliar_original { get; set; }
+        public int? pri_alto_ampliar_original { get; set; }
         public int pri_ancho_ampliar { get { return _pri_ancho_ampliar; } set { _pri_ancho_ampliar = value; } }
         public int pri_alto_ampliar { get { return _pri_alto_ampliar; } set { _pri_alto_ampliar = value; } }
         public bool pro_NoTransfersEnClientesPerf { get; set; }

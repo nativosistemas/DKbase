@@ -71,5 +71,13 @@ namespace DKbase.generales
         {
             get { return "laboratorio"; }
         }
+        public static int cImg_ancho_ampliar_dafault
+        {
+            get { return 1024; }
+        }
+        public static int cImg_alto_ampliar_dafault
+        {
+            get { return 768; }
+        }
     }
 }

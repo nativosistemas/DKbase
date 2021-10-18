@@ -79,5 +79,10 @@ namespace DKbase.generales
         {
             get { return 768; }
         }
+        public static string cTomarPedidoCC
+        {
+            get { return "TomarPedidoCC"; }
+        }
+        
     }
 }

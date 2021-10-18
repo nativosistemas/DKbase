@@ -58,6 +58,11 @@ namespace DKbase.web
             get;
             set;
         }
+        public string rol_Nombre
+        {
+            get;
+            set;
+        }
     }
     public class cUsuario
     {

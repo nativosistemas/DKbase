@@ -83,6 +83,17 @@ namespace DKbase.generales
         {
             get { return "TomarPedidoCC"; }
         }
-        
+        public static string cTipoMensaje_Cliente
+        {
+            get { return "cliente"; }
+        }
+        public static string cTipoMensaje_Sucursal
+        {
+            get { return "sucursal"; }
+        }
+        public static string cTipoMensaje_Reparto
+        {
+            get { return "reparto"; }
+        }
     }
 }

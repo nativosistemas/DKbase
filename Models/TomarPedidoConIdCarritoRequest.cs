@@ -13,6 +13,7 @@ namespace DKbase.Models
         public string pMensajeEnFactura { get; set; }
         public string pMensajeEnRemito { get; set; }
         public string pTipoEnvio { get; set; }
+        public string pLoginTelefonista { get; set; }
         public List<cDllProductosAndCantidad> pListaProducto { get; set; }
         public bool pIsUrgente { get; set; }
     }

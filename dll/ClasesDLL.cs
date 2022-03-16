@@ -318,6 +318,7 @@ namespace DKbase.dll
         public string NumeroRemito { get; set; }
         public bool Cancelado { get; set; }
         public string DetalleSucursal { get; set; }
+        public decimal CreditoInicial { get; set; }
     }
     public class cDllPedidoTransfer
     {
@@ -338,6 +339,7 @@ namespace DKbase.dll
         public string NumeroFactura { get; set; }
         public string NumeroRemito { get; set; }
         public bool Cancelado { get; set; }
+        public decimal CreditoInicial { get; set; }
     }
     public class cDllCtaResumenMovimiento
     {

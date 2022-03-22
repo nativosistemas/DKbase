@@ -12,7 +12,7 @@ namespace DKbase.web
     {
         public static Usuario Login(string pLogin, string pPassword, string pIp, string pHostName, string pUserAgent)
         {
-            DataSet dsResultado = capaSeguridad.Login(pLogin, pPassword, pIp, pHostName, pUserAgent);
+            DataSet dsResultado = capaSeguridad_base.Login(pLogin, pPassword, pIp, pHostName, pUserAgent);
             if (dsResultado != null)
             {
                 if (dsResultado.Tables["Login"].Rows.Count == 0)
@@ -55,7 +55,7 @@ namespace DKbase.web
         }
         public static ListaAcccionesRol RecuperarTodasAccionesPorIdRol(int pIdRol)
         {
-            DataTable tablaAcciones = capaDatos.capaSeguridad.RecuperarTodasAccionesRol(pIdRol);
+            DataTable tablaAcciones = capaDatos.capaSeguridad_base.RecuperarTodasAccionesRol(pIdRol);
             ListaAcccionesRol listaAcciones = new ListaAcccionesRol();
             foreach (DataRow item in tablaAcciones.Rows)
             {
@@ -116,7 +116,7 @@ namespace DKbase.web
         public static List<cSucursal> RecuperarTodasSucursalesDependientes()
         {
             List<cSucursal> resultado = null;
-            DataSet dsResultado = capaClientes.GestiónSucursal(null, null, null, Constantes.cSQL_SELECT);
+            DataSet dsResultado = capaClientes_base.GestiónSucursal(null, null, null, Constantes.cSQL_SELECT);
             if (dsResultado != null)
             {
                 resultado = new List<cSucursal>();
@@ -148,7 +148,7 @@ namespace DKbase.web
         public static List<string> RecuperarTodosCodigoReparto()
         {
             List<string> resultado = null;
-            DataTable tabla = capaClientes.RecuperarTodosCodigoReparto();
+            DataTable tabla = capaClientes_base.RecuperarTodosCodigoReparto();
             if (tabla != null)
             {
                 resultado = new List<string>();
@@ -346,12 +346,145 @@ namespace DKbase.web
                 obj.cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto = Convert.ToDecimal(pItem["cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto"]);
             if (pItem.Table.Columns.Contains("cli_GrupoCliente") && pItem["cli_GrupoCliente"] != DBNull.Value)
                 obj.cli_GrupoCliente = Convert.ToString(pItem["cli_GrupoCliente"]);
+            if (pItem.Table.Columns.Contains("cli_NumeroCentralTelefonica") && pItem["cli_NumeroCentralTelefonica"] != DBNull.Value)
+                obj.cli_NumeroCentralTelefonica = Convert.ToString(pItem["cli_NumeroCentralTelefonica"]);
+            return obj;
+        }
+        public static cTransferDetalle ConvertToTransferDetalle(DataRow pItem)
+        {
+            cTransferDetalle obj = new cTransferDetalle();
+            if (pItem["tde_codpro"] != DBNull.Value)
+            {
+                obj.tde_codpro = pItem["tde_codpro"].ToString();
+            }
+            if (pItem["tde_codtfr"] != DBNull.Value)
+            {
+                obj.tde_codtfr = Convert.ToInt32(pItem["tde_codtfr"]);
+            }
+            if (pItem["tde_descripcion"] != DBNull.Value)
+            {
+                obj.tde_descripcion = pItem["tde_descripcion"].ToString();
+            }
+            if (pItem["tde_fijuni"] != DBNull.Value)
+            {
+                obj.tde_fijuni = Convert.ToInt32(pItem["tde_fijuni"]);
+            }
+            if (pItem["tde_maxuni"] != DBNull.Value)
+            {
+                obj.tde_maxuni = Convert.ToInt32(pItem["tde_maxuni"]);
+            }
+            if (pItem["tde_minuni"] != DBNull.Value)
+            {
+                obj.tde_minuni = Convert.ToInt32(pItem["tde_minuni"]);
+            }
+            if (pItem["tde_muluni"] != DBNull.Value)
+            {
+                obj.tde_muluni = Convert.ToInt32(pItem["tde_muluni"]);
+            }
+            if (pItem["tde_predescuento"] != DBNull.Value)
+            {
+                obj.tde_predescuento = Convert.ToDecimal(pItem["tde_predescuento"]);
+            }
+            if (pItem["tde_prepublico"] != DBNull.Value)
+            {
+                obj.tde_prepublico = Convert.ToDecimal(pItem["tde_prepublico"]);
+            }
+            if (pItem["tde_proobligatorio"] != DBNull.Value)
+            {
+                obj.tde_proobligatorio = Convert.ToBoolean(pItem["tde_proobligatorio"]);
+            }
+            if (pItem.Table.Columns.Contains("tde_PorcDtoSobrePVP") && pItem["tde_PorcDtoSobrePVP"] != DBNull.Value)
+            {
+                obj.tde_PorcDtoSobrePVP = Convert.ToDecimal(pItem["tde_PorcDtoSobrePVP"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_neto"))
+            {
+                if (pItem["pro_neto"] != DBNull.Value)
+                {
+                    obj.pro_neto = Convert.ToBoolean(pItem["pro_neto"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("pro_codtpopro"))
+            {
+                if (pItem["pro_codtpopro"] != DBNull.Value)
+                {
+                    obj.pro_codtpopro = Convert.ToString(pItem["pro_codtpopro"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("pro_codigo"))
+            {
+                if (pItem["pro_codigo"] != DBNull.Value)
+                {
+                    obj.pro_codigo = Convert.ToString(pItem["pro_codigo"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("pro_descuentoweb"))
+            {
+                if (pItem["pro_descuentoweb"] != DBNull.Value)
+                {
+                    obj.pro_descuentoweb = Convert.ToDecimal(pItem["pro_descuentoweb"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("pro_isTrazable"))
+            {
+                if (pItem["pro_isTrazable"] != DBNull.Value)
+                {
+                    obj.pro_isTrazable = Convert.ToBoolean(pItem["pro_isTrazable"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("tde_unidadesbonificadas"))
+            {
+                if (pItem["tde_unidadesbonificadas"] != DBNull.Value)
+                {
+                    obj.tde_unidadesbonificadas = Convert.ToInt32(pItem["tde_unidadesbonificadas"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("tde_unidadesbonificadasdescripcion"))
+            {
+                if (pItem["tde_unidadesbonificadasdescripcion"] != DBNull.Value)
+                {
+                    obj.tde_unidadesbonificadasdescripcion = Convert.ToString(pItem["tde_unidadesbonificadasdescripcion"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("tcl_IdTransfer"))
+            {
+                if (pItem["tcl_IdTransfer"] != DBNull.Value)
+                {
+                    obj.isTablaTransfersClientes = true;
+                }
+            }
+            if (pItem.Table.Columns.Contains("tde_DescripcionDeProducto"))
+            {
+                if (pItem["tde_DescripcionDeProducto"] != DBNull.Value)
+                {
+                    obj.tde_DescripcionDeProducto = Convert.ToString(pItem["tde_DescripcionDeProducto"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("pro_codtpovta"))
+            {
+                if (pItem["pro_codtpovta"] != DBNull.Value)
+                {
+                    obj.pro_codtpovta = Convert.ToString(pItem["pro_codtpovta"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("tde_PrecioConDescuentoDirecto") && pItem["tde_PrecioConDescuentoDirecto"] != DBNull.Value)
+                obj.tde_PrecioConDescuentoDirecto = Convert.ToDecimal(pItem["tde_PrecioConDescuentoDirecto"]);
+            if (pItem.Table.Columns.Contains("tde_PorcARestarDelDtoDeCliente") && pItem["tde_PorcARestarDelDtoDeCliente"] != DBNull.Value)
+                obj.tde_PorcARestarDelDtoDeCliente = Convert.ToDecimal(pItem["tde_PorcARestarDelDtoDeCliente"]);
+            if (pItem.Table.Columns.Contains("pro_PrecioBase") && pItem["pro_PrecioBase"] != DBNull.Value)
+                obj.pro_PrecioBase = Convert.ToDecimal(pItem["pro_PrecioBase"]);
+            if (pItem.Table.Columns.Contains("pro_PorcARestarDelDtoDeCliente") && pItem["pro_PorcARestarDelDtoDeCliente"] != DBNull.Value)
+                obj.pro_PorcARestarDelDtoDeCliente = Convert.ToDecimal(pItem["pro_PorcARestarDelDtoDeCliente"]);
+            if (pItem.Table.Columns.Contains("pro_AltoCosto") && pItem["pro_AltoCosto"] != DBNull.Value)
+                obj.pro_AltoCosto = Convert.ToBoolean(pItem["pro_AltoCosto"]);
+            if (pItem.Table.Columns.Contains("pro_UbicacionPrincipal") && pItem["pro_UbicacionPrincipal"] != DBNull.Value)
+                obj.pro_UbicacionPrincipal = Convert.ToString(pItem["pro_UbicacionPrincipal"]);
             return obj;
         }
         public static List<cArchivo> RecuperarTodosArchivos(int pArc_codRelacion, string pArc_galeria, string pFiltro)
         {
             List<cArchivo> lista = new List<cArchivo>();
-            DataSet dsResultado = capaRecurso.GestiónArchivo(null, pArc_codRelacion, pArc_galeria, null, null, null, null, null, null, null, null, null, pFiltro, Constantes.cSQL_SELECT);
+            DataSet dsResultado = capaRecurso_base.GestiónArchivo(null, pArc_codRelacion, pArc_galeria, null, null, null, null, null, null, null, null, null, pFiltro, Constantes.cSQL_SELECT);
             if (dsResultado != null)
             {
                 foreach (DataRow item in dsResultado.Tables["Archivo"].Rows)
@@ -430,7 +563,7 @@ namespace DKbase.web
             if (pItem["arc_estado"] != DBNull.Value)
             {
                 obj.arc_estado = Convert.ToInt32(pItem["arc_estado"]);
-                obj.arc_estadoToString = capaSeguridad.obtenerStringEstado(obj.arc_estado);
+                obj.arc_estadoToString = capaSeguridad_base.obtenerStringEstado(obj.arc_estado);
             }
             if (pItem["arc_accion"] != DBNull.Value)
             {
@@ -515,7 +648,11 @@ namespace DKbase.web
             }
             if (pItem.Table.Columns.Contains("pro_AltoCosto") && pItem["pro_AltoCosto"] != DBNull.Value)
             {
-                obj.pro_AltoCosto= Convert.ToBoolean(pItem["pro_AltoCosto"]);
+                obj.pro_AltoCosto = Convert.ToBoolean(pItem["pro_AltoCosto"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_UbicacionPrincipal") && pItem["pro_UbicacionPrincipal"] != DBNull.Value)
+            {
+                obj.pro_UbicacionPrincipal = Convert.ToString(pItem["pro_UbicacionPrincipal"]);
             }
             return obj;
         }

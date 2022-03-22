@@ -60,8 +60,9 @@ namespace DKbase.web.capaDatos
         public string cli_promotor { get; set; }
         public decimal? cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto { get; set; }
         public string cli_GrupoCliente { get; set; }
-    }
-    public class capaClientes
+        public string cli_NumeroCentralTelefonica { get; set; }
+}
+    public class capaClientes_base
     {
         public static DataSet GestiónSucursal(int? sde_codigo, string sde_sucursal, string sde_sucursalDependiente, string accion)
         {

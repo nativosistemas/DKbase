@@ -35,7 +35,7 @@ namespace DKbase.web.capaDatos
         public string NombreOriginal { get; set; }
         public string NombreGrabado { get; set; }
     }
-    public class capaRecurso
+    public class capaRecurso_base
     {
         public static DataSet GestiónArchivo(int? arc_codRecurso, int? arc_codRelacion, string arc_galeria, string arc_tipo, string arc_mime, string arc_nombre, string arc_titulo, string arc_descripcion, string arc_hash, int? arc_codUsuarioUltMov, int? arc_estado, int? arc_accion, string filtro, string accion)
         {

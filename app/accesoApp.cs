@@ -15,7 +15,7 @@ namespace DKbase.app
         public static List<Farmacia> RecuperarFarmacias(string pPromotor, string pConnectionStringSQL = null)
         {
             List<Farmacia> resultado = null;
-            DataTable tablaClientes = DKbase.web.capaDatos.capaClientes.spRecuperarTodosClientesByPromotor(pPromotor, pConnectionStringSQL);
+            DataTable tablaClientes = DKbase.web.capaDatos.capaClientes_base.spRecuperarTodosClientesByPromotor(pPromotor, pConnectionStringSQL);
             if (tablaClientes != null)
             {
                 resultado = new List<Farmacia>();

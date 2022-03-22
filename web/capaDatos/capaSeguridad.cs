@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DKbase.web.capaDatos
 {
-   public class capaSeguridad
+   public class capaSeguridad_base
     {
         public static DataSet Login(string pNombreLogin, string pPassword, string pIp, string pHostName, string pUserAgent)
         {

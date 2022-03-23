@@ -6,6 +6,7 @@ namespace DKbase.generales
 {
    public class Constantes
     {
+        public enum CargarProductosBuscador { isDesdeBuscador = 1, isDesdeBuscador_OfertaTransfer, isSubirArchivo, isDesdeTabla, isRecuperadorFaltaCredito };
         public static string cSQL_INSERT
         {
             get { return "INSERT"; }

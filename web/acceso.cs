@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
+using System.Linq;
 
 namespace DKbase.web
 {
@@ -480,6 +481,243 @@ namespace DKbase.web
             if (pItem.Table.Columns.Contains("pro_UbicacionPrincipal") && pItem["pro_UbicacionPrincipal"] != DBNull.Value)
                 obj.pro_UbicacionPrincipal = Convert.ToString(pItem["pro_UbicacionPrincipal"]);
             return obj;
+        }
+        public static List<cProductosGenerico> cargarProductosBuscadorArchivos(cClientes pCliente,DataTable tablaProductos, DataTable tablaSucursalStocks, List<cTransferDetalle> listaTransferDetalle, Constantes.CargarProductosBuscador pCargarProductosBuscador, string pSucursalElejida)
+        {
+            List<cProductosGenerico> resultado = new List<cProductosGenerico>();
+            foreach (DataRow item in tablaProductos.Rows)
+            {
+                if (item["pro_codigo"] != DBNull.Value)
+                {
+                    List<cSucursalStocks> tempListaSucursalStocks = new List<cSucursalStocks>();
+                    tempListaSucursalStocks = (from r in tablaSucursalStocks.Select("stk_codpro = '" + item["pro_codigo"].ToString() + "'").AsEnumerable()
+                                               select new cSucursalStocks { stk_codpro = r["stk_codpro"].ToString(), stk_codsuc = r["stk_codsuc"].ToString(), stk_stock = r["stk_stock"].ToString() }).ToList();
+
+                    if (tempListaSucursalStocks.Count > 0)
+                    {
+                        cProductosGenerico obj = new cProductosGenerico();
+                        obj.listaSucursalStocks = tempListaSucursalStocks;
+                        obj.pro_codigo = item["pro_codigo"].ToString();
+                        if (item["pro_nombre"] != DBNull.Value)
+                        {
+                            obj.pro_nombre = item["pro_nombre"].ToString();
+                        }
+                        if (item["pro_precio"] != DBNull.Value)
+                        {
+                            obj.pro_precio = Convert.ToDecimal(item["pro_precio"]);
+                        }
+                        if (item["pro_preciofarmacia"] != DBNull.Value)
+                        {
+                            obj.pro_preciofarmacia = Convert.ToDecimal(item["pro_preciofarmacia"]);
+                        }
+                        if (item["pro_ofeunidades"] != DBNull.Value)
+                        {
+                            obj.pro_ofeunidades = Convert.ToInt32(item["pro_ofeunidades"]);
+                        }
+                        if (item["pro_ofeporcentaje"] != DBNull.Value)
+                        {
+                            obj.pro_ofeporcentaje = Convert.ToDecimal(item["pro_ofeporcentaje"]);
+                        }
+                        if (item["pro_neto"] != DBNull.Value)
+                        {
+                            obj.pro_neto = Convert.ToBoolean(item["pro_neto"]);
+                        }
+                        if (item["pro_codtpopro"] != DBNull.Value)
+                        {
+                            obj.pro_codtpopro = item["pro_codtpopro"].ToString().ToUpper();
+                        }
+                        if (item["pro_descuentoweb"] != DBNull.Value)
+                        {
+                            obj.pro_descuentoweb = Convert.ToDecimal(item["pro_descuentoweb"]);
+                        }
+                        if (item["pro_laboratorio"] != DBNull.Value)
+                        {
+                            obj.pro_laboratorio = item["pro_laboratorio"].ToString();
+                        }
+                        if (item["pro_monodroga"] != DBNull.Value)
+                        {
+                            obj.pro_monodroga = item["pro_monodroga"].ToString();
+                        }
+                        if (item["pro_codigobarra"] != DBNull.Value)
+                        {
+                            obj.pro_codigobarra = item["pro_codigobarra"].ToString();
+                        }
+                        if (item["pro_codigoalfabeta"] != DBNull.Value)
+                        {
+                            obj.pro_codigoalfabeta = item["pro_codigoalfabeta"].ToString();
+                        }
+                        if (item["pro_troquel"] != DBNull.Value)
+                        {
+                            obj.pro_troquel = item["pro_troquel"].ToString();
+                        }
+                        if (item.Table.Columns.Contains("pro_Ranking") && item["pro_Ranking"] != DBNull.Value)
+                        {
+                            obj.pro_Ranking = Convert.ToInt32(item["pro_Ranking"]);
+                        }
+                        if (item["pro_codtpovta"] != DBNull.Value)
+                        {
+                            obj.pro_codtpovta = Convert.ToString(item["pro_codtpovta"]);
+                        }
+                        if (item["isTransfer"] == DBNull.Value)
+                        {
+                            obj.isTieneTransfer = false;
+                        }
+                        else
+                        {
+                            obj.isTieneTransfer = true;
+                        }
+                        if (item["pro_isTrazable"] != DBNull.Value)
+                        {
+                            obj.pro_isTrazable = Convert.ToBoolean(item["pro_isTrazable"]);
+                        }
+                        if (item["pro_isCadenaFrio"] != DBNull.Value)
+                        {
+                            obj.pro_isCadenaFrio = Convert.ToBoolean(item["pro_isCadenaFrio"]);
+                        }
+                        if (item["pro_AceptaVencidos"] != DBNull.Value)
+                        {
+                            obj.pro_AceptaVencidos = Convert.ToBoolean(item["pro_AceptaVencidos"]);
+                        }
+                        if (item["pro_ProductoRequiereLote"] != DBNull.Value)
+                        {
+                            obj.pro_ProductoRequiereLote = Convert.ToBoolean(item["pro_ProductoRequiereLote"]);
+                        }
+                        if (item["pro_canmaxima"] != DBNull.Value)
+                        {
+                            obj.pro_canmaxima = Convert.ToInt32(item["pro_canmaxima"]);
+                        }
+                        // Default = false
+                        if (item["pro_entransfer"] != DBNull.Value)
+                        {
+                            obj.pro_entransfer = Convert.ToBoolean(item["pro_entransfer"]);
+                        }
+                        if (item["pro_vtasolotransfer"] != DBNull.Value)
+                        {
+                            obj.pro_vtasolotransfer = Convert.ToBoolean(item["pro_vtasolotransfer"]);
+                        }
+                        if (item["RequiereVale"] != DBNull.Value)
+                        {
+                            obj.isValePsicotropicos = Convert.ToBoolean(item["RequiereVale"]);
+                        }
+                        if (item.Table.Columns.Contains("cantidad"))
+                        {
+                            if (item["cantidad"] != DBNull.Value)
+                            {
+                                obj.cantidad = Convert.ToInt32(item["cantidad"]);
+                            }
+                        }
+                        if (item.Table.Columns.Contains("nroordenamiento"))
+                        {
+                            if (item["nroordenamiento"] != DBNull.Value)
+                            {
+                                obj.nroordenamiento = Convert.ToInt32(item["nroordenamiento"]);
+                            }
+                        }
+                        if (item.Table.Columns.Contains("pro_Familia"))
+                        {
+                            if (item["pro_Familia"] != DBNull.Value)
+                            {
+                                obj.pro_Familia = Convert.ToString(item["pro_Familia"]);
+                            }
+                        }
+                        if (item.Table.Columns.Contains("pro_PackDeVenta"))
+                        {
+                            if (item["pro_PackDeVenta"] != DBNull.Value)
+                            {
+                                obj.pro_PackDeVenta = Convert.ToInt32(item["pro_PackDeVenta"]);
+                            }
+                        }
+                        if (item.Table.Columns.Contains("pro_PrecioBase") && item["pro_PrecioBase"] != DBNull.Value)
+                        {
+                            obj.pro_PrecioBase = Convert.ToDecimal(item["pro_PrecioBase"]);
+                        }
+                        if (item.Table.Columns.Contains("pro_PorcARestarDelDtoDeCliente") && item["pro_PorcARestarDelDtoDeCliente"] != DBNull.Value)
+                        {
+                            obj.pro_PorcARestarDelDtoDeCliente = Convert.ToDecimal(item["pro_PorcARestarDelDtoDeCliente"]);
+                        }
+                        if (item.Table.Columns.Contains("pro_AltoCosto") && item["pro_AltoCosto"] != DBNull.Value)
+                        {
+                            obj.pro_AltoCosto = Convert.ToBoolean(item["pro_AltoCosto"]);
+                        }
+                        if (item.Table.Columns.Contains("pro_UbicacionPrincipal") && item["pro_UbicacionPrincipal"] != DBNull.Value) { 
+                            obj.pro_UbicacionPrincipal = Convert.ToString(item["pro_UbicacionPrincipal"]);
+                        }
+                        obj.isProductoFacturacionDirecta = false;
+                        if (item.Table.Columns.Contains("pro_NoTransfersEnClientesPerf") && item["pro_NoTransfersEnClientesPerf"] != DBNull.Value)
+                        {
+                            obj.pro_NoTransfersEnClientesPerf = Convert.ToBoolean(item["pro_NoTransfersEnClientesPerf"]);
+                            if (pCliente != null && pCliente.cli_tipo == "P" && obj.pro_NoTransfersEnClientesPerf)
+                                obj.isMostrarTransfersEnClientesPerf = false;
+                        }
+                        if ((listaTransferDetalle != null && obj.isMostrarTransfersEnClientesPerf && pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeBuscador) ||
+                        (listaTransferDetalle != null && (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeBuscador_OfertaTransfer || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isSubirArchivo || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeTabla || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)))
+                        {
+                            List<cTransferDetalle> listaAUXtransferDetalle = listaTransferDetalle.Where(x => x.tde_codpro == obj.pro_nombre).ToList();
+                            if (listaAUXtransferDetalle.Count > 0)
+                            {
+                                int indexTransfer = 0;
+                                if (listaAUXtransferDetalle.Count > 1)
+                                {
+                                    for (int iTablaTransfersClientes = 0; iTablaTransfersClientes < listaAUXtransferDetalle.Count; iTablaTransfersClientes++)
+                                    {
+                                        if (listaAUXtransferDetalle[iTablaTransfersClientes].isTablaTransfersClientes)
+                                        {
+                                            indexTransfer = iTablaTransfersClientes;
+                                        }
+                                    }
+
+                                }
+                                obj.isProductoFacturacionDirecta = true;
+                                obj.CargarTransferYTransferDetalle(listaAUXtransferDetalle[indexTransfer]);
+                                if (pCliente != null)
+                                {
+                                    obj.PrecioFinalTransfer = FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, obj.tfr_deshab, obj.tfr_pordesadi, obj.pro_neto, obj.pro_codtpopro, obj.pro_descuentoweb, obj.tde_predescuento == null ? 0 : (decimal)obj.tde_predescuento, obj.tde_PrecioConDescuentoDirecto, obj.tde_PorcARestarDelDtoDeCliente);
+                                }
+                            }
+                        }
+
+                        if (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeTabla || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)
+                        {
+                            obj.PrecioFinal = FuncionesPersonalizadas_base.ObtenerPrecioFinal(pCliente, obj);
+                            obj.PrecioConDescuentoOferta = FuncionesPersonalizadas_base.ObtenerPrecioUnitarioConDescuentoOferta(obj.PrecioFinal, obj);
+                        }
+                        if (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)
+                        {
+                            if (item.Table.Columns.Contains("fpc_cantidad") && item["fpc_cantidad"] != DBNull.Value)
+                                obj.fpc_cantidad = Convert.ToInt32(item["fpc_cantidad"]);
+                            if (item.Table.Columns.Contains("fpc_nombreProducto") && item["fpc_nombreProducto"] != DBNull.Value)
+                                obj.fpc_nombreProducto = Convert.ToString(item["fpc_nombreProducto"]);
+                            if (item.Table.Columns.Contains("stk_stock") && item["stk_stock"] != DBNull.Value)
+                                obj.stk_stock = Convert.ToString(item["stk_stock"]);
+
+                            obj.PrecioFinalRecuperador = obj.PrecioFinal;
+                            if (obj.PrecioFinalTransfer > 0 && obj.PrecioFinalTransfer < obj.PrecioFinalRecuperador)
+                            {
+                                obj.PrecioFinalRecuperador = obj.PrecioFinalTransfer;
+                            }
+                            if (obj.PrecioConDescuentoOferta > 0 && obj.PrecioConDescuentoOferta < obj.PrecioFinalRecuperador)
+                            {
+                                obj.PrecioFinalRecuperador = obj.PrecioConDescuentoOferta;
+                            }
+                        }
+                        if (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isSubirArchivo)
+                        {
+                            for (int iSucursalStocks = 0; iSucursalStocks < obj.listaSucursalStocks.Count; iSucursalStocks++)
+                            {
+                                if (pSucursalElejida == obj.listaSucursalStocks[iSucursalStocks].stk_codsuc)
+                                {
+                                    obj.listaSucursalStocks[iSucursalStocks].cantidadSucursal = obj.cantidad;
+                                    break;
+                                }
+                            }
+
+                        }
+                        resultado.Add(obj);
+                    }
+                }
+
+            }
+            return resultado;
         }
         public static List<cArchivo> RecuperarTodosArchivos(int pArc_codRelacion, string pArc_galeria, string pFiltro)
         {

@@ -62,6 +62,21 @@ namespace DKbase.web.capaDatos
         public string cli_GrupoCliente { get; set; }
         public string cli_NumeroCentralTelefonica { get; set; }
 }
+    public class cHorariosSucursal
+    {
+        public cHorariosSucursal()
+        {
+        }
+        public int sdh_SucursalDependienteHorario { get; set; }
+        public string sdh_sucursal { get; set; }
+        public string sdh_sucursalDependiente { get; set; }
+        public string sdh_codReparto { get; set; }
+        public string sdh_diaSemana { get; set; }
+        public string sdh_horario { get; set; }
+        public List<string> listaHorarios { get; set; }
+        //public string sde_sucursal { get; set; }
+        //public string sde_sucursalDependiente { get; set; }
+    }
     public class capaClientes_base
     {
         public static DataSet GestiónSucursal(int? sde_codigo, string sde_sucursal, string sde_sucursalDependiente, string accion)
@@ -177,6 +192,91 @@ namespace DKbase.web.capaDatos
                 SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
                 dt.Load(LectorSQLdata);
                 return dt;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataSet GestiónSucursalDependienteHorarios(int? sdh_SucursalDependienteHorario, string sdh_sucursal, string sdh_sucursalDependiente, string sdh_codReparto, string sdh_diaSemana, string sdh_horario, string accion)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Clientes.spGestionSucursalHorarios", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paSdh_SucursalDependienteHorario = cmdComandoInicio.Parameters.Add("@sdh_SucursalDependienteHorario", SqlDbType.Int);
+            SqlParameter paSdh_sucursal = cmdComandoInicio.Parameters.Add("@sdh_sucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paSdh_sucursalDependiente = cmdComandoInicio.Parameters.Add("@sdh_sucursalDependiente", SqlDbType.NVarChar, 2);
+            SqlParameter paSdh_codReparto = cmdComandoInicio.Parameters.Add("@sdh_codReparto", SqlDbType.NVarChar, 2);
+            SqlParameter paSdh_diaSemana = cmdComandoInicio.Parameters.Add("@sdh_diaSemana", SqlDbType.NVarChar, 2);
+            SqlParameter paSdh_horario = cmdComandoInicio.Parameters.Add("@sdh_horario", SqlDbType.NVarChar, 500);
+            SqlParameter paAccion = cmdComandoInicio.Parameters.Add("@accion", SqlDbType.NVarChar, 50);
+
+            if (sdh_SucursalDependienteHorario == null)
+            {
+                paSdh_SucursalDependienteHorario.Value = DBNull.Value;
+            }
+            else
+            {
+                paSdh_SucursalDependienteHorario.Value = sdh_SucursalDependienteHorario;
+            }
+            if (sdh_sucursal == null)
+            {
+                paSdh_sucursal.Value = DBNull.Value;
+            }
+            else
+            {
+                paSdh_sucursal.Value = sdh_sucursal;
+            }
+            if (sdh_sucursalDependiente == null)
+            {
+                paSdh_sucursalDependiente.Value = DBNull.Value;
+            }
+            else
+            {
+                paSdh_sucursalDependiente.Value = sdh_sucursalDependiente;
+            }
+            if (sdh_codReparto == null)
+            {
+                paSdh_codReparto.Value = DBNull.Value;
+            }
+            else
+            {
+                paSdh_codReparto.Value = sdh_codReparto;
+            }
+
+            if (sdh_diaSemana == null)
+            {
+                paSdh_diaSemana.Value = DBNull.Value;
+            }
+            else
+            {
+                paSdh_diaSemana.Value = sdh_diaSemana;
+            }
+            if (sdh_horario == null)
+            {
+                paSdh_horario.Value = DBNull.Value;
+            }
+            else
+            {
+                paSdh_horario.Value = sdh_horario;
+            }
+            paAccion.Value = accion;
+
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "SucursalHorario");
+                return dsResultado;
             }
             catch (Exception ex)
             {

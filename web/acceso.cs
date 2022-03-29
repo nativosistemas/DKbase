@@ -894,5 +894,214 @@ namespace DKbase.web
             }
             return obj;
         }
+        public static cTransfer ConvertToTransfer(DataRow pItem)
+        {
+            cTransfer obj = new cTransfer();
+            if (pItem["tfr_codigo"] != DBNull.Value)
+            {
+                obj.tfr_codigo = Convert.ToInt32(pItem["tfr_codigo"]);
+            }
+            if (pItem["tfr_accion"] != DBNull.Value)
+            {
+                obj.tfr_accion = pItem["tfr_accion"].ToString();
+            }
+            if (pItem["tfr_descripcion"] != DBNull.Value)
+            {
+                obj.tfr_descripcion = pItem["tfr_descripcion"].ToString();
+            }
+            if (pItem["tfr_deshab"] != DBNull.Value)
+            {
+                obj.tfr_deshab = Convert.ToBoolean(pItem["tfr_deshab"]);
+            }
+            if (pItem["tfr_nombre"] != DBNull.Value)
+            {
+                obj.tfr_nombre = pItem["tfr_nombre"].ToString();
+            }
+            if (pItem["tfr_tipo"] != DBNull.Value)
+            {
+                obj.tfr_tipo = pItem["tfr_tipo"].ToString();
+            }
+            if (pItem["tfr_mospap"] != DBNull.Value)
+            {
+                obj.tfr_mospap = Convert.ToBoolean(pItem["tfr_mospap"]);
+            }
+            if (pItem["tfr_fijunidades"] != DBNull.Value)
+            {
+                obj.tfr_fijunidades = Convert.ToInt32(pItem["tfr_fijunidades"]);
+            }
+            if (pItem["tfr_maxunidades"] != DBNull.Value)
+            {
+                obj.tfr_maxunidades = Convert.ToInt32(pItem["tfr_maxunidades"]);
+            }
+            if (pItem["tfr_mulunidades"] != DBNull.Value)
+            {
+                obj.tfr_mulunidades = Convert.ToInt32(pItem["tfr_mulunidades"]);
+            }
+            if (pItem["tfr_minrenglones"] != DBNull.Value)
+            {
+                obj.tfr_minrenglones = Convert.ToInt32(pItem["tfr_minrenglones"]);
+            }
+            if (pItem["tfr_minunidades"] != DBNull.Value)
+            {
+                obj.tfr_minunidades = Convert.ToInt32(pItem["tfr_minunidades"]);
+            }
+            if (pItem["tfr_pordesadi"] != DBNull.Value)
+            {
+                obj.tfr_pordesadi = Convert.ToDecimal(pItem["tfr_pordesadi"]);
+            }
+            else
+            {
+                obj.tfr_pordesadi = 0;
+            }
+            if (pItem.Table.Columns.Contains("tfr_facturaciondirecta"))
+            {
+                if (pItem["tfr_facturaciondirecta"] != DBNull.Value)
+                {
+                    obj.tfr_facturaciondirecta = Convert.ToBoolean(pItem["tfr_facturaciondirecta"]);
+                }
+            }
+            if (pItem.Table.Columns.Contains("tfr_provincia"))
+            {
+                if (pItem["tfr_provincia"] != DBNull.Value)
+                {
+                    obj.tfr_provincia = Convert.ToString(pItem["tfr_provincia"]);
+                }
+            }
+            return obj;
+        }
+        public static List<cSucursalCarritoTransfer> convertDataSetToSucursalCarritoTransfer(cClientes pCliente, DataSet dsProductoCarrito)
+        {
+            if (dsProductoCarrito != null && dsProductoCarrito.Tables.Count > 1)
+            {
+                List<cSucursalCarritoTransfer> resultado = new List<cSucursalCarritoTransfer>();
+                List<cCarritoTransfer> listaSucursal = (from item in dsProductoCarrito.Tables[1].AsEnumerable()
+                                                        select new cCarritoTransfer { car_id_aux = item.Table.Columns.Contains("car_id") ? item.Field<int>("car_id") : -1, ctr_id = item.Field<int>("ctr_id"), ctr_codSucursal = item.Field<string>("ctr_codSucursal"), tfr_codigo = item.Field<int>("tfr_codigo"), tfr_nombre = item.Field<string>("tfr_nombre"), tfr_deshab = item.Field<Boolean>("tfr_deshab"), tfr_pordesadi = item.IsNull("tfr_pordesadi") ? null : (decimal?)item.Field<decimal>("tfr_pordesadi"), tfr_tipo = item.Field<string>("tfr_tipo") }).OrderBy(x => x.ctr_codSucursal).ToList();
+
+                /// Nuevo
+                List<cTransferDetalle> listaTransferDetalle = null;
+                if (dsProductoCarrito.Tables.Count > 2)
+                {
+                    listaTransferDetalle = new List<cTransferDetalle>();
+                    DataTable tablaTransferDetalle = dsProductoCarrito.Tables[2];
+                    foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+                    {
+                        cTransferDetalle objTransferDetalle = ConvertToTransferDetalle(itemTransferDetalle);
+                        objTransferDetalle.CargarTransfer(ConvertToTransfer(itemTransferDetalle));
+                        listaTransferDetalle.Add(objTransferDetalle);
+
+                    }
+                }
+                /// FIN Nuevo
+
+
+                foreach (cCarritoTransfer item in listaSucursal)
+                {
+                    List<cProductosGenerico> listaProductoCarrtios = (from itemProductoCarrtios in dsProductoCarrito.Tables[0].AsEnumerable()
+                                                                      where itemProductoCarrtios.Field<int>("ctd_idCarritoTransfers") == item.ctr_id
+                                                                      select new cProductosGenerico
+                                                                      {
+                                                                          codProducto = itemProductoCarrtios.Field<string>("ctd_codProducto"),
+                                                                          cantidad = itemProductoCarrtios.Field<int>("ctd_Cantidad"),
+                                                                          pro_nombre = itemProductoCarrtios.Field<string>("pro_nombre"),
+                                                                          tde_codpro = itemProductoCarrtios.Field<string>("pro_nombre"),
+                                                                          pro_precio = itemProductoCarrtios.Field<decimal>("pro_precio"),
+                                                                          pro_preciofarmacia = itemProductoCarrtios.Field<decimal>("pro_preciofarmacia"),
+                                                                          pro_neto = itemProductoCarrtios.Field<bool>("pro_neto"),
+                                                                          pro_codtpopro = itemProductoCarrtios.Field<string>("pro_codtpopro"),
+                                                                          pro_descuentoweb = itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"),
+                                                                          pro_ofeunidades = itemProductoCarrtios.IsNull("pro_ofeunidades") ? 0 : itemProductoCarrtios.Field<int>("pro_ofeunidades"),
+                                                                          pro_ofeporcentaje = itemProductoCarrtios.IsNull("pro_ofeporcentaje") ? 0 : itemProductoCarrtios.Field<decimal>("pro_ofeporcentaje"),
+                                                                          tde_prepublico = itemProductoCarrtios.IsNull("tde_prepublico") ? 0 : itemProductoCarrtios.Field<decimal>("tde_prepublico"),
+                                                                          tde_predescuento = itemProductoCarrtios.IsNull("tde_predescuento") ? 0 : itemProductoCarrtios.Field<decimal>("tde_predescuento"),
+                                                                          stk_stock = itemProductoCarrtios.Table.Columns.Contains("stk_stock") && !itemProductoCarrtios.IsNull("stk_stock") ? itemProductoCarrtios.Field<string>("stk_stock") : null,
+                                                                          PrecioFinalTransfer = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, item.tfr_deshab, item.tfr_pordesadi, itemProductoCarrtios.Field<bool>("pro_neto"), itemProductoCarrtios.Field<string>("pro_codtpopro"), itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"), itemProductoCarrtios.Field<decimal>("tde_predescuento"), itemProductoCarrtios.IsNull("tde_PrecioConDescuentoDirecto") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PrecioConDescuentoDirecto"), itemProductoCarrtios.IsNull("tde_PorcARestarDelDtoDeCliente") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PorcARestarDelDtoDeCliente"))
+                                                                      }).ToList();
+
+                    for (int iProductoCarrtios = 0; iProductoCarrtios < listaProductoCarrtios.Count; iProductoCarrtios++)
+                    {
+                        listaProductoCarrtios[iProductoCarrtios].isProductoFacturacionDirecta = false;
+                        if (listaTransferDetalle != null)
+                        {
+                            List<cTransferDetalle> listaAUXtransferDetalle = listaTransferDetalle.Where(x => x.tde_codpro == listaProductoCarrtios[iProductoCarrtios].pro_nombre && x.tfr_codigo == item.tfr_codigo).ToList();
+                            if (listaAUXtransferDetalle.Count > 0)
+                            {
+                                listaProductoCarrtios[iProductoCarrtios].isProductoFacturacionDirecta = true;
+                                listaProductoCarrtios[iProductoCarrtios].CargarTransferYTransferDetalle(listaAUXtransferDetalle[0]);
+                            }
+                        }
+
+                    }
+                    item.listaProductos = listaProductoCarrtios;
+                    bool isAgregoResultado = false;
+                    for (int i = 0; i < resultado.Count; i++)
+                    {
+                        if (resultado[i].Sucursal == item.ctr_codSucursal)
+                        {
+                            resultado[i].listaTransfer.Add(item);
+                            isAgregoResultado = true;
+                            break;
+                        }
+                    }
+                    if (!isAgregoResultado)
+                    {
+                        cSucursalCarritoTransfer obj = new cSucursalCarritoTransfer();
+                        obj.listaTransfer = new List<cCarritoTransfer>();
+                        obj.car_id = item.car_id_aux;
+                        obj.Sucursal = item.ctr_codSucursal;
+                        obj.proximoHorarioEntrega = FuncionesPersonalizadas_base.ObtenerHorarioCierre(pCliente, pCliente.cli_codsuc, item.ctr_codSucursal, pCliente.cli_codrep);
+                        obj.listaTransfer.Add(item);
+                        resultado.Add(obj);
+                    }
+                }
+                resultado.RemoveAll(x => x.listaTransfer.Sum(x1 => x1.listaProductos.Count) == 0);
+                return resultado;
+            }
+            return null;
+        }
+        public static List<cHorariosSucursal> RecuperarTodosHorariosSucursalDependiente()
+        {
+            List<cHorariosSucursal> resultado = null;
+                DataSet dsResultado = capaClientes_base.GestiónSucursalDependienteHorarios(null, null, null, null, null, null, Constantes.cSQL_SELECT);
+
+                if (dsResultado != null)
+                {
+                    resultado = new List<cHorariosSucursal>();
+
+                    foreach (DataRow item in dsResultado.Tables["SucursalHorario"].Rows)
+                    {
+                        cHorariosSucursal obj = new cHorariosSucursal();
+                        if (item["sdh_SucursalDependienteHorario"] != DBNull.Value)
+                        {
+                            obj.sdh_SucursalDependienteHorario = Convert.ToInt32(item["sdh_SucursalDependienteHorario"]);
+                        }
+                        if (item["sdh_sucursal"] != DBNull.Value)
+                        {
+                            obj.sdh_sucursal = item["sdh_sucursal"].ToString();
+                        }
+                        if (item["sdh_sucursalDependiente"] != DBNull.Value)
+                        {
+                            obj.sdh_sucursalDependiente = item["sdh_sucursalDependiente"].ToString();
+                        }
+                        if (item["sdh_codReparto"] != DBNull.Value)
+                        {
+                            obj.sdh_codReparto = item["sdh_codReparto"].ToString();
+                        }
+                        if (item["sdh_diaSemana"] != DBNull.Value)
+                        {
+                            obj.sdh_diaSemana = item["sdh_diaSemana"].ToString();
+                        }
+                        if (item["sdh_horario"] != DBNull.Value)
+                        {
+                            obj.sdh_horario = item["sdh_horario"].ToString();
+                            string[] arrayHorarios = obj.sdh_horario.Split('-');
+                            obj.listaHorarios = arrayHorarios.ToList();
+                        }
+                        resultado.Add(obj);
+                    }
+
+                }            
+            return resultado;
+        }
+
     }
 }

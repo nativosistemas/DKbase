@@ -96,5 +96,49 @@ namespace DKbase.generales
         {
             get { return "reparto"; }
         }
+        public static string cTipo_Carrito
+        {
+            get { return "Carrito"; }
+        }
+        public static string cTipo_CarritoTransfers
+        {
+            get { return "CarritoTransfers"; }
+        }
+        public static string cTipo_CarritoDiferido
+        {
+            get { return "CarritoDiferido"; }
+        }
+        public static string cTipo_CarritoDiferidoTransfers
+        {
+            get { return "CarritoDiferidoTransfers"; }
+        }
+        public static string cDIASEMANA_Lunes
+        {
+            get { return "LU"; }
+        }
+        public static string cDIASEMANA_Martes
+        {
+            get { return "MA"; }
+        }
+        public static string cDIASEMANA_Miercoles
+        {
+            get { return "MI"; }
+        }
+        public static string cDIASEMANA_Jueves
+        {
+            get { return "JU"; }
+        }
+        public static string cDIASEMANA_Viernes
+        {
+            get { return "VI"; }
+        }
+        public static string cDIASEMANA_Sabado
+        {
+            get { return "SA"; }
+        }
+        public static string cDIASEMANA_Domingo
+        {
+            get { return "DO"; }
+        }
     }
 }

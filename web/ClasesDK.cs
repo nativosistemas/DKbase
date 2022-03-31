@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DKbase.web.capaDatos;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,5 +30,22 @@ namespace DKbase.web
         public string suc_pedirCC_sucursalReferencia { get; set; }
         public bool suc_pedirCC_tomaSoloPerfumeria { get; set; }
         public bool suc_trabajaPerfumeria { get; set; }
+    }
+    public class ResultTransfer
+    {
+        public bool isNotError { get; set; }
+        public string codSucursal { get; set; }
+        public cSucursalCarritoTransfer oSucursalCarritoTransfer { get; set; }
+        public List<cProductosAndCantidad> listProductosAndCantidadError { get; set; }
+    }
+    public class ResultCargaProducto
+    {
+        public bool isOk { get; set; }
+        public cCarrito oCarrito { get; set; }
+    }
+    public class ResultCreditoDisponible
+    {
+        public decimal? CreditoDisponibleSemanal { get; set; }
+        public decimal? CreditoDisponibleTotal { get; set; }
     }
 }

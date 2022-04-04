@@ -48,4 +48,17 @@ namespace DKbase.web
         public decimal? CreditoDisponibleSemanal { get; set; }
         public decimal? CreditoDisponibleTotal { get; set; }
     }
+    public class cjSonBuscadorProductos //: ICloneable
+    {
+        public cjSonBuscadorProductos() { }
+        public cjSonBuscadorProductos(cjSonBuscadorProductos pValue)
+        {
+            listaSucursal = pValue.listaSucursal;
+            listaProductos = pValue.listaProductos;
+            CantidadRegistroTotal = pValue.CantidadRegistroTotal;
+        }
+        public List<string> listaSucursal { get; set; }
+        public List<cProductosGenerico> listaProductos { get; set; }
+        public int CantidadRegistroTotal { get; set; }
+    }
 }

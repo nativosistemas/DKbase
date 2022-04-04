@@ -1102,6 +1102,36 @@ namespace DKbase.web
                 }            
             return resultado;
         }
+        public static cProductos ConvertToProductosImagen(DataRow pItem)
+        {
+            cProductos obj = new cProductos();
+            if (pItem["pro_codigo"] != DBNull.Value)
+            {
+                obj.pro_codigo = Convert.ToString(pItem["pro_codigo"]);
+            }
+            if (pItem.Table.Columns.Contains("pro_nombre"))
+            {
+                if (pItem["pro_nombre"] != DBNull.Value)
+                {
+                    obj.pro_nombre = Convert.ToString(pItem["pro_nombre"]);
+                }
+            }
+            if (pItem["pri_nombreArchivo"] != DBNull.Value)
+            {
+                obj.pri_nombreArchivo = Convert.ToString(pItem["pri_nombreArchivo"]);
+            }
+            if (pItem.Table.Columns.Contains("pri_ancho_ampliar") && pItem["pri_ancho_ampliar"] != DBNull.Value)
+            {
+                obj.pri_ancho_ampliar_original = Convert.ToInt32(pItem["pri_ancho_ampliar"]);
+                obj.pri_ancho_ampliar = Convert.ToInt32(pItem["pri_ancho_ampliar"]);
+            }
+            if (pItem.Table.Columns.Contains("pri_alto_ampliar") && pItem["pri_alto_ampliar"] != DBNull.Value)
+            {
+                obj.pri_alto_ampliar_original = Convert.ToInt32(pItem["pri_alto_ampliar"]);
+                obj.pri_alto_ampliar = Convert.ToInt32(pItem["pri_alto_ampliar"]);
+            }
+            return obj;
+        }
 
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace DKbase.web.capaDatos
@@ -162,5 +164,151 @@ namespace DKbase.web.capaDatos
     }
     public class capaProductos_base
     {
+        public static DataSet RecuperarTodosProductosBuscadorV3(string pTextoBuscador, List<string> pListaColumna, string pSucursalPerteneciente, int? pIdCliente, string pCli_codprov)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperarTodosProductosBuscadorV3", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paWhere = cmdComandoInicio.Parameters.Add("@Where", SqlDbType.NVarChar, 4000);
+            paWhere.Value = pListaColumna == null ? FuncionesPersonalizadas_base.GenerarWhereLikeConColumna(pTextoBuscador, "pop_columnaWhereDefault") : FuncionesPersonalizadas_base.GenerarWhereLikeConVariasColumnas(pTextoBuscador, pListaColumna);
+
+            SqlParameter paWherePrimeraOrdenacion = cmdComandoInicio.Parameters.Add("@WherePrimeraOrdenacion", SqlDbType.NVarChar, 4000);
+            paWherePrimeraOrdenacion.Value = FuncionesPersonalizadas_base.GenerarWhereLikeConColumna_EmpiezaCon(pTextoBuscador, "pro_nombre");
+
+            SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@Sucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
+            SqlParameter paCli_codprov = cmdComandoInicio.Parameters.Add("@cli_codprov", SqlDbType.NVarChar, 75);
+            paSucursal.Value = pSucursalPerteneciente;
+            if (pIdCliente == null)
+            {
+                paIdCliente.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdCliente.Value = (int)pIdCliente;
+            }
+            paCli_codprov.Value = pCli_codprov;
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "ProductosBuscador");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataSet RecuperarTodosProductosBuscadorOferta(int pIdOferta, string pSucursalPerteneciente, int? pIdCliente, string pCli_codprov)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperarTodosProductosBuscadorOferta", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdOferta = cmdComandoInicio.Parameters.Add("@ofe_idOferta", SqlDbType.Int);
+
+            SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@Sucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
+            SqlParameter paCli_codprov = cmdComandoInicio.Parameters.Add("@cli_codprov", SqlDbType.NVarChar, 75);
+            paIdOferta.Value = pIdOferta;
+            paSucursal.Value = pSucursalPerteneciente;
+            if (pIdCliente == null)
+            {
+                paIdCliente.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdCliente.Value = (int)pIdCliente;
+            }
+            paCli_codprov.Value = pCli_codprov;
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "ProductosBuscador");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable ObtenerProductosImagenes()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("dbo.spObtenerProductosImagenes", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable RecuperarStockPorProductosAndSucursal(DataTable pTablaSucursales, DataTable pTablaProductos)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperarStockPorProductosAndSucursal", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paTabla_Sucursales = cmdComandoInicio.Parameters.Add("@Tabla_Sucursales", SqlDbType.Structured);
+            SqlParameter paTabla_Productos = cmdComandoInicio.Parameters.Add("@Tabla_Productos", SqlDbType.Structured);
+            paTabla_Sucursales.Value = pTablaSucursales;
+            paTabla_Productos.Value = pTablaProductos;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
     }
 }

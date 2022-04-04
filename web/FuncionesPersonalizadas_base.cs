@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DKbase.web
 {
-  public  class FuncionesPersonalizadas_base
+    public class FuncionesPersonalizadas_base
     {
         public static decimal ObtenerPrecioFinalTransferBase(cClientes pClientes, bool pTfr_deshab, decimal? pTfr_pordesadi, bool pPro_neto, string pPro_codtpopro, decimal pPro_descuentoweb, decimal pTde_predescuento, decimal pTde_PrecioConDescuentoDirecto, decimal pTde_PorcARestarDelDtoDeCliente)
         {
@@ -420,7 +420,7 @@ namespace DKbase.web
                     var values = pHorarioCierre.Split(':');
                     fechaCuentaRegresiva = new DateTime(hoy.Year, hoy.Month, hoy.Day, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 50);// mes 0 = enero
                 }
-                result = ObtenerHorarioCierre_base(pClientes,pSucursal, pSucursalDependiente, pCodigoReparto, fechaCuentaRegresiva);
+                result = ObtenerHorarioCierre_base(pClientes, pSucursal, pSucursalDependiente, pCodigoReparto, fechaCuentaRegresiva);
             }
             catch (Exception ex)
             {
@@ -428,6 +428,282 @@ namespace DKbase.web
                 var oo = 1;
             }
             return result;
+        }
+        public static cjSonBuscadorProductos RecuperarProductosGeneral_V3(cClientes pClientes, int? pIdOferta, string pTxtBuscador, List<string> pListaColumna, bool pIsOrfeta, bool pIsTransfer)
+        {
+            cjSonBuscadorProductos resultado = null;
+            if (pClientes != null)
+            {
+
+                List<cProductosGenerico> listaProductosBuscador = RecuperarTodosProductosDesdeBuscadorV3(pClientes, pIdOferta, pTxtBuscador, pListaColumna, pClientes.cli_codsuc, pClientes.cli_codigo, pIsOrfeta, pIsTransfer, pClientes.cli_codprov);
+                if (listaProductosBuscador != null)
+                {
+                    // TIPO CLIENTE
+                    if (pClientes.cli_tipo == Constantes.cTipoCliente_Perfumeria) // Solamente perfumeria
+                    {
+                        listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro == Constantes.cTIPOPRODUCTO_Perfumeria || x.pro_codtpopro == Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
+                    }
+                    else if (pClientes.cli_tipo == Constantes.cTipoCliente_Todos) // Todos los productos
+                    {
+                        // Si el cliente no toma perfumeria
+                        if (!pClientes.cli_tomaPerfumeria)
+                        {
+                            listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro != Constantes.cTIPOPRODUCTO_Perfumeria && x.pro_codtpopro != Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
+                        }
+                        // fin Si el cliente no toma perfumeria
+                    }
+                    // FIN TIPO CLIENTE
+                    for (int iPrecioFinal = 0; iPrecioFinal < listaProductosBuscador.Count; iPrecioFinal++)
+                    {
+                        listaProductosBuscador[iPrecioFinal].PrecioFinal = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinal(pClientes, listaProductosBuscador[iPrecioFinal]);
+                        listaProductosBuscador[iPrecioFinal].PrecioConDescuentoOferta = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioUnitarioConDescuentoOferta(listaProductosBuscador[iPrecioFinal].PrecioFinal, listaProductosBuscador[iPrecioFinal]);
+                    }
+
+                    List<cProductos> listaProductosConImagen = ObtenerProductosImagenes();
+                    for (int iImagen = 0; iImagen < listaProductosBuscador.Count; iImagen++)
+                    {
+                        cProductos objImagen = listaProductosConImagen.Where(x => x.pro_codigo == listaProductosBuscador[iImagen].pro_codigo).FirstOrDefault();
+                        if (objImagen != null)
+                        {
+                            listaProductosBuscador[iImagen].pri_nombreArchivo = objImagen.pri_nombreArchivo;
+                            listaProductosBuscador[iImagen].pri_ancho_ampliar = objImagen.pri_ancho_ampliar;
+                            listaProductosBuscador[iImagen].pri_alto_ampliar = objImagen.pri_alto_ampliar;
+                            listaProductosBuscador[iImagen].pri_ancho_ampliar_original = objImagen.pri_ancho_ampliar_original;
+                            listaProductosBuscador[iImagen].pri_alto_ampliar_original = objImagen.pri_alto_ampliar_original;
+                        }
+                    }
+
+                    // Inicio 17/02/2016
+                    List<string> ListaSucursal = RecuperarSucursalesParaBuscadorDeCliente(pClientes);
+                    listaProductosBuscador = ActualizarStockListaProductos(pClientes, ListaSucursal, listaProductosBuscador);
+                    // Fin 17/02/2016
+
+                    cjSonBuscadorProductos ResultadoObj = new cjSonBuscadorProductos();
+                    ResultadoObj.listaSucursal = ListaSucursal;
+                    ResultadoObj.listaProductos = listaProductosBuscador;
+                    resultado = ResultadoObj;
+                }
+            }
+            return resultado;
+        }
+        public static string GenerarWhereLikeConColumna(string pTxtBuscador, string pColumna)
+        {
+            string where = string.Empty;
+            string[] palabras = pTxtBuscador.Split(new char[] { ' ' });
+            bool isPrimerWhere = true;
+            foreach (string item in palabras)
+            {
+                if (item != string.Empty)
+                {
+                    if (isPrimerWhere)
+                    {
+                        isPrimerWhere = false;
+                    }
+                    else
+                    {
+                        where += " AND ";
+                    }
+                    where += " " + pColumna + " collate SQL_Latin1_General_Cp1_CI_AI like '%" + item + "%' ";
+                }
+            }
+            return where;
+        }
+        public static string GenerarWhereLikeConColumna_EmpiezaCon(string pTxtBuscador, string pColumna)
+        {
+            string where = string.Empty;
+            string[] palabras = pTxtBuscador.Split(new char[] { ' ' });
+            //bool isPrimerWhere = true;
+            foreach (string item in palabras)
+            {
+                if (item != string.Empty)
+                {
+                    where += " " + pColumna + " collate SQL_Latin1_General_Cp1_CI_AI like '" + item + "%' ";
+                    break;
+                }
+            }
+            return where;
+        }
+        public static string GenerarWhereLikeConVariasColumnas(string pTxtBuscador, List<string> pListaColumna)
+        {
+            string where = string.Empty;
+            string[] palabras = pTxtBuscador.Split(new char[] { ' ' });
+            bool isPrimerWhere = true;
+            foreach (string item in palabras)
+            {
+                if (item != string.Empty)
+                {
+                    if (isPrimerWhere)
+                    {
+                        isPrimerWhere = false;
+                        where += " ( ";
+                    }
+                    else
+                    {
+                        where += " AND ( ";
+                    }
+                    for (int i = 0; i < pListaColumna.Count; i++)
+                    {
+                        if (i != 0)
+                        {
+                            where += " OR ";
+                        }
+                        where += " " + pListaColumna[i] + " collate SQL_Latin1_General_Cp1_CI_AI like '%" + item + "%' ";
+                    }
+                    where += " ) ";
+                }
+            }
+            return where;
+        }
+        public static List<cProductosGenerico> RecuperarTodosProductosDesdeBuscadorV3(cClientes pClientes, int? pIdOferta, string pTxtBuscador, List<string> pListaColumna, string pSucursal, int? pIdCliente, bool pIsOferta, bool pIsTransfer, string pCli_codprov)
+        {
+            List<cProductosGenerico> resultado = null;
+            DataSet dsResultado = null;
+            if (pIdOferta == null)
+                dsResultado = capaProductos_base.RecuperarTodosProductosBuscadorV3(pTxtBuscador, pListaColumna, pSucursal, pIdCliente, pCli_codprov);
+            else
+                dsResultado = capaProductos_base.RecuperarTodosProductosBuscadorOferta(pIdOferta.Value, pSucursal, pIdCliente, pCli_codprov);
+            if (dsResultado != null)
+            {
+                DataTable tablaProductos = dsResultado.Tables[2];
+                DataTable tablaSucursalStocks = dsResultado.Tables[1];
+                tablaProductos.Merge(dsResultado.Tables[0]);
+                List<cTransferDetalle> listaTransferDetalle = null;
+                if (pIsTransfer)
+                {
+                    if (dsResultado.Tables.Count > 3)
+                    {
+                        listaTransferDetalle = new List<cTransferDetalle>();
+                        DataTable tablaTransferDetalle = dsResultado.Tables[3];
+                        foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+                        {
+                            cTransferDetalle objTransferDetalle = acceso.ConvertToTransferDetalle(itemTransferDetalle);
+                            objTransferDetalle.CargarTransfer(acceso.ConvertToTransfer(itemTransferDetalle));
+                            listaTransferDetalle.Add(objTransferDetalle);
+                        }
+                    }
+                }
+                resultado = acceso.cargarProductosBuscadorArchivos(pClientes, tablaProductos, tablaSucursalStocks, listaTransferDetalle, DKbase.generales.Constantes.CargarProductosBuscador.isDesdeBuscador, null);
+            }
+            return resultado;
+        }
+        public static List<string> RecuperarSucursalesParaBuscadorDeCliente(cClientes pClientes)
+        {
+            // Optimizar
+            List<string> ListaSucursal = new List<string>();
+            ListaSucursal.Add(pClientes.cli_codsuc);
+            if (pClientes.cli_codrep == "S7")
+            {
+                if (!ListaSucursal.Contains("SF"))
+                    ListaSucursal.Add("SF");
+                if (!ListaSucursal.Contains("CC"))
+                    ListaSucursal.Add("CC");
+            }
+            else
+            {
+                List<cSucursal> listaSucursalesAUX = RecuperarTodasSucursalesDependientes().Where(x => x.sde_sucursal == pClientes.cli_codsuc).ToList();
+                foreach (cSucursal itemSucursalesAUX in listaSucursalesAUX)
+                {
+                    if (itemSucursalesAUX.sde_sucursalDependiente != pClientes.cli_codsuc)
+                    {
+                        ListaSucursal.Add(itemSucursalesAUX.sde_sucursalDependiente);
+                    }
+                }
+                if (pClientes.cli_IdSucursalAlternativa != null &&
+                    !ListaSucursal.Contains(pClientes.cli_IdSucursalAlternativa))
+                {
+                    ListaSucursal.Add(pClientes.cli_IdSucursalAlternativa);
+                }
+            }
+            return ListaSucursal;
+            // Fin Optimizar
+        }
+        public static List<cSucursal> RecuperarTodasSucursalesDependientes()
+        {
+            List<cSucursal> resultado = null;
+            DataSet dsResultado = capaClientes_base.GestiónSucursal(null, null, null, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                resultado = new List<cSucursal>();
+                for (int i = 0; i < dsResultado.Tables["Sucursal"].Rows.Count; i++)
+                {
+                    cSucursal obj = new cSucursal();
+                    if (dsResultado.Tables["Sucursal"].Rows[i]["sde_codigo"] != DBNull.Value)
+                    {
+                        obj.sde_codigo = Convert.ToInt32(dsResultado.Tables["Sucursal"].Rows[i]["sde_codigo"]);
+                    }
+                    if (dsResultado.Tables["Sucursal"].Rows[i]["sde_sucursal"] != DBNull.Value)
+                    {
+                        obj.sde_sucursal = dsResultado.Tables["Sucursal"].Rows[i]["sde_sucursal"].ToString();
+                    }
+                    if (dsResultado.Tables["Sucursal"].Rows[i]["sde_sucursalDependiente"] != DBNull.Value)
+                    {
+                        obj.sde_sucursalDependiente = dsResultado.Tables["Sucursal"].Rows[i]["sde_sucursalDependiente"].ToString();
+                    }
+                    if (dsResultado.Tables["Sucursal"].Rows[i]["sde_sucursalDependiente"] != DBNull.Value && dsResultado.Tables["Sucursal"].Rows[i]["sde_sucursal"] != DBNull.Value)
+                    {
+                        obj.sucursal_sucursalDependiente = obj.sde_sucursal + " - " + obj.sde_sucursalDependiente;
+                    }
+                    resultado.Add(obj);
+                }
+
+            }
+            return resultado;
+        }
+        public static List<cProductos> ObtenerProductosImagenes()
+        {
+            List<cProductos> resultado = null;
+                DataTable tabla = capaProductos_base.ObtenerProductosImagenes();
+                if (tabla != null)
+                {
+                    resultado = new List<cProductos>();
+                    foreach (DataRow item in tabla.Rows)
+                    {
+                        cProductos obj = acceso.ConvertToProductosImagen(item);
+                        if (obj != null)
+                            resultado.Add(obj);
+                    }
+                }            
+            return resultado;
+        }
+        public static List<cProductosGenerico> ActualizarStockListaProductos(cClientes pClientes, List<string> pListaSucursal, List<cProductosGenerico> pListaProductos)
+        {
+            bool isActualizar = false;
+            if (pClientes.cli_codrep == "S7")
+                isActualizar = true;
+
+            else if (pClientes.cli_IdSucursalAlternativa != null)
+                isActualizar = true;
+            if (isActualizar)
+            {
+                List<cProductosAndCantidad> listaProductos = new List<cProductosAndCantidad>();
+                foreach (cProductosGenerico item in pListaProductos)
+                {
+                    listaProductos.Add(new cProductosAndCantidad { codProductoNombre = item.pro_codigo });
+                }
+                DataTable table = capaProductos_base.RecuperarStockPorProductosAndSucursal(ConvertNombresSeccionToDataTable(pListaSucursal), DKbase.web.FuncionesPersonalizadas_base.ConvertProductosAndCantidadToDataTable(listaProductos));
+                if (table != null)
+                    for (int i = 0; i < pListaProductos.Count; i++)
+                    {
+                        pListaProductos[i].listaSucursalStocks = (from r in table.Select("stk_codpro = '" + pListaProductos[i].pro_codigo + "'").AsEnumerable()
+                                                                  select new cSucursalStocks { stk_codpro = r["stk_codpro"].ToString(), stk_codsuc = r["stk_codsuc"].ToString(), stk_stock = r["stk_stock"].ToString() }).ToList();
+                    }
+            }
+            return pListaProductos;
+        }
+        public static DataTable ConvertNombresSeccionToDataTable(List<string> pListaNombreSeccion)
+        {
+            DataTable pTablaDetalle = new DataTable();
+            pTablaDetalle.Columns.Add(new DataColumn("NombreSeccion", System.Type.GetType("System.String")));
+            if (pListaNombreSeccion != null)
+            {
+                foreach (string item in pListaNombreSeccion)
+                {
+                    DataRow fila = pTablaDetalle.NewRow();
+                    fila["NombreSeccion"] = item;
+                    pTablaDetalle.Rows.Add(fila);
+                }
+            }
+            return pTablaDetalle;
         }
     }
 

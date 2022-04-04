@@ -140,5 +140,29 @@ namespace DKbase.generales
         {
             get { return "DO"; }
         }
+        public static string cTIPOPRODUCTO_Medicamento
+        {
+            get { return "M"; }
+        }
+        public static string cTIPOPRODUCTO_Perfumeria
+        {
+            get { return "P"; }
+        }
+        public static string cTIPOPRODUCTO_Accesorio
+        {
+            get { return "A"; }
+        }
+        public static string cTIPOPRODUCTO_PerfumeriaCuentaYOrden
+        {
+            get { return "F"; }
+        }
+        public static string cTipoCliente_Perfumeria
+        {
+            get { return "P"; }
+        }
+        public static string cTipoCliente_Todos
+        {
+            get { return "D"; }
+        }
     }
 }

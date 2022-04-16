@@ -733,7 +733,7 @@ namespace DKbase.web
             return lista;
 
         }
-        private static cArchivo ConvertToArchivo(DataRow pItem)
+        public static cArchivo ConvertToArchivo(DataRow pItem)
         {
             cArchivo obj = new cArchivo();
 
@@ -806,6 +806,10 @@ namespace DKbase.web
             if (pItem["arc_accion"] != DBNull.Value)
             {
                 obj.arc_accion = Convert.ToInt32(pItem["arc_accion"]);
+            }
+            if (pItem.Table.Columns.Contains("arc_rating") && pItem["arc_rating"] != DBNull.Value)
+            {
+                obj.arc_rating = Convert.ToInt32(pItem["arc_rating"]);
             }
             return obj;
         }

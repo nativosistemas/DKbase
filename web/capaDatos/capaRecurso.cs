@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Text;
 
 namespace DKbase.web.capaDatos
@@ -28,6 +29,7 @@ namespace DKbase.web.capaDatos
         public string NombreYapellido { get; set; }
         public int ancho { get; set; }
         public int alto { get; set; }
+        public int arc_rating { get; set; }
 
     }
     public class cNombreArchivos
@@ -177,6 +179,54 @@ namespace DKbase.web.capaDatos
             catch (Exception ex)
             {
                 return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static int spRatingArchivos( string arc_galeria, string arc_nombre)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Recursos.spRatingArchivos", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paArc_galeria = cmdComandoInicio.Parameters.Add("@arc_galeria", SqlDbType.NVarChar, 50);
+            SqlParameter paArc_nombre = cmdComandoInicio.Parameters.Add("@arc_nombre", SqlDbType.NVarChar, 150);
+            SqlParameter paArc_ratingOUTPUT = cmdComandoInicio.Parameters.Add("@arc_ratingOUTPUT", SqlDbType.Int);
+            paArc_ratingOUTPUT.Direction = ParameterDirection.Output;
+
+            if (arc_galeria == null)
+            {
+                paArc_galeria.Value = DBNull.Value;
+            }
+            else
+            {
+                paArc_galeria.Value = arc_galeria;
+            }
+            if (arc_nombre == null)
+            {
+                paArc_nombre.Value = DBNull.Value;
+            }
+            else
+            {
+                paArc_nombre.Value = arc_nombre;
+            }
+
+            try
+            {
+                Conn.Open();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToInt32(paArc_ratingOUTPUT.Value);
+
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), "Error al sumar en rating", DateTime.Now, arc_galeria, arc_nombre);
+                return 0;
             }
             finally
             {

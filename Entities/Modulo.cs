@@ -82,4 +82,53 @@ namespace DKbase.Entities
         public List<Farmacia> listaFarmacia { get; set; }
         public Guid pedidoGuid { get; set; }
     }
+    public class AppCargaDatosClientes 
+    {
+        public int cdc_id { get; set; }
+        public Guid cdc_guid { get; set; }
+        public string cdc_NombreFantasia { get; set; }
+        public string cdc_NombreFarmaceutico { get; set; }
+        public string cdc_Direccion { get; set; }
+        public string cdc_Localidad { get; set; }
+        public string cdc_Provincia { get; set; }
+        public string cdc_CPA { get; set; }        
+        public string cdc_Telefono { get; set; }
+        public string cdc_Email { get; set; }
+        public string cdc_CUIT { get; set; }
+        public string cdc_IVA { get; set; }
+        public string cdc_NroInscripcionDGR { get; set; }
+        public string cdc_CodigoPAMI { get; set; }
+        public string cdc_GLN { get; set; }
+        public string cdc_DescuentoPlazoPago { get; set; }
+        public string cdc_MontoDeCreditoAcordado { get; set; }
+        public string cdc_MontoDeCreditoAcordado_Periodo { get; set; }
+        public string cdc_Reparto { get; set; }
+        public string cdc_Proveedor_Nombre { get; set; }
+        public string cdc_Proveedor_Direccion { get; set; }
+        public string cdc_Proveedor_Localidad { get; set; }
+        public string cdc_Proveedor_Provincia { get; set; }
+        public string cdc_Proveedor_CPA { get; set; }
+        public string cdc_Proveedor_Telefono { get; set; }
+        public DateTime? cdc_fecha { get; set; }
+    }
+    public class AppCargaDatosClientes_Responsable
+    {
+        public int cdr_id { get; set; }
+        public string cdr_idCargarCliente { get; set; }
+        public string cdr_NombreApellido { get; set; }
+        public string cdr_Direccion { get; set; }
+        public string cdr_Localidad { get; set; }
+        public string cdr_Provincia { get; set; }
+        public string cdr_CPA { get; set; }
+        public string cdr_Telefono { get; set; }
+        public string cdr_Email { get; set; }
+        public string cdr_CUIT { get; set; }
+        public string cdr_DNI { get; set; }
+        public string cdr_FechaNacimiento { get; set; }
+        public string cdr_EstadoCivil { get; set; }
+        public string cdr_NombreConyuge { get; set; }
+        public string cdr_Nacionalidad { get; set; }
+        public string cdr_CargoOcupa { get; set; }
+        public DateTime? cdr_fecha { get; set; }
+    }
 }

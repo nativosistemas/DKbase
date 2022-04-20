@@ -313,5 +313,9 @@ namespace DKbase.app
             }
             return resultado;
         }
+        public static Guid AddDatosCliente(AppCargaDatosClientes pDatosCliente, string pConnectionStringSQL = null)
+        {
+            return capaModulo.spAddDatosCliente(pDatosCliente, pConnectionStringSQL);
+        }
     }
 }

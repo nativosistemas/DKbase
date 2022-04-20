@@ -82,16 +82,17 @@ namespace DKbase.Entities
         public List<Farmacia> listaFarmacia { get; set; }
         public Guid pedidoGuid { get; set; }
     }
-    public class AppCargaDatosClientes 
+    public class AppCargaDatosClientes
     {
         public int cdc_id { get; set; }
         public Guid cdc_guid { get; set; }
         public string cdc_NombreFantasia { get; set; }
         public string cdc_NombreFarmaceutico { get; set; }
+        public string cdc_NumeroMatricula { get; set; }
         public string cdc_Direccion { get; set; }
         public string cdc_Localidad { get; set; }
         public string cdc_Provincia { get; set; }
-        public string cdc_CPA { get; set; }        
+        public string cdc_CPA { get; set; }
         public string cdc_Telefono { get; set; }
         public string cdc_Email { get; set; }
         public string cdc_CUIT { get; set; }
@@ -110,6 +111,7 @@ namespace DKbase.Entities
         public string cdc_Proveedor_CPA { get; set; }
         public string cdc_Proveedor_Telefono { get; set; }
         public DateTime? cdc_fecha { get; set; }
+        public List<AppCargaDatosClientes_Responsable> listaResponsable { get; set; }
     }
     public class AppCargaDatosClientes_Responsable
     {

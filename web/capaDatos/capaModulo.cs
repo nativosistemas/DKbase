@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using DKbase.generales;
 using System.Reflection;
+using DKbase.Entities;
 
 namespace DKbase.web.capaDatos
 {
@@ -98,6 +99,33 @@ namespace DKbase.web.capaDatos
             List<SqlParameter> l = new List<SqlParameter>();
             l.Add(db.GetParameter("promotor", pPromotor));
             return db.GetDataSet("app.spGetHistorialPedidos", l);
+        }
+        public static Guid spAddDatosCliente(AppCargaDatosClientes pDatosCliente, string pConnectionStringSQL = null)
+        {
+            if (pConnectionStringSQL == null)
+            {
+                pConnectionStringSQL = Helper.getConnectionStringSQL;
+            }
+            Guid result = Guid.Empty;
+            try
+            {
+                //BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
+                //List<SqlParameter> l = new List<SqlParameter>();
+                //l.Add(db.GetParameter("promotor", pPromotor));
+                //l.Add(db.GetParameter("strXML", pTablaXml, SqlDbType.Xml));
+                //SqlParameter ParameterOut_GUID = db.GetParameterOut("GUID", SqlDbType.UniqueIdentifier);
+                //l.Add(ParameterOut_GUID);
+                //db.ExecuteNonQuery("app.spAddPedido", l);
+                //if (ParameterOut_GUID.Value != DBNull.Value)
+                //{
+                //    result = Guid.Parse(ParameterOut_GUID.Value.ToString());
+                //}
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pDatosCliente);
+            }
+            return result;
         }
     }
 }

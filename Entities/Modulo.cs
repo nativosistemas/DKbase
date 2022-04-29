@@ -84,6 +84,7 @@ namespace DKbase.Entities
     }
     public class AppCargaDatosClientes
     {
+        public string cdc_promotor { get; set; }
         public int cdc_id { get; set; }
         public Guid cdc_guid { get; set; }
         public string cdc_NombreFantasia { get; set; }
@@ -104,14 +105,9 @@ namespace DKbase.Entities
         public string cdc_MontoDeCreditoAcordado { get; set; }
         public string cdc_MontoDeCreditoAcordado_Periodo { get; set; }
         public string cdc_Reparto { get; set; }
-        public string cdc_Proveedor_Nombre { get; set; }
-        public string cdc_Proveedor_Direccion { get; set; }
-        public string cdc_Proveedor_Localidad { get; set; }
-        public string cdc_Proveedor_Provincia { get; set; }
-        public string cdc_Proveedor_CPA { get; set; }
-        public string cdc_Proveedor_Telefono { get; set; }
         public DateTime? cdc_fecha { get; set; }
         public List<AppCargaDatosClientes_Responsable> listaResponsable { get; set; }
+        public List<AppCargaDatosClientes_Proveedor> listaProveedor { get; set; }
     }
     public class AppCargaDatosClientes_Responsable
     {
@@ -132,5 +128,14 @@ namespace DKbase.Entities
         public string cdr_Nacionalidad { get; set; }
         public string cdr_CargoOcupa { get; set; }
         public DateTime? cdr_fecha { get; set; }
+    }
+    public class AppCargaDatosClientes_Proveedor
+    {
+        public string cdc_Proveedor_Nombre { get; set; }
+        public string cdc_Proveedor_Direccion { get; set; }
+        public string cdc_Proveedor_Localidad { get; set; }
+        public string cdc_Proveedor_Provincia { get; set; }
+        public string cdc_Proveedor_CPA { get; set; }
+        public string cdc_Proveedor_Telefono { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using System.Linq;
+using System.Reflection;
 
 namespace DKbase.web
 {
@@ -1136,6 +1137,20 @@ namespace DKbase.web
             }
             return obj;
         }
+        //public static cTransfer ConvertToTransfer_aux(DataRow pItem)
+        //{
+        //    cTransfer obj = new cTransfer();
+        //    Type myType = obj.GetType();
+        //    IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+        //    foreach (PropertyInfo prop in props)
+        //    {
+        //        if (pItem.Table.Columns.Contains(prop.Name) && pItem[prop.Name] != DBNull.Value)
+        //        {
+        //            prop.SetValue(obj, pItem[prop.Name]);
+        //        }
+        //    }
+        //    return obj;
+        //}
 
     }
 }

@@ -109,17 +109,25 @@ namespace DKbase.web.capaDatos
             Guid result = Guid.Empty;
             try
             {
-                //BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
-                //List<SqlParameter> l = new List<SqlParameter>();
-                //l.Add(db.GetParameter("promotor", pPromotor));
-                //l.Add(db.GetParameter("strXML", pTablaXml, SqlDbType.Xml));
-                //SqlParameter ParameterOut_GUID = db.GetParameterOut("GUID", SqlDbType.UniqueIdentifier);
-                //l.Add(ParameterOut_GUID);
-                //db.ExecuteNonQuery("app.spAddPedido", l);
-                //if (ParameterOut_GUID.Value != DBNull.Value)
-                //{
-                //    result = Guid.Parse(ParameterOut_GUID.Value.ToString());
-                //}
+                BaseDataAccess db = new BaseDataAccess(pConnectionStringSQL);
+                List<SqlParameter> l = new List<SqlParameter>();
+                Type myType = pDatosCliente.GetType();
+                IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+                foreach (PropertyInfo prop in props)
+                {
+                    if (prop.Name != "cdc_guid" && prop.Name != "cdc_id" && prop.Name != "listaResponsable" && prop.Name != "listaProveedor")
+                    {
+                        l.Add(db.GetParameter(prop.Name, prop.GetValue(pDatosCliente, null)));
+                    }
+                }
+                // l.Add(db.GetParameter("strXML", pTablaXml, SqlDbType.Xml));
+                SqlParameter ParameterOut_GUID = db.GetParameterOut("GUID", SqlDbType.UniqueIdentifier);
+                l.Add(ParameterOut_GUID);
+                 db.ExecuteNonQuery("app.spInsertCargarCliente", l);
+                if (ParameterOut_GUID.Value != DBNull.Value)
+                {
+                    result = Guid.Parse(ParameterOut_GUID.Value.ToString());
+                }
             }
             catch (Exception ex)
             {

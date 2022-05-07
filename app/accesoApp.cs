@@ -315,7 +315,46 @@ namespace DKbase.app
         }
         public static Guid AddDatosCliente(AppCargaDatosClientes pDatosCliente, string pConnectionStringSQL = null)
         {
-            return capaModulo.spAddDatosCliente(pDatosCliente, pConnectionStringSQL);
+            string strXML_Proveedor = string.Empty;
+            strXML_Proveedor += "<Root>";
+            foreach (AppCargaDatosClientes_Proveedor item in pDatosCliente.listaProveedor)
+            {
+                List<XAttribute> listaAtributos = new List<XAttribute>();
+                listaAtributos.Add(new XAttribute("cdc_Proveedor_CPA", item.cdc_Proveedor_CPA));
+                listaAtributos.Add(new XAttribute("cdc_Proveedor_Direccion", item.cdc_Proveedor_Direccion));
+                listaAtributos.Add(new XAttribute("cdc_Proveedor_Localidad", item.cdc_Proveedor_Localidad));
+                listaAtributos.Add(new XAttribute("cdc_Proveedor_Nombre", item.cdc_Proveedor_Nombre));
+                listaAtributos.Add(new XAttribute("cdc_Proveedor_Provincia", item.cdc_Proveedor_Provincia));
+                listaAtributos.Add(new XAttribute("cdc_Proveedor_Telefono", item.cdc_Proveedor_Telefono));
+                XElement nodo = new XElement("Detalle", listaAtributos);
+                strXML_Proveedor += nodo.ToString();
+            }
+            strXML_Proveedor += "</Root>";
+            //
+            string strXML_Responsable = string.Empty;
+            strXML_Responsable += "<Root>";
+            foreach (AppCargaDatosClientes_Responsable item in pDatosCliente.listaResponsable)
+            {
+                List<XAttribute> listaAtributos = new List<XAttribute>();
+                listaAtributos.Add(new XAttribute("cdr_CargoOcupa", item.cdr_CargoOcupa));
+                listaAtributos.Add(new XAttribute("cdr_CPA", item.cdr_CPA));
+                listaAtributos.Add(new XAttribute("cdr_CUIT", item.cdr_CUIT));
+                listaAtributos.Add(new XAttribute("cdr_Direccion", item.cdr_Direccion));
+                listaAtributos.Add(new XAttribute("cdr_DNI", item.cdr_DNI));
+                listaAtributos.Add(new XAttribute("cdr_Email", item.cdr_Email));
+                listaAtributos.Add(new XAttribute("cdr_EstadoCivil", item.cdr_EstadoCivil));
+                listaAtributos.Add(new XAttribute("cdr_NombreConyuge", item.cdr_NombreConyuge));
+                listaAtributos.Add(new XAttribute("cdr_FechaNacimiento", item.cdr_FechaNacimiento));
+                listaAtributos.Add(new XAttribute("cdr_Localidad", item.cdr_Localidad));
+                listaAtributos.Add(new XAttribute("cdr_Nacionalidad", item.cdr_Nacionalidad));
+                listaAtributos.Add(new XAttribute("cdr_NombreApellido", item.cdr_NombreApellido));
+                listaAtributos.Add(new XAttribute("cdr_Provincia", item.cdr_Provincia));
+                listaAtributos.Add(new XAttribute("cdr_Telefono", item.cdr_Telefono));
+                XElement nodo = new XElement("Detalle", listaAtributos);
+                strXML_Responsable += nodo.ToString();
+            }
+            strXML_Responsable += "</Root>";
+            return capaModulo.spAddDatosCliente(pDatosCliente, strXML_Proveedor, strXML_Responsable, pConnectionStringSQL);
         }
     }
 }

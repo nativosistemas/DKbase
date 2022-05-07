@@ -100,7 +100,7 @@ namespace DKbase.web.capaDatos
             l.Add(db.GetParameter("promotor", pPromotor));
             return db.GetDataSet("app.spGetHistorialPedidos", l);
         }
-        public static Guid spAddDatosCliente(AppCargaDatosClientes pDatosCliente, string pConnectionStringSQL = null)
+        public static Guid spAddDatosCliente(AppCargaDatosClientes pDatosCliente, string pTablaXml_Proveedor, string pTablaXml_Responsable, string pConnectionStringSQL = null)
         {
             if (pConnectionStringSQL == null)
             {
@@ -120,10 +120,11 @@ namespace DKbase.web.capaDatos
                         l.Add(db.GetParameter(prop.Name, prop.GetValue(pDatosCliente, null)));
                     }
                 }
-                // l.Add(db.GetParameter("strXML", pTablaXml, SqlDbType.Xml));
+                l.Add(db.GetParameter("strXML_Proveedor", pTablaXml_Proveedor, SqlDbType.Xml));
+                l.Add(db.GetParameter("strXML_Responsable", pTablaXml_Responsable, SqlDbType.Xml));
                 SqlParameter ParameterOut_GUID = db.GetParameterOut("GUID", SqlDbType.UniqueIdentifier);
                 l.Add(ParameterOut_GUID);
-                 db.ExecuteNonQuery("app.spInsertCargarCliente", l);
+                db.ExecuteNonQuery("app.spInsertCargarCliente", l);
                 if (ParameterOut_GUID.Value != DBNull.Value)
                 {
                     result = Guid.Parse(ParameterOut_GUID.Value.ToString());

@@ -105,7 +105,7 @@ namespace DKbase.Entities
         public string cdc_MontoDeCreditoAcordado { get; set; }
         public string cdc_MontoDeCreditoAcordado_Periodo { get; set; }
         public string cdc_Reparto { get; set; }
-        public DateTime? cdc_fecha { get; set; }
+        //public DateTime? cdc_fecha { get; set; }
         public List<AppCargaDatosClientes_Responsable> listaResponsable { get; set; }
         public List<AppCargaDatosClientes_Proveedor> listaProveedor { get; set; }
     }

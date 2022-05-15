@@ -483,7 +483,7 @@ namespace DKbase.web
                 obj.pro_UbicacionPrincipal = Convert.ToString(pItem["pro_UbicacionPrincipal"]);
             return obj;
         }
-        public static List<cProductosGenerico> cargarProductosBuscadorArchivos(cClientes pCliente,DataTable tablaProductos, DataTable tablaSucursalStocks, List<cTransferDetalle> listaTransferDetalle, Constantes.CargarProductosBuscador pCargarProductosBuscador, string pSucursalElejida)
+        public static List<cProductosGenerico> cargarProductosBuscadorArchivos(cClientes pCliente, DataTable tablaProductos, DataTable tablaSucursalStocks, List<cTransferDetalle> listaTransferDetalle, Constantes.CargarProductosBuscador pCargarProductosBuscador, string pSucursalElejida)
         {
             List<cProductosGenerico> resultado = new List<cProductosGenerico>();
             foreach (DataRow item in tablaProductos.Rows)
@@ -640,7 +640,8 @@ namespace DKbase.web
                         {
                             obj.pro_AltoCosto = Convert.ToBoolean(item["pro_AltoCosto"]);
                         }
-                        if (item.Table.Columns.Contains("pro_UbicacionPrincipal") && item["pro_UbicacionPrincipal"] != DBNull.Value) { 
+                        if (item.Table.Columns.Contains("pro_UbicacionPrincipal") && item["pro_UbicacionPrincipal"] != DBNull.Value)
+                        {
                             obj.pro_UbicacionPrincipal = Convert.ToString(item["pro_UbicacionPrincipal"]);
                         }
                         obj.isProductoFacturacionDirecta = false;
@@ -1066,45 +1067,45 @@ namespace DKbase.web
         public static List<cHorariosSucursal> RecuperarTodosHorariosSucursalDependiente()
         {
             List<cHorariosSucursal> resultado = null;
-                DataSet dsResultado = capaClientes_base.GestiónSucursalDependienteHorarios(null, null, null, null, null, null, Constantes.cSQL_SELECT);
+            DataSet dsResultado = capaClientes_base.GestiónSucursalDependienteHorarios(null, null, null, null, null, null, Constantes.cSQL_SELECT);
 
-                if (dsResultado != null)
+            if (dsResultado != null)
+            {
+                resultado = new List<cHorariosSucursal>();
+
+                foreach (DataRow item in dsResultado.Tables["SucursalHorario"].Rows)
                 {
-                    resultado = new List<cHorariosSucursal>();
-
-                    foreach (DataRow item in dsResultado.Tables["SucursalHorario"].Rows)
+                    cHorariosSucursal obj = new cHorariosSucursal();
+                    if (item["sdh_SucursalDependienteHorario"] != DBNull.Value)
                     {
-                        cHorariosSucursal obj = new cHorariosSucursal();
-                        if (item["sdh_SucursalDependienteHorario"] != DBNull.Value)
-                        {
-                            obj.sdh_SucursalDependienteHorario = Convert.ToInt32(item["sdh_SucursalDependienteHorario"]);
-                        }
-                        if (item["sdh_sucursal"] != DBNull.Value)
-                        {
-                            obj.sdh_sucursal = item["sdh_sucursal"].ToString();
-                        }
-                        if (item["sdh_sucursalDependiente"] != DBNull.Value)
-                        {
-                            obj.sdh_sucursalDependiente = item["sdh_sucursalDependiente"].ToString();
-                        }
-                        if (item["sdh_codReparto"] != DBNull.Value)
-                        {
-                            obj.sdh_codReparto = item["sdh_codReparto"].ToString();
-                        }
-                        if (item["sdh_diaSemana"] != DBNull.Value)
-                        {
-                            obj.sdh_diaSemana = item["sdh_diaSemana"].ToString();
-                        }
-                        if (item["sdh_horario"] != DBNull.Value)
-                        {
-                            obj.sdh_horario = item["sdh_horario"].ToString();
-                            string[] arrayHorarios = obj.sdh_horario.Split('-');
-                            obj.listaHorarios = arrayHorarios.ToList();
-                        }
-                        resultado.Add(obj);
+                        obj.sdh_SucursalDependienteHorario = Convert.ToInt32(item["sdh_SucursalDependienteHorario"]);
                     }
+                    if (item["sdh_sucursal"] != DBNull.Value)
+                    {
+                        obj.sdh_sucursal = item["sdh_sucursal"].ToString();
+                    }
+                    if (item["sdh_sucursalDependiente"] != DBNull.Value)
+                    {
+                        obj.sdh_sucursalDependiente = item["sdh_sucursalDependiente"].ToString();
+                    }
+                    if (item["sdh_codReparto"] != DBNull.Value)
+                    {
+                        obj.sdh_codReparto = item["sdh_codReparto"].ToString();
+                    }
+                    if (item["sdh_diaSemana"] != DBNull.Value)
+                    {
+                        obj.sdh_diaSemana = item["sdh_diaSemana"].ToString();
+                    }
+                    if (item["sdh_horario"] != DBNull.Value)
+                    {
+                        obj.sdh_horario = item["sdh_horario"].ToString();
+                        string[] arrayHorarios = obj.sdh_horario.Split('-');
+                        obj.listaHorarios = arrayHorarios.ToList();
+                    }
+                    resultado.Add(obj);
+                }
 
-                }            
+            }
             return resultado;
         }
         public static cProductos ConvertToProductosImagen(DataRow pItem)
@@ -1137,20 +1138,22 @@ namespace DKbase.web
             }
             return obj;
         }
-        //public static cTransfer ConvertToTransfer_aux(DataRow pItem)
-        //{
-        //    cTransfer obj = new cTransfer();
-        //    Type myType = obj.GetType();
-        //    IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
-        //    foreach (PropertyInfo prop in props)
-        //    {
-        //        if (pItem.Table.Columns.Contains(prop.Name) && pItem[prop.Name] != DBNull.Value)
-        //        {
-        //            prop.SetValue(obj, pItem[prop.Name]);
-        //        }
-        //    }
-        //    return obj;
-        //}
-
+        public static cPalabraBusqueda ConvertToPalabrasBusquedas(DataRow pItem)
+        {
+            cPalabraBusqueda obj = new cPalabraBusqueda();
+            if (pItem.Table.Columns.Contains("hbp_id") && pItem["hbp_id"] != DBNull.Value)
+            {
+                obj.hbp_id = Convert.ToInt32(pItem["hbp_id"]);
+            }
+            if (pItem.Table.Columns.Contains("hbp_Palabra") && pItem["hbp_Palabra"] != DBNull.Value)
+            {
+                obj.hbp_Palabra = pItem["hbp_Palabra"].ToString();
+            }
+            return obj;
+        }
+        public static string RecuperarUltimoProductoSeleccionado(int pIdUsuario)
+        {
+            return capaLogRegistro_base.spUltimoProductoSeleccionado(pIdUsuario);
+        }
     }
 }

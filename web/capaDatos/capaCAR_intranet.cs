@@ -35,7 +35,7 @@ namespace DKbase.web.capaDatos
         }
         public static DataSet RecuperarCarritosDiferidosPorCliente(Usuario pUsuario, int pIdCliente)
         {
-            int usu_codigo = pUsuario.id; 
+            int usu_codigo = pUsuario.id;
             return RecuperarCarritosPorSucursalYProductos_generica_intranet(pIdCliente, usu_codigo, Constantes.cTipo_CarritoDiferido);
         }
         public static bool AgregarProductoAlCarrito_generica_intranet(string pSucursal, string pIdProducto, int pCantidadProducto, string pTipo, int pIdCliente, int? pIdUsuario)

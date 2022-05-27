@@ -26,5 +26,21 @@ namespace DKbase
         {
             set; get;
         }
+        public static string getMail_from
+        {
+            set; get;
+        }
+        public static string getMail_pass
+        {
+            set; get;
+        }
+        public static string getSMTP_SERVER
+        {
+            set; get;
+        }
+        public static int getSMTP_PORT
+        {
+            set; get;
+        }
     }
 }

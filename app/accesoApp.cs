@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 
@@ -173,11 +174,11 @@ namespace DKbase.app
             return obj;
         }
         public static List<ModuloDetalle> getList_ModuloDetalle(DataRow[] listaFila)
-        {           
+        {
             List<ModuloDetalle> listaDetalle = null;
             if (listaFila != null)
             {
-                listaDetalle = new List<ModuloDetalle>();                
+                listaDetalle = new List<ModuloDetalle>();
                 foreach (DataRow itemTransferDetalle in listaFila)
                 {
                     ModuloDetalle objDetalle = ConvertToModuloDetalle(itemTransferDetalle);
@@ -354,7 +355,57 @@ namespace DKbase.app
                 strXML_Responsable += nodo.ToString();
             }
             strXML_Responsable += "</Root>";
+            mailDatosCliente(pDatosCliente);
             return capaModulo.spAddDatosCliente(pDatosCliente, strXML_Proveedor, strXML_Responsable, pConnectionStringSQL);
+        }
+
+        public static bool mailDatosCliente(AppCargaDatosClientes pDatosCliente)
+        {
+            string strHTML = string.Empty;
+            Type myType = pDatosCliente.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+            strHTML += "Datos Cliente: <br/>";
+            foreach (PropertyInfo prop in props)
+            {
+                if (prop.Name != "cdc_guid" && prop.Name != "cdc_id" && prop.Name != "listaResponsable" && prop.Name != "listaProveedor")
+                {
+                    //prop.Name, prop.GetValue(pDatosCliente, null)
+                    var oGetValue = prop.GetValue(pDatosCliente, null);
+                    if (oGetValue != null && !string.IsNullOrEmpty(oGetValue.ToString()))
+                    {
+                        strHTML += prop.Name + ": " + oGetValue + " <br/>";
+                    }
+                }
+            }
+            strHTML += " <br/> <br/> Datos Proveedores: <br/>";
+            foreach (AppCargaDatosClientes_Proveedor item in pDatosCliente.listaProveedor)
+            {
+                Type myType_Proveedor = item.GetType();
+                IList<PropertyInfo> props_Proveedor = new List<PropertyInfo>(myType_Proveedor.GetProperties());
+                foreach (PropertyInfo prop in props_Proveedor)
+                {
+                    var oGetValue = prop.GetValue(item, null);
+                    if (oGetValue != null && !string.IsNullOrEmpty(oGetValue.ToString()))
+                    {
+                        strHTML += prop.Name + ": " + oGetValue + " <br/>";
+                    }
+                }
+            }
+            strHTML += " <br/> <br/> Datos Responsables: <br/>";
+            foreach (AppCargaDatosClientes_Responsable item in pDatosCliente.listaResponsable)
+            {
+                Type myType_Responsable = item.GetType();
+                IList<PropertyInfo> props_Responsable = new List<PropertyInfo>(myType_Responsable.GetProperties());
+                foreach (PropertyInfo prop in props_Responsable)
+                {
+                    var oGetValue = prop.GetValue(item, null);
+                    if (oGetValue != null && !string.IsNullOrEmpty(oGetValue.ToString()))
+                    {
+                        strHTML += prop.Name + ": " + oGetValue + " <br/>";
+                    }
+                }
+            }            
+            return DKbase.web.generales.cMail_base.enviarMail("mail@mail.com", "DatosCliente", strHTML); ;
         }
     }
 }

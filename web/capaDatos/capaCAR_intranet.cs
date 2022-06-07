@@ -189,6 +189,13 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable spRecuperarIdClientesConCarritos(int pCodUsuario)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("codUsuario", pCodUsuario));
+            return db.GetDataTable("CAR.spRecuperarIdClientesConCarritos", l);
+        }
         public static int BorrarCarrito(Usuario pUsuario, int pIdCliente, string pSucursal, string pTipo, string pAccion)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);

@@ -1155,5 +1155,20 @@ namespace DKbase.web
         {
             return capaLogRegistro_base.spUltimoProductoSeleccionado(pIdUsuario);
         }
+        public static List<cClientes> RecuperarIdClientesConCarritos(int pIdUsuario)
+        {
+            List<cClientes> result = null;
+            DataTable tb = capaCAR_intranet_base.spRecuperarIdClientesConCarritos(pIdUsuario);
+            if (tb != null && tb.Rows.Count > 0)
+            {
+                result = new List<cClientes>();
+                foreach (DataRow item in tb.Rows)
+                {
+                    cClientes oCliente = acceso.ConvertToCliente(item);
+                    result.Add(oCliente);
+                }
+            }
+            return result;
+        }
     }
 }

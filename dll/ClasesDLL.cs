@@ -300,6 +300,7 @@ namespace DKbase.dll
     }
     public class cDllPedido
     {
+        public string web_Sucursal { get; set; }
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
         public string Error { get; set; }
@@ -322,6 +323,7 @@ namespace DKbase.dll
     }
     public class cDllPedidoTransfer
     {
+        public string web_Sucursal { get; set; }
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
         public string Error { get; set; }

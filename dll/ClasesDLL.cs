@@ -305,7 +305,8 @@ namespace DKbase.dll
         private string _web_Error = string.Empty;
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
-        public string Error { get; set; }
+        public string Error { get { return _Error; } set { _Error = value; } }
+        private string _Error = string.Empty;
         public dllEstadosPedido Estado { get; set; }
         public string EstadoToString { get; set; }
         public DateTime? FechaIngreso { get; set; }
@@ -330,7 +331,8 @@ namespace DKbase.dll
         private string _web_Error = string.Empty;
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
-        public string Error { get; set; }
+        public string Error { get { return _Error; } set { _Error = value; } }
+        private string _Error = string.Empty;
         public dllEstadosPedido Estado { get; set; }
         public string EstadoToString { get; set; }
         public DateTime? FechaIngreso { get; set; }

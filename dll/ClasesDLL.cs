@@ -301,7 +301,8 @@ namespace DKbase.dll
     public class cDllPedido
     {
         public string web_Sucursal { get; set; }
-        public string web_Error { get; set; }
+        public string web_Error { get { return _web_Error; } set { _web_Error = value; } }
+        private string _web_Error = string.Empty;
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
         public string Error { get; set; }
@@ -325,7 +326,8 @@ namespace DKbase.dll
     public class cDllPedidoTransfer
     {
         public string web_Sucursal { get; set; }
-        public string web_Error { get; set; }
+        public string web_Error { get { return _web_Error; } set { _web_Error = value; } }
+        private string _web_Error = string.Empty;
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
         public string Error { get; set; }

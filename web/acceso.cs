@@ -714,6 +714,20 @@ namespace DKbase.web
                             }
 
                         }
+                        if (item.Table.Columns.Contains("pri_nombreArchivo") && item["pri_nombreArchivo"] != DBNull.Value)
+                        {
+                            obj.pri_nombreArchivo = Convert.ToString(item["pri_nombreArchivo"]);
+                        }
+                        if (item.Table.Columns.Contains("pri_ancho_ampliar") && item["pri_ancho_ampliar"] != DBNull.Value)
+                        {
+                            obj.pri_ancho_ampliar = Convert.ToInt32(item["pri_ancho_ampliar"]);
+                            obj.pri_ancho_ampliar_original = obj.pri_ancho_ampliar;
+                        }
+                        if (item.Table.Columns.Contains("pri_alto_ampliar") && item["pri_alto_ampliar"] != DBNull.Value)
+                        {
+                            obj.pri_alto_ampliar = Convert.ToInt32(item["pri_alto_ampliar"]);
+                            obj.pri_alto_ampliar_original = obj.pri_alto_ampliar;
+                        }
                         resultado.Add(obj);
                     }
                 }

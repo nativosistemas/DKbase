@@ -164,14 +164,26 @@ namespace DKbase.web.capaDatos
     }
     public class capaProductos_base
     {
+        public static bool isColumnaWhereDefault(List<string> pListaColumna)
+        {
+            bool result = false;
+            if (pListaColumna != null && pListaColumna.Count == 4 && pListaColumna.Contains("pro_laboratorio") &&
+                      pListaColumna.Contains("pro_nombre") &&
+                      pListaColumna.Contains("pro_codigobarra") &&
+                      pListaColumna.Contains("pro_monodroga"))
+            {
+                result = true;
+            }
+            return result;
+        }
         public static DataSet RecuperarTodosProductosBuscadorV3(string pTextoBuscador, List<string> pListaColumna, string pSucursalPerteneciente, int? pIdCliente, string pCli_codprov)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
             SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperarTodosProductosBuscadorV3", Conn);
             cmdComandoInicio.CommandType = CommandType.StoredProcedure;
-
+      
             SqlParameter paWhere = cmdComandoInicio.Parameters.Add("@Where", SqlDbType.NVarChar, 4000);
-            paWhere.Value = pListaColumna == null ? FuncionesPersonalizadas_base.GenerarWhereLikeConColumna(pTextoBuscador, "pop_columnaWhereDefault") : FuncionesPersonalizadas_base.GenerarWhereLikeConVariasColumnas(pTextoBuscador, pListaColumna);
+            paWhere.Value = pListaColumna == null || isColumnaWhereDefault(pListaColumna) ? FuncionesPersonalizadas_base.GenerarWhereLikeConColumna(pTextoBuscador, "pop_columnaWhereDefault") : FuncionesPersonalizadas_base.GenerarWhereLikeConVariasColumnas(pTextoBuscador, pListaColumna);
 
             SqlParameter paWherePrimeraOrdenacion = cmdComandoInicio.Parameters.Add("@WherePrimeraOrdenacion", SqlDbType.NVarChar, 4000);
             paWherePrimeraOrdenacion.Value = FuncionesPersonalizadas_base.GenerarWhereLikeConColumna_EmpiezaCon(pTextoBuscador, "pro_nombre");

@@ -453,25 +453,25 @@ namespace DKbase.web
                         // fin Si el cliente no toma perfumeria
                     }
                     // FIN TIPO CLIENTE
-                    for (int iPrecioFinal = 0; iPrecioFinal < listaProductosBuscador.Count; iPrecioFinal++)
-                    {
-                        listaProductosBuscador[iPrecioFinal].PrecioFinal = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinal(pClientes, listaProductosBuscador[iPrecioFinal]);
-                        listaProductosBuscador[iPrecioFinal].PrecioConDescuentoOferta = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioUnitarioConDescuentoOferta(listaProductosBuscador[iPrecioFinal].PrecioFinal, listaProductosBuscador[iPrecioFinal]);
-                    }
+                    //for (int iPrecioFinal = 0; iPrecioFinal < listaProductosBuscador.Count; iPrecioFinal++)
+                    //{
+                    //    listaProductosBuscador[iPrecioFinal].PrecioFinal = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinal(pClientes, listaProductosBuscador[iPrecioFinal]);
+                    //    listaProductosBuscador[iPrecioFinal].PrecioConDescuentoOferta = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioUnitarioConDescuentoOferta(listaProductosBuscador[iPrecioFinal].PrecioFinal, listaProductosBuscador[iPrecioFinal]);
+                    //}
 
-                    List<cProductos> listaProductosConImagen = ObtenerProductosImagenes();
-                    for (int iImagen = 0; iImagen < listaProductosBuscador.Count; iImagen++)
-                    {
-                        cProductos objImagen = listaProductosConImagen.Where(x => x.pro_codigo == listaProductosBuscador[iImagen].pro_codigo).FirstOrDefault();
-                        if (objImagen != null)
-                        {
-                            listaProductosBuscador[iImagen].pri_nombreArchivo = objImagen.pri_nombreArchivo;
-                            listaProductosBuscador[iImagen].pri_ancho_ampliar = objImagen.pri_ancho_ampliar;
-                            listaProductosBuscador[iImagen].pri_alto_ampliar = objImagen.pri_alto_ampliar;
-                            listaProductosBuscador[iImagen].pri_ancho_ampliar_original = objImagen.pri_ancho_ampliar_original;
-                            listaProductosBuscador[iImagen].pri_alto_ampliar_original = objImagen.pri_alto_ampliar_original;
-                        }
-                    }
+                    //List<cProductos> listaProductosConImagen = ObtenerProductosImagenes();
+                    //for (int iImagen = 0; iImagen < listaProductosBuscador.Count; iImagen++)
+                    //{
+                    //    cProductos objImagen = listaProductosConImagen.Where(x => x.pro_codigo == listaProductosBuscador[iImagen].pro_codigo).FirstOrDefault();
+                    //    if (objImagen != null)
+                    //    {
+                    //        listaProductosBuscador[iImagen].pri_nombreArchivo = objImagen.pri_nombreArchivo;
+                    //        listaProductosBuscador[iImagen].pri_ancho_ampliar = objImagen.pri_ancho_ampliar;
+                    //        listaProductosBuscador[iImagen].pri_alto_ampliar = objImagen.pri_alto_ampliar;
+                    //        listaProductosBuscador[iImagen].pri_ancho_ampliar_original = objImagen.pri_ancho_ampliar_original;
+                    //        listaProductosBuscador[iImagen].pri_alto_ampliar_original = objImagen.pri_alto_ampliar_original;
+                    //    }
+                    //}
 
                     // Inicio 17/02/2016
                     List<string> ListaSucursal = RecuperarSucursalesParaBuscadorDeCliente(pClientes);

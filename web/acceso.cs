@@ -678,11 +678,11 @@ namespace DKbase.web
                             }
                         }
 
-                        if (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeTabla || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)
-                        {
+                        //if ( pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeTabla || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)
+                        //{
                             obj.PrecioFinal = FuncionesPersonalizadas_base.ObtenerPrecioFinal(pCliente, obj);
                             obj.PrecioConDescuentoOferta = FuncionesPersonalizadas_base.ObtenerPrecioUnitarioConDescuentoOferta(obj.PrecioFinal, obj);
-                        }
+                        //}
                         if (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)
                         {
                             if (item.Table.Columns.Contains("fpc_cantidad") && item["fpc_cantidad"] != DBNull.Value)

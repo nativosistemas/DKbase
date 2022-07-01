@@ -290,5 +290,31 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable RecuperarTodasSucursales()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Clientes.spRecuperarTodasSucursal", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
     }
 }

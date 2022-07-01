@@ -1184,5 +1184,52 @@ namespace DKbase.web
             }
             return result;
         }
+        public static cSucursal ConvertToSucursal(DataRow pItem)
+        {
+            cSucursal obj = new cSucursal();
+            if (pItem.Table.Columns.Contains("suc_codigo") && pItem["suc_codigo"] != DBNull.Value)
+            {
+                obj.suc_codigo = pItem["suc_codigo"].ToString();
+                obj.sde_sucursal = pItem["suc_codigo"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("suc_nombre") && pItem["suc_nombre"] != DBNull.Value)
+            {
+                obj.suc_nombre = pItem["suc_nombre"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("suc_montoMinimo") && pItem["suc_montoMinimo"] != DBNull.Value)
+            {
+                obj.suc_montoMinimo = Convert.ToDecimal(pItem["suc_montoMinimo"]);
+            }
+            //
+            if (pItem.Table.Columns.Contains("suc_provincia") && pItem["suc_provincia"] != DBNull.Value)
+            {
+                obj.suc_provincia = pItem["suc_provincia"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("suc_facturaTrazables") && pItem["suc_facturaTrazables"] != DBNull.Value)
+            {
+                obj.suc_facturaTrazables = Convert.ToBoolean(pItem["suc_facturaTrazables"]);
+            }
+            if (pItem.Table.Columns.Contains("suc_facturaTrazablesEnOtrasProvincias") && pItem["suc_facturaTrazablesEnOtrasProvincias"] != DBNull.Value)
+            {
+                obj.suc_facturaTrazablesEnOtrasProvincias = Convert.ToBoolean(pItem["suc_facturaTrazablesEnOtrasProvincias"]);
+            }
+            if (pItem.Table.Columns.Contains("suc_pedirCC_ok") && pItem["suc_pedirCC_ok"] != DBNull.Value)
+            {
+                obj.suc_pedirCC_ok = Convert.ToBoolean(pItem["suc_pedirCC_ok"]);
+            }
+            if (pItem.Table.Columns.Contains("suc_pedirCC_sucursalReferencia") && pItem["suc_pedirCC_sucursalReferencia"] != DBNull.Value)
+            {
+                obj.suc_pedirCC_sucursalReferencia = Convert.ToString(pItem["suc_pedirCC_sucursalReferencia"]);
+            }
+            if (pItem.Table.Columns.Contains("suc_pedirCC_tomaSoloPerfumeria") && pItem["suc_pedirCC_tomaSoloPerfumeria"] != DBNull.Value)
+            {
+                obj.suc_pedirCC_tomaSoloPerfumeria = Convert.ToBoolean(pItem["suc_pedirCC_tomaSoloPerfumeria"]);
+            }
+            if (pItem.Table.Columns.Contains("suc_trabajaPerfumeria") && pItem["suc_trabajaPerfumeria"] != DBNull.Value)
+            {
+                obj.suc_trabajaPerfumeria = Convert.ToBoolean(pItem["suc_trabajaPerfumeria"]);
+            }
+            return obj;
+        }
     }
 }

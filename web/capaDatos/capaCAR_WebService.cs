@@ -75,6 +75,179 @@ namespace DKbase.web.capaDatos
             DataSet dsProductoCarrito = capaCAR_base.RecuperarCarritoTransferPorIdCliente(pCliente.cli_codigo, pTipo);
             return acceso.convertDataSetToSucursalCarritoTransfer(pCliente, dsProductoCarrito);
         }
+        public static List<cProductosGenerico> ConvertToProductoBuscadorV5(cClientes pCliente, DataSet DataSetResultado, string pSucursalElejida)
+        {
+            List<cProductosGenerico> resultado = null;
+            if (DataSetResultado != null)
+            {
+                if (DataSetResultado.Tables.Count > 1)
+                {
+                    DataTable tablaProductos = DataSetResultado.Tables[0];
+                    DataTable tablaSucursalStocks = DataSetResultado.Tables[1];
+                    DataTable tablaProductosNoEncontrado = DataSetResultado.Tables[2];
+                    DataTable tablaTransferDetalle = DataSetResultado.Tables[3];
+                    List<cTransferDetalle> listaTransferDetalle = new List<cTransferDetalle>();
+                    foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+                    {
+                        cTransferDetalle objTransferDetalle = DKbase.web.acceso.ConvertToTransferDetalle(itemTransferDetalle);
+                        objTransferDetalle.CargarTransfer(DKbase.web.acceso.ConvertToTransfer(itemTransferDetalle));
+                        listaTransferDetalle.Add(objTransferDetalle);
+                    }
+                    resultado = DKbase.web.acceso.cargarProductosBuscadorArchivos(pCliente, tablaProductos, tablaSucursalStocks, listaTransferDetalle, DKbase.generales.Constantes.CargarProductosBuscador.isSubirArchivo, pSucursalElejida);
+                    //////////////
+                    foreach (DataRow item in tablaProductosNoEncontrado.Rows)
+                    {
+                        if (item["nombreNoEncontrado"] != DBNull.Value)
+                        {
+                            cProductosGenerico obj = new cProductosGenerico();
+                            obj.isProductoNoEncontrado = true;
+                            obj.pro_codigo = "-1";
+                            if (item["nombreNoEncontrado"] != DBNull.Value)
+                            {
+                                obj.pro_nombre = "<b> Código producto: </b>" + item["nombreNoEncontrado"].ToString();
+                            }
+                            string nombreVer = string.Empty;
+                            if (item.Table.Columns.Contains("codigobarra"))
+                            {
+                                if (item["codigobarra"] != DBNull.Value)
+                                {
+                                    if (item["codigobarra"].ToString() != string.Empty)
+                                    {
+                                        nombreVer += "<b> Código Barra: </b>" + Convert.ToString(item["codigobarra"]);
+                                    }
+                                }
+                            }
+                            if (item.Table.Columns.Contains("troquel"))
+                            {
+                                if (item["troquel"] != DBNull.Value)
+                                {
+                                    if (item["troquel"].ToString() != string.Empty)
+                                    {
+                                        nombreVer += "<b> Troquel: </b>" + Convert.ToString(item["troquel"]);
+                                    }
+                                }
+                            }
+                            if (item.Table.Columns.Contains("codigoalfabeta"))
+                            {
+                                if (item["codigoalfabeta"] != DBNull.Value)
+                                {
+                                    if (item["codigoalfabeta"].ToString() != string.Empty)
+                                    {
+                                        nombreVer += "<b> Código Alfabeta: </b>" + Convert.ToString(item["codigoalfabeta"]);
+                                    }
+                                }
+                            }
+                            if (nombreVer != string.Empty)
+                            {
+                                obj.pro_nombre = nombreVer;
+                            }
+                            if (item.Table.Columns.Contains("cantidad"))
+                            {
+                                if (item["cantidad"] != DBNull.Value)
+                                {
+                                    obj.cantidad = Convert.ToInt32(item["cantidad"]);
+                                }
+                            }
+                            if (item.Table.Columns.Contains("nroordenamiento"))
+                            {
+                                if (item["nroordenamiento"] != DBNull.Value)
+                                {
+                                    obj.nroordenamiento = Convert.ToInt32(item["nroordenamiento"]);
+                                }
+                            }
+                            resultado.Add(obj);
+                        }
 
+                        //}
+
+                    }
+                    //////////////
+                }
+            }
+            return resultado;
+        }
+        public static List<cProductosGenerico> AgregarProductoAlCarritoDesdeArchivoPedidosV5(cClientes pCliente, string pSucursalElejida, string pSucursalCliente, DataTable pTabla, string pTipoDeArchivo, int pIdCliente, string pCli_codprov, bool pCli_isGLN, int? pIdUsuario)
+        {
+            List<cProductosGenerico> resultado = null;
+
+            DataSet DataSetResultado = capaLogRegistro_base.AgregarProductoAlCarritoDesdeArchivoPedidosV5(pSucursalElejida, pSucursalCliente, pTabla, pTipoDeArchivo, pIdCliente, pCli_codprov, pCli_isGLN, pIdUsuario);
+            resultado = DKbase.web.capaDatos.capaCAR_WebService_base.ConvertToProductoBuscadorV5(pCliente, DataSetResultado, pSucursalElejida);
+
+            if (resultado != null)
+            {
+                // TIPO CLIENTE
+                if (pCliente.cli_tipo == Constantes.cTipoCliente_Perfumeria) // Solamente perfumeria
+                {
+                    foreach (var item in resultado.Where(x => x.pro_codtpopro != Constantes.cTIPOPRODUCTO_Perfumeria && x.pro_codtpopro != Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden))
+                    {
+                        item.isPermitirPedirProducto = false;
+                    }
+                }
+                else if (pCliente.cli_tipo == Constantes.cTipoCliente_Todos) // Todos los productos
+                {
+                    if (!pCliente.cli_tomaPerfumeria)
+                    {
+                        foreach (var item in resultado.Where(x => x.pro_codtpopro == Constantes.cTIPOPRODUCTO_Perfumeria || x.pro_codtpopro == Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden))
+                        {
+                            item.isPermitirPedirProducto = false;
+                        }
+                    }
+                }
+                // FIN TIPO CLIENTE
+                resultado = resultado.OrderBy(x => x.nroordenamiento).ToList();
+            }
+
+            return resultado;
+        }
+        public static List<cProductosGenerico> RecuperarTodosProductosDesdeBuscador_OfertaTransfer(cClientes pCliente, string pSucursal, int? pIdCliente, bool pIsOferta, bool pIsTransfer, string pCli_codprov)
+        {
+            List<cProductosGenerico> resultado = null;
+            DataSet dsResultado = null;
+            if (pIsOferta)
+            {
+                dsResultado = capaProductos_base.RecuperarTodosProductosBuscadorEnOferta(pSucursal, pIdCliente, pCli_codprov);
+            }
+            else if (pIsTransfer)
+            {
+                dsResultado = capaProductos_base.RecuperarTodosProductosBuscadorEnTransfer(pSucursal, pIdCliente, pCli_codprov);
+            }
+            if (dsResultado != null)
+            {
+                DataTable tablaProductos = dsResultado.Tables[0];
+                DataTable tablaSucursalStocks = dsResultado.Tables[1];
+                List<cTransferDetalle> listaTransferDetalle = null;
+                if (dsResultado.Tables.Count > 2)
+                {
+                    listaTransferDetalle = new List<cTransferDetalle>();
+                    DataTable tablaTransferDetalle = dsResultado.Tables[2];
+                    foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+                    {
+                        cTransferDetalle objTransferDetalle = DKbase.web.acceso.ConvertToTransferDetalle(itemTransferDetalle);
+                        objTransferDetalle.CargarTransfer(DKbase.web.acceso.ConvertToTransfer(itemTransferDetalle));
+                        listaTransferDetalle.Add(objTransferDetalle);
+                    }
+                }
+                resultado = DKbase.web.acceso.cargarProductosBuscadorArchivos(pCliente, tablaProductos, tablaSucursalStocks, listaTransferDetalle, DKbase.generales.Constantes.CargarProductosBuscador.isDesdeBuscador_OfertaTransfer, null);
+            }
+            if (resultado != null && pIsTransfer)
+                resultado = resultado.Where(x => x.isMostrarTransfersEnClientesPerf).OrderBy(x => x.pro_nombre).ToList();
+
+            return resultado;
+        }
+        public static List<cSucursal> RecuperarTodasSucursales()
+        {
+            List<cSucursal> resultado = null;
+            DataTable tabla = capaClientes_base.RecuperarTodasSucursales();
+            if (tabla != null)
+            {
+                resultado = new List<cSucursal>();
+                for (int i = 0; i < tabla.Rows.Count; i++)
+                {
+                    resultado.Add(DKbase.web.acceso.ConvertToSucursal(tabla.Rows[i]));
+                }
+
+            }
+            return resultado;
+        }
     }
 }

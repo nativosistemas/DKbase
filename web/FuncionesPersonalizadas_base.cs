@@ -429,7 +429,7 @@ namespace DKbase.web
             }
             return result;
         }
-        public static cjSonBuscadorProductos RecuperarProductosGeneral_V3(cClientes pClientes, int? pIdOferta, string pTxtBuscador, List<string> pListaColumna, bool pIsOrfeta, bool pIsTransfer)
+        public static cjSonBuscadorProductos RecuperarProductosGeneral_V3(List<string> l_Sucursales ,cClientes pClientes, int? pIdOferta, string pTxtBuscador, List<string> pListaColumna, bool pIsOrfeta, bool pIsTransfer)
         {
             cjSonBuscadorProductos resultado = null;
             if (pClientes != null)
@@ -474,12 +474,12 @@ namespace DKbase.web
                     //}
 
                     // Inicio 17/02/2016
-                    List<string> ListaSucursal = RecuperarSucursalesParaBuscadorDeCliente(pClientes);
-                    listaProductosBuscador = ActualizarStockListaProductos(pClientes, ListaSucursal, listaProductosBuscador);
+                   // List<string> ListaSucursal =  RecuperarSucursalesParaBuscadorDeCliente(pClientes);
+                    listaProductosBuscador = ActualizarStockListaProductos(pClientes, l_Sucursales, listaProductosBuscador);
                     // Fin 17/02/2016
 
                     cjSonBuscadorProductos ResultadoObj = new cjSonBuscadorProductos();
-                    ResultadoObj.listaSucursal = ListaSucursal;
+                    ResultadoObj.listaSucursal = l_Sucursales;
                     ResultadoObj.listaProductos = listaProductosBuscador;
                     resultado = ResultadoObj;
                 }
@@ -704,6 +704,82 @@ namespace DKbase.web
                 }
             }
             return pTablaDetalle;
+        }
+        public static cjSonBuscadorProductos RecuperarProductosGeneral_OfertaTransfer(List<string> l_Sucursales,cClientes pClientes, bool pIsOrfeta, bool pIsTransfer)
+        {
+            cjSonBuscadorProductos resultado = null;
+
+                List<cProductosGenerico> listaProductosBuscador = listaProductosBuscador = capaCAR_WebService_base.RecuperarTodosProductosDesdeBuscador_OfertaTransfer(pClientes, pClientes.cli_codsuc, pClientes.cli_codigo, pIsOrfeta, pIsTransfer, pClientes.cli_codprov);
+                if (listaProductosBuscador != null)
+                {
+                    // TIPO CLIENTE
+                    if (pClientes.cli_tipo == Constantes.cTipoCliente_Perfumeria) // Solamente perfumeria
+                    {
+                        listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro == Constantes.cTIPOPRODUCTO_Perfumeria || x.pro_codtpopro == Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
+                    }
+                    else if (pClientes.cli_tipo == Constantes.cTipoCliente_Todos) // Todos los productos
+                    {
+                        // Si el cliente no toma perfumeria
+                        if (!pClientes.cli_tomaPerfumeria)
+                        {
+                            listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro != Constantes.cTIPOPRODUCTO_Perfumeria && x.pro_codtpopro != Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
+                        }
+                        // fin Si el cliente no toma perfumeria
+                    }
+                // FIN TIPO CLIENTE
+
+                    //List<string> ListaSucursal = DKbase.web.FuncionesPersonalizadas_base.RecuperarSucursalesParaBuscadorDeCliente(pClientes);
+                    listaProductosBuscador = ActualizarStockListaProductos(pClientes , l_Sucursales, listaProductosBuscador);
+
+                    // Fin 17/02/2016
+                    cjSonBuscadorProductos ResultadoObj = new cjSonBuscadorProductos();
+                    ResultadoObj.listaSucursal = l_Sucursales;
+                    ResultadoObj.listaProductos = listaProductosBuscador;
+                    resultado = ResultadoObj;
+                }
+            
+            return resultado;
+        }
+        public static List<cProductosGenerico> ActualizarStockListaProductos_SubirArchico(cClientes pCliente, List<string> pListaSucursal, List<cProductosGenerico> pListaProductos, string pSucursalElegida)
+        {
+                pListaProductos = ActualizarStockListaProductos(pCliente, pListaSucursal, pListaProductos);
+                List<DKbase.web.cSucursal> listaSucursal = capaCAR_WebService_base.RecuperarTodasSucursales();
+                bool trabajaPerfumeria = true;
+                for (int i = 0; i < listaSucursal.Count; i++)
+                {
+                    if (listaSucursal[i].suc_codigo == pSucursalElegida)
+                    {
+                        trabajaPerfumeria = listaSucursal[i].suc_trabajaPerfumeria;
+                    }
+                }
+                string sucElegida = pSucursalElegida;
+                bool isActualizar = false;
+                if (pCliente.cli_codrep == "S7")
+                    isActualizar = true;
+                else if (pCliente.cli_IdSucursalAlternativa != null)
+                    isActualizar = true;
+                if (isActualizar || !trabajaPerfumeria)
+                {
+                    for (int i = 0; i < pListaProductos.Count; i++)
+                    {
+                        if (pListaProductos[i].pro_codtpopro == "P" && !trabajaPerfumeria)
+                        {
+                            sucElegida = "CC";
+                        }
+                        else
+                        {
+                            sucElegida = pSucursalElegida;
+                        }
+                        foreach (cSucursalStocks item in pListaProductos[i].listaSucursalStocks)
+                        {
+                            if (item.stk_codsuc == sucElegida)
+                            {
+                                item.cantidadSucursal = pListaProductos[i].cantidad;
+                            }
+                        }
+                    }
+                }
+            return pListaProductos;
         }
     }
 

@@ -1125,7 +1125,7 @@ namespace DKbase.web
         public static cProductos ConvertToProductosImagen(DataRow pItem)
         {
             cProductos obj = new cProductos();
-            if (pItem["pro_codigo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("pro_codigo") && pItem["pro_codigo"] != DBNull.Value)
             {
                 obj.pro_codigo = Convert.ToString(pItem["pro_codigo"]);
             }
@@ -1230,6 +1230,17 @@ namespace DKbase.web
                 obj.suc_trabajaPerfumeria = Convert.ToBoolean(pItem["suc_trabajaPerfumeria"]);
             }
             return obj;
+        }
+        public static cProductos RecuperarNombreArchivoPorCodigoProducto(string pPri_codigo)
+        {
+            cProductos resultado = null;
+            DataTable tabla = capaProductos_base.spRecuperarNombreArchivoPorCodigoProducto(pPri_codigo);
+            if (tabla != null && tabla.Rows.Count > 0)
+            {
+                cProductos obj = acceso.ConvertToProductosImagen(tabla.Rows[0]);
+                resultado = obj;
+            }
+            return resultado;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DKbase.generales;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -399,6 +400,13 @@ namespace DKbase.web.capaDatos
                     Conn.Close();
                 }
             }
+        }
+        public static DataTable spRecuperarNombreArchivoPorCodigoProducto(string pPri_codigo)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("pri_codigo", pPri_codigo));
+            return db.GetDataTable("Productos.spRecuperarNombreArchivoPorCodigoProducto", l);
         }
     }
 }

@@ -21,26 +21,12 @@ namespace DKbase.web
                     switch (pPro_codtpopro)
                     {
                         case "M": // medicamento
-                            if (pClientes.cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto == null)
-                            {
-                                resultado = resultado * (Convert.ToDecimal(1) - (pClientes.cli_pordesbetmed / Convert.ToDecimal(100)));
-                            }
-                            else
-                            {
-                                resultado = getPrecioConDescuentoTransfer(pTde_PrecioConDescuentoDirecto, pTde_PorcARestarDelDtoDeCliente, pClientes.cli_pordesbetmed);
-                            }
+                            resultado = getPrecioConDescuentoTransfer(pTde_PrecioConDescuentoDirecto, pTde_PorcARestarDelDtoDeCliente, pClientes.cli_pordesbetmed);
                             break;
                         case "P": // Perfumeria
                         case "A": // Accesorio
                         case "V": // Accesorio
-                            if (pClientes.cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto == null)
-                            {
-                                resultado = resultado * (Convert.ToDecimal(1) - (pClientes.cli_pordesnetos / Convert.ToDecimal(100)));
-                            }
-                            else
-                            {
-                                resultado = getPrecioConDescuentoTransfer(pTde_PrecioConDescuentoDirecto, pTde_PorcARestarDelDtoDeCliente, pClientes.cli_pordesnetos);
-                            }
+                            resultado = getPrecioConDescuentoTransfer(pTde_PrecioConDescuentoDirecto, pTde_PorcARestarDelDtoDeCliente, pClientes.cli_pordesnetos);
                             break;
                         default:
                             break;
@@ -48,58 +34,7 @@ namespace DKbase.web
                 }
                 else
                 {  // No neto   
-                    if (pClientes.cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto == null)
-                    {
-                        resultado = resultado * (Convert.ToDecimal(1) - (pClientes.cli_pordesespmed / Convert.ToDecimal(100)));
-                    }
-                    else
-                    {
-                        resultado = getPrecioConDescuentoTransfer(pTde_PrecioConDescuentoDirecto, pTde_PorcARestarDelDtoDeCliente, pClientes.cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto.Value);
-                    }
-                }
-            }
-            if (pPro_neto)
-            {   // Neto        
-                switch (pPro_codtpopro)
-                {
-                    case "M": // medicamento
-                        if (pClientes.cli_deswebnetmed)
-                        {
-                            resultado = resultado * (Convert.ToDecimal(1) - (pPro_descuentoweb / Convert.ToDecimal(100)));
-                        }
-                        break;
-                    case "P": // Perfumeria
-                        if (pClientes.cli_deswebnetperpropio)
-                        {
-                            resultado = resultado * (Convert.ToDecimal(1) - (pPro_descuentoweb / Convert.ToDecimal(100)));
-                        }
-                        break;
-                    case "A": // Accesorio
-                        if (pClientes.cli_deswebnetacc)
-                        {
-                        }
-                        break;
-                    case "V": // Accesorio
-                        if (pClientes.cli_deswebnetacc)
-                        {
-                            resultado = resultado * (Convert.ToDecimal(1) - (pPro_descuentoweb / Convert.ToDecimal(100)));
-                        }
-                        break;
-                    case "F": // Perfumería Cuenta y Orden
-                        if (pClientes.cli_deswebnetpercyo)
-                        {
-                            resultado = resultado * (Convert.ToDecimal(1) - (pPro_descuentoweb / Convert.ToDecimal(100)));
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {  // No neto      
-                if (pClientes.cli_deswebespmed)
-                {
-                    resultado = resultado * (Convert.ToDecimal(1) - (pPro_descuentoweb / Convert.ToDecimal(100)));
+                    resultado = getPrecioConDescuentoTransfer(pTde_PrecioConDescuentoDirecto, pTde_PorcARestarDelDtoDeCliente, pClientes.cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto);
                 }
             }
             if (pTfr_pordesadi != null)
@@ -142,10 +77,9 @@ namespace DKbase.web
             }
             return resultado;
         }
-        private static decimal getPrecioBaseConDescuento(cProductos pProductos, decimal? pDescuentoRestar)
+        private static decimal getPrecioBaseConDescuento(cProductos pProductos, decimal pDescuentoRestar)
         {
-            decimal descuentoRestarTemp = pDescuentoRestar == null ? 0 : pDescuentoRestar.Value;
-            decimal descuento = descuentoRestarTemp - pProductos.pro_PorcARestarDelDtoDeCliente;
+            decimal descuento = pDescuentoRestar - pProductos.pro_PorcARestarDelDtoDeCliente;
             if (descuento < 0)
                 descuento = 0;
             decimal resultado = pProductos.pro_PrecioBase;
@@ -429,7 +363,7 @@ namespace DKbase.web
             }
             return result;
         }
-        public static cjSonBuscadorProductos RecuperarProductosGeneral_V3(List<string> l_Sucursales ,cClientes pClientes, int? pIdOferta, string pTxtBuscador, List<string> pListaColumna, bool pIsOrfeta, bool pIsTransfer)
+        public static cjSonBuscadorProductos RecuperarProductosGeneral_V3(List<string> l_Sucursales, cClientes pClientes, int? pIdOferta, string pTxtBuscador, List<string> pListaColumna, bool pIsOrfeta, bool pIsTransfer)
         {
             cjSonBuscadorProductos resultado = null;
             if (pClientes != null)
@@ -474,7 +408,7 @@ namespace DKbase.web
                     //}
 
                     // Inicio 17/02/2016
-                   // List<string> ListaSucursal =  RecuperarSucursalesParaBuscadorDeCliente(pClientes);
+                    // List<string> ListaSucursal =  RecuperarSucursalesParaBuscadorDeCliente(pClientes);
                     listaProductosBuscador = ActualizarStockListaProductos(pClientes, l_Sucursales, listaProductosBuscador);
                     // Fin 17/02/2016
 
@@ -652,17 +586,17 @@ namespace DKbase.web
         public static List<cProductos> ObtenerProductosImagenes()
         {
             List<cProductos> resultado = null;
-                DataTable tabla = capaProductos_base.ObtenerProductosImagenes();
-                if (tabla != null)
+            DataTable tabla = capaProductos_base.ObtenerProductosImagenes();
+            if (tabla != null)
+            {
+                resultado = new List<cProductos>();
+                foreach (DataRow item in tabla.Rows)
                 {
-                    resultado = new List<cProductos>();
-                    foreach (DataRow item in tabla.Rows)
-                    {
-                        cProductos obj = acceso.ConvertToProductosImagen(item);
-                        if (obj != null)
-                            resultado.Add(obj);
-                    }
-                }            
+                    cProductos obj = acceso.ConvertToProductosImagen(item);
+                    if (obj != null)
+                        resultado.Add(obj);
+                }
+            }
             return resultado;
         }
         public static List<cProductosGenerico> ActualizarStockListaProductos(cClientes pClientes, List<string> pListaSucursal, List<cProductosGenerico> pListaProductos)
@@ -705,80 +639,80 @@ namespace DKbase.web
             }
             return pTablaDetalle;
         }
-        public static cjSonBuscadorProductos RecuperarProductosGeneral_OfertaTransfer(List<string> l_Sucursales,cClientes pClientes, bool pIsOrfeta, bool pIsTransfer)
+        public static cjSonBuscadorProductos RecuperarProductosGeneral_OfertaTransfer(List<string> l_Sucursales, cClientes pClientes, bool pIsOrfeta, bool pIsTransfer)
         {
             cjSonBuscadorProductos resultado = null;
 
-                List<cProductosGenerico> listaProductosBuscador = listaProductosBuscador = capaCAR_WebService_base.RecuperarTodosProductosDesdeBuscador_OfertaTransfer(pClientes, pClientes.cli_codsuc, pClientes.cli_codigo, pIsOrfeta, pIsTransfer, pClientes.cli_codprov);
-                if (listaProductosBuscador != null)
+            List<cProductosGenerico> listaProductosBuscador = listaProductosBuscador = capaCAR_WebService_base.RecuperarTodosProductosDesdeBuscador_OfertaTransfer(pClientes, pClientes.cli_codsuc, pClientes.cli_codigo, pIsOrfeta, pIsTransfer, pClientes.cli_codprov);
+            if (listaProductosBuscador != null)
+            {
+                // TIPO CLIENTE
+                if (pClientes.cli_tipo == Constantes.cTipoCliente_Perfumeria) // Solamente perfumeria
                 {
-                    // TIPO CLIENTE
-                    if (pClientes.cli_tipo == Constantes.cTipoCliente_Perfumeria) // Solamente perfumeria
+                    listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro == Constantes.cTIPOPRODUCTO_Perfumeria || x.pro_codtpopro == Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
+                }
+                else if (pClientes.cli_tipo == Constantes.cTipoCliente_Todos) // Todos los productos
+                {
+                    // Si el cliente no toma perfumeria
+                    if (!pClientes.cli_tomaPerfumeria)
                     {
-                        listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro == Constantes.cTIPOPRODUCTO_Perfumeria || x.pro_codtpopro == Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
+                        listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro != Constantes.cTIPOPRODUCTO_Perfumeria && x.pro_codtpopro != Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
                     }
-                    else if (pClientes.cli_tipo == Constantes.cTipoCliente_Todos) // Todos los productos
-                    {
-                        // Si el cliente no toma perfumeria
-                        if (!pClientes.cli_tomaPerfumeria)
-                        {
-                            listaProductosBuscador = listaProductosBuscador.Where(x => x.pro_codtpopro != Constantes.cTIPOPRODUCTO_Perfumeria && x.pro_codtpopro != Constantes.cTIPOPRODUCTO_PerfumeriaCuentaYOrden).ToList();
-                        }
-                        // fin Si el cliente no toma perfumeria
-                    }
+                    // fin Si el cliente no toma perfumeria
+                }
                 // FIN TIPO CLIENTE
 
-                    //List<string> ListaSucursal = DKbase.web.FuncionesPersonalizadas_base.RecuperarSucursalesParaBuscadorDeCliente(pClientes);
-                    listaProductosBuscador = ActualizarStockListaProductos(pClientes , l_Sucursales, listaProductosBuscador);
+                //List<string> ListaSucursal = DKbase.web.FuncionesPersonalizadas_base.RecuperarSucursalesParaBuscadorDeCliente(pClientes);
+                listaProductosBuscador = ActualizarStockListaProductos(pClientes, l_Sucursales, listaProductosBuscador);
 
-                    // Fin 17/02/2016
-                    cjSonBuscadorProductos ResultadoObj = new cjSonBuscadorProductos();
-                    ResultadoObj.listaSucursal = l_Sucursales;
-                    ResultadoObj.listaProductos = listaProductosBuscador;
-                    resultado = ResultadoObj;
-                }
-            
+                // Fin 17/02/2016
+                cjSonBuscadorProductos ResultadoObj = new cjSonBuscadorProductos();
+                ResultadoObj.listaSucursal = l_Sucursales;
+                ResultadoObj.listaProductos = listaProductosBuscador;
+                resultado = ResultadoObj;
+            }
+
             return resultado;
         }
         public static List<cProductosGenerico> ActualizarStockListaProductos_SubirArchico(cClientes pCliente, List<string> pListaSucursal, List<cProductosGenerico> pListaProductos, string pSucursalElegida)
         {
-                pListaProductos = ActualizarStockListaProductos(pCliente, pListaSucursal, pListaProductos);
-                List<DKbase.web.cSucursal> listaSucursal = capaCAR_WebService_base.RecuperarTodasSucursales();
-                bool trabajaPerfumeria = true;
-                for (int i = 0; i < listaSucursal.Count; i++)
+            pListaProductos = ActualizarStockListaProductos(pCliente, pListaSucursal, pListaProductos);
+            List<DKbase.web.cSucursal> listaSucursal = capaCAR_WebService_base.RecuperarTodasSucursales();
+            bool trabajaPerfumeria = true;
+            for (int i = 0; i < listaSucursal.Count; i++)
+            {
+                if (listaSucursal[i].suc_codigo == pSucursalElegida)
                 {
-                    if (listaSucursal[i].suc_codigo == pSucursalElegida)
+                    trabajaPerfumeria = listaSucursal[i].suc_trabajaPerfumeria;
+                }
+            }
+            string sucElegida = pSucursalElegida;
+            bool isActualizar = false;
+            if (pCliente.cli_codrep == "S7")
+                isActualizar = true;
+            else if (pCliente.cli_IdSucursalAlternativa != null)
+                isActualizar = true;
+            if (isActualizar || !trabajaPerfumeria)
+            {
+                for (int i = 0; i < pListaProductos.Count; i++)
+                {
+                    if (pListaProductos[i].pro_codtpopro == "P" && !trabajaPerfumeria)
                     {
-                        trabajaPerfumeria = listaSucursal[i].suc_trabajaPerfumeria;
+                        sucElegida = "CC";
+                    }
+                    else
+                    {
+                        sucElegida = pSucursalElegida;
+                    }
+                    foreach (cSucursalStocks item in pListaProductos[i].listaSucursalStocks)
+                    {
+                        if (item.stk_codsuc == sucElegida)
+                        {
+                            item.cantidadSucursal = pListaProductos[i].cantidad;
+                        }
                     }
                 }
-                string sucElegida = pSucursalElegida;
-                bool isActualizar = false;
-                if (pCliente.cli_codrep == "S7")
-                    isActualizar = true;
-                else if (pCliente.cli_IdSucursalAlternativa != null)
-                    isActualizar = true;
-                if (isActualizar || !trabajaPerfumeria)
-                {
-                    for (int i = 0; i < pListaProductos.Count; i++)
-                    {
-                        if (pListaProductos[i].pro_codtpopro == "P" && !trabajaPerfumeria)
-                        {
-                            sucElegida = "CC";
-                        }
-                        else
-                        {
-                            sucElegida = pSucursalElegida;
-                        }
-                        foreach (cSucursalStocks item in pListaProductos[i].listaSucursalStocks)
-                        {
-                            if (item.stk_codsuc == sucElegida)
-                            {
-                                item.cantidadSucursal = pListaProductos[i].cantidad;
-                            }
-                        }
-                    }
-                }
+            }
             return pListaProductos;
         }
     }

@@ -58,7 +58,7 @@ namespace DKbase.web.capaDatos
         private bool _cli_AceptaPsicotropicos = true;
         public bool cli_AceptaPsicotropicos { get { return _cli_AceptaPsicotropicos; } set { _cli_AceptaPsicotropicos = value; } }
         public string cli_promotor { get; set; }
-        public decimal? cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto { get; set; }
+        public decimal cli_PorcentajeDescuentoDeEspecialidadesMedicinalesDirecto { get; set; }
         public string cli_GrupoCliente { get; set; }
         public string cli_NumeroCentralTelefonica { get; set; }
 }

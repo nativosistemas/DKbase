@@ -680,8 +680,8 @@ namespace DKbase.web
 
                         //if ( pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeTabla || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)
                         //{
-                            obj.PrecioFinal = FuncionesPersonalizadas_base.ObtenerPrecioFinal(pCliente, obj);
-                            obj.PrecioConDescuentoOferta = FuncionesPersonalizadas_base.ObtenerPrecioUnitarioConDescuentoOferta(obj.PrecioFinal, obj);
+                        obj.PrecioFinal = FuncionesPersonalizadas_base.ObtenerPrecioFinal(pCliente, obj);
+                        obj.PrecioConDescuentoOferta = FuncionesPersonalizadas_base.ObtenerPrecioUnitarioConDescuentoOferta(obj.PrecioFinal, obj);
                         //}
                         if (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)
                         {
@@ -1240,6 +1240,101 @@ namespace DKbase.web
                 cProductos obj = acceso.ConvertToProductosImagen(tabla.Rows[0]);
                 resultado = obj;
             }
+            return resultado;
+        }
+        public static bool BorrarPorProductosFaltasProblemasCrediticiosV3(List<cProductosAndCantidad> pListaProducto, string fpc_codSucursal, int fpc_codCliente, int fpc_tipo, int pCantidadDia)
+        {
+            DataTable pTablaDetalle = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
+            if (pListaProducto.Count > 0)
+            {
+                foreach (cProductosAndCantidad itemProductosAndCantidad in pListaProducto)
+                {
+                    DataRow fila = pTablaDetalle.NewRow();
+                    fila["codProducto"] = itemProductosAndCantidad.codProductoNombre;
+                    fila["cantidad"] = itemProductosAndCantidad.cantidad;
+                    pTablaDetalle.Rows.Add(fila);
+                }
+            }
+
+            return capaLogRegistro_base.BorrarPorProductosFaltasProblemasCrediticiosV3(pTablaDetalle, fpc_codSucursal, fpc_codCliente, fpc_tipo, pCantidadDia);
+        }
+        public static bool AgregarProductosDelRecuperardorAlCarrito(cClientes pCliente, Usuario pUsuario, string pSucursal, string[] pArrayNombreProducto, int[] pArrayCantidad, bool[] pArrayOferta,int pRecuperador_Tipo,int pRecuperador_CantidadDia)
+        {
+            List<cProductosAndCantidad> listaAUX = new List<cProductosAndCantidad>();
+            for (int i = 0; i < pArrayNombreProducto.Count(); i++)
+            {
+                cProductosAndCantidad obj = new cProductosAndCantidad();
+                obj.cantidad = pArrayCantidad[i];
+                obj.codProductoNombre = pArrayNombreProducto[i];
+                listaAUX.Add(obj);
+            }
+            List<cProductosGenerico> listaProductos = RecuperarTodosProductosDesdeTabla(pCliente, listaAUX, pCliente.cli_codsuc, pCliente.cli_codprov, pCliente.cli_codigo);
+            List<cProductosAndCantidad> listaProductos_capaCAR = new List<cProductosAndCantidad>();
+            for (int i = 0; i < pArrayNombreProducto.Count(); i++)
+            {
+                cProductosGenerico objProducto = listaProductos.Where(x => x.pro_nombre == pArrayNombreProducto[i]).First();
+                int cantidad = pArrayCantidad[i];
+                int cantidadTotalMasBD = cantidad;
+                List<int> listaCantidades = FuncionesPersonalizadas_base.CargarProductoCantidadDependiendoTransfer(pCliente, objProducto, cantidadTotalMasBD);
+
+                cProductosAndCantidad objProductosAndCantidad = new cProductosAndCantidad();
+                objProductosAndCantidad.codProductoNombre = objProducto.pro_nombre;
+                objProductosAndCantidad.codProducto = objProducto.pro_codigo;
+                objProductosAndCantidad.codSucursal = pSucursal;
+                objProductosAndCantidad.cantidad = listaCantidades[0];
+                objProductosAndCantidad.isTransferFacturacionDirecta = false;
+                listaProductos_capaCAR.Add(objProductosAndCantidad);
+
+
+
+                cProductosAndCantidad objProductosAndCantidad_transfer = new cProductosAndCantidad();
+                objProductosAndCantidad_transfer.codProductoNombre = objProducto.pro_nombre;
+                objProductosAndCantidad_transfer.codProducto = objProducto.pro_codigo;
+                objProductosAndCantidad_transfer.codSucursal = pSucursal;
+                objProductosAndCantidad_transfer.cantidad = listaCantidades[1];
+                objProductosAndCantidad_transfer.isTransferFacturacionDirecta = true;
+                objProductosAndCantidad_transfer.tde_codtfr = objProducto.tde_codtfr;
+                listaProductos_capaCAR.Add(objProductosAndCantidad_transfer);
+
+            }
+            DKbase.web.acceso.BorrarPorProductosFaltasProblemasCrediticiosV3(listaAUX, pSucursal, pCliente.cli_codigo, pRecuperador_Tipo, pRecuperador_CantidadDia);
+
+            return capaCAR_WebService_base.ActualizarProductoCarritoSubirArchivo(listaProductos_capaCAR, pCliente.cli_codigo, pUsuario.id);
+        }
+        public static List<cProductosGenerico> RecuperarTodosProductosDesdeTabla(cClientes pCliente, List<cProductosAndCantidad> pListaProducto, string pSucursalPerteneciente, string pCli_codprov, int pCli_codigo)
+        {
+            List<cProductosGenerico> resultado = null;
+     
+                DataSet dsResultado = null;
+                DataTable pTablaDetalle = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
+  
+                if (pListaProducto.Count > 0)
+                {
+                    foreach (cProductosAndCantidad itemProductosAndCantidad in pListaProducto)
+                    {
+                        DataRow fila = pTablaDetalle.NewRow();
+                        fila["codProducto"] = itemProductosAndCantidad.codProductoNombre;
+                        fila["cantidad"] = itemProductosAndCantidad.cantidad;
+                        pTablaDetalle.Rows.Add(fila);
+                    }
+                }
+                dsResultado = capaProductos_base.RecuperarProductosDesdeTabla(pTablaDetalle, pSucursalPerteneciente, pCli_codprov, pCli_codigo);
+                if (dsResultado != null)
+                {
+                    DataTable tablaProductos = dsResultado.Tables[0];
+                    DataTable tablaSucursalStocks = dsResultado.Tables[1];
+                    List<cTransferDetalle> listaTransferDetalle = null;
+                    listaTransferDetalle = new List<cTransferDetalle>();
+                    DataTable tablaTransferDetalle = dsResultado.Tables[2];
+                    foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+                    {
+                        cTransferDetalle objTransferDetalle = ConvertToTransferDetalle(itemTransferDetalle);
+                        objTransferDetalle.CargarTransfer(ConvertToTransfer(itemTransferDetalle));
+                        listaTransferDetalle.Add(objTransferDetalle);
+                    }
+                    resultado = DKbase.web.acceso.cargarProductosBuscadorArchivos(pCliente, tablaProductos, tablaSucursalStocks, listaTransferDetalle, DKbase.generales.Constantes.CargarProductosBuscador.isDesdeTabla, null);
+                }
+            
             return resultado;
         }
     }

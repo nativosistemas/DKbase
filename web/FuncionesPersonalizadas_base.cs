@@ -715,6 +715,201 @@ namespace DKbase.web
             }
             return pListaProductos;
         }
+        public static DataTable ObtenerDataTableProductosCarritoArchivosPedidos()
+        {
+            DataTable pTablaDetalle = new DataTable();
+            pTablaDetalle.Columns.Add(new DataColumn("codProducto", System.Type.GetType("System.String")));
+            pTablaDetalle.Columns.Add(new DataColumn("codigobarra", System.Type.GetType("System.String")));
+            pTablaDetalle.Columns.Add(new DataColumn("codigoalfabeta", System.Type.GetType("System.String")));
+            pTablaDetalle.Columns.Add(new DataColumn("troquel", System.Type.GetType("System.String")));
+            pTablaDetalle.Columns.Add(new DataColumn("cantidad", System.Type.GetType("System.Int32")));
+            pTablaDetalle.Columns.Add(new DataColumn("nroordenamiento", System.Type.GetType("System.Int32")));
+            return pTablaDetalle;
+        }
+        public static List<int> CargarProductoCantidadDependiendoTransfer(cClientes pCliente, cProductosGenerico pProducto, int pCantidad)
+        {
+            List<int> resultado = new List<int>();
+            bool isPasarDirectamente = false;
+            int cantidadCarritoTransfer = 0;
+            int cantidadCarritoComun = 0;
+
+            if (pProducto.isProductoFacturacionDirecta)
+            { // facturacion directa
+              // Combiene transfer o promocion                      
+                decimal precioConDescuentoDependiendoCantidad = ObtenerPrecioUnitarioConDescuentoOfertaSiLlegaConLaCantidad(pCliente ,pProducto, pCantidad);
+                if (precioConDescuentoDependiendoCantidad > pProducto.PrecioFinalTransfer)
+                {
+                    var isSumarTransfer = false;
+                    if (pProducto.tde_muluni != null && pProducto.tde_unidadesbonificadas != null)
+                    {
+                        /// UNIDAD MULTIPLO Y BONIFICADA
+                        if ((pCantidad >= (int)pProducto.tde_muluni) && (pCantidad <= ((int)pProducto.tde_muluni + (int)pProducto.tde_unidadesbonificadas)))
+                        {
+                            // es multiplo
+                            isSumarTransfer = true;
+                            cantidadCarritoTransfer = (int)pProducto.tde_muluni + (int)pProducto.tde_unidadesbonificadas;
+                        }
+                        else if (pCantidad > ((int)pProducto.tde_muluni + (int)pProducto.tde_unidadesbonificadas))
+                        {
+                            isSumarTransfer = true;
+                            int cantidadMultiplicar = Convert.ToInt32(Math.Truncate(Convert.ToDouble(pCantidad) / Convert.ToDouble(pProducto.tde_muluni)));
+                            cantidadCarritoTransfer = cantidadMultiplicar * ((int)pProducto.tde_muluni + (int)pProducto.tde_unidadesbonificadas);
+                            //
+                            for (int iCantMulti = 0; iCantMulti < cantidadMultiplicar; iCantMulti++)
+                            {
+                                int cantTemp = iCantMulti * ((int)pProducto.tde_muluni + (int)pProducto.tde_unidadesbonificadas);
+                                if (cantTemp >= pCantidad)
+                                {
+                                    cantidadCarritoTransfer = cantTemp;
+                                    break;
+                                }
+                            }
+                            //
+                            if (cantidadCarritoTransfer == pCantidad)
+                            {
+
+                            }
+                            else
+                            {
+                                if (pCantidad < cantidadCarritoTransfer)
+                                {
+                                    cantidadCarritoComun = 0;
+                                }
+                                else
+                                {
+                                    cantidadCarritoComun = pCantidad - cantidadCarritoTransfer;
+                                }
+                                if ((cantidadCarritoComun >= (int)pProducto.tde_muluni) && (cantidadCarritoComun <= ((int)pProducto.tde_muluni + (int)pProducto.tde_unidadesbonificadas)))
+                                {
+                                    cantidadCarritoTransfer += (int)pProducto.tde_muluni + (int)pProducto.tde_unidadesbonificadas;
+                                    cantidadCarritoComun = 0;
+                                }
+                            }
+                        }
+                        if (isSumarTransfer)
+                        {
+
+                        }
+                        else
+                        {
+                            isPasarDirectamente = true;
+                        }
+                        /// FIN UNIDAD MULTIPLO Y BONIFICADA
+                    } // fin if (listaProductosBuscados[pFila].tde_muluni != null && listaProductosBuscados[pFila].tde_unidadesbonificadas != null){
+                    else if (pProducto.tde_fijuni != null)
+                    {
+                        // UNIDAD FIJA
+                        if (pCantidad == (int)pProducto.tde_fijuni)
+                        {
+                            isSumarTransfer = true;
+                            cantidadCarritoTransfer = (int)pProducto.tde_fijuni;
+                        }
+                        else if (pCantidad > (int)pProducto.tde_fijuni)
+                        {
+                            isSumarTransfer = true;
+                            cantidadCarritoTransfer = (int)pProducto.tde_fijuni;
+                            cantidadCarritoComun = pCantidad - (int)pProducto.tde_fijuni;
+                        }
+                        if (isSumarTransfer)
+                        {
+
+                        }
+                        else
+                        {
+                            isPasarDirectamente = true;
+                        }
+                        // FIN UNIDAD FIJA
+                    }
+                    else if (pProducto.tde_minuni != null && pProducto.tde_maxuni != null)
+                    {
+                        // UNIDAD MAXIMA Y MINIMA
+                        if ((int)pProducto.tde_minuni <= pCantidad && (int)pProducto.tde_maxuni >= pCantidad)
+                        {
+                            isSumarTransfer = true;
+                            cantidadCarritoTransfer = pCantidad;
+                        }
+                        else if ((int)pProducto.tde_maxuni < pCantidad)
+                        {
+                            isSumarTransfer = true;
+                            cantidadCarritoTransfer = (int)pProducto.tde_maxuni;
+                            cantidadCarritoComun = pCantidad - (int)pProducto.tde_maxuni;
+                        }
+                        if (isSumarTransfer)
+                        {
+
+                        }
+                        else
+                        {
+                            isPasarDirectamente = true;
+                        }
+                        // FIN UNIDAD MAXIMA Y MINIMA
+                    }
+                    else if (pProducto.tde_minuni != null)
+                    {
+                        // UNIDAD MINIMA
+                        if ((int)pProducto.tde_minuni <= pCantidad)
+                        {
+                            isSumarTransfer = true;
+                            cantidadCarritoTransfer = pCantidad;
+                        }
+                        if (isSumarTransfer)
+                        {
+
+                        }
+                        else
+                        {
+                            isPasarDirectamente = true;
+                        }
+                        // FIN UNIDAD MINIMA
+                    }
+                } // fin if (listaProductosBuscados[pFila].PrecioConDescuentoOferta > listaProductosBuscados[pFila].PrecioFinalTransfer){
+                else
+                {
+                    isPasarDirectamente = true;
+                }
+            }
+            else
+            {
+                isPasarDirectamente = true;
+            }
+            if (isPasarDirectamente)
+            {
+                cantidadCarritoComun = pCantidad;
+            }
+            resultado.Add(cantidadCarritoComun);
+            resultado.Add(cantidadCarritoTransfer);
+            return resultado;
+        }
+        public static decimal ObtenerPrecioUnitarioConDescuentoOfertaSiLlegaConLaCantidad(cClientes pCliente, cProductosGenerico pProductos, int pCantidad)
+        {
+            decimal resultado = Convert.ToDecimal(0);
+            bool isClienteTomaOferta = false;
+            isClienteTomaOferta = pCliente.cli_tomaOfertas;
+            if (isClienteTomaOferta)
+            {
+                if (pProductos.pro_ofeunidades == 0 || pProductos.pro_ofeporcentaje == 0)
+                {
+                    resultado = pProductos.PrecioFinal;
+                }
+                else
+                {
+                    if (pProductos.pro_ofeunidades > pCantidad)
+                    {
+                        resultado = pProductos.PrecioFinal;
+                    }
+                    else
+                    {
+                        resultado = pProductos.PrecioFinal * (Convert.ToDecimal(1) - (pProductos.pro_ofeporcentaje / Convert.ToDecimal(100)));
+                    }
+                }
+            }
+            else
+            {
+                // Cliente si permiso para tomar oferta
+                resultado = pProductos.PrecioFinal;
+            }
+            return resultado;
+        }
     }
 
 }

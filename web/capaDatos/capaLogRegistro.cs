@@ -76,5 +76,52 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static bool BorrarPorProductosFaltasProblemasCrediticiosV3(DataTable pTablaProducto, string fpc_codSucursal, int fpc_codCliente, int fpc_tipo, int pCantidadDia)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spBorrarPorProductosFaltasProblemasCrediticiosV3", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paTablaProductos = cmdComandoInicio.Parameters.Add("@Tabla_Detalle", SqlDbType.Structured);
+            SqlParameter paCodSucursal = cmdComandoInicio.Parameters.Add("@fpc_codSucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paCodCliente = cmdComandoInicio.Parameters.Add("@fpc_codCliente", SqlDbType.Int);
+            SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@fpc_tipo", SqlDbType.Int);
+            //SqlParameter paFpc_nombreProducto = cmdComandoInicio.Parameters.Add("@fpc_nombreProducto", SqlDbType.NVarChar, 75);
+            SqlParameter paCantidadDia = cmdComandoInicio.Parameters.Add("@cantidadDia", SqlDbType.Int);
+           // SqlParameter paCantidadProductoGrabarNuevo = cmdComandoInicio.Parameters.Add("@cantidadProductoGrabarNuevo", SqlDbType.Int);
+
+            if (pTablaProducto == null)
+            {
+                paTablaProductos.Value = DBNull.Value;
+            }
+            else
+            {
+                paTablaProductos.Value = pTablaProducto;
+            }
+            paCodSucursal.Value = fpc_codSucursal;
+            paCodCliente.Value = fpc_codCliente;
+            paTipo.Value = fpc_tipo;
+            //paFpc_nombreProducto.Value = fpc_nombreProducto;
+            paCantidadDia.Value = pCantidadDia;
+            //paCantidadProductoGrabarNuevo.Value = pCantidadProductoGrabarNuevo;
+
+            try
+            {
+                Conn.Open();
+                cmdComandoInicio.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
     }
 }

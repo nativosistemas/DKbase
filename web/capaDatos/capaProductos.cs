@@ -408,5 +408,45 @@ namespace DKbase.web.capaDatos
             l.Add(db.GetParameter("pri_codigo", pPri_codigo));
             return db.GetDataTable("Productos.spRecuperarNombreArchivoPorCodigoProducto", l);
         }
+        public static DataSet RecuperarProductosDesdeTabla(DataTable pTablaProducto, string pSucursalPerteneciente, string pCli_codprov, int pCodCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperarProductosDesdeTabla", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            SqlParameter paTablaProductos = cmdComandoInicio.Parameters.Add("@Tabla_Detalle", SqlDbType.Structured);
+            SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@Sucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paCli_codprov = cmdComandoInicio.Parameters.Add("@cli_codprov", SqlDbType.NVarChar, 75);
+            SqlParameter paCodCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
+            paCodCliente.Value = pCodCliente;
+            paSucursal.Value = pSucursalPerteneciente;
+            paCli_codprov.Value = pCli_codprov;
+            if (pTablaProducto == null)
+            {
+                paTablaProductos.Value = DBNull.Value;
+            }
+            else
+            {
+                paTablaProductos.Value = pTablaProducto;
+            }
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "Productos");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
     }
 }

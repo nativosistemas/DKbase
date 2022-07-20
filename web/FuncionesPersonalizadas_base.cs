@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace DKbase.web
@@ -114,10 +115,10 @@ namespace DKbase.web
             }
             return pTablaDetalle;
         }
-        public static string ObtenerHorarioCierre_base(cClientes pClientes, string pSucursal, string pSucursalDependiente, string pCodigoReparto, DateTime fechaActual)
+        public static string ObtenerHorarioCierre_base(cClientes pClientes, string pSucursal, DateTime fechaActual)
         {
             string resultado = null;
-            List<cHorariosSucursal> listaHorariosSucursal = acceso.RecuperarTodosHorariosSucursalDependiente().Where(x => x.sdh_sucursal == pSucursal && x.sdh_sucursalDependiente == pSucursalDependiente && x.sdh_codReparto == pCodigoReparto).ToList();
+            List<cHorariosSucursal> listaHorariosSucursal = acceso.RecuperarTodosHorariosSucursalDependiente().Where(x => x.sdh_sucursal == pClientes.cli_codsuc && x.sdh_sucursalDependiente == pSucursal && x.sdh_codReparto == pClientes.cli_codrep).ToList();
             string day = string.Empty;
             bool isEncontroEnFechaHoy = false;
             switch (fechaActual.DayOfWeek)
@@ -241,7 +242,7 @@ namespace DKbase.web
             } // fin while (!isEncontroEnFechaHoy)
 
             // Inicio S7
-            if (pClientes.cli_codrep == "S7" && pSucursalDependiente == "SF")
+            if (pClientes.cli_codrep == "S7" && pSucursal == "SF")
             {
                 DateTime fechaCierre = new DateTime(fechaActual.Year, fechaActual.Month, fechaActual.Day, 22, 15, 30);
                 resultado = "22:15" + " hs. ";
@@ -280,11 +281,36 @@ namespace DKbase.web
             // Fin S7
             return resultado;
         }
+        public static DateTime? getFecha_Horario(string pHorarioCierre)
+        {
+            DateTime? result = null;
+            if (!string.IsNullOrEmpty(pHorarioCierre))
+            {
+                try
+                {
+                    DateTime hoy = DateTime.Now;
+                    if (pHorarioCierre.Length == 12)
+                    {
+                        var diaSemana = pHorarioCierre.Substring(10, 2);
+                        pHorarioCierre = pHorarioCierre.Replace(" hs. " + diaSemana, "");
+                        var values = pHorarioCierre.Split(':');
+                        var d = new DateTime(hoy.Year, hoy.Month, hoy.Day, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 0);// mes 0 = enero
+                        result = d;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pHorarioCierre);
+                }
+            }
+
+            return result;
+        }
         public static string ObtenerHorarioCierre(cClientes pClientes, string pSucursal, string pSucursalDependiente, string pCodigoReparto)
         {
-            return ObtenerHorarioCierre_base(pClientes, pSucursal, pSucursalDependiente, pCodigoReparto, DateTime.Now);
+            return ObtenerHorarioCierre_base(pClientes, pSucursalDependiente, DateTime.Now);
         }
-        public static string ObtenerHorarioCierreAnterior(cClientes pClientes, string pSucursal, string pSucursalDependiente, string pCodigoReparto, string pHorarioCierre)
+        public static string ObtenerHorarioCierreAnterior(cClientes pClientes, string pSucursal, string pHorarioCierre)
         {
             if (string.IsNullOrEmpty(pHorarioCierre))
                 return string.Empty;
@@ -354,7 +380,7 @@ namespace DKbase.web
                     var values = pHorarioCierre.Split(':');
                     fechaCuentaRegresiva = new DateTime(hoy.Year, hoy.Month, hoy.Day, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 50);// mes 0 = enero
                 }
-                result = ObtenerHorarioCierre_base(pClientes, pSucursal, pSucursalDependiente, pCodigoReparto, fechaCuentaRegresiva);
+                result = ObtenerHorarioCierre_base(pClientes, pSucursal, fechaCuentaRegresiva);
             }
             catch (Exception ex)
             {
@@ -736,7 +762,7 @@ namespace DKbase.web
             if (pProducto.isProductoFacturacionDirecta)
             { // facturacion directa
               // Combiene transfer o promocion                      
-                decimal precioConDescuentoDependiendoCantidad = ObtenerPrecioUnitarioConDescuentoOfertaSiLlegaConLaCantidad(pCliente ,pProducto, pCantidad);
+                decimal precioConDescuentoDependiendoCantidad = ObtenerPrecioUnitarioConDescuentoOfertaSiLlegaConLaCantidad(pCliente, pProducto, pCantidad);
                 if (precioConDescuentoDependiendoCantidad > pProducto.PrecioFinalTransfer)
                 {
                     var isSumarTransfer = false;

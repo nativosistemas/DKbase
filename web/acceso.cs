@@ -1068,7 +1068,7 @@ namespace DKbase.web
                         obj.listaTransfer = new List<cCarritoTransfer>();
                         obj.car_id = item.car_id_aux;
                         obj.Sucursal = item.ctr_codSucursal;
-                        obj.proximoHorarioEntrega = FuncionesPersonalizadas_base.ObtenerHorarioCierre(pCliente, pCliente.cli_codsuc, item.ctr_codSucursal, pCliente.cli_codrep);
+                        //obj.proximoHorarioEntrega = FuncionesPersonalizadas_base.ObtenerHorarioCierre(pCliente, pCliente.cli_codsuc, item.ctr_codSucursal, pCliente.cli_codrep);
                         obj.listaTransfer.Add(item);
                         resultado.Add(obj);
                     }

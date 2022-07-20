@@ -21,7 +21,7 @@ namespace DKbase.web.capaDatos
 
             foreach (cCarrito item in listaSucursal)
             {
-                item.proximoHorarioEntrega = DKbase.web.FuncionesPersonalizadas_base.ObtenerHorarioCierre(objClientes, objClientes.cli_codsuc, item.codSucursal, objClientes.cli_codrep);
+               //item.proximoHorarioEntrega = DKbase.web.FuncionesPersonalizadas_base.ObtenerHorarioCierre(objClientes, objClientes.cli_codsuc, item.codSucursal, objClientes.cli_codrep);
                 List<cProductosGenerico> listaProductoCarrtios = new List<cProductosGenerico>();
                 foreach (DataRow itemProductoCarrtio in dsProductoCarrito.Tables[0].Select("cad_codCarrito = " + item.lrc_id))
                 {

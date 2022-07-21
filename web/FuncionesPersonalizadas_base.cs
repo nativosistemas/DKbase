@@ -291,12 +291,69 @@ namespace DKbase.web
                     DateTime hoy = DateTime.Now;
                     if (pHorarioCierre.Length == 12)
                     {
+                        //var diaSemana = pHorarioCierre.Substring(10, 2);
+                        //pHorarioCierre = pHorarioCierre.Replace(" hs. " + diaSemana, "");
+                        //var values = pHorarioCierre.Split(':');
+                        //var d = new DateTime(hoy.Year, hoy.Month, hoy.Day, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 0);// mes 0 = enero
+                        //result = d;
                         var diaSemana = pHorarioCierre.Substring(10, 2);
+                        var diaSemanaNro = -1;
+                        //Note: Sunday is 0, Monday is 1, and so on || from 0 to 6
+                        // LU = 1
+                        // MA = 2
+                        // MI = 3
+                        // JU = 4
+                        // VI = 5
+                        // SA = 6
+                        // DO = 0
+                        switch (diaSemana)
+                        {
+                            case "LU":
+                                diaSemanaNro = 1;
+                                break;
+                            case "MA":
+                                diaSemanaNro = 2;
+                                break;
+                            case "MI":
+                                diaSemanaNro = 3;
+                                break;
+                            case "JU":
+                                diaSemanaNro = 4;
+                                break;
+                            case "VI":
+                                diaSemanaNro = 5;
+                                break;
+                            case "SA":
+                                diaSemanaNro = 6;
+                                break;
+                            case "DO":
+                                diaSemanaNro = 0;
+                                break;
+                            default:
+                                break;
+                        }
                         pHorarioCierre = pHorarioCierre.Replace(" hs. " + diaSemana, "");
+                        var values = pHorarioCierre.Split(':');
+                        var d = new DateTime(hoy.Year, hoy.Month, hoy.Day, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 0);// mes 0 = enero
+                                                                                                                                      //var n = d.DayOfWeek;
+                        var sumaDia = 0;
+                        while ((int)d.DayOfWeek != diaSemanaNro)
+                        {
+                            sumaDia++;
+                            d = new DateTime(hoy.Year, hoy.Month, hoy.Day + sumaDia, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 50);// mes 0 = enero
+                            if (sumaDia > 7 || (int)d.DayOfWeek == diaSemanaNro)
+                                break;
+                        }
+                        result = d;
+                    }
+                    else if (pHorarioCierre.Length == 10)
+                    {
+                        pHorarioCierre = pHorarioCierre.Replace(" hs. ", "");
                         var values = pHorarioCierre.Split(':');
                         var d = new DateTime(hoy.Year, hoy.Month, hoy.Day, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 0);// mes 0 = enero
                         result = d;
                     }
+
                 }
                 catch (Exception ex)
                 {

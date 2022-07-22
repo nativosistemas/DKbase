@@ -1,4 +1,5 @@
-﻿using DKbase.generales;
+﻿using DKbase.dll;
+using DKbase.generales;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +11,8 @@ namespace DKbase.web.capaDatos
 {
     public class capaCAR_WebService_base
     {
+        private static string msgCarritoRepetido = "Carrito ya se encuentra facturado.";
+        private static string msgCarritoEnProceso = "Carrito se está procesando.";
         public static List<cCarrito> RecuperarCarritosPorSucursalYProductos_generica(cClientes objClientes, string pTipo)
         {
             DataSet dsProductoCarrito = new DataSet();
@@ -269,6 +272,304 @@ namespace DKbase.web.capaDatos
             }
             strXML += "</Root>";
             return capaCAR_base.SubirPedido(strXML, pIdCliente, pIdUsuario, Constantes.cTipo_Carrito, Constantes.cTipo_CarritoTransfers);
+        }
+        public static cDllPedido TomarPedidoCarrito_generico(Usuario pUsuario, cClientes pCliente, List<cCarrito> pListaCarrito, string pHorarioCierre, string pTipo, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente)
+        {
+            cDllPedido resultadoPedido = null;
+            //if (System.Web.HttpContext.Current.Session["clientesDefault_Usuario"] != null && System.Web.HttpContext.Current.Session["clientesDefault_Cliente"] != null)
+            //{
+            //List<cCarrito> listaCarrito = null;
+            //if (pTipo == Constantes.cTipo_Carrito)
+            //{
+            //    listaCarrito = capaCAR_decision.RecuperarCarritosPorSucursalYProductos(pCliente.cli_codigo);
+            //}
+            //else if (pTipo == Constantes.cTipo_CarritoDiferido)
+            //{
+            //    listaCarrito = capaCAR_decision.RecuperarCarritosDiferidosPorCliente(pCliente.cli_codigo);
+            //}
+            if (pListaCarrito == null)
+                return null;
+            foreach (cCarrito item in pListaCarrito)
+                {
+                    if (item.codSucursal == pIdSucursal)
+                    {
+                        if (capaCAR_base.IsCarritoEnProceso(item.car_id))
+                        {
+                            cDllPedido oEnProceso = new cDllPedido();
+                            oEnProceso.Error = msgCarritoEnProceso;
+                            return oEnProceso;
+                        }
+
+
+                        List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
+                        foreach (cProductosGenerico itemProductos in item.listaProductos)
+                        {
+                            listaProductos.Add(FuncionesPersonalizadas_base.ProductosEnCarrito_ToConvert_DllProductosAndCantidad(itemProductos));
+                        }
+                        if (capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id))
+                        {
+                            capaCAR_base.BorrarCarritoPorId_SleepTimer(item.car_id, Constantes.cAccionCarrito_BORRAR_CARRRITO_REPETIDO);
+                            cDllPedido oRepetido = new cDllPedido();
+                            oRepetido.Error = msgCarritoRepetido;
+                            return oRepetido;
+                        }
+                        resultadoPedido = capaDLL.TomarPedidoConIdCarrito(item.car_id, pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos, pIsUrgente);
+                        if (!capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id))
+                            return null;
+                        if (resultadoPedido == null)
+                            return null;
+                        else if (resultadoPedido != null)
+                        {
+                            bool isErrorPedido = true;
+                            if (resultadoPedido.Error == null)
+                            {
+                                isErrorPedido = false;
+                            }
+                            else
+                            {
+                                if (resultadoPedido.Error.Trim() == string.Empty)
+                                {
+                                    isErrorPedido = false;
+                                }
+                            }
+                            // Si se genero error
+                            if (isErrorPedido)
+                            {
+                                resultadoPedido.Error = FuncionesPersonalizadas_base.LimpiarStringErrorPedido(resultadoPedido.Error);
+                            }
+                            else
+                            {
+                            // Obtener horario cierre
+                            //string horarioCierre = pHorarioCierre;// ObtenerHorarioCierre_interno(pIdSucursal);
+                                resultadoPedido.Login = pHorarioCierre;
+                                // fin Obtener horario cierre
+                                // OPTIMIZAR //////////////////
+                                foreach (cDllPedidoItem itemFaltantes in resultadoPedido.Items)
+                                {
+                                    if (itemFaltantes.Faltas > 0)
+                                    {
+                                        capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(item.lrc_id, pIdSucursal, pCliente.cli_codigo, itemFaltantes.NombreObjetoComercial, itemFaltantes.Faltas, Constantes.cPEDIDO_FALTANTES);
+                                    }
+                                }
+                                foreach (cDllPedidoItem itemConProblemasDeCreditos in resultadoPedido.ItemsConProblemasDeCreditos)
+                                {
+                                    int cantidadProblemaCrediticia = itemConProblemasDeCreditos.Cantidad + itemConProblemasDeCreditos.Faltas;
+                                    if (cantidadProblemaCrediticia > 0)
+                                    {
+                                    capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(item.lrc_id, pIdSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.NombreObjetoComercial, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
+                                    }
+                                }
+
+                            capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente,item, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);
+                            }
+                        }
+                        break;
+                    }
+                }
+            //}
+
+            return resultadoPedido;
+        }
+        public static List<cDllPedidoTransfer> TomarTransferPedidoCarrito(Usuario pUsuario, cClientes pCliente, List<cCarritoTransfer> pListaCarrito, bool pIsDiferido, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio)
+        {
+            string tipo = pIsDiferido ? Constantes.cTipo_CarritoDiferidoTransfers : Constantes.cTipo_CarritoTransfers;
+            //bool isTomarPedido = false; List<ServiceReferenceDLL.cDllPedidoTransfer>
+            List<cDllPedidoTransfer> resultadoPedido = null;
+            int car_id_aux = 0;
+            //if (System.Web.HttpContext.Current.Session["clientesDefault_Cliente"] != null)
+            //{
+                List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
+
+                //List<cCarritoTransfer> listaCarrito = capaCAR_decision.RecuperarCarritosTransferPorIdCliente((cClientes)System.Web.HttpContext.Current.Session["clientesDefault_Cliente"], tipo, pIdSucursal);
+                if (pListaCarrito == null)
+                    return null;
+                List<cProductosGenerico> listaProductos_Auditoria = new List<cProductosGenerico>();
+                foreach (cCarritoTransfer item in pListaCarrito)
+                {
+                    if (item.ctr_codSucursal == pIdSucursal)
+                    {
+                        car_id_aux = item.car_id_aux;
+                        foreach (cProductosGenerico itemProductos in item.listaProductos)
+                        {
+                            cDllProductosAndCantidad objProductos = FuncionesPersonalizadas_base.ProductosEnCarrito_ToConvert_DllProductosAndCantidad(itemProductos);
+                            objProductos.IdTransfer = item.tfr_codigo;
+                            listaProductos.Add(objProductos);
+                            itemProductos.tfr_codigo = item.tfr_codigo;
+                            itemProductos.tde_codtfr = item.tfr_codigo;
+                            listaProductos_Auditoria.Add(itemProductos);
+
+                        }
+                    }
+                } // fin   foreach (cCarritoTransfer item in listaCarrito)
+                if (capaCAR_base.IsCarritoEnProceso(car_id_aux))
+                {
+                    cDllPedidoTransfer oEnProceso = new cDllPedidoTransfer();
+                    oEnProceso.Error = msgCarritoEnProceso;
+                    resultadoPedido = new List<cDllPedidoTransfer>();
+                    resultadoPedido.Add(oEnProceso);
+                    return resultadoPedido;
+                }
+                if (capaDLL.ValidarExistenciaDeCarritoWebPasado(car_id_aux))
+                {
+                    capaCAR_base.BorrarCarritoPorId_SleepTimer(car_id_aux, Constantes.cAccionCarrito_BORRAR_CARRRITO_REPETIDO);
+                    cDllPedidoTransfer oRepetido = new cDllPedidoTransfer();
+                    oRepetido.Error = msgCarritoRepetido;
+                    resultadoPedido = new List<cDllPedidoTransfer>();
+                    resultadoPedido.Add(oRepetido);
+                    return resultadoPedido;
+                }
+                List<cDllPedidoTransfer> listaCarritoAux = capaDLL.TomarPedidoDeTransfersConIdCarrito(car_id_aux, pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos);
+                if (!capaDLL.ValidarExistenciaDeCarritoWebPasado(car_id_aux))
+                    return null;
+
+                if (listaCarritoAux != null)
+                {
+                    resultadoPedido = listaCarritoAux;
+                    bool isErrorPedido = true;
+                    if (listaCarritoAux.Count > 0)
+                    {
+                        if (listaCarritoAux[0].Error == null)
+                        {
+                            isErrorPedido = false;
+                        }
+                        else
+                        {
+                            if (listaCarritoAux[0].Error.Trim() == string.Empty)
+                            {
+                                isErrorPedido = false;
+                            }
+                        }
+                        // INICIO FALTANTE
+                        foreach (cDllPedidoTransfer itemPedidoTransferFaltante in listaCarritoAux)
+                        {
+                            if (itemPedidoTransferFaltante.Login == "REVISION")
+                            {
+
+                            }
+                            else if (itemPedidoTransferFaltante.Login == "CONFIRMACION")
+                            {
+
+                            }
+                            else
+                            {
+                                if (itemPedidoTransferFaltante.Items != null)
+                                {
+                                    if (itemPedidoTransferFaltante.Items.Count > 0)
+                                    {
+                                        for (int iArrayOfCDllPedidoItem = 0; iArrayOfCDllPedidoItem < itemPedidoTransferFaltante.Items.Count; iArrayOfCDllPedidoItem++)
+                                        {
+                                            if (itemPedidoTransferFaltante.Items[iArrayOfCDllPedidoItem].Faltas > 0)
+                                            {
+                                            capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(null, pIdSucursal, pCliente.cli_codigo, itemPedidoTransferFaltante.Items[iArrayOfCDllPedidoItem].NombreObjetoComercial, itemPedidoTransferFaltante.Items[iArrayOfCDllPedidoItem].Faltas, Constantes.cPEDIDO_FALTANTES);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // FIN FALTANTE
+                    }
+                    else
+                    {
+                        isErrorPedido = false;
+                    }
+                    // Si se genero error
+                    if (isErrorPedido)
+                    {
+                        listaCarritoAux[0].Error = FuncionesPersonalizadas_base.LimpiarStringErrorPedido(listaCarritoAux[0].Error);
+                    }
+                    else
+                    {
+                    // borrar carrito transfer
+                    capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, listaProductos_Auditoria, car_id_aux, pIdSucursal, tipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, false);
+                    }
+                }
+                else
+                    return null;
+            //}
+            return resultadoPedido;
+        }
+        public static cDllPedido TomarPedidoCarritoFacturarseFormaHabitual(Usuario pUsuario, cClientes pCliente, string pHorarioCierre, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente, string[] pListaNombreComercial, int[] pListaCantidad)
+        {
+            cDllPedido resultadoPedido = null;
+            //if (System.Web.HttpContext.Current.Session["clientesDefault_Usuario"] != null && System.Web.HttpContext.Current.Session["clientesDefault_Cliente"] != null)
+            //{
+                List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
+                for (int i = 0; i < pListaNombreComercial.Count(); i++)
+                {
+                    cDllProductosAndCantidad obj = new cDllProductosAndCantidad();
+                    obj.codProductoNombre = pListaNombreComercial[i];
+                    obj.cantidad = pListaCantidad[i];
+                    cProductos objProductoBD = RecuperarProductoPorNombre(obj.codProductoNombre);
+                    obj.isOferta = (objProductoBD.pro_ofeunidades == 0 && objProductoBD.pro_ofeporcentaje == 0) ? false : true;
+                    listaProductos.Add(obj);
+                }
+                resultadoPedido = capaDLL.TomarPedido(pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos, pIsUrgente);
+                if (resultadoPedido == null)
+                    return null;
+                else if (resultadoPedido != null)
+                {
+                    bool isErrorPedido = true;
+                    if (resultadoPedido.Error == null)
+                    {
+                        isErrorPedido = false;
+                    }
+                    else
+                    {
+                        if (resultadoPedido.Error.Trim() == string.Empty)
+                        {
+                            isErrorPedido = false;
+                        }
+                    }
+                    // Si se genero error
+                    if (isErrorPedido)
+                    {
+                        resultadoPedido.Error = FuncionesPersonalizadas_base.LimpiarStringErrorPedido(resultadoPedido.Error);
+                    }
+                    else
+                    {
+                        // Obtener horario cierre
+                       // string horarioCierre = ObtenerHorarioCierre_interno(pIdSucursal);
+                        resultadoPedido.Login = pHorarioCierre;
+                        // fin Obtener horario cierre
+                        // OPTIMIZAR //////////////////
+                        foreach (cDllPedidoItem itemFaltantes in resultadoPedido.Items)
+                        {
+                            if (itemFaltantes.Faltas > 0)
+                            {
+                            capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(null, pIdSucursal, pCliente.cli_codigo, itemFaltantes.NombreObjetoComercial, itemFaltantes.Faltas, Constantes.cPEDIDO_FALTANTES);
+                            }
+                            //
+                        }
+                        foreach (cDllPedidoItem itemConProblemasDeCreditos in resultadoPedido.ItemsConProblemasDeCreditos)
+                        {
+                            int cantidadProblemaCrediticia = itemConProblemasDeCreditos.Cantidad + itemConProblemasDeCreditos.Faltas;
+                            if (cantidadProblemaCrediticia > 0)
+                            {
+                            capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(null, pIdSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.NombreObjetoComercial, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
+                            }
+                        }
+                    }
+                }
+            //}
+
+            return resultadoPedido;
+        }
+        public static cProductos RecuperarProductoPorNombre(string pNombreProducto)
+        {
+            cProductos resultado = null;
+            //if (VerificarPermisos(CredencialAutenticacion))
+            //{
+                DataTable tablaProductos = capaProductos_base.RecuperarProductoPorNombre(pNombreProducto);
+                if (tablaProductos != null)
+                {
+                    if (tablaProductos.Rows.Count > 0)
+                    {
+                        resultado = DKbase.web.acceso.ConvertToProductos(tablaProductos.Rows[0]);
+                    }
+                }
+            //}
+            return resultado;
         }
     }
 }

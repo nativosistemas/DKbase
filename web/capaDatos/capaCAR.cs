@@ -229,7 +229,7 @@ namespace DKbase.web.capaDatos
                 strXML += nodo.ToString();
             }
             strXML += "</Root>";
-            guardarPedido_base(pCodigoCliente,strXML, pCarrito.lrc_id, pCarrito.codSucursal, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);
+            guardarPedido_base(pCodigoCliente, strXML, pCarrito.lrc_id, pCarrito.codSucursal, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);
         }
         public static void guardarPedido(int pCodigoCliente, List<cProductosGenerico> pListaProductos, int car_id, string codSucursal, string pTipo, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente)
         {
@@ -247,7 +247,7 @@ namespace DKbase.web.capaDatos
                 strXML += nodo.ToString();
             }
             strXML += "</Root>";
-            guardarPedido_base(pCodigoCliente,strXML, car_id, codSucursal, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);
+            guardarPedido_base(pCodigoCliente, strXML, car_id, codSucursal, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);
         }
         public static void guardarPedido_base(int pCodigoCliente, string strXML, int car_id, string codSucursal, string pTipo, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente)
         {
@@ -519,6 +519,16 @@ namespace DKbase.web.capaDatos
                     Conn.Close();
                 }
             }
+        }
+        public static void GuardarPedidoBorrarCarrito(Usuario pUsuario, cClientes pCliente, cCarrito pCarrito, string pTipo, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente)
+        {
+            capaCAR_base.BorrarCarritoPorId_SleepTimer(pCarrito.car_id, Constantes.cAccionCarrito_TOMAR);
+            capaCAR_base.guardarPedido(pCliente.cli_codigo, pCarrito, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);
+        }
+        public static void GuardarPedidoBorrarCarrito(Usuario pUsuario, cClientes pCliente, List<cProductosGenerico> pListaProductos, int car_id, string pSucursal, string pTipo, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente)
+        {
+                capaCAR_base.BorrarCarritoPorId_SleepTimer(car_id, Constantes.cAccionCarrito_TOMAR);
+                capaCAR_base.guardarPedido(pCliente.cli_codigo, pListaProductos, car_id, pSucursal, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);      
         }
     }
 }

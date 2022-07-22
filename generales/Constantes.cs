@@ -164,5 +164,25 @@ namespace DKbase.generales
         {
             get { return "D"; }
         }
+        public static string cAccionCarrito_VACIAR
+        {
+            get { return "VACIAR CARRITO"; }
+        }
+        public static string cAccionCarrito_TOMAR
+        {
+            get { return "TOMAR PEDIDO"; }
+        }
+        public static string cAccionCarrito_BORRAR_CARRRITO_REPETIDO
+        {
+            get { return "BORRAR CARRRITO REPETIDO"; }
+        }
+        public static int cPEDIDO_FALTANTES
+        {
+            get { return 1; }
+        }
+        public static int cPEDIDO_PROBLEMACREDITICIO
+        {
+            get { return 2; }
+        }
     }
 }

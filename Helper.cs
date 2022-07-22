@@ -42,5 +42,14 @@ namespace DKbase
         {
             set; get;
         }
+        //
+        public static string getUrl_DKcore
+        {
+            set; get;
+        }
+        public static string getUrl_DKdll
+        {
+            set; get;
+        }
     }
 }

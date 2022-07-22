@@ -1,4 +1,5 @@
-﻿using DKbase.generales;
+﻿using DKbase.dll;
+using DKbase.generales;
 using DKbase.web.capaDatos;
 using System;
 using System.Collections.Generic;
@@ -991,6 +992,30 @@ namespace DKbase.web
                 // Cliente si permiso para tomar oferta
                 resultado = pProductos.PrecioFinal;
             }
+            return resultado;
+        }
+        public static cDllProductosAndCantidad ProductosEnCarrito_ToConvert_DllProductosAndCantidad(cProductosGenerico pValor)
+        {
+            cDllProductosAndCantidad resultado = new cDllProductosAndCantidad();
+            resultado.cantidad = pValor.cantidad;
+            resultado.codProductoNombre = pValor.pro_nombre;
+            resultado.isOferta = (pValor.pro_ofeunidades == 0 && pValor.pro_ofeporcentaje == 0) ? false : true;
+            return resultado;
+        }
+        public static string LimpiarStringErrorPedido(string pValor)
+        {
+            string resultado = pValor;
+            resultado = resultado.Replace("-", string.Empty);
+            resultado = resultado.Replace("0", string.Empty);
+            resultado = resultado.Replace("1", string.Empty);
+            resultado = resultado.Replace("2", string.Empty);
+            resultado = resultado.Replace("3", string.Empty);
+            resultado = resultado.Replace("4", string.Empty);
+            resultado = resultado.Replace("5", string.Empty);
+            resultado = resultado.Replace("6", string.Empty);
+            resultado = resultado.Replace("7", string.Empty);
+            resultado = resultado.Replace("8", string.Empty);
+            resultado = resultado.Replace("9", string.Empty);
             return resultado;
         }
     }

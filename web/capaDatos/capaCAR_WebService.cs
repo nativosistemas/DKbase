@@ -342,8 +342,10 @@ namespace DKbase.web.capaDatos
                             // Obtener horario cierre
                             //string horarioCierre = pHorarioCierre;// ObtenerHorarioCierre_interno(pIdSucursal);
                                 resultadoPedido.Login = pHorarioCierre;
-                                // fin Obtener horario cierre
-                                // OPTIMIZAR //////////////////
+                            // fin Obtener horario cierre
+                            // OPTIMIZAR //////////////////
+                            if (resultadoPedido.Items != null)
+                            {
                                 foreach (cDllPedidoItem itemFaltantes in resultadoPedido.Items)
                                 {
                                     if (itemFaltantes.Faltas > 0)
@@ -351,14 +353,18 @@ namespace DKbase.web.capaDatos
                                         capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(item.lrc_id, pIdSucursal, pCliente.cli_codigo, itemFaltantes.NombreObjetoComercial, itemFaltantes.Faltas, Constantes.cPEDIDO_FALTANTES);
                                     }
                                 }
+                            }
+                            if (resultadoPedido.ItemsConProblemasDeCreditos != null)
+                            {
                                 foreach (cDllPedidoItem itemConProblemasDeCreditos in resultadoPedido.ItemsConProblemasDeCreditos)
                                 {
                                     int cantidadProblemaCrediticia = itemConProblemasDeCreditos.Cantidad + itemConProblemasDeCreditos.Faltas;
                                     if (cantidadProblemaCrediticia > 0)
                                     {
-                                    capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(item.lrc_id, pIdSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.NombreObjetoComercial, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
+                                        capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(item.lrc_id, pIdSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.NombreObjetoComercial, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
                                     }
                                 }
+                            }
 
                             capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente,item, pTipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pIsUrgente);
                             }

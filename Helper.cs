@@ -18,6 +18,10 @@ namespace DKbase
         {
             set; get;
         }
+        public static string getConnectionStringSQL_intranet
+        {
+            set; get;
+        }
         public static string getFolder
         {
             set; get;

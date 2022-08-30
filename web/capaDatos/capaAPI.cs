@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DKbase.web.capaDatos
 {
-   public class capaAPI
+    public class capaAPI
     {
         private static readonly HttpClient client = new HttpClient();
         public static string url_DKcore = Helper.getUrl_DKcore;
@@ -74,6 +74,20 @@ namespace DKbase.web.capaDatos
                 return null;
             }
         }
+        public static bool isNotNull(object pp)
+        {
+            bool result = true;//null
+            if (pp is string)
+            {
+                var a = pp as string;
+                if (string.IsNullOrEmpty(a) || a == "null")
+                {
+                    result = false;
+                }
+            }
+            return result;
+
+        }
         public static async Task<string> authenticate(string pLogin, string pPass)
         {
             string result = null;
@@ -84,7 +98,7 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                if (resultResponse != null)
+                if (isNotNull(resultResponse))
                 {
                     return resultResponse;
                 }
@@ -101,7 +115,7 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                if (resultResponse != null)
+                if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<DKbase.dll.cDllPedido>(resultResponse, oJsonSerializerOptions);
                 }
@@ -118,7 +132,7 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                if (resultResponse != null)
+                if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<List<DKbase.dll.cDllPedidoTransfer>>(resultResponse, oJsonSerializerOptions);
                 }
@@ -129,20 +143,20 @@ namespace DKbase.web.capaDatos
         {
             DKbase.dll.cDllPedido result = null;
             string name = "TomarPedido";
-            DKbase.Models.TomarPedidoConIdCarritoRequest parameter = new DKbase.Models.TomarPedidoConIdCarritoRequest() {  pLoginCliente = pLoginCliente, pIdSucursal = pIdSucursal, pMensajeEnFactura = pMensajeEnFactura, pMensajeEnRemito = pMensajeEnRemito, pTipoEnvio = pTipoEnvio, pListaProducto = pListaProducto, pIsUrgente = pIsUrgente };
+            DKbase.Models.TomarPedidoConIdCarritoRequest parameter = new DKbase.Models.TomarPedidoConIdCarritoRequest() { pLoginCliente = pLoginCliente, pIdSucursal = pIdSucursal, pMensajeEnFactura = pMensajeEnFactura, pMensajeEnRemito = pMensajeEnRemito, pTipoEnvio = pTipoEnvio, pListaProducto = pListaProducto, pIsUrgente = pIsUrgente };
 
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                if (resultResponse != null)
+                if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<DKbase.dll.cDllPedido>(resultResponse, oJsonSerializerOptions);
                 }
             }
             return result;
         }
-        
+
         public static async Task<bool> ValidarExistenciaDeCarritoWebPasadoAsync(int pIdCarrito)
         {
             bool result = false;
@@ -153,12 +167,12 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                if (resultResponse != null)
+                if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<bool>(resultResponse, oJsonSerializerOptions);
                 }
             }
             return result;
         }
-        }
+    }
 }

@@ -84,7 +84,10 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                return resultResponse;
+                if (resultResponse != null)
+                {
+                    return resultResponse;
+                }
             }
             return result;
         }
@@ -98,7 +101,10 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                result = JsonSerializer.Deserialize<DKbase.dll.cDllPedido>(resultResponse, oJsonSerializerOptions);
+                if (resultResponse != null)
+                {
+                    result = JsonSerializer.Deserialize<DKbase.dll.cDllPedido>(resultResponse, oJsonSerializerOptions);
+                }
             }
             return result;
         }
@@ -112,7 +118,10 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                result = JsonSerializer.Deserialize<List<DKbase.dll.cDllPedidoTransfer>>(resultResponse, oJsonSerializerOptions);
+                if (resultResponse != null)
+                {
+                    result = JsonSerializer.Deserialize<List<DKbase.dll.cDllPedidoTransfer>>(resultResponse, oJsonSerializerOptions);
+                }
             }
             return result;
         }
@@ -126,7 +135,10 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                result = JsonSerializer.Deserialize<DKbase.dll.cDllPedido>(resultResponse, oJsonSerializerOptions);
+                if (resultResponse != null)
+                {
+                    result = JsonSerializer.Deserialize<DKbase.dll.cDllPedido>(resultResponse, oJsonSerializerOptions);
+                }
             }
             return result;
         }
@@ -141,7 +153,10 @@ namespace DKbase.web.capaDatos
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
-                result = JsonSerializer.Deserialize<bool>(resultResponse, oJsonSerializerOptions);
+                if (resultResponse != null)
+                {
+                    result = JsonSerializer.Deserialize<bool>(resultResponse, oJsonSerializerOptions);
+                }
             }
             return result;
         }

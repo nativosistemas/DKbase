@@ -46,10 +46,10 @@ namespace DKbase.web.capaDatos
                 List<DKbase.dll.cDllProductosAndCantidad> l_Productos = pListaProducto;
                 var t = Task.Run(() => capaAPI.TomarPedidoConIdCarritoAsync(pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, l_Productos, pIsUrgente));
                 t.Wait();
-                if (t.Result == null)
-                {
-                    throw new Exception("Result == null");
-                }
+                //if (t.Result == null)
+                //{
+                //    throw new Exception("Result == null");
+                //}
                 result = t.Result;
             }
             catch (Exception ex)
@@ -70,10 +70,10 @@ namespace DKbase.web.capaDatos
                 capaCAR_base.InicioCarritoEnProceso(pIdCarrito, Constantes.cAccionCarrito_TOMAR);
                 var t = Task.Run(() => capaAPI.TomarPedidoDeTransfersConIdCarritoAsync(pIdCarrito,  pLoginCliente,  pIdSucursal,  pMensajeEnFactura,  pMensajeEnRemito,  pTipoEnvio,  pListaProducto));
                 t.Wait();
-                if (t.Result == null)
-                {
-                    throw new Exception("Result == null");
-                }
+                //if (t.Result == null)
+                //{
+                //    throw new Exception("Result == null");
+                //}
                 result = t.Result;
             }
             catch (Exception ex)
@@ -94,10 +94,10 @@ namespace DKbase.web.capaDatos
             {
                 var t = Task.Run(() => capaAPI.TomarPedidoAsync(pLoginCliente,  pIdSucursal,  pMensajeEnFactura,  pMensajeEnRemito,  pTipoEnvio,  pListaProducto,  pIsUrgente));
                 t.Wait();
-                if (t.Result == null)
-                {
-                    throw new Exception("Result == null");
-                }
+                //if (t.Result == null)
+                //{
+                //    throw new Exception("Result == null");
+                //}
                 result = t.Result;                
             }
             catch (Exception ex)

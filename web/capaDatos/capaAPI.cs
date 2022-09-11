@@ -161,8 +161,10 @@ namespace DKbase.web.capaDatos
         {
             bool result = false;
             string name = "ValidarExistenciaDeCarritoWebPasado";
-            int parameter = pIdCarrito;// new DKbase.Models.TomarPedidoConIdCarritoRequest() { IdCarrito = pIdCarrito };
-
+            Models.TomarPedidoConIdCarritoRequest parameter = new Models.TomarPedidoConIdCarritoRequest()
+            {
+                pIdCarrito = pIdCarrito
+            }; 
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {

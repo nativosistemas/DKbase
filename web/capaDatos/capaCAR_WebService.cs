@@ -577,5 +577,9 @@ namespace DKbase.web.capaDatos
             //}
             return resultado;
         }
+        public static List<DKbase.dll.cDllPedido> ObtenerPedidosEntreFechas(string pLoginWeb, DateTime pDesde, DateTime pHasta)
+        {
+            return capaDLL.ObtenerPedidosEntreFechas(pLoginWeb,  pDesde,  pHasta);
+        }
     }
 }

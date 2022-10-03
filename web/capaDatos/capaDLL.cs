@@ -106,6 +106,20 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-
+        public static List<DKbase.dll.cDllPedido> ObtenerPedidosEntreFechas(string pLoginWeb, DateTime pDesde, DateTime pHasta)
+        {
+            List<DKbase.dll.cDllPedido> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerPedidosEntreFechasAsync(pLoginWeb, pDesde, pHasta));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb, pDesde, pHasta);
+            }
+                    return result;
+        }
     }
 }

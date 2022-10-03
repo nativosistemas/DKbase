@@ -176,5 +176,22 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<DKbase.dll.cDllPedido>> ObtenerPedidosEntreFechasAsync(string pLoginWeb, DateTime pDesde, DateTime pHasta)
+        {
+            List<DKbase.dll.cDllPedido> result = null;
+            string name = "ObtenerPedidosEntreFechas";
+            DKbase.Models.ObtenerPedidosEntreFechasRequest parameter = new DKbase.Models.ObtenerPedidosEntreFechasRequest() { pLoginWeb = pLoginWeb, pDesde = pDesde, pHasta = pHasta };
+
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<DKbase.dll.cDllPedido>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

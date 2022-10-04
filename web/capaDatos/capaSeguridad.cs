@@ -91,6 +91,36 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable RecuperarTablaBandera(string ban_codigo)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Seguridad.spEstadoBandera", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paBan_codigo = cmdComandoInicio.Parameters.Add("@ban_codigo", SqlDbType.NVarChar, 50);
+            paBan_codigo.Value = ban_codigo;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, ban_codigo);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
         public static string obtenerStringEstado(int pIdEstado)
         {
             string resultado = string.Empty;

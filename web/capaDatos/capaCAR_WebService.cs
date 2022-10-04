@@ -579,7 +579,23 @@ namespace DKbase.web.capaDatos
         }
         public static List<DKbase.dll.cDllPedido> ObtenerPedidosEntreFechas(string pLoginWeb, DateTime pDesde, DateTime pHasta)
         {
-            return capaDLL.ObtenerPedidosEntreFechas(pLoginWeb,  pDesde,  pHasta);
+            return capaDLL.ObtenerPedidosEntreFechas(pLoginWeb, pDesde, pHasta);
+        }
+        public static bool IsBanderaCodigo(string pCodigoBandera)
+        {
+            bool resultado = true;
+            DataTable tabla = capaSeguridad_base.RecuperarTablaBandera(pCodigoBandera);
+            if (tabla != null)
+            {
+                if (tabla.Rows.Count > 0)
+                {
+                    if (tabla.Rows[0]["ban_estado"] != DBNull.Value)
+                    {
+                        resultado = Convert.ToBoolean(tabla.Rows[0]["ban_estado"]);
+                    }
+                }
+            }
+            return resultado;
         }
     }
 }

@@ -184,5 +184,9 @@ namespace DKbase.generales
         {
             get { return 2; }
         }
+        public static string cBAN_SERVIDORDLL
+        {
+            get { return "servidorDLL"; }
+        }
     }
 }

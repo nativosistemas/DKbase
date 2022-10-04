@@ -13,6 +13,7 @@ namespace DKbase.web.capaDatos
     {
         private static string msgCarritoRepetido = "Carrito ya se encuentra facturado.";
         private static string msgCarritoEnProceso = "Carrito se está procesando.";
+        private static string msgRealizandoTareasMantenimiento = "En este momento estamos realizando tareas de mantenimiento, por favor intente más tarde.";
         public static List<cCarrito> RecuperarCarritosPorSucursalYProductos_generica(cClientes objClientes, string pTipo)
         {
             DataSet dsProductoCarrito = new DataSet();
@@ -276,19 +277,14 @@ namespace DKbase.web.capaDatos
         public static cDllPedido TomarPedidoCarrito_generico(Usuario pUsuario, cClientes pCliente, List<cCarrito> pListaCarrito, string pHorarioCierre, string pTipo, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente)
         {
             cDllPedido resultadoPedido = null;
-            //if (System.Web.HttpContext.Current.Session["clientesDefault_Usuario"] != null && System.Web.HttpContext.Current.Session["clientesDefault_Cliente"] != null)
-            //{
-            //List<cCarrito> listaCarrito = null;
-            //if (pTipo == Constantes.cTipo_Carrito)
-            //{
-            //    listaCarrito = capaCAR_decision.RecuperarCarritosPorSucursalYProductos(pCliente.cli_codigo);
-            //}
-            //else if (pTipo == Constantes.cTipo_CarritoDiferido)
-            //{
-            //    listaCarrito = capaCAR_decision.RecuperarCarritosDiferidosPorCliente(pCliente.cli_codigo);
-            //}
             if (pListaCarrito == null)
                 return null;
+            //if (!capaCAR_WebService_base.IsBanderaCodigo(Constantes.cBAN_SERVIDORDLL))
+            //{
+            //    cDllPedido oEnProceso = new cDllPedido();
+            //    oEnProceso.Error = msgRealizandoTareasMantenimiento;
+            //    return oEnProceso;
+            //}
             foreach (cCarrito item in pListaCarrito)
             {
                 if (item.codSucursal == pIdSucursal)
@@ -340,9 +336,7 @@ namespace DKbase.web.capaDatos
                         else
                         {
                             // Obtener horario cierre
-                            //string horarioCierre = pHorarioCierre;// ObtenerHorarioCierre_interno(pIdSucursal);
                             resultadoPedido.Login = pHorarioCierre;
-                            // fin Obtener horario cierre
                             // OPTIMIZAR //////////////////
                             if (resultadoPedido.Items != null)
                             {
@@ -372,23 +366,24 @@ namespace DKbase.web.capaDatos
                     break;
                 }
             }
-            //}
-
             return resultadoPedido;
         }
         public static List<cDllPedidoTransfer> TomarTransferPedidoCarrito(Usuario pUsuario, cClientes pCliente, List<cCarritoTransfer> pListaCarrito, bool pIsDiferido, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio)
         {
             string tipo = pIsDiferido ? Constantes.cTipo_CarritoDiferidoTransfers : Constantes.cTipo_CarritoTransfers;
-            //bool isTomarPedido = false; List<ServiceReferenceDLL.cDllPedidoTransfer>
             List<cDllPedidoTransfer> resultadoPedido = null;
             int car_id_aux = 0;
-            //if (System.Web.HttpContext.Current.Session["clientesDefault_Cliente"] != null)
-            //{
             List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
-
-            //List<cCarritoTransfer> listaCarrito = capaCAR_decision.RecuperarCarritosTransferPorIdCliente((cClientes)System.Web.HttpContext.Current.Session["clientesDefault_Cliente"], tipo, pIdSucursal);
             if (pListaCarrito == null)
                 return null;
+            //if (!capaCAR_WebService_base.IsBanderaCodigo(Constantes.cBAN_SERVIDORDLL))
+            //{
+            //    cDllPedidoTransfer oEnProceso = new cDllPedidoTransfer();
+            //    oEnProceso.Error = msgRealizandoTareasMantenimiento; ;
+            //    resultadoPedido = new List<cDllPedidoTransfer>();
+            //    resultadoPedido.Add(oEnProceso);
+            //    return resultadoPedido;
+            //}
             List<cProductosGenerico> listaProductos_Auditoria = new List<cProductosGenerico>();
             foreach (cCarritoTransfer item in pListaCarrito)
             {
@@ -498,8 +493,12 @@ namespace DKbase.web.capaDatos
         public static cDllPedido TomarPedidoCarritoFacturarseFormaHabitual(Usuario pUsuario, cClientes pCliente, string pHorarioCierre, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente, string[] pListaNombreComercial, int[] pListaCantidad)
         {
             cDllPedido resultadoPedido = null;
-            //if (System.Web.HttpContext.Current.Session["clientesDefault_Usuario"] != null && System.Web.HttpContext.Current.Session["clientesDefault_Cliente"] != null)
+            //if (!capaCAR_WebService_base.IsBanderaCodigo(Constantes.cBAN_SERVIDORDLL))
             //{
+            //    cDllPedido oEnProceso = new cDllPedido();
+            //    oEnProceso.Error = msgRealizandoTareasMantenimiento;
+            //    return oEnProceso;
+            //}
             List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
             for (int i = 0; i < pListaNombreComercial.Count(); i++)
             {

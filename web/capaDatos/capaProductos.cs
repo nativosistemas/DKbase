@@ -478,6 +478,35 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable RecuperarProductoPorTablaNombre(DataTable pTabla)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperadorTodosProductosPorTablaNombre", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paTabla_Detalle = cmdComandoInicio.Parameters.Add("@Tabla_Detalle", SqlDbType.Structured);
+            paTabla_Detalle.Value = pTabla;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
         public static bool ActualizarInsertarProductosImagen(string connectionString, string pCodigoProducto, string pNombreArchivo)
         {
             SqlConnection Conn = new SqlConnection(connectionString);

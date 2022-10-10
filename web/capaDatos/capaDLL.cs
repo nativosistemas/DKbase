@@ -25,17 +25,6 @@ namespace DKbase.web.capaDatos
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdCarrito);
             }
             return result;
-            //try
-            //{
-            //    //ServiceReferenceDLL.ServiceSoapClient objServicio = Instacia();
-            //    //return objServicio.ValidarExistenciaDeCarritoWebPasado(pIdCarrito);
-            //}
-            //catch (Exception ex)
-            //{
-            //    //FuncionesPersonalizadas.grabarLog(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdCarrito);
-            //    //return false;
-            //}
-            //return true;
         }
         public static cDllPedido TomarPedidoConIdCarrito(int pIdCarrito, string pLoginCliente, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, List<cDllProductosAndCantidad> pListaProducto, bool pIsUrgente)
         {
@@ -46,10 +35,6 @@ namespace DKbase.web.capaDatos
                 List<DKbase.dll.cDllProductosAndCantidad> l_Productos = pListaProducto;
                 var t = Task.Run(() => capaAPI.TomarPedidoConIdCarritoAsync(pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, l_Productos, pIsUrgente));
                 t.Wait();
-                //if (t.Result == null)
-                //{
-                //    throw new Exception("Result == null");
-                //}
                 result = t.Result;
             }
             catch (Exception ex)
@@ -70,10 +55,6 @@ namespace DKbase.web.capaDatos
                 capaCAR_base.InicioCarritoEnProceso(pIdCarrito, Constantes.cAccionCarrito_TOMAR);
                 var t = Task.Run(() => capaAPI.TomarPedidoDeTransfersConIdCarritoAsync(pIdCarrito,  pLoginCliente,  pIdSucursal,  pMensajeEnFactura,  pMensajeEnRemito,  pTipoEnvio,  pListaProducto));
                 t.Wait();
-                //if (t.Result == null)
-                //{
-                //    throw new Exception("Result == null");
-                //}
                 result = t.Result;
             }
             catch (Exception ex)
@@ -94,10 +75,6 @@ namespace DKbase.web.capaDatos
             {
                 var t = Task.Run(() => capaAPI.TomarPedidoAsync(pLoginCliente,  pIdSucursal,  pMensajeEnFactura,  pMensajeEnRemito,  pTipoEnvio,  pListaProducto,  pIsUrgente));
                 t.Wait();
-                //if (t.Result == null)
-                //{
-                //    throw new Exception("Result == null");
-                //}
                 result = t.Result;                
             }
             catch (Exception ex)
@@ -120,6 +97,50 @@ namespace DKbase.web.capaDatos
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb, pDesde, pHasta);
             }
                     return result;
+        }
+        public static DKbase.dll.cDllPedido TomarPedidoTelefonistaAsync(Usuario pUsuario,int pIdCarrito, string pLoginCliente, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, List<DKbase.dll.cDllProductosAndCantidad> pListaProducto, bool pIsUrgente)
+        {
+            string pLoginTelefonista = pUsuario.usu_login;
+            try
+            {
+                capaCAR_base.InicioCarritoEnProceso(pIdCarrito, Constantes.cAccionCarrito_TOMAR);
+                var t = Task.Run(() => capaAPI.TomarPedidoTelefonistaAsync(pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto, pLoginTelefonista));
+                t.Wait();
+                DKbase.dll.cDllPedido objResult = t.Result;
+                objResult.web_Sucursal = pIdSucursal;
+                return objResult;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto, pIsUrgente, pLoginTelefonista);
+                return null;
+            }
+            finally
+            {
+                capaCAR_base.EndCarritoEnProceso(pIdCarrito);
+            }
+        }
+        public static List<DKbase.dll.cDllPedidoTransfer> TomarPedidoDeTransfersTelefonistaAsync(Usuario pUsuario, int pIdCarrito, string pLoginCliente, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, List<DKbase.dll.cDllProductosAndCantidad> pListaProducto)
+        {
+            string pLoginTelefonista = pUsuario.usu_login;
+            try
+            {            
+                capaCAR_base.InicioCarritoEnProceso(pIdCarrito, Constantes.cAccionCarrito_TOMAR);
+                var t = Task.Run(() => capaAPI.TomarPedidoDeTransfersTelefonistaAsync(pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto, pLoginTelefonista));
+                t.Wait();
+                List<DKbase.dll.cDllPedidoTransfer> objResult = t.Result;
+                objResult.ForEach(o => o.web_Sucursal = pIdSucursal);
+                return objResult;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto, pListaProducto, pLoginTelefonista);
+                return null;
+            }
+            finally
+            {
+                capaCAR_base.EndCarritoEnProceso(pIdCarrito);
+            }
         }
     }
 }

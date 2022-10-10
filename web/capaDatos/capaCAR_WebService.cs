@@ -295,13 +295,6 @@ namespace DKbase.web.capaDatos
                         oEnProceso.Error = msgCarritoEnProceso;
                         return oEnProceso;
                     }
-
-
-                    List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
-                    foreach (cProductosGenerico itemProductos in item.listaProductos)
-                    {
-                        listaProductos.Add(FuncionesPersonalizadas_base.ProductosEnCarrito_ToConvert_DllProductosAndCantidad(itemProductos));
-                    }
                     if (capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id))
                     {
                         capaCAR_base.BorrarCarritoPorId_SleepTimer(item.car_id, Constantes.cAccionCarrito_BORRAR_CARRRITO_REPETIDO);
@@ -309,12 +302,16 @@ namespace DKbase.web.capaDatos
                         oRepetido.Error = msgCarritoRepetido;
                         return oRepetido;
                     }
+                    List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
+                    foreach (cProductosGenerico itemProductos in item.listaProductos)
+                    {
+                        listaProductos.Add(FuncionesPersonalizadas_base.ProductosEnCarrito_ToConvert_DllProductosAndCantidad(itemProductos));
+                    }
+
                     resultadoPedido = capaDLL.TomarPedidoConIdCarrito(item.car_id, pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos, pIsUrgente);
-                    if (!capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id))
+                    if (!capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id) || resultadoPedido == null)
                         return null;
-                    if (resultadoPedido == null)
-                        return null;
-                    else if (resultadoPedido != null)
+                    if (resultadoPedido != null)
                     {
                         bool isErrorPedido = true;
                         if (resultadoPedido.Error == null)
@@ -401,7 +398,8 @@ namespace DKbase.web.capaDatos
 
                     }
                 }
-            } // fin   foreach (cCarritoTransfer item in listaCarrito)
+            }
+            // OJO CON <<<< car_id_aux  >>>>
             if (capaCAR_base.IsCarritoEnProceso(car_id_aux))
             {
                 cDllPedidoTransfer oEnProceso = new cDllPedidoTransfer();
@@ -487,7 +485,6 @@ namespace DKbase.web.capaDatos
             }
             else
                 return null;
-            //}
             return resultadoPedido;
         }
         public static cDllPedido TomarPedidoCarritoFacturarseFormaHabitual(Usuario pUsuario, cClientes pCliente, string pHorarioCierre, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente, string[] pListaNombreComercial, int[] pListaCantidad)
@@ -499,15 +496,32 @@ namespace DKbase.web.capaDatos
             //    oEnProceso.Error = msgRealizandoTareasMantenimiento;
             //    return oEnProceso;
             //}
+
+            DataTable tablaBusqueda = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
+            for (int i = 0; i < pListaNombreComercial.Count(); i++)
+            {
+                DataRow fila = tablaBusqueda.NewRow();
+                fila["codProducto"] = pListaNombreComercial[i];
+                tablaBusqueda.Rows.Add(fila);
+            }
+            DataTable tablaProductos = capaProductos_base.RecuperarProductoPorTablaNombre(tablaBusqueda);
+
             List<cDllProductosAndCantidad> listaProductos = new List<cDllProductosAndCantidad>();
             for (int i = 0; i < pListaNombreComercial.Count(); i++)
             {
                 cDllProductosAndCantidad obj = new cDllProductosAndCantidad();
                 obj.codProductoNombre = pListaNombreComercial[i];
                 obj.cantidad = pListaCantidad[i];
-                cProductos objProductoBD = RecuperarProductoPorNombre(obj.codProductoNombre);
-                obj.isOferta = (objProductoBD.pro_ofeunidades == 0 && objProductoBD.pro_ofeporcentaje == 0) ? false : true;
-                listaProductos.Add(obj);
+                DataRow filaFind = tablaProductos
+    .AsEnumerable()
+    .Where(myRow => myRow.Field<string>("pro_nombre") == obj.codProductoNombre).FirstOrDefault();
+                if (filaFind != null)
+                {
+                    cProductos objProductoBD = DKbase.web.acceso.ConvertToProductos(filaFind);
+
+                    obj.isOferta = (objProductoBD.pro_ofeunidades == 0 && objProductoBD.pro_ofeporcentaje == 0) ? false : true;
+                    listaProductos.Add(obj);
+                }
             }
             resultadoPedido = capaDLL.TomarPedido(pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos, pIsUrgente);
             if (resultadoPedido == null)
@@ -563,8 +577,6 @@ namespace DKbase.web.capaDatos
         public static cProductos RecuperarProductoPorNombre(string pNombreProducto)
         {
             cProductos resultado = null;
-            //if (VerificarPermisos(CredencialAutenticacion))
-            //{
             DataTable tablaProductos = capaProductos_base.RecuperarProductoPorNombre(pNombreProducto);
             if (tablaProductos != null)
             {
@@ -573,7 +585,6 @@ namespace DKbase.web.capaDatos
                     resultado = DKbase.web.acceso.ConvertToProductos(tablaProductos.Rows[0]);
                 }
             }
-            //}
             return resultado;
         }
         public static List<DKbase.dll.cDllPedido> ObtenerPedidosEntreFechas(string pLoginWeb, DateTime pDesde, DateTime pHasta)

@@ -80,7 +80,7 @@ namespace DKbase.web.capaDatos
             if (pp is string)
             {
                 var a = pp as string;
-                if (string.IsNullOrEmpty(a) || a == "null")
+                if (string.IsNullOrEmpty(a) || a.ToLower() == "null")
                 {
                     result = false;
                 }

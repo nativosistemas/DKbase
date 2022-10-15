@@ -90,34 +90,34 @@ namespace DKbase.generales
         }
         public static void saveInFile(string pMensaje, string pNombreArchivo)
         {
-            try
+            //try
+            //{
+            string path = Helper.getFolder + @"\Log\" + Helper.getTipoApp + "\\";
+            if (Directory.Exists(path) == false)
             {
-                string path = Helper.getFolder + @"\Log\" + Helper.getTipoApp + "\\";
-                if (Directory.Exists(path) == false)
+                Directory.CreateDirectory(path);
+            }
+            string FilePath = path + pNombreArchivo;
+            if (!File.Exists(FilePath))
+            {
+                using (StreamWriter sw = File.CreateText(FilePath))
                 {
-                    Directory.CreateDirectory(path);
-                }
-                string FilePath = path + pNombreArchivo;
-                if (!File.Exists(FilePath))
-                {
-                    using (StreamWriter sw = File.CreateText(FilePath))
-                    {
-                        sw.WriteLine(pMensaje);
-                        sw.Close();
-                    }
-                }
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(FilePath))
-                    {
-                        sw.WriteLine(pMensaje);
-                        sw.Close();
-                    }
+                    sw.WriteLine(pMensaje);
+                    sw.Close();
                 }
             }
-            catch (Exception ex)
+            else
             {
+                using (StreamWriter sw = File.AppendText(FilePath))
+                {
+                    sw.WriteLine(pMensaje);
+                    sw.Close();
+                }
             }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
         }
     }
 }

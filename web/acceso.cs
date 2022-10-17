@@ -1337,5 +1337,49 @@ namespace DKbase.web
             
             return resultado;
         }
+        public static cReservasVacunas ConvertToReservasVacunas(DataRow pItem)
+        {
+            cReservasVacunas obj = new cReservasVacunas();
+            if (pItem.Table.Columns.Contains("rdv_id") && pItem["rdv_id"] != DBNull.Value)
+            {
+                obj.rdv_id = Convert.ToInt32(pItem["rdv_id"]);
+            }
+            if (pItem.Table.Columns.Contains("rdv_multiplo") && pItem["rdv_multiplo"] != DBNull.Value)
+            {
+                obj.rdv_multiplo = Convert.ToInt32(pItem["rdv_multiplo"]);
+            }
+            if (pItem.Table.Columns.Contains("rdv_codigo") && pItem["rdv_codigo"] != DBNull.Value)
+            {
+                obj.rdv_codigo = pItem["rdv_codigo"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("rdv_condicion") && pItem["rdv_condicion"] != DBNull.Value)
+            {
+                obj.rdv_condicion = pItem["rdv_condicion"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("rdv_nombre") && pItem["rdv_nombre"] != DBNull.Value)
+            {
+                obj.rdv_nombre = pItem["rdv_nombre"].ToString();
+            }
+            if (pItem.Table.Columns.Contains("rdv_plazo") && pItem["rdv_plazo"] != DBNull.Value)
+            {
+                obj.rdv_plazo = pItem["rdv_plazo"].ToString();
+            }
+            return obj;
+        }
+        public static List<cReservasVacunas> ObtenerReservasVacunas()
+        {
+            List<cReservasVacunas> result = null;
+            DataTable tb = capaProductos_base.ObtenerReservasVacunas();
+            if (tb != null && tb.Rows.Count > 0)
+            {
+                result = new List<cReservasVacunas>();
+                foreach (DataRow item in tb.Rows)
+                {
+                    cReservasVacunas o = acceso.ConvertToReservasVacunas(item);
+                    result.Add(o);
+                }
+            }
+            return result;
+        }
     }
 }

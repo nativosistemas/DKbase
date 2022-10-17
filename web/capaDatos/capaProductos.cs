@@ -8,6 +8,15 @@ using System.Text;
 
 namespace DKbase.web.capaDatos
 {
+    public class cReservasVacunas
+    {
+        public int rdv_id { get; set; }
+        public string rdv_codigo { get; set; }
+        public string rdv_nombre { get; set; }
+        public string rdv_condicion { get; set; }
+        public string rdv_plazo { get; set; }
+        public int rdv_multiplo { get; set; }
+    }
     public class cProductos
     {
         public cProductos()
@@ -183,7 +192,7 @@ namespace DKbase.web.capaDatos
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
             SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperarTodosProductosBuscadorV3", Conn);
             cmdComandoInicio.CommandType = CommandType.StoredProcedure;
-      
+
             SqlParameter paWhere = cmdComandoInicio.Parameters.Add("@Where", SqlDbType.NVarChar, 4000);
             paWhere.Value = pListaColumna == null || isColumnaWhereDefault(pListaColumna) ? FuncionesPersonalizadas_base.GenerarWhereLikeConColumna(pTextoBuscador, "pop_columnaWhereDefault") : FuncionesPersonalizadas_base.GenerarWhereLikeConVariasColumnas(pTextoBuscador, pListaColumna);
 
@@ -537,5 +546,33 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
-    }
+        public static DataTable ObtenerReservasVacunas()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("dbo.spObtenerReservasVacunas", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+
+        }
 }

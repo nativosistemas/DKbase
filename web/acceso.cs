@@ -1381,5 +1381,39 @@ namespace DKbase.web
             }
             return result;
         }
+        public static List<cReservasVacunas> ObtenerReservasVacunas_mis()
+        {
+            List<cReservasVacunas> result = null;
+            DataTable tb = capaProductos_base.ObtenerReservasVacunas();
+            if (tb != null && tb.Rows.Count > 0)
+            {
+                result = new List<cReservasVacunas>();
+                foreach (DataRow item in tb.Rows)
+                {
+                    cReservasVacunas o = acceso.ConvertToReservasVacunas(item);
+                    o.fecha = DateTime.Now;
+                    o.fechaToString = o.fecha.ToString();
+                    o.unidadPedidas = 50;
+                    result.Add(o);
+                }
+            }
+            return result;
+        }
+        public static List<cReservasVacunas> ObtenerReservasVacunas_total()
+        {
+            List<cReservasVacunas> result = null;
+            DataTable tb = capaProductos_base.ObtenerReservasVacunas();
+            if (tb != null && tb.Rows.Count > 0)
+            {
+                result = new List<cReservasVacunas>();
+                foreach (DataRow item in tb.Rows)
+                {
+                    cReservasVacunas o = acceso.ConvertToReservasVacunas(item);
+                    o.unidadTotales = 1000;
+                    result.Add(o);
+                }
+            }
+            return result;
+        }
     }
 }

@@ -16,6 +16,10 @@ namespace DKbase.web.capaDatos
         public string rdv_condicion { get; set; }
         public string rdv_plazo { get; set; }
         public int rdv_multiplo { get; set; }
+        public int unidadPedidas { get; set; }
+        public int unidadTotales { get; set; }
+        public DateTime fecha { get; set; }
+        public string fechaToString { get; set; }
     }
     public class cProductos
     {

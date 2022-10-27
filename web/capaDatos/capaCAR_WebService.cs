@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 
@@ -13,6 +14,7 @@ namespace DKbase.web.capaDatos
     {
         private static string msgCarritoRepetido = "Carrito ya se encuentra facturado.";
         private static string msgCarritoEnProceso = "Carrito se está procesando.";
+        private static string msgValidarExistenciaDeCarritoWebPasado = "ValidarExistenciaDeCarritoWebPasado no se grabo";
         private static string msgRealizandoTareasMantenimiento = "En este momento estamos realizando tareas de mantenimiento, por favor intente más tarde.";
         public static List<cCarrito> RecuperarCarritosPorSucursalYProductos_generica(cClientes objClientes, string pTipo)
         {
@@ -307,11 +309,14 @@ namespace DKbase.web.capaDatos
                     {
                         listaProductos.Add(FuncionesPersonalizadas_base.ProductosEnCarrito_ToConvert_DllProductosAndCantidad(itemProductos));
                     }
-
                     resultadoPedido = capaDLL.TomarPedidoConIdCarrito(item.car_id, pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos, pIsUrgente);
-                    if (!capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id) || resultadoPedido == null)
-                        return null;
-                    if (resultadoPedido != null)
+                    bool isValidarExistenciaDeCarritoWebPasado = capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id);
+                    if (!isValidarExistenciaDeCarritoWebPasado)
+                    {
+                        resultadoPedido = null;
+                        DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado, DateTime.Now, item.car_id);
+                    }
+                    else if (resultadoPedido != null)
                     {
                         bool isErrorPedido = true;
                         if (resultadoPedido.Error == null)
@@ -418,10 +423,12 @@ namespace DKbase.web.capaDatos
                 return resultadoPedido;
             }
             List<cDllPedidoTransfer> listaCarritoAux = capaDLL.TomarPedidoDeTransfersConIdCarrito(car_id_aux, pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos);
-            if (!capaDLL.ValidarExistenciaDeCarritoWebPasado(car_id_aux))
-                return null;
-
-            if (listaCarritoAux != null)
+            bool isValidarExistenciaDeCarritoWebPasado = capaDLL.ValidarExistenciaDeCarritoWebPasado(car_id_aux);
+            if (!isValidarExistenciaDeCarritoWebPasado)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado, DateTime.Now, car_id_aux);
+            }
+            else if (listaCarritoAux != null)
             {
                 resultadoPedido = listaCarritoAux;
                 bool isErrorPedido = true;
@@ -483,8 +490,6 @@ namespace DKbase.web.capaDatos
                     capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, listaProductos_Auditoria, car_id_aux, pIdSucursal, tipo, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, false);
                 }
             }
-            else
-                return null;
             return resultadoPedido;
         }
         public static cDllPedido TomarPedidoCarritoFacturarseFormaHabitual(Usuario pUsuario, cClientes pCliente, string pHorarioCierre, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, bool pIsUrgente, string[] pListaNombreComercial, int[] pListaCantidad)
@@ -524,9 +529,7 @@ namespace DKbase.web.capaDatos
                 }
             }
             resultadoPedido = capaDLL.TomarPedido(pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos, pIsUrgente);
-            if (resultadoPedido == null)
-                return null;
-            else if (resultadoPedido != null)
+            if (resultadoPedido != null)
             {
                 bool isErrorPedido = true;
                 if (resultadoPedido.Error == null)
@@ -570,8 +573,6 @@ namespace DKbase.web.capaDatos
                     }
                 }
             }
-            //}
-
             return resultadoPedido;
         }
         public static cProductos RecuperarProductoPorNombre(string pNombreProducto)

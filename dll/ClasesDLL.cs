@@ -303,6 +303,8 @@ namespace DKbase.dll
         public string web_Sucursal { get; set; }
         public string web_Error { get { return _web_Error; } set { _web_Error = value; } }
         private string _web_Error = string.Empty;
+        public string web_Error_StackTrace { get { return _web_Error; } set { _web_Error = value; } }
+        private string _web_Error_StackTrace = string.Empty;
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
         public string Error { get { return _Error; } set { _Error = value; } }
@@ -329,6 +331,8 @@ namespace DKbase.dll
         public string web_Sucursal { get; set; }
         public string web_Error { get { return _web_Error; } set { _web_Error = value; } }
         private string _web_Error = string.Empty;
+        public string web_Error_StackTrace { get { return _web_Error; } set { _web_Error = value; } }
+        private string _web_Error_StackTrace = string.Empty;
         public int CantidadRenglones { get; set; }
         public int CantidadUnidad { get; set; }
         public string Error { get { return _Error; } set { _Error = value; } }

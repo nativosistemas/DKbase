@@ -491,4 +491,20 @@ namespace DKbase.dll
         public string dev_idsucursal { get; set; }
         public string dev_numerosolicitudNC { get; set; }
     }
+    public class cVacuna {
+        public int ID { get; set; }
+        public string Login { get; set; }
+        public string NombreProducto { get; set; }    
+        public int UnidadesVendidas { get; set; }
+    }
+    public class cReservaVacuna
+    {
+        public int ID { get; set; }
+        public string NombreProducto { get; set; }
+        public DateTime FechaAlta { get; set; }
+        public string Estado { get; set; }
+        public string DescripcionPack { get; set; }
+        public bool TomaWeb { get; set; }
+        public int UnidadesVendidas { get; set; }
+    }
 }

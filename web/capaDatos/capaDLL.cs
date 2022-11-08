@@ -142,5 +142,20 @@ namespace DKbase.web.capaDatos
                 capaCAR_base.EndCarritoEnProceso(pIdCarrito);
             }
         }
+        public static bool AgregarVacunas(List<DKbase.dll.cVacuna> pListaVacunas)
+        {
+            bool result = false;
+            try
+            {
+                var t = Task.Run(() => capaAPI.AgregarVacunasAsync(pListaVacunas));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pListaVacunas);
+            }
+            return result;
+        }
     }
 }

@@ -219,5 +219,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<bool> AgregarVacunasAsync(List<DKbase.dll.cVacuna> pListaVacunas)
+        {
+            bool result = false;
+            string name = "AgregarVacunas";
+            DKbase.Models.VacunasRequest parameter = new DKbase.Models.VacunasRequest() { pVacunas = pListaVacunas};
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<bool>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

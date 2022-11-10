@@ -1399,20 +1399,10 @@ namespace DKbase.web
             }
             return result;
         }
-        public static List<cReservasVacunas> ObtenerReservasVacunas_total()
+        public static List<DKbase.dll.cVacuna> ObtenerReservasVacunas_total(cClientes pCliente)
         {
-            List<cReservasVacunas> result = null;
-            DataTable tb = capaProductos_base.ObtenerReservasVacunas();
-            if (tb != null && tb.Rows.Count > 0)
-            {
-                result = new List<cReservasVacunas>();
-                foreach (DataRow item in tb.Rows)
-                {
-                    cReservasVacunas o = acceso.ConvertToReservasVacunas(item);
-                    o.unidadTotales = 1000;
-                    result.Add(o);
-                }
-            }
+            DateTime now = DateTime.Now;
+            List<DKbase.dll.cVacuna> result = DKbase.web.capaDatos.capaDLL.ObtenerTotalReservasDeVacunasPorClienteEntreFechas(now.AddDays(-20), now, pCliente.cli_login);
             return result;
         }
     }

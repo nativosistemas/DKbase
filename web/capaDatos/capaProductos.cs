@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DKbase.web.capaDatos
 {
-    public class cReservasVacunas
+    public class cReservasVacunasBD
     {
         public int rdv_id { get; set; }
         public string rdv_codigo { get; set; }

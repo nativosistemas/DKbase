@@ -251,5 +251,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<DKbase.dll.cReservaVacuna>> ObtenerReservasDeVacunasPorClienteEntreFechasAsync(DateTime pDesde, DateTime pHasta, String pLoginWEB)
+        {
+            List<DKbase.dll.cReservaVacuna> result = null;
+            string name = "ObtenerReservasDeVacunasPorClienteEntreFechas";
+            DKbase.Models.VacunasRequest parameter = new DKbase.Models.VacunasRequest() { pDesde = pDesde, pHasta = pHasta, pLoginWEB = pLoginWEB };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<DKbase.dll.cReservaVacuna>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

@@ -1337,9 +1337,9 @@ namespace DKbase.web
             
             return resultado;
         }
-        public static cReservasVacunas ConvertToReservasVacunas(DataRow pItem)
+        public static cReservasVacunasBD ConvertToReservasVacunas(DataRow pItem)
         {
-            cReservasVacunas obj = new cReservasVacunas();
+            cReservasVacunasBD obj = new cReservasVacunasBD();
             if (pItem.Table.Columns.Contains("rdv_id") && pItem["rdv_id"] != DBNull.Value)
             {
                 obj.rdv_id = Convert.ToInt32(pItem["rdv_id"]);
@@ -1366,37 +1366,25 @@ namespace DKbase.web
             }
             return obj;
         }
-        public static List<cReservasVacunas> ObtenerReservasVacunas()
+        public static List<cReservasVacunasBD> ObtenerReservasVacunas()
         {
-            List<cReservasVacunas> result = null;
+            List<cReservasVacunasBD> result = null;
             DataTable tb = capaProductos_base.ObtenerReservasVacunas();
             if (tb != null && tb.Rows.Count > 0)
             {
-                result = new List<cReservasVacunas>();
+                result = new List<cReservasVacunasBD>();
                 foreach (DataRow item in tb.Rows)
                 {
-                    cReservasVacunas o = acceso.ConvertToReservasVacunas(item);
+                    cReservasVacunasBD o = acceso.ConvertToReservasVacunas(item);
                     result.Add(o);
                 }
             }
             return result;
         }
-        public static List<cReservasVacunas> ObtenerReservasVacunas_mis()
+        public static List<DKbase.dll.cReservaVacuna> ObtenerReservasVacunas_mis(cClientes pCliente)
         {
-            List<cReservasVacunas> result = null;
-            DataTable tb = capaProductos_base.ObtenerReservasVacunas();
-            if (tb != null && tb.Rows.Count > 0)
-            {
-                result = new List<cReservasVacunas>();
-                foreach (DataRow item in tb.Rows)
-                {
-                    cReservasVacunas o = acceso.ConvertToReservasVacunas(item);
-                    o.fecha = DateTime.Now;
-                    o.fechaToString = o.fecha.ToString();
-                    o.unidadPedidas = 50;
-                    result.Add(o);
-                }
-            }
+            DateTime now = DateTime.Now;
+            List<DKbase.dll.cReservaVacuna> result = DKbase.web.capaDatos.capaDLL.ObtenerReservasDeVacunasPorClienteEntreFechas(now.AddDays(-20), now, pCliente.cli_login);
             return result;
         }
         public static List<DKbase.dll.cVacuna> ObtenerReservasVacunas_total(cClientes pCliente)

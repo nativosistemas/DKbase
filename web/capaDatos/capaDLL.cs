@@ -172,5 +172,20 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<DKbase.dll.cReservaVacuna> ObtenerReservasDeVacunasPorClienteEntreFechas(DateTime pDesde, DateTime pHasta, String pLoginWEB)
+        {
+            List<DKbase.dll.cReservaVacuna> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerReservasDeVacunasPorClienteEntreFechasAsync(pDesde, pHasta, pLoginWEB));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pDesde, pHasta, pLoginWEB);
+            }
+            return result;
+        }
     }
 }

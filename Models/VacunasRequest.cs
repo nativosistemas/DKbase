@@ -11,5 +11,6 @@ namespace DKbase.Models
         public DateTime pDesde { get; set; }
         public DateTime pHasta { get; set; }
         public String pLoginWEB { get; set; }
+        public string pLoginTelefonista { get; set; }
     }
 }

@@ -219,11 +219,11 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<bool> AgregarVacunasAsync(List<DKbase.dll.cVacuna> pListaVacunas)
+        public static async Task<bool> AgregarVacunasAsync(List<DKbase.dll.cVacuna> pListaVacunas, string pLoginTelefonista)
         {
             bool result = false;
             string name = "AgregarVacunas";
-            DKbase.Models.VacunasRequest parameter = new DKbase.Models.VacunasRequest() { pVacunas = pListaVacunas};
+            DKbase.Models.VacunasRequest parameter = new DKbase.Models.VacunasRequest() { pVacunas = pListaVacunas, pLoginTelefonista  = pLoginTelefonista };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {

@@ -142,7 +142,7 @@ namespace DKbase.web.capaDatos
                 capaCAR_base.EndCarritoEnProceso(pIdCarrito);
             }
         }
-        public static bool AgregarVacunas(List<DKbase.dll.cVacuna> pListaVacunas, string pLoginTelefonista)
+        public static bool AgregarVacunas(List<DKbase.dll.cVacuna> pListaVacunas, string pLoginTelefonista = null)
         {
             bool result = false;
             try

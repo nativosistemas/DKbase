@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/nativosistemas/DKbase</PackageProjectUrl>
+    <Authors>nativosistemas</Authors>
+    <Company>nativosistemas</Company>
+    <Product />
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/nativosistemas/DKbase</RepositoryUrl>
+    <Version>1.0.1</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>NativoSistemas.DKbase</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1384,7 +1384,10 @@ namespace DKbase.web
         public static List<DKbase.dll.cReservaVacuna> ObtenerReservasVacunas_mis(cClientes pCliente)
         {
             DateTime now = DateTime.Now;
-            List<DKbase.dll.cReservaVacuna> result = DKbase.web.capaDatos.capaDLL.ObtenerReservasDeVacunasPorClienteEntreFechas(now.AddDays(-20), now, pCliente.cli_login);
+            //List<DKbase.dll.cReservaVacuna> result = DKbase.web.capaDatos.capaDLL.ObtenerReservasDeVacunasPorClienteEntreFechas(now.AddDays(-20), now, pCliente.cli_login);
+            List<DKbase.dll.cReservaVacuna> result = new List<dll.cReservaVacuna>();
+            result.Add(new dll.cReservaVacuna() { FechaAltaToString = DateTime.Now.ToShortDateString(), TomaWeb = true, NombreProducto = "caña", UnidadesVendidas = 150 });
+            result.Add(new dll.cReservaVacuna() { FechaAltaToString = DateTime.Now.AddDays(54).ToShortDateString(), TomaWeb = false, NombreProducto = "ruda", UnidadesVendidas = 80 });
             return result;
         }
         public static List<DKbase.dll.cVacuna> ObtenerReservasVacunas_total(cClientes pCliente)

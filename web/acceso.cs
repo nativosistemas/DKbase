@@ -1258,7 +1258,7 @@ namespace DKbase.web
 
             return capaLogRegistro_base.BorrarPorProductosFaltasProblemasCrediticiosV3(pTablaDetalle, fpc_codSucursal, fpc_codCliente, fpc_tipo, pCantidadDia);
         }
-        public static bool AgregarProductosDelRecuperardorAlCarrito(cClientes pCliente, Usuario pUsuario, string pSucursal, string[] pArrayNombreProducto, int[] pArrayCantidad, bool[] pArrayOferta,int pRecuperador_Tipo,int pRecuperador_CantidadDia)
+        public static bool AgregarProductosDelRecuperardorAlCarrito(cClientes pCliente, Usuario pUsuario, string pSucursal, string[] pArrayNombreProducto, int[] pArrayCantidad, bool[] pArrayOferta, int pRecuperador_Tipo, int pRecuperador_CantidadDia)
         {
             List<cProductosAndCantidad> listaAUX = new List<cProductosAndCantidad>();
             for (int i = 0; i < pArrayNombreProducto.Count(); i++)
@@ -1304,37 +1304,37 @@ namespace DKbase.web
         public static List<cProductosGenerico> RecuperarTodosProductosDesdeTabla(cClientes pCliente, List<cProductosAndCantidad> pListaProducto, string pSucursalPerteneciente, string pCli_codprov, int pCli_codigo)
         {
             List<cProductosGenerico> resultado = null;
-     
-                DataSet dsResultado = null;
-                DataTable pTablaDetalle = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
-  
-                if (pListaProducto.Count > 0)
+
+            DataSet dsResultado = null;
+            DataTable pTablaDetalle = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
+
+            if (pListaProducto.Count > 0)
+            {
+                foreach (cProductosAndCantidad itemProductosAndCantidad in pListaProducto)
                 {
-                    foreach (cProductosAndCantidad itemProductosAndCantidad in pListaProducto)
-                    {
-                        DataRow fila = pTablaDetalle.NewRow();
-                        fila["codProducto"] = itemProductosAndCantidad.codProductoNombre;
-                        fila["cantidad"] = itemProductosAndCantidad.cantidad;
-                        pTablaDetalle.Rows.Add(fila);
-                    }
+                    DataRow fila = pTablaDetalle.NewRow();
+                    fila["codProducto"] = itemProductosAndCantidad.codProductoNombre;
+                    fila["cantidad"] = itemProductosAndCantidad.cantidad;
+                    pTablaDetalle.Rows.Add(fila);
                 }
-                dsResultado = capaProductos_base.RecuperarProductosDesdeTabla(pTablaDetalle, pSucursalPerteneciente, pCli_codprov, pCli_codigo);
-                if (dsResultado != null)
+            }
+            dsResultado = capaProductos_base.RecuperarProductosDesdeTabla(pTablaDetalle, pSucursalPerteneciente, pCli_codprov, pCli_codigo);
+            if (dsResultado != null)
+            {
+                DataTable tablaProductos = dsResultado.Tables[0];
+                DataTable tablaSucursalStocks = dsResultado.Tables[1];
+                List<cTransferDetalle> listaTransferDetalle = null;
+                listaTransferDetalle = new List<cTransferDetalle>();
+                DataTable tablaTransferDetalle = dsResultado.Tables[2];
+                foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
                 {
-                    DataTable tablaProductos = dsResultado.Tables[0];
-                    DataTable tablaSucursalStocks = dsResultado.Tables[1];
-                    List<cTransferDetalle> listaTransferDetalle = null;
-                    listaTransferDetalle = new List<cTransferDetalle>();
-                    DataTable tablaTransferDetalle = dsResultado.Tables[2];
-                    foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
-                    {
-                        cTransferDetalle objTransferDetalle = ConvertToTransferDetalle(itemTransferDetalle);
-                        objTransferDetalle.CargarTransfer(ConvertToTransfer(itemTransferDetalle));
-                        listaTransferDetalle.Add(objTransferDetalle);
-                    }
-                    resultado = DKbase.web.acceso.cargarProductosBuscadorArchivos(pCliente, tablaProductos, tablaSucursalStocks, listaTransferDetalle, DKbase.generales.Constantes.CargarProductosBuscador.isDesdeTabla, null);
+                    cTransferDetalle objTransferDetalle = ConvertToTransferDetalle(itemTransferDetalle);
+                    objTransferDetalle.CargarTransfer(ConvertToTransfer(itemTransferDetalle));
+                    listaTransferDetalle.Add(objTransferDetalle);
                 }
-            
+                resultado = DKbase.web.acceso.cargarProductosBuscadorArchivos(pCliente, tablaProductos, tablaSucursalStocks, listaTransferDetalle, DKbase.generales.Constantes.CargarProductosBuscador.isDesdeTabla, null);
+            }
+
             return resultado;
         }
         public static cReservasVacunasBD ConvertToReservasVacunas(DataRow pItem)
@@ -1364,9 +1364,14 @@ namespace DKbase.web
             {
                 obj.rdv_plazo = pItem["rdv_plazo"].ToString();
             }
+            if (pItem.Table.Columns.Contains("rdv_sinTroquel") && pItem["rdv_sinTroquel"] != DBNull.Value)
+            {
+                obj.rdv_sinTroquel = Convert.ToBoolean(pItem["rdv_sinTroquel"]);
+            }
+
             return obj;
         }
-        public static List<cReservasVacunasBD> ObtenerReservasVacunas()
+        public static List<cReservasVacunasBD> ObtenerReservasVacunas(bool pIsSinTroquel)
         {
             List<cReservasVacunasBD> result = null;
             DataTable tb = capaProductos_base.ObtenerReservasVacunas();
@@ -1376,7 +1381,10 @@ namespace DKbase.web
                 foreach (DataRow item in tb.Rows)
                 {
                     cReservasVacunasBD o = acceso.ConvertToReservasVacunas(item);
-                    result.Add(o);
+                    if (o.rdv_sinTroquel == pIsSinTroquel)
+                    {
+                        result.Add(o);
+                    }
                 }
             }
             return result;
@@ -1384,10 +1392,10 @@ namespace DKbase.web
         public static List<DKbase.dll.cReservaVacuna> ObtenerReservasVacunas_mis(cClientes pCliente)
         {
             DateTime now = DateTime.Now;
-            //List<DKbase.dll.cReservaVacuna> result = DKbase.web.capaDatos.capaDLL.ObtenerReservasDeVacunasPorClienteEntreFechas(now.AddDays(-20), now, pCliente.cli_login);
-            List<DKbase.dll.cReservaVacuna> result = new List<dll.cReservaVacuna>();
-            result.Add(new dll.cReservaVacuna() { FechaAltaToString = DateTime.Now.ToShortDateString(), TomaWeb = true, NombreProducto = "caña", UnidadesVendidas = 150 });
-            result.Add(new dll.cReservaVacuna() { FechaAltaToString = DateTime.Now.AddDays(54).ToShortDateString(), TomaWeb = false, NombreProducto = "ruda", UnidadesVendidas = 80 });
+            List<DKbase.dll.cReservaVacuna> result = DKbase.web.capaDatos.capaDLL.ObtenerReservasDeVacunasPorClienteEntreFechas(now.AddDays(-20), now, pCliente.cli_login);
+            //List<DKbase.dll.cReservaVacuna> result = new List<dll.cReservaVacuna>();
+            //result.Add(new dll.cReservaVacuna() { FechaAltaToString = DateTime.Now.ToShortDateString(), TomaWeb = true, NombreProducto = "caña", UnidadesVendidas = 150 });
+            //result.Add(new dll.cReservaVacuna() { FechaAltaToString = DateTime.Now.AddDays(54).ToShortDateString(), TomaWeb = false, NombreProducto = "ruda", UnidadesVendidas = 80 });
             return result;
         }
         public static List<DKbase.dll.cVacuna> ObtenerReservasVacunas_total(cClientes pCliente)

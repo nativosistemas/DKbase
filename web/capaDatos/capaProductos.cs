@@ -18,6 +18,7 @@ namespace DKbase.web.capaDatos
         public int rdv_multiplo { get; set; }
         public int unidadPedidas { get; set; }
         public int unidadTotales { get; set; }
+        public bool rdv_sinTroquel { get; set; }
         public DateTime fecha { get; set; }
         public string fechaToString { get; set; }
     }
@@ -578,5 +579,5 @@ namespace DKbase.web.capaDatos
             }
         }
 
-        }
+    }
 }

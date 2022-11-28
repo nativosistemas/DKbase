@@ -212,5 +212,21 @@ namespace DKbase.generales
         {
             get { return 13; }
         }
+        public static string cSECCION_PEDIDOS
+        {
+            get { return "PEDIDOS"; }
+        }
+        public static string cSECCION_DESCARGAS
+        {
+            get { return "DESCARGAS"; }
+        }
+        public static string cSECCION_CUENTASCORRIENTES
+        {
+            get { return "CUENTASCORRIENTES"; }
+        }
+        public static string cSECCION_DEVOLUCIONES
+        {
+            get { return  "DEVOLUCIONES"; }
+        }
     }
 }

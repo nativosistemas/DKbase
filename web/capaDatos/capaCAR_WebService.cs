@@ -14,7 +14,7 @@ namespace DKbase.web.capaDatos
     {
         private static string msgCarritoRepetido = "Carrito ya se encuentra facturado.";
         private static string msgCarritoEnProceso = "Carrito se está procesando.";
-        private static string msgValidarExistenciaDeCarritoWebPasado = "ValidarExistenciaDeCarritoWebPasado no se grabo";
+        private static string msgValidarExistenciaDeCarritoWebPasado = "La función ValidarExistenciaDeCarritoWebPasado no reconoce el idCarrito procesado";
         private static string msgRealizandoTareasMantenimiento = "En este momento estamos realizando tareas de mantenimiento, por favor intente más tarde.";
         public static List<cCarrito> RecuperarCarritosPorSucursalYProductos_generica(cClientes objClientes, string pTipo)
         {
@@ -313,23 +313,20 @@ namespace DKbase.web.capaDatos
                     bool isValidarExistenciaDeCarritoWebPasado = capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id);
                     if (!isValidarExistenciaDeCarritoWebPasado)
                     {
-                        resultadoPedido = null;
                         DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado, DateTime.Now, item.car_id);
+                        cDllPedido oRepetido = new cDllPedido();
+                        oRepetido.Error = msgValidarExistenciaDeCarritoWebPasado;
+                        return oRepetido;
                     }
-                    else if (resultadoPedido != null)
-                    {
-                        bool isErrorPedido = true;
-                        if (resultadoPedido.Error == null)
+                    if (resultadoPedido != null)
+                    {                      
+                        bool isErrorPedido = false;
+                        if (!string.IsNullOrEmpty(resultadoPedido.Error) ||
+                            !string.IsNullOrEmpty(resultadoPedido.web_Error))
                         {
-                            isErrorPedido = false;
+                            isErrorPedido = true;
                         }
-                        else
-                        {
-                            if (resultadoPedido.Error.Trim() == string.Empty)
-                            {
-                                isErrorPedido = false;
-                            }
-                        }
+
                         // Si se genero error
                         if (isErrorPedido)
                         {
@@ -427,23 +424,23 @@ namespace DKbase.web.capaDatos
             if (!isValidarExistenciaDeCarritoWebPasado)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado, DateTime.Now, car_id_aux);
+                cDllPedidoTransfer oRepetido = new cDllPedidoTransfer();
+                oRepetido.Error = msgValidarExistenciaDeCarritoWebPasado;
+                resultadoPedido = new List<cDllPedidoTransfer>();
+                resultadoPedido.Add(oRepetido);
+                return resultadoPedido;
             }
-            else if (listaCarritoAux != null)
+            if (listaCarritoAux != null)
             {
                 resultadoPedido = listaCarritoAux;
-                bool isErrorPedido = true;
+                bool isErrorPedido = false;
                 if (listaCarritoAux.Count > 0)
                 {
-                    if (listaCarritoAux[0].Error == null)
+                    //listaCarritoAux[0].web_Error = "ffsdfdf";
+                    if (!string.IsNullOrEmpty(listaCarritoAux[0].Error) ||
+                         !string.IsNullOrEmpty(listaCarritoAux[0].web_Error))
                     {
-                        isErrorPedido = false;
-                    }
-                    else
-                    {
-                        if (listaCarritoAux[0].Error.Trim() == string.Empty)
-                        {
-                            isErrorPedido = false;
-                        }
+                        isErrorPedido = true;
                     }
                     // INICIO FALTANTE
                     foreach (cDllPedidoTransfer itemPedidoTransferFaltante in listaCarritoAux)
@@ -474,10 +471,6 @@ namespace DKbase.web.capaDatos
                         }
                     }
                     // FIN FALTANTE
-                }
-                else
-                {
-                    isErrorPedido = false;
                 }
                 // Si se genero error
                 if (isErrorPedido)
@@ -531,17 +524,11 @@ namespace DKbase.web.capaDatos
             resultadoPedido = capaDLL.TomarPedido(pCliente.cli_login, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, listaProductos, pIsUrgente);
             if (resultadoPedido != null)
             {
-                bool isErrorPedido = true;
-                if (resultadoPedido.Error == null)
+                bool isErrorPedido = false;
+                if (!string.IsNullOrEmpty(resultadoPedido.Error) ||
+                            !string.IsNullOrEmpty(resultadoPedido.web_Error))
                 {
-                    isErrorPedido = false;
-                }
-                else
-                {
-                    if (resultadoPedido.Error.Trim() == string.Empty)
-                    {
-                        isErrorPedido = false;
-                    }
+                    isErrorPedido = true;
                 }
                 // Si se genero error
                 if (isErrorPedido)

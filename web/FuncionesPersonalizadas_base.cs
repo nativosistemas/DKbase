@@ -341,7 +341,8 @@ namespace DKbase.web
                         while ((int)d.DayOfWeek != diaSemanaNro)
                         {
                             sumaDia++;
-                            d = new DateTime(hoy.Year, hoy.Month, hoy.Day + sumaDia, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 50);// mes 0 = enero
+                            d = new DateTime(hoy.Year, hoy.Month, hoy.Day, Convert.ToInt32(values[0]), Convert.ToInt32(values[1]), 50);// mes 0 = enero
+                            d = d.AddDays(sumaDia);
                             if (sumaDia > 7 || (int)d.DayOfWeek == diaSemanaNro)
                                 break;
                         }
@@ -1005,17 +1006,20 @@ namespace DKbase.web
         public static string LimpiarStringErrorPedido(string pValor)
         {
             string resultado = pValor;
-            resultado = resultado.Replace("-", string.Empty);
-            resultado = resultado.Replace("0", string.Empty);
-            resultado = resultado.Replace("1", string.Empty);
-            resultado = resultado.Replace("2", string.Empty);
-            resultado = resultado.Replace("3", string.Empty);
-            resultado = resultado.Replace("4", string.Empty);
-            resultado = resultado.Replace("5", string.Empty);
-            resultado = resultado.Replace("6", string.Empty);
-            resultado = resultado.Replace("7", string.Empty);
-            resultado = resultado.Replace("8", string.Empty);
-            resultado = resultado.Replace("9", string.Empty);
+            if (!string.IsNullOrEmpty(resultado))
+            {
+                resultado = resultado.Replace("-", string.Empty);
+                resultado = resultado.Replace("0", string.Empty);
+                resultado = resultado.Replace("1", string.Empty);
+                resultado = resultado.Replace("2", string.Empty);
+                resultado = resultado.Replace("3", string.Empty);
+                resultado = resultado.Replace("4", string.Empty);
+                resultado = resultado.Replace("5", string.Empty);
+                resultado = resultado.Replace("6", string.Empty);
+                resultado = resultado.Replace("7", string.Empty);
+                resultado = resultado.Replace("8", string.Empty);
+                resultado = resultado.Replace("9", string.Empty);
+            }
             return resultado;
         }
     }

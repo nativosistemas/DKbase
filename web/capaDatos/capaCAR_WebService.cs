@@ -299,6 +299,7 @@ namespace DKbase.web.capaDatos
                     }
                     if (capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id))
                     {
+                        DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgCarritoRepetido + " idCarrito: " + item.car_id, DateTime.Now, item.car_id);
                         capaCAR_base.BorrarCarritoPorId_SleepTimer(item.car_id, Constantes.cAccionCarrito_BORRAR_CARRRITO_REPETIDO);
                         cDllPedido oRepetido = new cDllPedido();
                         oRepetido.Error = msgCarritoRepetido;
@@ -412,6 +413,7 @@ namespace DKbase.web.capaDatos
             }
             if (capaDLL.ValidarExistenciaDeCarritoWebPasado(car_id_aux))
             {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgCarritoRepetido + " idCarrito: " + car_id_aux, DateTime.Now, car_id_aux);
                 capaCAR_base.BorrarCarritoPorId_SleepTimer(car_id_aux, Constantes.cAccionCarrito_BORRAR_CARRRITO_REPETIDO);
                 cDllPedidoTransfer oRepetido = new cDllPedidoTransfer();
                 oRepetido.Error = msgCarritoRepetido;

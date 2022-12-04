@@ -14,7 +14,7 @@ namespace DKbase.web.capaDatos
     {
         private static string msgCarritoRepetido = "Carrito ya se encuentra facturado.";
         private static string msgCarritoEnProceso = "Carrito se está procesando.";
-        private static string msgValidarExistenciaDeCarritoWebPasado = "La función ValidarExistenciaDeCarritoWebPasado no reconoce el idCarrito procesado";
+        private static string msgValidarExistenciaDeCarritoWebPasado = "La función ValidarExistenciaDeCarritoWebPasado no reconoce el idCarrito procesado.";
         private static string msgRealizandoTareasMantenimiento = "En este momento estamos realizando tareas de mantenimiento, por favor intente más tarde.";
         public static List<cCarrito> RecuperarCarritosPorSucursalYProductos_generica(cClientes objClientes, string pTipo)
         {
@@ -314,7 +314,7 @@ namespace DKbase.web.capaDatos
                     bool isValidarExistenciaDeCarritoWebPasado = capaDLL.ValidarExistenciaDeCarritoWebPasado(item.car_id);
                     if (!isValidarExistenciaDeCarritoWebPasado)
                     {
-                        DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado, DateTime.Now, item.car_id);
+                        DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado + " idCarrito: " + item.car_id, DateTime.Now, item.car_id);
                         cDllPedido oRepetido = new cDllPedido();
                         oRepetido.Error = msgValidarExistenciaDeCarritoWebPasado;
                         return oRepetido;
@@ -425,7 +425,7 @@ namespace DKbase.web.capaDatos
             bool isValidarExistenciaDeCarritoWebPasado = capaDLL.ValidarExistenciaDeCarritoWebPasado(car_id_aux);
             if (!isValidarExistenciaDeCarritoWebPasado)
             {
-                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado, DateTime.Now, car_id_aux);
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), msgValidarExistenciaDeCarritoWebPasado + " idCarrito: " + car_id_aux, DateTime.Now, car_id_aux);
                 cDllPedidoTransfer oRepetido = new cDllPedidoTransfer();
                 oRepetido.Error = msgValidarExistenciaDeCarritoWebPasado;
                 resultadoPedido = new List<cDllPedidoTransfer>();

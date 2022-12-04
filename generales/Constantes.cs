@@ -228,5 +228,33 @@ namespace DKbase.generales
         {
             get { return  "DEVOLUCIONES"; }
         }
+        public static int cESTADO_SINESTADO
+        {
+            get { return 1; }
+        }
+        public static int cESTADO_ACTIVO
+        {
+            get { return 2; }
+        }
+        public static int cESTADO_INACTIVO
+        {
+            get { return 3; }
+        }
+        public static int cESTADO_SINLEER
+        {
+            get { return 4; }
+        }
+        public static int cESTADO_LEIDO
+        {
+            get { return 5; }
+        }
+        public static string cESTADO_HAB
+        {
+            get { return "HAB"; }
+        }
+        public static string cESTADO_INH
+        {
+            get { return "INH"; }
+        }
     }
 }

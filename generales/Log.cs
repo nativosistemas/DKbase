@@ -17,28 +17,35 @@ namespace DKbase.generales
         }
         private static string getParameters(MethodBase method, params object[] values)
         {
-            ParameterInfo[] parms = method.GetParameters();
-            object[] namevalues = new object[2 * parms.Length];
             string Parameters = string.Empty;
-            if (values != null && values.Length > 0)
+            try
             {
-                for (int i = 0, j = 0; i < parms.Length; i++, j += 2)
+                ParameterInfo[] parms = method.GetParameters();
+                object[] namevalues = new object[2 * parms.Length];
+                if (values != null && values.Length > 0)
                 {
-                    Parameters += "<" + parms[i].Name + ">";
-                    if (values[i] != null && values[i].GetType() == typeof(List<cDllProductosAndCantidad>))
+                    for (int i = 0, j = 0; i < parms.Length; i++, j += 2)
                     {
-                        List<cDllProductosAndCantidad> list = (List<cDllProductosAndCantidad>)values[i];
-                        for (int y = 0; y < list.Count; y++)
+                        Parameters += "<" + parms[i].Name + ">";
+                        if (values[i] != null && values[i].GetType() == typeof(List<cDllProductosAndCantidad>))
                         {
-                            Parameters += String.Format("codProductoNombre = {0} || cantidad = {1} || IdTransfer = {2} || isOferta = {3}", list[y].codProductoNombre, list[y].cantidad, list[y].IdTransfer, list[y].isOferta);
+                            List<cDllProductosAndCantidad> list = (List<cDllProductosAndCantidad>)values[i];
+                            for (int y = 0; y < list.Count; y++)
+                            {
+                                Parameters += String.Format("codProductoNombre = {0} || cantidad = {1} || IdTransfer = {2} || isOferta = {3}", list[y].codProductoNombre, list[y].cantidad, list[y].IdTransfer, list[y].isOferta);
+                            }
                         }
+                        else
+                        {
+                            Parameters += values[i];
+                        }
+                        Parameters += "</" + parms[i].Name + ">";
                     }
-                    else
-                    {
-                        Parameters += values[i];
-                    }
-                    Parameters += "</" + parms[i].Name + ">";
                 }
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.grabarLog_generico(MethodBase.GetCurrentMethod().Name, ex, DateTime.Now, Parameters, Helper.getTipoApp);
             }
             return Parameters;
         }

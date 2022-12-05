@@ -12,7 +12,7 @@ namespace DKbase.web.capaDatos
 {
     public class capaAPI
     {
-        private static readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient client = new HttpClient();        
         public static string url_DKcore = Helper.getUrl_DKcore;
         public static string url_DKdll = Helper.getUrl_DKdll;
         private static JsonSerializerOptions oJsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
@@ -50,6 +50,7 @@ namespace DKbase.web.capaDatos
                 var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
                 var byteContent = new ByteArrayContent(buffer);
                 byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                client.Timeout = TimeSpan.FromMinutes(30);
                 HttpResponseMessage response = await client.PostAsync(url_api, byteContent);
                 if (response.IsSuccessStatusCode)
                     return response;

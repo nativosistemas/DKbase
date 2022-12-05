@@ -135,5 +135,23 @@ namespace DKbase
             }
             return resultado;
         }
+        public static List<DKbase.web.capaDatos.cOferta> RecuperarTodasOfertaPublicar(bool isNuevosLanzamiento = false)
+        {
+            List<cOferta> resultado = null;
+            DataTable tabla = capaHome_base.RecuperarTodasOfertaPublicar();
+            if (tabla != null)
+            {
+                resultado = new List<cOferta>();
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    resultado.Add(capaHome_base.ConvertToOferta(fila));
+                }
+            }
+            if (resultado != null)
+            {
+                resultado = resultado.Where(x => x.ofe_nuevosLanzamiento == isNuevosLanzamiento).ToList();
+            }
+            return resultado;
+        }
     }
 }

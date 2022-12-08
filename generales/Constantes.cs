@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DKbase.generales
 {
-   public class Constantes
+    public class Constantes
     {
         public enum CargarProductosBuscador { isDesdeBuscador = 1, isDesdeBuscador_OfertaTransfer, isSubirArchivo, isDesdeTabla, isRecuperadorFaltaCredito };
         public static string cSQL_INSERT
@@ -226,7 +226,7 @@ namespace DKbase.generales
         }
         public static string cSECCION_DEVOLUCIONES
         {
-            get { return  "DEVOLUCIONES"; }
+            get { return "DEVOLUCIONES"; }
         }
         public static int cESTADO_SINESTADO
         {
@@ -255,6 +255,24 @@ namespace DKbase.generales
         public static string cESTADO_INH
         {
             get { return "INH"; }
+        }
+        public static int cCantidadFilaPorPaginaSubirPedido
+        {
+            get
+            {
+                return 10;
+            }
+        }
+        public static int cCantidadFilaPorPagina
+        {
+            get
+            {
+                return 100;
+            }
+        }
+        public static int cLimiteDePaginador
+        {
+            get { return 8; }
         }
     }
 }

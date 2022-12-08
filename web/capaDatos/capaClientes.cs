@@ -374,5 +374,35 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable RecuperarClientePorId(int pIdCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Clientes.spRecuperarClientePorId", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@cli_codigo", SqlDbType.Int);
+            paIdCliente.Value = pIdCliente;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdCliente);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
     }
 }

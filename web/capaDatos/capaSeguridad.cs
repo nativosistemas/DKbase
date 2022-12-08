@@ -137,5 +137,38 @@ namespace DKbase.web.capaDatos
             }
             return resultado;
         }
+        public static DataTable RecuperarSinPermisoUsuarioIntranetPorIdUsuario(int pIdUsuario)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Seguridad.spRecuperarSinPermisoUsuarioIntranetPorIdUsuario", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdUsuario = cmdComandoInicio.Parameters.Add("@idUsuario", SqlDbType.Int);
+            paIdUsuario.Direction = ParameterDirection.Input;
+
+            paIdUsuario.Value = pIdUsuario;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdUsuario);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }       
     }
 }

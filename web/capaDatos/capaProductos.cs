@@ -578,6 +578,31 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable RecuperarProductoParametrizadoCantidad()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spRecuperarProductoParametrizadoCantidad", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                Conn.Open();
+                DataTable table = new DataTable();
+                table.Load(cmdComandoInicio.ExecuteReader());
+                return table;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
 
     }
 }

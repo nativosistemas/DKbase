@@ -705,5 +705,23 @@ namespace DKbase
             }
             return resultado;
         }
+        public cRangoFecha_Pedidos ObtenerRangoFecha_pedidos(cClientes pCliente, int pDia)
+        {
+            List<string> lista = new List<string>();
+            DateTime fechaDesdeAUX = DateTime.Now.AddDays(pDia * -1);
+            DateTime fechaDesde = new DateTime(fechaDesdeAUX.Year, fechaDesdeAUX.Month, fechaDesdeAUX.Day, 0, 0, 0);
+            DateTime fechaHasta = DateTime.Now.AddDays(1);
+            lista.Add(fechaDesde.Day.ToString());
+            lista.Add((fechaDesde.Month).ToString());
+            lista.Add((fechaDesde.Year).ToString());
+
+            lista.Add(fechaHasta.Day.ToString());
+            lista.Add((fechaHasta.Month).ToString());
+            lista.Add((fechaHasta.Year).ToString());
+
+            List<DKbase.dll.cDllPedido> resultadoObj = capaCAR_WebService_base.ObtenerPedidosEntreFechas(pCliente.cli_login, fechaDesde, fechaHasta);
+
+            return new cRangoFecha_Pedidos() { lista = lista, resultadoObj = resultadoObj };
+        }
     }
 }

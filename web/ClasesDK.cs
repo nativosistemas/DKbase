@@ -129,4 +129,9 @@ namespace DKbase.web
         public string nombreArchivoCompletoOriginal{ get; set; }
         public bool isCorrect { get; set; }
     }
+    public class cRangoFecha_Pedidos
+    {
+        public List<string> lista { get; set; }
+        public List<DKbase.dll.cDllPedido> resultadoObj  { get; set; }
+    }
 }

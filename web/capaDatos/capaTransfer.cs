@@ -1,5 +1,9 @@
-﻿using System;
+﻿using DKbase.generales;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
 using System.Text;
 
 namespace DKbase.web.capaDatos
@@ -87,7 +91,99 @@ namespace DKbase.web.capaDatos
             tfr_provincia = pValor.tfr_provincia;
         }
     }
-    class capaTransfer_base
+    public class capaTransfer_base
     {
+        public static DataSet RecuperarTodosTransfer()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Transfers.RecuperarTodosTransfer", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "Transfers");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataSet RecuperarTodosTransferMasDetallePorIdProducto(string pSucursal, string pNombreProducto, int pIdCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Transfers.spRecuperarTodosTransferMasDetallePorIdProducto", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paTde_codpro = cmdComandoInicio.Parameters.Add("@tde_codpro", SqlDbType.NVarChar, 75);
+            SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@sucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paCodCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
+            paTde_codpro.Value = pNombreProducto;
+            paSucursal.Value = pSucursal;
+            paCodCliente.Value = pIdCliente;
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "Transfers");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now); 
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataSet RecuperarTransferMasDetallePorIdTransfer(string pSucursal, int pTfr_codigo, int pIdCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Transfers.spRecuperarTransferMasDetallePorIdTransfer", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paTfr_codigo = cmdComandoInicio.Parameters.Add("@tfr_codigo", SqlDbType.Int);
+            SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@sucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
+            paIdCliente.Value = pIdCliente;
+            paTfr_codigo.Value = pTfr_codigo;
+            paSucursal.Value = pSucursal;
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "Transfers");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
     }
 }

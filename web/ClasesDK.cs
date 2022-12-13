@@ -121,4 +121,12 @@ namespace DKbase.web
         public int usp_codUsuario { get; set; }
         public string usp_nombreSeccion { get; set; }
     }
+    public class cSubirPedido_return
+    {
+        public string SucursalEleginda { get; set; }
+        public List<cProductosGenerico> ListaProductos { get; set; }
+        public string nombreArchivoCompleto { get; set; }
+        public string nombreArchivoCompletoOriginal{ get; set; }
+        public bool isCorrect { get; set; }
+    }
 }

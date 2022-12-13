@@ -3,10 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Text;
 
 namespace DKbase.web.capaDatos
 {
+    public class cHistorialArchivoSubir
+    {
+        public int has_id { get; set; }
+        public int has_codCliente { get; set; }
+        public string has_NombreArchivo { get; set; }
+        public string has_NombreArchivoOriginal { get; set; }
+        public string has_sucursal { get; set; }
+        public string suc_nombre { get; set; }
+        public DateTime has_fecha { get; set; }
+        public string has_fechaToString { get; set; }
+    }
     public class cPalabraBusqueda
     {
         public int hbp_id { get; set; }
@@ -66,6 +78,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -113,6 +126,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally
@@ -215,6 +229,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -237,6 +252,323 @@ namespace DKbase.web.capaDatos
                 }
             }
             return resultado;
+        }
+        public static int IngresarPalabraBusqueda(int? pIdUsuario, string pNombreTabla, string pPalabra)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spIngresarPalabraBusqueda", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdUsuario = cmdComandoInicio.Parameters.Add("@idUsuario", SqlDbType.Int);
+            SqlParameter paNombreTabla = cmdComandoInicio.Parameters.Add("@nombreTabla", SqlDbType.NVarChar, 75);
+            SqlParameter paPalabra = cmdComandoInicio.Parameters.Add("@hbp_Palabra", SqlDbType.NVarChar, 200);
+
+
+            if (pIdUsuario == null)
+            {
+                paIdUsuario.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdUsuario.Value = pIdUsuario;
+            }
+            if (pNombreTabla == null)
+            {
+                paNombreTabla.Value = DBNull.Value;
+            }
+            else
+            {
+                paNombreTabla.Value = pNombreTabla;
+            }
+            if (pPalabra == null)
+            {
+                paPalabra.Value = DBNull.Value;
+            }
+            else
+            {
+                paPalabra.Value = pPalabra;
+            }
+            try
+            {
+                Conn.Open();
+                object objResultado = cmdComandoInicio.ExecuteScalar();
+                return Convert.ToInt32(objResultado);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return -1;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static void AgregarProductosBuscadosDelCarrito(int pIdCliente, string pIdProducto, int? pIdUsuario)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spAgregarProductosBuscadosDelCarrito", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdUsuario = cmdComandoInicio.Parameters.Add("@hpb_codUsuario", SqlDbType.Int);
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@hpb_codCliente", SqlDbType.Int);
+            SqlParameter paIdProducto = cmdComandoInicio.Parameters.Add("@hpb_codProducto", SqlDbType.NVarChar, 75);
+
+            if (pIdUsuario == null)
+            {
+                paIdUsuario.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdUsuario.Value = pIdUsuario;
+            }
+            paIdCliente.Value = pIdCliente;
+
+            if (paIdProducto == null)
+            {
+                paIdProducto.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdProducto.Value = pIdProducto;
+            }
+            try
+            {
+                Conn.Open();
+                object objResultado = cmdComandoInicio.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static void AgregarProductosBuscadosDelCarritoTransfer(int pIdCliente, DataTable pTablaProducto, int? pIdUsuario)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spAgregarProductosBuscadosDelCarritoTransferPorNombreProducto", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdUsuario = cmdComandoInicio.Parameters.Add("@hpb_codUsuario", SqlDbType.Int);
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@hpb_codCliente", SqlDbType.Int);
+            SqlParameter paTablaProductos = cmdComandoInicio.Parameters.Add("@Tabla_Detalle", SqlDbType.Structured);
+
+            if (pIdUsuario == null)
+            {
+                paIdUsuario.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdUsuario.Value = pIdUsuario;
+            }
+            paIdCliente.Value = pIdCliente;
+
+            if (pTablaProducto == null)
+            {
+                paTablaProductos.Value = DBNull.Value;
+            }
+            else
+            {
+                paTablaProductos.Value = pTablaProducto;
+            }
+            try
+            {
+                Conn.Open();
+                object objResultado = cmdComandoInicio.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable RecuperarHistorialSubirArchivo(int pIdCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spRecuperarHistorialSubirArchivo", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@has_codCliente", SqlDbType.Int);
+            paIdCliente.Value = pIdCliente;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static cHistorialArchivoSubir ConvertToHistorialArchivoSubir(DataRow pFila)
+        {
+            cHistorialArchivoSubir obj = null;
+
+            if (pFila != null)
+            {
+                obj = new cHistorialArchivoSubir();
+                if (pFila["has_id"] != DBNull.Value)
+                {
+                    obj.has_id = Convert.ToInt32(pFila["has_id"]);
+                }
+                if (pFila["has_NombreArchivo"] != DBNull.Value)
+                {
+                    obj.has_NombreArchivo = pFila["has_NombreArchivo"].ToString();
+                }
+                if (pFila["has_NombreArchivoOriginal"] != DBNull.Value)
+                {
+                    obj.has_NombreArchivoOriginal = pFila["has_NombreArchivoOriginal"].ToString();
+                }
+                if (pFila["has_sucursal"] != DBNull.Value)
+                {
+                    obj.has_sucursal = pFila["has_sucursal"].ToString();
+                }
+                if (pFila.Table.Columns.Contains("suc_nombre"))
+                {
+                    if (pFila["suc_nombre"] != DBNull.Value)
+                    {
+                        obj.suc_nombre = pFila["suc_nombre"].ToString();
+                    }
+                }
+                if (pFila["has_codCliente"] != DBNull.Value)
+                {
+                    obj.has_codCliente = Convert.ToInt32(pFila["has_codCliente"]);
+                }
+                if (pFila["has_fecha"] != DBNull.Value)
+                {
+                    obj.has_fecha = Convert.ToDateTime(pFila["has_fecha"]);
+                }
+                if (pFila["has_fecha"] != DBNull.Value)
+                {
+                    obj.has_fechaToString = Convert.ToDateTime(pFila["has_fecha"]).ToString();
+                }
+            }
+
+            return obj;
+        }
+        public static bool AgregarHistorialSubirArchivo(int has_codCliente, string has_NombreArchivo, string has_NombreArchivoOriginal, string has_sucursal, DateTime has_fecha)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spAgregarHistorialSubirArchivo", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paHas_NombreArchivo = cmdComandoInicio.Parameters.Add("@has_NombreArchivo", SqlDbType.NVarChar, 100);
+            SqlParameter paHas_NombreArchivoOriginal = cmdComandoInicio.Parameters.Add("@has_NombreArchivoOriginal", SqlDbType.NVarChar, 100);
+            SqlParameter paHas_codCliente = cmdComandoInicio.Parameters.Add("@has_codCliente", SqlDbType.Int);
+            SqlParameter paHas_Sucursal = cmdComandoInicio.Parameters.Add("@has_sucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paHas_fecha = cmdComandoInicio.Parameters.Add("@has_fecha", SqlDbType.DateTime);
+
+            paHas_NombreArchivo.Value = has_NombreArchivo;
+            paHas_NombreArchivoOriginal.Value = has_NombreArchivoOriginal;
+            paHas_codCliente.Value = has_codCliente;
+            paHas_Sucursal.Value = has_sucursal;
+            paHas_fecha.Value = has_fecha;
+
+            try
+            {
+                Conn.Open();
+                object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable RecuperarHistorialSubirArchivoPorNombreArchivoOriginal(string pNombreArchivoOriginal)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spRecuperarHistorialSubirArchivoPorNombreArchivoOriginal", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNombreArchivoOriginal = cmdComandoInicio.Parameters.Add("@has_NombreArchivoOriginal", SqlDbType.NVarChar, 100);
+            paNombreArchivoOriginal.Value = pNombreArchivoOriginal;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable RecuperarHistorialSubirArchivoPorId(int pId)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spRecuperarHistorialSubirArchivoPorId", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paId = cmdComandoInicio.Parameters.Add("@has_id", SqlDbType.Int);
+            paId.Value = pId;
+
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
         }
     }
 }

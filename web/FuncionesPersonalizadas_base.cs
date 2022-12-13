@@ -1022,6 +1022,24 @@ namespace DKbase.web
             }
             return resultado;
         }
+        public static DataRow ConvertProductosCarritoArchivosPedidosToDataRow(DataTable pTabla, string pCodProducto, int pCantidad, string pCodigoBarra, string pCodigoAlfaBeta, string pTroquel, string pTipoArchivoPedidos)
+        {
+            DataRow fila = pTabla.NewRow();
+            if (pTipoArchivoPedidos == "F")
+            {
+                fila["codProducto"] = pCodProducto;
+                fila["cantidad"] = pCantidad;
+            }
+            else if (pTipoArchivoPedidos == "S")
+            {
+                fila["codigobarra"] = pCodigoBarra;
+                fila["codigoalfabeta"] = pCodigoAlfaBeta;
+                fila["troquel"] = pTroquel;//.Trim();
+                fila["cantidad"] = pCantidad;
+            }
+            fila["nroordenamiento"] = pTabla.Rows.Count + 1;
+            return fila;
+        }
     }
 
 }

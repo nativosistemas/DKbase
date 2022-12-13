@@ -522,5 +522,188 @@ namespace DKbase
             }
             return listaAcciones;
         }
+        public static int InsertarPalabraBuscada(string pPalabra, int pIdUsuario, string pNombreTabla)
+        {
+            return capaLogRegistro_base.IngresarPalabraBusqueda(pIdUsuario, pNombreTabla, pPalabra);
+        }
+        public static void AgregarHistorialProductoCarritoTransfer(int pIdCliente, List<cProductosAndCantidad> pListaProductosMasCantidad, int? pIdUsuario)
+        {
+            DataTable pTablaDetalle = DKbase.web.FuncionesPersonalizadas_base.ConvertProductosAndCantidadToDataTable(pListaProductosMasCantidad);
+            capaLogRegistro_base.AgregarProductosBuscadosDelCarritoTransfer(pIdCliente, pTablaDetalle, pIdUsuario);
+        }
+        public static decimal ObtenerPrecioFinalTransfer(cClientes pClientes, cTransfer pTransfer, cTransferDetalle pTransferDetalle)
+        {
+            return DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pClientes, pTransfer.tfr_deshab, pTransfer.tfr_pordesadi, pTransferDetalle.pro_neto, pTransferDetalle.pro_codtpopro, pTransferDetalle.pro_descuentoweb, (decimal)pTransferDetalle.tde_predescuento, pTransferDetalle.tde_PrecioConDescuentoDirecto, pTransferDetalle.tde_PorcARestarDelDtoDeCliente);
+        }
+        public static List<cSucursalStocks> ActualizarStockListaProductos_Transfer(cClientes pClientes, List<string> pListaSucursal, string pro_codigo, List<cSucursalStocks> pSucursalStocks)
+        {
+            List<cSucursalStocks> result = pSucursalStocks;
+            bool isActualizar = false;
+            if (pClientes.cli_codrep == "S7")
+                isActualizar = true;
+            else if (pClientes.cli_IdSucursalAlternativa != null)
+                isActualizar = true;
+            if (isActualizar)
+            {
+                List<cProductosAndCantidad> listaProductos = new List<cProductosAndCantidad>();
+
+                listaProductos.Add(new cProductosAndCantidad { codProductoNombre = pro_codigo });
+                //List<string> ListaSucursal = RecuperarSucursalesDelCliente();
+                DataTable table = DKbase.web.capaDatos.capaProductos_base.RecuperarStockPorProductosAndSucursal(DKbase.web.FuncionesPersonalizadas_base.ConvertNombresSeccionToDataTable(pListaSucursal), DKbase.web.FuncionesPersonalizadas_base.ConvertProductosAndCantidadToDataTable(listaProductos));
+                if (table != null)
+                    result = (from r in table.Select("stk_codpro = '" + pro_codigo + "'").AsEnumerable()
+                              select new cSucursalStocks { stk_codpro = r["stk_codpro"].ToString(), stk_codsuc = r["stk_codsuc"].ToString(), stk_stock = r["stk_stock"].ToString() }).ToList();
+
+            }
+            return result;
+        }
+        public static List<cTransfer> RecuperarTodosTransferMasDetallePorIdProducto(string pNombreProducto, cClientes pClientes, List<string> pListaSucursal)
+        {
+            List<cTransfer> resultado = null;
+            DataSet dsResultado = DKbase.web.capaDatos.capaTransfer_base.RecuperarTodosTransferMasDetallePorIdProducto(pClientes.cli_codsuc, pNombreProducto, pClientes.cli_codigo);
+            if (dsResultado != null)
+            {
+                resultado = new List<cTransfer>();
+                DataTable tbTransfer = dsResultado.Tables[0];
+                DataTable tbTransferDetalle = dsResultado.Tables[1];
+                DataTable tbSucursalStocks = dsResultado.Tables[2];
+                for (int i = 0; i < tbTransfer.Rows.Count; i++)
+                {
+                    cTransfer obj = DKbase.web.acceso.ConvertToTransfer(tbTransfer.Rows[i]);
+                    if (obj.tfr_provincia == null || obj.tfr_provincia == pClientes.cli_codprov)
+                    {
+                        obj.listaDetalle = new List<cTransferDetalle>();
+                        DataRow[] listaFila = tbTransferDetalle.Select("tde_codtfr =" + obj.tfr_codigo);
+                        foreach (DataRow item in listaFila)
+                        {
+                            List<cSucursalStocks> tempListaSucursalStocks = new List<cSucursalStocks>();
+                            tempListaSucursalStocks = (from r in tbSucursalStocks.Select("stk_codpro = '" + item["pro_codigo"].ToString() + "'").AsEnumerable()
+                                                       select new cSucursalStocks { stk_codpro = r["stk_codpro"].ToString(), stk_codsuc = r["stk_codsuc"].ToString(), stk_stock = r["stk_stock"].ToString() }).ToList();
+                            if (tempListaSucursalStocks.Count > 0)
+                            {
+                                obj.listaDetalle.Add(DKbase.web.acceso.ConvertToTransferDetalle(item));
+                                obj.listaDetalle[obj.listaDetalle.Count - 1].PrecioFinalTransfer = ObtenerPrecioFinalTransfer(pClientes, obj, obj.listaDetalle[obj.listaDetalle.Count - 1]);
+                                obj.listaDetalle[obj.listaDetalle.Count - 1].listaSucursalStocks = ActualizarStockListaProductos_Transfer(pClientes, pListaSucursal, item["pro_codigo"].ToString(), tempListaSucursalStocks);
+                            }
+                        }
+                        resultado.Add(obj);
+                    }
+                }
+
+            }
+
+            return resultado;
+        }
+
+        public static List<cTransfer> RecuperarTodosTransfer()
+        {
+            List<cTransfer> resultado = null;
+            DataSet dsResultado = capaTransfer_base.RecuperarTodosTransfer();
+            if (dsResultado != null)
+            {
+                resultado = new List<cTransfer>();
+                DataTable tbTransfer = dsResultado.Tables[0];
+                for (int i = 0; i < tbTransfer.Rows.Count; i++)
+                {
+                    cTransfer obj = DKbase.web.acceso.ConvertToTransfer(tbTransfer.Rows[i]);
+                    resultado.Add(obj);
+                }
+            }
+            return resultado;
+        }
+        public static cTransfer RecuperarTransferMasDetallePorIdTransfer(int pIdTransfer, cClientes pClientes, List<string> pListaSucursal)
+        {
+            cTransfer resultado = null;
+            DataSet dsResultado = capaTransfer_base.RecuperarTransferMasDetallePorIdTransfer(pClientes.cli_codsuc, pIdTransfer, pClientes.cli_codigo);
+            if (dsResultado != null && dsResultado.Tables[0].Rows.Count > 0)
+            {
+                resultado = new cTransfer();
+                DataTable tbTransfer = dsResultado.Tables[0];
+                DataTable tbTransferDetalle = dsResultado.Tables[1];
+                DataTable tbSucursalStocks = dsResultado.Tables[2];
+
+                for (int i = 0; i < tbTransfer.Rows.Count; i++)
+                {
+                    resultado = DKbase.web.acceso.ConvertToTransfer(tbTransfer.Rows[i]);
+                    resultado.listaDetalle = new List<cTransferDetalle>();
+                    DataRow[] listaFila = tbTransferDetalle.Select("tde_codtfr =" + resultado.tfr_codigo);
+                    foreach (DataRow item in listaFila)
+                    {
+                        List<cSucursalStocks> tempListaSucursalStocks = new List<cSucursalStocks>();
+                        tempListaSucursalStocks = (from r in tbSucursalStocks.Select("stk_codpro = '" + item["pro_codigo"].ToString() + "'").AsEnumerable()
+                                                   select new cSucursalStocks { stk_codpro = r["stk_codpro"].ToString(), stk_codsuc = r["stk_codsuc"].ToString(), stk_stock = r["stk_stock"].ToString() }).ToList();
+                        if (tempListaSucursalStocks.Count > 0)
+                        {
+                            resultado.listaDetalle.Add(DKbase.web.acceso.ConvertToTransferDetalle(item));
+                            resultado.listaDetalle[resultado.listaDetalle.Count - 1].PrecioFinalTransfer = ObtenerPrecioFinalTransfer(pClientes, resultado, resultado.listaDetalle[resultado.listaDetalle.Count - 1]);
+                            resultado.listaDetalle[resultado.listaDetalle.Count - 1].listaSucursalStocks = ActualizarStockListaProductos_Transfer(pClientes, pListaSucursal, item["pro_codigo"].ToString(), tempListaSucursalStocks);
+
+                        }
+                    }
+                }
+            }
+            return resultado;
+        }
+        public static List<cHistorialArchivoSubir> RecuperarHistorialSubirArchivo(int pIdCliente)
+        {
+            List<cHistorialArchivoSubir> resultado = null;
+            resultado = new List<cHistorialArchivoSubir>();
+            DataTable tabla = capaLogRegistro_base.RecuperarHistorialSubirArchivo(pIdCliente);
+            if (tabla != null)
+            {
+                foreach (DataRow item in tabla.Rows)
+                {
+                    resultado.Add(DKbase.web.capaDatos.capaLogRegistro_base.ConvertToHistorialArchivoSubir(item));
+                }
+
+            }
+            return resultado;
+        }
+        public static cjSonBuscadorProductos RecuperarProductosGeneralSubirPedidos(cClientes pClientes, string pSucursalEleginda, List<string> pListaSucursal, List<cProductosGenerico> pListaProveedor)
+        {
+            cjSonBuscadorProductos resultado = null;
+            List<cProductosGenerico> listaProductosBuscador = ActualizarStockListaProductos_SubirArchico(pClientes, pListaSucursal, pListaProveedor, pSucursalEleginda);
+            cjSonBuscadorProductos ResultadoObj = new cjSonBuscadorProductos();
+            ResultadoObj.listaSucursal = pListaSucursal;
+            ResultadoObj.listaProductos = listaProductosBuscador;
+            resultado = ResultadoObj;
+            return resultado;
+        }
+        public static List<cProductosGenerico> ActualizarStockListaProductos_SubirArchico(cClientes pClientes, List<string> pListaSucursal, List<cProductosGenerico> pListaProductos, string pSucursalElegida)
+        {
+            return DKbase.web.FuncionesPersonalizadas_base.ActualizarStockListaProductos_SubirArchico(pClientes, pListaSucursal, pListaProductos, pSucursalElegida);
+        }
+        public static bool AgregarHistorialSubirArchivo(int pIdCliente, string pSucursal, string pNombreArchivo, string pNombreArchivoOriginal, DateTime pFecha)
+        {
+            return capaLogRegistro_base.AgregarHistorialSubirArchivo(pIdCliente, pNombreArchivo, pNombreArchivoOriginal, pSucursal, pFecha);
+        }
+        public static List<cHistorialArchivoSubir> RecuperarHistorialSubirArchivoPorNombreArchivoOriginal(string pNombreArchivoOriginal)
+        {
+            List<cHistorialArchivoSubir> resultado = null;
+            DataTable tabla = capaLogRegistro_base.RecuperarHistorialSubirArchivoPorNombreArchivoOriginal(pNombreArchivoOriginal);
+            if (tabla != null)
+            {
+                resultado = new List<cHistorialArchivoSubir>();
+                foreach (DataRow item in tabla.Rows)
+                {
+                    resultado.Add(DKbase.web.capaDatos.capaLogRegistro_base.ConvertToHistorialArchivoSubir(item));
+                }
+            }
+            return resultado;
+        }
+        public static cHistorialArchivoSubir RecuperarHistorialSubirArchivoPorId(int pId)
+        {
+            cHistorialArchivoSubir resultado = null;
+            DataTable tabla = capaLogRegistro_base.RecuperarHistorialSubirArchivoPorId(pId);
+            if (tabla != null)
+            {
+                if (tabla.Rows.Count > 0)
+                {
+                    resultado = DKbase.web.capaDatos.capaLogRegistro_base.ConvertToHistorialArchivoSubir(tabla.Rows[0]);
+
+                }
+            }
+            return resultado;
+        }
     }
 }

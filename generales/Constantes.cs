@@ -274,5 +274,21 @@ namespace DKbase.generales
         {
             get { return 8; }
         }
+        public static string cTABLA_CATALOGO
+        {
+            get { return "catalogo"; }
+        }
+        public static string cTABLA_CV
+        {
+            get { return "curriculumvitae"; }
+        }
+        public static string cTABLA_PRODUCTO
+        {
+            get { return "producto"; }
+        }
+        public static string cTABLA_NOTICIA
+        {
+            get { return "noticia"; }
+        }
     }
 }

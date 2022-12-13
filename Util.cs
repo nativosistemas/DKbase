@@ -705,7 +705,7 @@ namespace DKbase
             }
             return resultado;
         }
-        public cRangoFecha_Pedidos ObtenerRangoFecha_pedidos(cClientes pCliente, int pDia)
+        public static cRangoFecha_Pedidos ObtenerRangoFecha_pedidos(cClientes pCliente, int pDia)
         {
             List<string> lista = new List<string>();
             DateTime fechaDesdeAUX = DateTime.Now.AddDays(pDia * -1);

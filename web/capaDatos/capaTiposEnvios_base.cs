@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DKbase.web.capaDatos
 {
-   public class capaTiposEnvios_base
+    public class capaTiposEnvios_base
     {
         public static DataTable RecuperarTodosCadeteriaRestricciones()
         {
@@ -98,7 +98,12 @@ namespace DKbase.web.capaDatos
             cmdComandoInicio.CommandType = CommandType.StoredProcedure;
             SqlParameter paTdr_idSucursalDependienteTipoEnvioCliente = cmdComandoInicio.Parameters.Add("@tdr_idSucursalDependienteTipoEnvioCliente", SqlDbType.Int);
             SqlParameter paTdr_codReparto = cmdComandoInicio.Parameters.Add("@tdr_codReparto", SqlDbType.NVarChar, 2);
-            paTdr_codReparto.Value = tdr_codReparto;
+
+            if (string.IsNullOrEmpty(tdr_codReparto))
+            {
+                paTdr_codReparto.Value = DBNull.Value;
+            }
+            else { paTdr_codReparto.Value = tdr_codReparto; }
             paTdr_idSucursalDependienteTipoEnvioCliente.Value = pIdSucursalDependienteTipoEnvioCliente;
             try
             {

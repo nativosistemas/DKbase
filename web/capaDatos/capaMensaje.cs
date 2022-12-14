@@ -88,7 +88,14 @@ namespace DKbase.web.capaDatos
             SqlParameter paCodSucursal = cmdComandoInicio.Parameters.Add("@codSucursal", SqlDbType.NVarChar, 2);
             SqlParameter paCodReparto = cmdComandoInicio.Parameters.Add("@codReparto", SqlDbType.NVarChar, 2);
             paCodSucursal.Value = pSucursal;
-            paCodReparto.Value = pReparto;
+            if (string.IsNullOrEmpty(pReparto))
+            {
+                paCodReparto.Value = DBNull.Value;
+            }
+            else
+            {
+                paCodReparto.Value = pReparto;
+            }
 
             try
             {
@@ -100,7 +107,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pSucursal,  pReparto);
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pSucursal, pReparto);
                 return null;
             }
             finally

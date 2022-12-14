@@ -723,5 +723,59 @@ namespace DKbase
 
             return new cRangoFecha_Pedidos() { lista = lista, resultadoObj = resultadoObj };
         }
+        public static List<cFaltantesConProblemasCrediticiosPadre> ConvertDataTableAClase(DataTable tabla, DataTable tablaSucursalStocks, List<cTransferDetalle> listaTransferDetalle, cClientes pCliente)
+        {
+            List<cFaltantesConProblemasCrediticiosPadre> resultado = null;
+            if (tabla != null)
+            {
+                resultado = new List<cFaltantesConProblemasCrediticiosPadre>();
+                var resultadoTemporal = (from item in tabla.AsEnumerable()
+                                         select new { fpc_tipo = item.Field<int>("fpc_tipo"), fpc_codSucursal = item.Field<string>("fpc_codSucursal"), suc_nombre = item.IsNull("suc_nombre") ? item.Field<string>("fpc_codSucursal") : item.Field<string>("suc_nombre") }).Distinct().ToList();
+
+                var resultadoTemporalDistinct = (from t in resultadoTemporal select new { fpc_tipo = t.fpc_tipo, fpc_codSucursal = t.fpc_codSucursal, suc_nombre = t.suc_nombre }).Distinct().ToList();
+                for (int i = 0; i < resultadoTemporalDistinct.Count; i++)
+                {
+                    cFaltantesConProblemasCrediticiosPadre obj = new cFaltantesConProblemasCrediticiosPadre();
+                    obj.fpc_codSucursal = resultadoTemporalDistinct[i].fpc_codSucursal;
+                    obj.suc_nombre = resultadoTemporalDistinct[i].suc_nombre;
+                    obj.fpc_tipo = resultadoTemporalDistinct[i].fpc_tipo;
+                    obj.listaProductos = DKbase.web.acceso.cargarProductosBuscadorArchivos(pCliente, tabla.AsEnumerable().Where(xRow => xRow.Field<string>("fpc_codSucursal") == obj.fpc_codSucursal).CopyToDataTable(), tablaSucursalStocks, listaTransferDetalle, DKbase.generales.Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito, obj.fpc_codSucursal);
+                    resultado.Add(obj);
+                }
+            }
+            return resultado;
+        }
+        public static List<cFaltantesConProblemasCrediticiosPadre> RecuperarFaltasProblemasCrediticios_TodosEstados(cClientes pCliente, int fpc_tipo, int pCantidadDia, string pSucursal)
+        {
+            List<cFaltantesConProblemasCrediticiosPadre> resultado = null;
+            DataSet dsResultado = capaLogRegistro_base.RecuperarFaltasProblemasCrediticios_TodosEstados(pCliente.cli_codigo, fpc_tipo, pCantidadDia, pSucursal);
+            List<cTransferDetalle> listaTransferDetalle = new List<cTransferDetalle>();
+            DataTable tablaTransferDetalle = dsResultado.Tables[1];
+            foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+            {
+                cTransferDetalle objTransferDetalle = DKbase.web.acceso.ConvertToTransferDetalle(itemTransferDetalle);
+                objTransferDetalle.CargarTransfer(DKbase.web.acceso.ConvertToTransfer(itemTransferDetalle));
+                listaTransferDetalle.Add(objTransferDetalle);
+            }
+            resultado = DKbase.Util.ConvertDataTableAClase(dsResultado.Tables[0], dsResultado.Tables[2], listaTransferDetalle, pCliente);
+            return resultado;
+        }
+        public static List<cFaltantesConProblemasCrediticiosPadre> RecuperarFaltasProblemasCrediticios(cClientes pCliente, int fpc_tipo, int pCantidadDia, string pSucursal)
+        {
+            List<cFaltantesConProblemasCrediticiosPadre> resultado = null;
+            DataSet dsResultado = capaLogRegistro_base.RecuperarFaltasProblemasCrediticios(pCliente.cli_codigo, fpc_tipo, pCantidadDia, pSucursal);
+            List<cTransferDetalle> listaTransferDetalle = new List<cTransferDetalle>();
+            DataTable tablaTransferDetalle = dsResultado.Tables[1];
+            foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+            {
+                cTransferDetalle objTransferDetalle = DKbase.web.acceso.ConvertToTransferDetalle(itemTransferDetalle);
+                objTransferDetalle.CargarTransfer(DKbase.web.acceso.ConvertToTransfer(itemTransferDetalle));
+                listaTransferDetalle.Add(objTransferDetalle);
+            }
+
+            resultado = DKbase.Util.ConvertDataTableAClase(dsResultado.Tables[0], dsResultado.Tables[2], listaTransferDetalle, pCliente);
+            return resultado;
+        }
+
     }
 }

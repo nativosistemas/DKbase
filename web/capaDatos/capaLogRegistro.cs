@@ -19,6 +19,13 @@ namespace DKbase.web.capaDatos
         public DateTime has_fecha { get; set; }
         public string has_fechaToString { get; set; }
     }
+    public class cFaltantesConProblemasCrediticiosPadre
+    {
+        public string fpc_codSucursal { get; set; }
+        public string suc_nombre { get; set; }
+        public int fpc_tipo { get; set; }
+        public List<cProductosGenerico> listaProductos { get; set; }
+    }
     public class cPalabraBusqueda
     {
         public int hbp_id { get; set; }
@@ -561,6 +568,113 @@ namespace DKbase.web.capaDatos
             {
                 Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataSet RecuperarFaltasProblemasCrediticios(int fpc_codCliente, int fpc_tipo, int pDia, string pSucursal)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spRecuperarFaltasProblemasCrediticiosV2", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paCodCliente = cmdComandoInicio.Parameters.Add("@fpc_codCliente", SqlDbType.Int);
+            SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@fpc_tipo", SqlDbType.Int);
+            SqlParameter paCantidadDia = cmdComandoInicio.Parameters.Add("@cantidadDia", SqlDbType.Int);
+            SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@Sucursal", SqlDbType.NVarChar, 2);
+
+            paCantidadDia.Value = pDia;
+            paCodCliente.Value = fpc_codCliente;
+            paTipo.Value = fpc_tipo;
+            paSucursal.Value = pSucursal;
+
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "ProductosBuscador");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataSet RecuperarFaltasProblemasCrediticios_TodosEstados(int fpc_codCliente, int fpc_tipo, int pDia, string pSucursal)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spRecuperarFaltasProblemasCrediticiosTodosEstadosV2", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paCodCliente = cmdComandoInicio.Parameters.Add("@fpc_codCliente", SqlDbType.Int);
+            SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@fpc_tipo", SqlDbType.Int);
+            SqlParameter paCantidadDia = cmdComandoInicio.Parameters.Add("@cantidadDia", SqlDbType.Int);
+            SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@Sucursal", SqlDbType.NVarChar, 2);
+
+            paCantidadDia.Value = pDia;
+            paCodCliente.Value = fpc_codCliente;
+            paTipo.Value = fpc_tipo;
+            paSucursal.Value = pSucursal;
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "ProductosBuscador");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static bool BorrarPorProductosFaltasProblemasCrediticios(string fpc_codSucursal, int fpc_codCliente, int fpc_tipo, string fpc_nombreProducto)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("LogRegistro.spBorrarPorProductosFaltasProblemasCrediticios", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paCodSucursal = cmdComandoInicio.Parameters.Add("@fpc_codSucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paCodCliente = cmdComandoInicio.Parameters.Add("@fpc_codCliente", SqlDbType.Int);
+            SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@fpc_tipo", SqlDbType.Int);
+            SqlParameter paFpc_nombreProducto = cmdComandoInicio.Parameters.Add("@fpc_nombreProducto", SqlDbType.NVarChar, 75);
+
+            paCodSucursal.Value = fpc_codSucursal;
+            paCodCliente.Value = fpc_codCliente;
+            paTipo.Value = fpc_tipo;
+            paFpc_nombreProducto.Value = fpc_nombreProducto;
+            try
+            {
+                Conn.Open();
+                cmdComandoInicio.ExecuteNonQuery();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
             }
             finally
             {

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace DKbase.web.capaDatos
 {
@@ -147,7 +148,8 @@ namespace DKbase.web.capaDatos
             bool result = false;
             try
             {
-                var t = Task.Run(() => capaAPI.AgregarVacunasAsync(pListaVacunas, pLoginTelefonista));
+                List<DKbase.dll.cVacuna> l = pListaVacunas.Where(x => x.UnidadesVendidas > 0).ToList();
+                var t = Task.Run(() => capaAPI.AgregarVacunasAsync(l, pLoginTelefonista));
                 t.Wait();
                 result = t.Result;
             }

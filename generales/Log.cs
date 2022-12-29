@@ -99,12 +99,12 @@ namespace DKbase.generales
         {
             //try
             //{
-            string path = Helper.getFolder + @"\Log\" + Helper.getTipoApp + "\\";
+            string path = Path.Combine(Helper.getFolder ,"Log", Helper.getTipoApp);
             if (Directory.Exists(path) == false)
             {
                 Directory.CreateDirectory(path);
             }
-            string FilePath = path + pNombreArchivo;
+            string FilePath = Path.Combine(path , pNombreArchivo);
             if (!File.Exists(FilePath))
             {
                 using (StreamWriter sw = File.CreateText(FilePath))

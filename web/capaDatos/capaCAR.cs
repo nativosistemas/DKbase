@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 
@@ -63,6 +64,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally
@@ -102,6 +104,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -140,6 +143,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return -1;
             }
             finally
@@ -201,6 +205,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally
@@ -304,7 +309,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                //return -1;
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
             }
             finally
             {
@@ -335,6 +340,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -380,6 +386,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally
@@ -421,6 +428,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally
@@ -452,6 +460,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally
@@ -482,6 +491,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally
@@ -510,6 +520,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return false;
             }
             finally

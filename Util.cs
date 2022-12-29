@@ -776,6 +776,129 @@ namespace DKbase
             resultado = DKbase.Util.ConvertDataTableAClase(dsResultado.Tables[0], dsResultado.Tables[2], listaTransferDetalle, pCliente);
             return resultado;
         }
+        public static List<cOfertaHome> RecuperarTodasOfertaParaHome()
+        {
+            List<cOfertaHome> resultado = null;
+            DataTable tabla = capaHome_base.RecuperarTodasOfertaParaHome();
+            if (tabla != null)
+            {
+                resultado = new List<cOfertaHome>();
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    cOfertaHome o = DKbase.web.capaDatos.capaHome_base.ConvertTocOfertaHome(fila);
+                    resultado.Add(DKbase.web.capaDatos.capaHome_base.ConvertAddOferta(fila, o));
+                }
+            }
+            return resultado;
+        }
+        public static List<cHomeSlide> RecuperarTodasHomeSlidePublicar()
+        {
+            List<cHomeSlide> resultado = null;
+            DataTable tabla = capaHome_base.RecuperarTodasHomeSlidePublicar();
+            if (tabla != null)
+            {
+                resultado = new List<cHomeSlide>();
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    resultado.Add(DKbase.web.capaDatos.capaHome_base.ConvertToHomeSlide(fila));
+                }
+            }
+            return resultado;
+        }
+        public static List<cRecall> RecuperarTodaReCall()
+        {
+            List<cRecall> resultado = null;
 
+            DataTable tb = DKbase.web.capaDatos.capaHome_base.RecuperarTodaReCall_aux();
+            if (tb != null)
+            {
+                resultado = new List<cRecall>();
+                foreach (DataRow item in tb.Rows)
+                {
+                    resultado.Add(DKbase.web.capaDatos.capaHome_base.ConvertToRecall(item));
+                }
+            }
+            return resultado;
+        }
+        public static cOferta RecuperarOfertaPorId(int pIdOferta)
+        {
+            cOferta resultado = null;
+            DataTable tabla = capaHome_base.RecuperarOfertaPorId(pIdOferta);
+            if (tabla != null && tabla.Rows.Count > 0)
+                resultado = DKbase.web.capaDatos.capaHome_base.ConvertToOferta(tabla.Rows[0]);
+            return resultado;
+        }
+        public static bool? SubirCountadorHomeSlideRating(int hsl_idHomeSlide)
+        {
+            bool? resultado = null;
+            try
+            {
+                //tbl_HomeSlide o = null;
+                //KellerhoffEntities ctx = new KellerhoffEntities();
+                //o = ctx.tbl_HomeSlide.FirstOrDefault(x => x.hsl_idHomeSlide == hsl_idHomeSlide);
+                //o.hsl_RatingCount = o.hsl_RatingCount + 1;
+                //ctx.SaveChanges();
+                resultado = true;
+            }
+            catch (Exception ex)
+            { generales.Log.LogError(System.Reflection.MethodBase.GetCurrentMethod(), ex, DateTime.Now); return null; }
+            return resultado;
+        }
+        public static bool? InsertarOfertaRating(int ofr_idOferta, int ofr_idCliente, bool ofr_isDesdeHome)
+        {
+            try
+            {
+                //tbl_Oferta_Rating o = null;
+                //KellerhoffEntities ctx = new KellerhoffEntities();
+                //o = ctx.tbl_Oferta_Rating.Create();
+                //o.ofr_fecha = DateTime.Now;
+                //o.ofr_idCliente = ofr_idCliente;
+                //o.ofr_idOferta = ofr_idOferta;
+                //o.ofr_isDesdeHome = ofr_isDesdeHome;
+                //ctx.tbl_Oferta_Rating.Add(o);
+                //ctx.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public static List<cCatalogo> RecuperarTodosCatalogos()
+        {
+            List<cCatalogo> resultado = null;
+            DataTable tabla = capaCatalogo_base.RecuperarTodosCatalogos();
+            if (tabla != null)
+            {
+                resultado = new List<cCatalogo>();
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    resultado.Add(DKbase.web.capaDatos.capaCatalogo_base.ConvertToCatalogo(fila));
+                }
+            }
+            return resultado;
+        }
+        public static cCatalogo RecuperarTodoCatalogo_PublicarHome()
+        {
+            cCatalogo resultado = null;
+            DataTable tabla = capaCatalogo_base.RecuperarTodoCatalogo_PublicarHome();
+            if (tabla != null && tabla.Rows.Count > 0)
+            {
+                resultado = DKbase.web.capaDatos.capaCatalogo_base.ConvertToCatalogo(tabla.Rows[0]);
+            }
+            return resultado;
+        }
+
+        public static string verRutaArchivo()
+        {
+            return System.IO.Path.Combine(Helper.getFolder, "archivos", "ofertas", "aIMG_20210603_081731660.jpg");
+        }
+        public static string verExisteArchivo() {
+            return System.IO.File.Exists(verRutaArchivo()) ? "Si":"No" ;
+        }
+        public static string verCurrentDirectory()
+        {
+            return System.IO.Directory.GetCurrentDirectory();
+        }
     }
 }

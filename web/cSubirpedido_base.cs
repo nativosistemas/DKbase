@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DKbase.web
 {
-   public class cSubirpedido_base
+    public class cSubirpedido_base
     {
         const int longFilaArchivoS = 22;
         const int longFilaArchivoF = 24;
@@ -23,7 +23,7 @@ namespace DKbase.web
                 if (nombreCompletoOriginal != string.Empty)
                 {
                     //isRedireccionar = true;
-                    string rutaTemporal = Helper.getFolder + @"\archivos\ArchivosPedidos\";
+                    string rutaTemporal = Path.Combine(Helper.getFolder, "archivos", "ArchivosPedidos");
                     DirectoryInfo DIR = new DirectoryInfo(rutaTemporal);
                     if (!DIR.Exists)
                     {
@@ -49,7 +49,7 @@ namespace DKbase.web
                             isNombreRepetido = true;
                         }
                     }
-                    while (System.IO.File.Exists(rutaTemporal + NombreArchivo + SegundaParteNombre + "." + ExtencionArchivo))
+                    while (System.IO.File.Exists(Path.Combine(rutaTemporal, NombreArchivo + SegundaParteNombre + "." + ExtencionArchivo)))
                     {
                         if (count > 0)
                         {
@@ -61,25 +61,25 @@ namespace DKbase.web
                     //pFileUpload.SaveAs(rutaTemporal + nombreCompleto);
 
                     //string filePath = Path.Combine(uploads, file.FileName);
-                    using (Stream fileStream = new FileStream(rutaTemporal + nombreCompleto, FileMode.Create))
+                    using (Stream fileStream = new FileStream(Path.Combine(rutaTemporal, nombreCompleto), FileMode.Create))
                     {
-                         pFileUpload.CopyToAsync(fileStream);
+                        pFileUpload.CopyToAsync(fileStream);
                     }
 
-                        resultado = LeerArchivoPedido_Generica(oUsuario, oCliente,nombreCompleto, pSucursal, nombreCompletoOriginal, isNombreRepetido);
+                    resultado = LeerArchivoPedido_Generica(oUsuario, oCliente, nombreCompleto, pSucursal, nombreCompletoOriginal, isNombreRepetido);
                 }
             }
             return resultado;
         }
 
 
-        private static cSubirPedido_return LeerArchivoPedido_Generica(Usuario oUsuario, cClientes oCliente ,string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
+        private static cSubirPedido_return LeerArchivoPedido_Generica(Usuario oUsuario, cClientes oCliente, string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
         {
             cSubirPedido_return resultado = null;
             if (!string.IsNullOrWhiteSpace(pNombreArchivo))
             {
-                string rutaTemporal = Helper.getFolder + @"\archivos\ArchivosPedidos\";
-                string rutaTemporalAndNombreArchivo = rutaTemporal + pNombreArchivo;
+                string rutaTemporal = Path.Combine(Helper.getFolder, "archivos", "ArchivosPedidos");
+                string rutaTemporalAndNombreArchivo = Path.Combine(rutaTemporal, pNombreArchivo);
                 if (System.IO.File.Exists(rutaTemporalAndNombreArchivo))
                 {
                     //resultado = true;
@@ -271,7 +271,7 @@ namespace DKbase.web
             }
             return null;
         }
-        public static cSubirPedido_return CargarArchivoPedidoDeNuevo(Usuario oUsuario, cClientes oCliente,int has_id)
+        public static cSubirPedido_return CargarArchivoPedidoDeNuevo(Usuario oUsuario, cClientes oCliente, int has_id)
         {
             cSubirPedido_return result = null;
             if (oUsuario != null && oCliente != null)

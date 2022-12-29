@@ -290,5 +290,18 @@ namespace DKbase.generales
         {
             get { return "noticia"; }
         }
+        public const string cROL_const_ADMINISTRADORCLIENTE = "2";
+
+        public const string cROL_const_OPERADORCLIENTE = "3";
+
+        public const string cROL_const_PROMOTOR = "10";
+
+        public const string cROL_const_ENCSUCURSAL = "11";
+
+        public const string cROL_const_ENCGRAL = "12";
+
+        public const string cROL_const_GRUPOCLIENTE = "13";
+
+
     }
 }

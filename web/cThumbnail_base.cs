@@ -13,8 +13,8 @@ namespace DKbase.web
     {
         public static System.Drawing.Image obtenerImagen(string ruta, string nombre, string strAncho, string strAlto, string strColor, bool boolAlto)
         {
-            string RutaCompleta = Helper.getFolder + @"\archivos\" + ruta + @"\";
-            string RutaCompletaNombreArchivo = RutaCompleta + nombre;
+            string RutaCompleta = Path.Combine(Helper.getFolder, "archivos", ruta);
+            string RutaCompletaNombreArchivo = Path.Combine(RutaCompleta , nombre);
             if (System.IO.File.Exists(RutaCompletaNombreArchivo) && DKbase.web.generales.Validaciones_base.IsNumeric(strAncho) && DKbase.web.generales.Validaciones_base.IsNumeric(strAlto))
             {
                 try
@@ -36,8 +36,8 @@ namespace DKbase.web
                         CacheNombreArchivo += listaParteNombre[i];
                     }
                     CacheExtencionArchivo = listaParteNombre[listaParteNombre.Length - 1];
-                    string ChacheRutaDeImagenRedimencionada = RutaCompleta + "resize" + @"\";
-                    string ChacheRutaYNombreArchivoRedimencionado = ChacheRutaDeImagenRedimencionada + CacheNombreArchivo + "_" + strAncho + "x" + strAlto + "_" + boolAlto.ToString() + "_" + strColor + "." + CacheExtencionArchivo;
+                    string ChacheRutaDeImagenRedimencionada = Path.Combine(RutaCompleta, "resize");
+                    string ChacheRutaYNombreArchivoRedimencionado = Path.Combine(ChacheRutaDeImagenRedimencionada , CacheNombreArchivo + "_" + strAncho + "x" + strAlto + "_" + boolAlto.ToString() + "_" + strColor + "." + CacheExtencionArchivo);
                     if (System.IO.File.Exists(ChacheRutaYNombreArchivoRedimencionado))
                     {
                         System.Drawing.Image oImgCache = System.Drawing.Image.FromFile(ChacheRutaYNombreArchivoRedimencionado);

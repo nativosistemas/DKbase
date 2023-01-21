@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -39,6 +40,81 @@ namespace DKbase.web.capaDatos
     }
     public class capaRecurso_base
     {
+        public static string obtenerExtencion(string pNombreArchivo)
+        {
+            string resultado = string.Empty;
+            if (!string.IsNullOrEmpty(pNombreArchivo))
+            {
+                string[] listaNombre = pNombreArchivo.Split('.');
+                if (listaNombre.Length > 0)
+                {
+                    resultado = listaNombre[listaNombre.Length - 1].Trim().ToLower();
+                }
+            }
+            return resultado;
+        }
+        public static string nombreArchivoSinRepetir(string pPath, string pNombreArchivo)
+        {
+            string resultado = string.Empty;
+            string[] listaNombre = pNombreArchivo.Split('.');
+            string NombreArchivo = string.Empty;
+            string ExtencionArchivo = string.Empty;
+            for (int i = 0; i < listaNombre.Length - 1; i++)
+            {
+                NombreArchivo += listaNombre[i];
+            }
+            NombreArchivo = remplazarCaracteresEspeciales(NombreArchivo);
+            ExtencionArchivo = listaNombre[listaNombre.Length - 1];
+            int contNombre = -1;
+            string NombreTemporal = NombreArchivo + "." + ExtencionArchivo;
+            string Path_NombreTemporal = Path.Combine(pPath, NombreTemporal);
+            while (System.IO.File.Exists(Path_NombreTemporal))
+            {
+                contNombre++;
+                NombreTemporal = NombreArchivo + "_" + contNombre.ToString() + "." + ExtencionArchivo;
+                Path_NombreTemporal = Path.Combine(pPath, NombreTemporal);
+            }
+            if (contNombre == -1)
+            {
+                resultado = NombreArchivo + "." + ExtencionArchivo;
+            }
+            else
+            {
+                resultado = NombreTemporal;
+            }
+            return resultado;
+        }
+        public static string remplazarCaracteresEspeciales(string pStr)
+        {
+            const string pStrOriginal = "áéíóúàèìòùâêîôûäëïöüãõñÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÄËÏÖÜÑçÇ";
+            const string pStrARemplazar = "aeiouaeiouaeiouaeiouaonaeiouaeiouaeiouaeiouncc";
+            if (pStr != null)
+            {
+                string resultado = string.Empty;
+                for (int i = 0; i < pStrOriginal.Length; i++)
+                {
+                    pStr.Replace(pStrOriginal[i], pStrARemplazar[i]);
+                }
+
+                for (int i = 0; i < pStr.Length; i++)
+                {
+                    char[] CharEspeciales = new char[] { '\r', '\n', '\t' }; ;
+                    if (pStr[i] == CharEspeciales[0] || pStr[i] == CharEspeciales[1] || pStr[i] == CharEspeciales[2])
+                    {
+                    }
+                    else
+                    {
+                        resultado += pStr[i];
+                    }
+
+                }
+                return resultado;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public static DataSet GestiónArchivo(int? arc_codRecurso, int? arc_codRelacion, string arc_galeria, string arc_tipo, string arc_mime, string arc_nombre, string arc_titulo, string arc_descripcion, string arc_hash, int? arc_codUsuarioUltMov, int? arc_estado, int? arc_accion, string filtro, string accion)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
@@ -188,7 +264,7 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
-        public static int spRatingArchivos( string arc_galeria, string arc_nombre)
+        public static int spRatingArchivos(string arc_galeria, string arc_nombre)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
             SqlCommand cmdComandoInicio = new SqlCommand("Recursos.spRatingArchivos", Conn);

@@ -301,7 +301,14 @@ namespace DKbase.generales
         public const string cROL_const_ENCGRAL = "12";
 
         public const string cROL_const_GRUPOCLIENTE = "13";
-
+        public static int cACCION_ALTA
+        {
+            get { return 1; }
+        }
+        public static int cACCION_MODIFICACION
+        {
+            get { return 2; }
+        }
 
     }
 }

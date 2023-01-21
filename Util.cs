@@ -5,6 +5,7 @@ using System.Data;
 using System.Text;
 using System.Linq;
 using DKbase.web;
+using DKbase.generales;
 
 namespace DKbase
 {
@@ -899,6 +900,51 @@ namespace DKbase
         public static string verCurrentDirectory()
         {
             return System.IO.Directory.GetCurrentDirectory();
+        }
+        public static int InsertarActualizarArchivo(int arc_codRecurso, int arc_codRelacion, string arc_galeria, string arc_tipo, string arc_mime, string arc_nombre, string arc_titulo, string arc_descripcion, string arc_hash, int arc_codUsuarioUltMov)
+        {
+            string accion = arc_codRecurso == 0 ? Constantes.cSQL_INSERT : Constantes.cSQL_UPDATE;
+            int codigoAccion = arc_codRecurso == 0 ? Constantes.cACCION_ALTA : Constantes.cACCION_MODIFICACION;
+            int? codigoEstado = arc_codRecurso == 0 ? Constantes.cESTADO_ACTIVO : (int?)null;
+            DataSet dsResultado = DKbase.web.capaDatos.capaRecurso_base.GestiónArchivo(arc_codRecurso, arc_codRelacion, arc_galeria, arc_tipo, arc_mime, arc_nombre, arc_titulo, arc_descripcion, arc_hash, arc_codUsuarioUltMov, codigoEstado, codigoAccion, null, accion);
+            int resultado = -1;
+            if (arc_codRecurso == 0)
+            {
+                if (dsResultado != null)
+                {
+                    if (dsResultado.Tables["Archivo"].Rows[0]["arc_codRecurso"] != DBNull.Value)
+                    {
+                        resultado = Convert.ToInt32(dsResultado.Tables["Archivo"].Rows[0]["arc_codRecurso"]);
+                    }
+                }
+            }
+            else
+            {
+                resultado = arc_codRecurso;
+            }
+            return resultado;
+        }
+        public static int InsertarCurriculumVitae(string tcv_nombre, string tcv_comentario, string tcv_mail, string tcv_dni, string tcv_puesto, string tcv_sucursal, DateTime? tcv_fechaPresentacion)
+        {
+            int resultado = 0;
+            string accion = Constantes.cSQL_INSERT;
+            int codigoEstado = Constantes.cESTADO_SINLEER;
+            DataSet dsResultado = capaCV_base.GestiónCurriculumVitae(null, DateTime.Now, tcv_nombre, tcv_comentario, tcv_mail, tcv_dni, codigoEstado, null, accion, tcv_puesto, tcv_sucursal, tcv_fechaPresentacion);
+            if (dsResultado != null)
+            {
+                if (dsResultado.Tables.Contains("CurriculumVitae"))
+                {
+                    if (dsResultado.Tables["CurriculumVitae"].Rows.Count > 0)
+                    {
+                        if (dsResultado.Tables["CurriculumVitae"].Rows[0]["tcv_codCV"] != DBNull.Value)
+                        {
+                            resultado = Convert.ToInt32(dsResultado.Tables["CurriculumVitae"].Rows[0]["tcv_codCV"]);
+                            DKbase.web.generales.cMail_base.enviarMail(DKbase.Helper.getMail_cv, "Nuevo Curriculum Vitae", capaCV_base.GenerarHtmlCuerpoMail(tcv_nombre, tcv_comentario, tcv_mail));
+                        }
+                    }
+                }
+            }
+            return resultado;
         }
     }
 }

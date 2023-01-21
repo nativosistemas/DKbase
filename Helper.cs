@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DKbase
 {
-  public sealed class Helper
+    public sealed class Helper
     {
         private Helper()
         {
@@ -52,6 +52,26 @@ namespace DKbase
             set; get;
         }
         public static string getUrl_DKdll
+        {
+            set; get;
+        }
+        public static string getReCAPTCHA_ClaveSecreta
+        {
+            set; get;
+        }
+        public static string getMailContacto
+        {
+            set; get;
+        }
+        public static string getMail_cv
+        {
+            set; get;
+        }
+        public static string getMailRegistracion
+        {
+            set; get;
+        }
+        public static string getMailRegistracionNoCliente
         {
             set; get;
         }

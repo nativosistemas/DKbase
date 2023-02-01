@@ -309,6 +309,29 @@ namespace DKbase.generales
         {
             get { return 2; }
         }
-
+        public static int cACCION_CAMBIOESTADO
+        {
+            get { return 3; }
+        }
+        public static int cACCION_CAMBIOCONTRASEÑA
+        {
+            get { return 4; }
+        }
+        public static int cACCION_CAMBIOORDEN
+        {
+            get { return 5; }
+        }
+        public static int cACCION_ISPUBLICAR
+        {
+            get { return 6; }
+        }
+        public static int cACCION_ELIMINAR
+        {
+            get { return 7; }
+        }
+        public static string cSeparadorCSV
+        {
+            get { return ";"; }
+        }
     }
 }

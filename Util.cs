@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using DKbase.web;
 using DKbase.generales;
+using System.IO;
 
 namespace DKbase
 {
@@ -894,8 +895,9 @@ namespace DKbase
         {
             return System.IO.Path.Combine(Helper.getFolder, "archivos", "ofertas", "aIMG_20210603_081731660.jpg");
         }
-        public static string verExisteArchivo() {
-            return System.IO.File.Exists(verRutaArchivo()) ? "Si":"No" ;
+        public static string verExisteArchivo()
+        {
+            return System.IO.File.Exists(verRutaArchivo()) ? "Si" : "No";
         }
         public static string verCurrentDirectory()
         {
@@ -974,6 +976,547 @@ namespace DKbase
                 }
             }
             return listaSession;
+        }
+        public static void GenerarArchivo(string RutaNombreArchivo, DataTable pTabla)
+        {
+            if (pTabla != null && RutaNombreArchivo != null)
+            {
+                if (pTabla.Rows.Count > 0)
+                {
+                    string path = RutaNombreArchivo;
+                    FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write);
+                    //StreamWriter writer = new StreamWriter(stream);
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        string encabezado = string.Empty;
+                        encabezado += "Tipo" + Constantes.cSeparadorCSV;
+                        encabezado += "Producto" + Constantes.cSeparadorCSV;
+                        encabezado += "AlfaBeta" + Constantes.cSeparadorCSV;
+                        encabezado += "Troquel" + Constantes.cSeparadorCSV;
+                        encabezado += "CodBarraPrinc" + Constantes.cSeparadorCSV;
+                        encabezado += "Laboratorio" + Constantes.cSeparadorCSV;
+                        encabezado += "Precio" + Constantes.cSeparadorCSV;
+                        encabezado += "Neto" + Constantes.cSeparadorCSV;
+                        encabezado += "CadenaFrio" + Constantes.cSeparadorCSV;
+                        encabezado += "RequiereVale" + Constantes.cSeparadorCSV;
+                        encabezado += "Trazable";
+
+                        writer.WriteLine(encabezado);
+                        //resultado += "\n";
+                        foreach (DataRow item in pTabla.Rows)
+                        {
+                            string fila = string.Empty;
+                            string Tipo = string.Empty;
+                            if (item["Tipo"] != DBNull.Value)
+                            {
+                                Tipo = item["Tipo"].ToString();
+                            }
+                            fila += Tipo + Constantes.cSeparadorCSV;
+                            string Producto = string.Empty;
+                            if (item["Producto"] != DBNull.Value)
+                            {
+                                Producto = item["Producto"].ToString();
+                            }
+                            fila += Producto + Constantes.cSeparadorCSV;
+                            string AlfaBeta = string.Empty;
+                            if (item["AlfaBeta"] != DBNull.Value)
+                            {
+                                AlfaBeta = item["AlfaBeta"].ToString();
+                            }
+                            fila += AlfaBeta + Constantes.cSeparadorCSV;
+                            string Troquel = string.Empty;
+                            if (item["Troquel"] != DBNull.Value)
+                            {
+                                Troquel = item["Troquel"].ToString();
+                            }
+                            fila += Troquel + Constantes.cSeparadorCSV;
+                            string CodBarraPrinc = string.Empty;
+                            if (item["CodBarraPrinc"] != DBNull.Value)
+                            {
+                                CodBarraPrinc = item["CodBarraPrinc"].ToString();
+                            }
+                            fila += CodBarraPrinc + Constantes.cSeparadorCSV;
+                            string Laboratorio = string.Empty;
+                            if (item["Laboratorio"] != DBNull.Value)
+                            {
+                                Laboratorio = item["Laboratorio"].ToString();
+                            }
+                            fila += Laboratorio + Constantes.cSeparadorCSV;
+                            string Precio = string.Empty;
+                            if (item["Precio"] != DBNull.Value)
+                            {
+                                Precio = item["Precio"].ToString();
+                            }
+                            fila += Precio + Constantes.cSeparadorCSV;
+                            string Neto = string.Empty;
+                            if (item["Neto"] != DBNull.Value)
+                            {
+                                Neto = item["Neto"].ToString();
+                            }
+                            fila += Neto + Constantes.cSeparadorCSV;
+                            string CadenaFrio = string.Empty;
+                            if (item["CadenaFrio"] != DBNull.Value)
+                            {
+                                CadenaFrio = item["CadenaFrio"].ToString();
+                            }
+                            fila += CadenaFrio + Constantes.cSeparadorCSV;
+                            string RequiereVale = string.Empty;
+                            if (item["RequiereVale"] != DBNull.Value)
+                            {
+                                RequiereVale = item["RequiereVale"].ToString();
+                            }
+                            fila += RequiereVale + Constantes.cSeparadorCSV;
+                            string Trazable = string.Empty;
+                            if (item["Trazable"] != DBNull.Value)
+                            {
+                                Trazable = item["Trazable"].ToString();
+                            }
+                            fila += Trazable;
+                            writer.WriteLine(fila);
+                        }
+                    }
+                }
+            }
+        }
+        public static void GenerarArchivo_ProductosEnOferta(string RutaNombreArchivo, DataTable pTabla)
+        {
+            if (pTabla != null && RutaNombreArchivo != null)
+            {
+                if (pTabla.Rows.Count > 0)
+                {
+                    string path = RutaNombreArchivo;
+                    FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write);
+                    //StreamWriter writer = new StreamWriter(stream);
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        string encabezado = string.Empty;
+                        encabezado += "Nombre producto" + Constantes.cSeparadorCSV;
+                        encabezado += "Codigo Barra" + Constantes.cSeparadorCSV;
+                        encabezado += "Unidades Mínimas" + Constantes.cSeparadorCSV;
+                        encabezado += "% de descuento";
+                        writer.WriteLine(encabezado);
+                        foreach (DataRow item in pTabla.Rows)
+                        {
+                            string fila = string.Empty;
+                            string NombreProducto = string.Empty;
+                            if (item["Nombre producto"] != DBNull.Value)
+                            {
+                                NombreProducto = item["Nombre producto"].ToString();
+                            }
+                            fila += NombreProducto + Constantes.cSeparadorCSV;
+                            string CodigoBarra = string.Empty;
+                            if (item["Codigo Barra"] != DBNull.Value)
+                            {
+                                CodigoBarra = item["Codigo Barra"].ToString();
+                            }
+                            fila += CodigoBarra + Constantes.cSeparadorCSV;
+                            string UnidadesMínimas = string.Empty;
+                            if (item["Unidades Mínimas"] != DBNull.Value)
+                            {
+                                UnidadesMínimas = item["Unidades Mínimas"].ToString();
+                            }
+                            fila += UnidadesMínimas + Constantes.cSeparadorCSV;
+                            string Descuento = string.Empty;
+                            if (item["% de descuento"] != DBNull.Value)
+                            {
+                                Descuento = item["% de descuento"].ToString();
+                            }
+                            fila += Descuento;
+                            writer.WriteLine(fila);
+                        }
+                    }
+                }
+            }
+        }
+        public static void GenerarArchivo_MedicamentosYAccesoriosNoIncluidosEnAlfaBeta(string RutaNombreArchivo, DataTable pTabla)
+        {
+            if (pTabla != null && RutaNombreArchivo != null)
+            {
+                if (pTabla.Rows.Count > 0)
+                {
+                    string path = RutaNombreArchivo;
+                    FileStream stream = new FileStream(path, FileMode.Create, FileAccess.Write);
+                    //StreamWriter writer = new StreamWriter(stream);
+                    using (StreamWriter writer = new StreamWriter(stream))
+                    {
+                        string encabezado = string.Empty;
+                        encabezado += "Tipo" + Constantes.cSeparadorCSV;
+                        encabezado += "Producto" + Constantes.cSeparadorCSV;
+                        encabezado += "AlfaBeta" + Constantes.cSeparadorCSV;
+                        encabezado += "Troquel" + Constantes.cSeparadorCSV;
+                        encabezado += "CodBarraPrinc" + Constantes.cSeparadorCSV;
+                        encabezado += "Laboratorio" + Constantes.cSeparadorCSV;
+                        encabezado += "Precio" + Constantes.cSeparadorCSV;
+                        encabezado += "Neto" + Constantes.cSeparadorCSV;
+                        encabezado += "CadenaFrio" + Constantes.cSeparadorCSV;
+                        encabezado += "RequiereVale" + Constantes.cSeparadorCSV;
+                        encabezado += "Trazable";
+                        writer.WriteLine(encabezado);
+                        foreach (DataRow item in pTabla.Rows)
+                        {
+                            string fila = string.Empty;
+                            fila += item["Tipo"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["Producto"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["AlfaBeta"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["Troquel"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["CodBarraPrinc"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["Laboratorio"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["Precio"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["Neto"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["CadenaFrio"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["RequiereVale"].ToString() + Constantes.cSeparadorCSV;
+                            fila += item["Trazable"].ToString();
+
+                            writer.WriteLine(fila);
+                        }
+                    }
+                    //writer.Close();
+                }
+            }
+        }
+        public static void createFileClear(String pPathFile, DataTable pDataTable)
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add(pDataTable);
+            ds.WriteXml(pPathFile);
+        }
+        public static string GenerateDocument_getNameFile(int id)
+        {
+            string nameFile = string.Empty;
+            switch (id)
+            {
+                case 1:
+                case 5:
+                    if (id == 1)
+                        nameFile = "Productos.xls";
+                    else
+                        nameFile = "Productos.csv";
+                    break;
+                case 2:
+                case 6:
+                    if (id == 2)
+                        nameFile = "ProductosDrogueria.xls";
+                    else
+                        nameFile = "ProductosDrogueria.csv";
+                    break;
+                case 3:
+                case 7:
+                    if (id == 3)
+                        nameFile = "ProductosPerfumeria.xls";
+                    else
+                        nameFile = "ProductosPerfumeria.csv";
+                    break;
+                case 4:
+                case 8:
+                    if (id == 4)
+                        nameFile = "ProductosEnOferta.xls";
+                    else
+                        nameFile = "ProductosEnOferta.csv";
+                    break;
+                case 9:
+                    nameFile = "MedicamentosYAccesoriosNoIncluidosEnAlfaBeta.csv";
+                    break;
+                default:
+                    break;
+            }
+            return nameFile;
+        }
+        public static string GenerateDocument_getPathFile(int id)
+        {
+            string nameFile = GenerateDocument_getNameFile(id);
+            string path = Path.Combine(DKbase.Helper.getFolder, "temp");
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            String f = Path.Combine(path, nameFile);
+            return f;
+        }
+        public static byte[] GenerateDocument(int id, DKbase.web.capaDatos.cClientes pCliente)
+        {
+            if (pCliente == null)
+                return null;
+
+            try
+            {
+                DataTable dt = null;
+                string nameFile = GenerateDocument_getNameFile(id);
+                switch (id)
+                {
+                    case 1:
+                    case 5:
+                        dt = capaProductos_base.DescargaTodosProductos(pCliente.cli_codprov);
+                        //if (id == 1)
+                        //    nameFile = "Productos.xls";
+                        //else
+                        //    nameFile = "Productos.csv";
+                        break;
+                    case 2:
+                    case 6:
+                        dt = capaProductos_base.DescargaTodosProductosDrogueria(pCliente.cli_codprov);
+                        //if (id == 2)
+                        //    nameFile = "ProductosDrogueria.xls";
+                        //else
+                        //    nameFile = "ProductosDrogueria.csv";
+                        break;
+                    case 3:
+                    case 7:
+                        dt = capaProductos_base.DescargaTodosProductosPerfumeria(pCliente.cli_codprov);
+                        //if (id == 3)
+                        //    nameFile = "ProductosPerfumeria.xls";
+                        //else
+                        //    nameFile = "ProductosPerfumeria.csv";
+                        break;
+                    case 4:
+                    case 8:
+                        dt = capaProductos_base.DescargaTodosProductosEnOferta();
+                        //if (id == 4)
+                        //    nameFile = "ProductosEnOferta.xls";
+                        //else
+                        //    nameFile = "ProductosEnOferta.csv";
+                        break;
+                    case 9:
+                        dt = capaProductos_base.DescargaMedicamentosYAccesoriosNoIncluidosEnAlfaBeta();
+                        //nameFile = "MedicamentosYAccesoriosNoIncluidosEnAlfaBeta.csv";
+                        break;
+                    default:
+                        break;
+                }
+                if (dt != null)
+                {
+                    // string path = Path.Combine(DKbase.Helper.getFolder, "temp");
+                    // if (!Directory.Exists(path))
+                    //    Directory.CreateDirectory(path);
+                    //String f = Path.Combine(path, nameFile);
+                    String f = GenerateDocument_getPathFile(id);
+                    if (id == 1 || id == 2 || id == 3 || id == 4)
+                    {
+                        DKbase.Util.createFileClear(f, dt);
+                    }
+                    else if (id == 5 || id == 6 || id == 7)
+                    {
+                        DKbase.Util.GenerarArchivo(f, dt);
+                    }
+                    else if (id == 8)
+                    {
+                        DKbase.Util.GenerarArchivo_ProductosEnOferta(f, dt);
+                    }
+                    else if (id == 9)
+                    {
+                        DKbase.Util.GenerarArchivo_MedicamentosYAccesoriosNoIncluidosEnAlfaBeta(f, dt);
+                    }
+                    var fileStream = new FileStream(f, FileMode.Open, FileAccess.Read);
+                    byte[] buffer = new byte[16 * 1024];
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        int read;
+                        while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            ms.Write(buffer, 0, read);
+                        }
+                        return ms.ToArray();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(System.Reflection.MethodBase.GetCurrentMethod(), ex, DateTime.Now, id);
+
+            }
+            return null;
+        }
+        public static List<cUsuario> RecuperarUsuariosDeCliente(int usu_codRol, int usu_codCliente, string filtro)
+        {
+            List<cUsuario> lista = new List<cUsuario>();
+            DataSet dsResultado = capaClientes_base.RecuperarUsuariosDeCliente(usu_codRol, usu_codCliente, filtro);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["UsuariosCliente"].Rows)
+                {
+                    cUsuario o = capaSeguridad_base.ConvertToUsuario(item);
+                    o.listaPermisoDenegados = DKbase.Util.RecuperarSinPermisosSecciones(o.usu_codigo);
+                    lista.Add(o);
+                }
+            }
+            return lista;
+
+        }
+        public static List<cUsuario> GetUsuariosDeCliente(string sortExpression, int pIdCliente, string pFiltro)
+        {
+            ordenamientoExpresion order = new ordenamientoExpresion(sortExpression);
+            string filtro = string.Empty;
+            if (pFiltro != null)
+            {
+                filtro = pFiltro;
+            }
+            var query = RecuperarUsuariosDeCliente(Constantes.cROL_OPERADORCLIENTE, pIdCliente, filtro);
+            if (order.isOrderBy)
+            {
+                if (order.OrderByAsc)
+                {
+                    switch (order.OrderByField)
+                    {
+                        case "usu_nombre":
+                            query = query.OrderBy(b => b.usu_nombre).ToList();
+                            break;
+                        case "usu_apellido":
+                            query = query.OrderBy(b => b.usu_apellido).ToList();
+                            break;
+                        case "usu_mail":
+                            query = query.OrderBy(b => b.usu_mail).ToList();
+                            break;
+                        case "usu_login":
+                            query = query.OrderBy(b => b.usu_login).ToList();
+                            break;
+                        case "NombreYapellido":
+                            query = query.OrderBy(b => b.NombreYapellido).ToList();
+                            break;
+                        case "rol_Nombre":
+                            query = query.OrderBy(b => b.rol_Nombre).ToList();
+                            break;
+                        case "usu_estadoToString":
+                            query = query.OrderBy(b => b.usu_estadoToString).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (order.OrderByField)
+                    {
+                        case "usu_nombre":
+                            query = query.OrderByDescending(b => b.usu_nombre).ToList();
+                            break;
+                        case "usu_apellido":
+                            query = query.OrderByDescending(b => b.usu_apellido).ToList();
+                            break;
+                        case "usu_mail":
+                            query = query.OrderByDescending(b => b.usu_mail).ToList();
+                            break;
+                        case "usu_login":
+                            query = query.OrderByDescending(b => b.usu_login).ToList();
+                            break;
+                        case "NombreYapellido":
+                            query = query.OrderByDescending(b => b.NombreYapellido).ToList();
+                            break;
+                        case "rol_Nombre":
+                            query = query.OrderByDescending(b => b.rol_Nombre).ToList();
+                            break;
+                        case "usu_estadoToString":
+                            query = query.OrderByDescending(b => b.usu_estadoToString).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return query;
+        }
+        public static bool IsRepetidoLogin(int pIdUsuario, string pLogin)
+        {
+            bool resultado = false;
+            DataTable dtResultado = capaSeguridad_base.IsRepetidoLogin(pIdUsuario, pLogin);
+            if (dtResultado != null)
+            {
+                if (dtResultado.Rows.Count > 0)
+                {
+                    resultado = true;
+                }
+            }
+            return resultado;
+        }
+        public static int InsertarActualizarUsuario(int usu_codigo, int usu_codRol, int? usu_codCliente, string usu_nombre, string usu_apellido, string usu_mail, string usu_login, string usu_psw, string usu_observacion, int? usu_codUsuarioUltMov)
+        {
+            string accion = usu_codigo == 0 ? Constantes.cSQL_INSERT : Constantes.cSQL_UPDATE;
+            int codigoAccion = usu_codigo == 0 ? Constantes.cACCION_ALTA : Constantes.cACCION_MODIFICACION;
+            int? codigoEstado = usu_codigo == 0 ? Constantes.cESTADO_ACTIVO : (int?)null;
+            DataSet dsResultado = capaSeguridad_base.GestiónUsuario(usu_codigo, usu_codRol, usu_codCliente, usu_nombre, usu_apellido, usu_mail, usu_login, usu_psw, usu_observacion, usu_codUsuarioUltMov, codigoAccion, codigoEstado, null, accion);
+            int resultado = -1;
+            if (usu_codigo == 0)
+            {
+                if (dsResultado != null)
+                {
+                    if (dsResultado.Tables["Usuario"].Rows[0]["usu_codigo"] != DBNull.Value)
+                    {
+                        resultado = Convert.ToInt32(dsResultado.Tables["Usuario"].Rows[0]["usu_codigo"]);
+                    }
+                }
+            }
+            else
+            {
+                resultado = usu_codigo;
+            }
+            return resultado;
+        }
+        public static bool InsertarSinPermisoUsuarioIntranetPorIdUsuario(int pIdUsuario, List<string> pListaNombreSeccion)
+        {
+            bool resultado = false;
+            try
+            {
+                DataTable pTablaDetalle = DKbase.web.FuncionesPersonalizadas_base.ConvertNombresSeccionToDataTable(pListaNombreSeccion);
+                capaSeguridad_base.InsertarSinPermisoUsuarioIntranetPorIdUsuario(pIdUsuario, pTablaDetalle);
+                resultado = true;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(System.Reflection.MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+            }
+            return resultado;
+        }
+        public static int GuardarUsuario(cClientes pCliente, int pIdUsuario, string pNombre, string pApellido, string pMail, string pLogin, string pContraseña, string pObservaciones1, List<string> pListaPermisos)
+        {
+            if (pCliente == null)
+                return -1;
+            int? codigoUsuarioEnSession = null;
+            if (DKbase.Util.IsRepetidoLogin(pIdUsuario, pLogin))
+                return -2;
+            int codUsuarioInsertarActualizar = DKbase.Util.InsertarActualizarUsuario(pIdUsuario, Constantes.cROL_OPERADORCLIENTE, pCliente.cli_codigo, pNombre, pApellido, pMail, pLogin, pContraseña, pObservaciones1, codigoUsuarioEnSession);
+            DKbase.Util.InsertarSinPermisoUsuarioIntranetPorIdUsuario(codUsuarioInsertarActualizar, pListaPermisos);
+            return codUsuarioInsertarActualizar;
+        }
+        public static cUsuario RecuperarUsuarioPorId(int pIdUsuario)
+        {
+            cUsuario obj = null;
+            DataSet dsResultado = capaSeguridad_base.GestiónUsuario(pIdUsuario, null, null, null, null, null, null, null, null, null, null, null, null, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Usuario"].Rows)
+                {
+                    obj = DKbase.web.capaDatos.capaSeguridad_base.ConvertToUsuario(item);
+                    obj.listaPermisoDenegados = DKbase.Util.RecuperarSinPermisosSecciones(obj.usu_codigo);
+                    break;
+                }
+            }
+            return obj;
+        }
+        public static void CambiarEstadoUsuarioPorId(int pIdUsuario, int pIdEstado, int pIdUsuarioEnSession)
+        {
+            capaSeguridad_base.GestiónUsuario(pIdUsuario, null, null, null, null, null, null, null, null, pIdUsuarioEnSession, Constantes.cACCION_CAMBIOESTADO, pIdEstado, null, Constantes.cSQL_ESTADO);
+        }
+        public static int CambiarEstadoUsuario(Usuario pUsuario,int pIdUsuario)
+        {
+            if (pUsuario == null)
+                return -1;
+            int codigoUsuarioEnSession = pUsuario.id;
+            cUsuario usuario = DKbase.Util.RecuperarUsuarioPorId(pIdUsuario);
+            int estadoUsuario = usuario.usu_estado == Constantes.cESTADO_ACTIVO ? Constantes.cESTADO_INACTIVO : Constantes.cESTADO_ACTIVO;
+            DKbase.Util.CambiarEstadoUsuarioPorId(usuario.usu_codigo, estadoUsuario, codigoUsuarioEnSession);
+            return 0;
+        }
+        public static void EliminarUsuario(int usu_codigo)
+        {
+            DataSet dsResultado = capaSeguridad_base.GestiónUsuario(usu_codigo, null, null, null, null, null, null, null, null, null, null, null, null, Constantes.cSQL_DELETE);
+        }
+        public static void CambiarContraseñaUsuario(int pIdUsuario, string pConstraseña, int? pIdUsuarioEnSession)
+        {
+            DataSet dsResultado = capaSeguridad_base.GestiónUsuario(pIdUsuario, null, null, null, null, null, null, pConstraseña, null, pIdUsuarioEnSession, Constantes.cACCION_CAMBIOCONTRASEÑA, null, null, Constantes.cSQL_CAMBIOCONTRASEÑA);
+        }
+        public static int CambiarContraseñaUsuario(Usuario pUsuario, int pIdUsuario, string pPass)
+        {
+            if (pUsuario == null)
+                return -1;
+            int codigoUsuarioEnSession = pUsuario.id;
+            DKbase.Util.CambiarContraseñaUsuario(pIdUsuario, pPass, codigoUsuarioEnSession);
+            return 0;
         }
     }
 }

@@ -603,6 +603,144 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable DescargaTodosProductos(string pProvincia)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spDescargaTodosProductos", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paProvincia = cmdComandoInicio.Parameters.Add("@cli_codprov", SqlDbType.NVarChar, 75);
+            paProvincia.Value = pProvincia;
+
+            try
+            {
+                Conn.Open();
+                DataTable table = new DataTable();
+                table.Load(cmdComandoInicio.ExecuteReader());
+                return table;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable DescargaTodosProductosDrogueria(string pProvincia)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spDescargaTodosProductosDrogueria", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paProvincia = cmdComandoInicio.Parameters.Add("@cli_codprov", SqlDbType.NVarChar, 75);
+            paProvincia.Value = pProvincia;
+
+            try
+            {
+                Conn.Open();
+                DataTable table = new DataTable();
+                table.Load(cmdComandoInicio.ExecuteReader());
+                return table;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable DescargaTodosProductosPerfumeria(string pProvincia)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spDescargaTodosProductosPerfumeria", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paProvincia = cmdComandoInicio.Parameters.Add("@cli_codprov", SqlDbType.NVarChar, 75);
+            paProvincia.Value = pProvincia;
+
+
+            try
+            {
+                Conn.Open();
+                DataTable table = new DataTable();
+                table.Load(cmdComandoInicio.ExecuteReader());
+                return table;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable DescargaTodosProductosEnOferta()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spDescargaTodosProductosEnOferta", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                Conn.Open();
+                DataTable table = new DataTable();
+                table.Load(cmdComandoInicio.ExecuteReader());
+                return table;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static DataTable DescargaMedicamentosYAccesoriosNoIncluidosEnAlfaBeta()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Productos.spMedicamentosYAccesoriosNoIncluidosEnAlfaBeta", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                Conn.Open();
+                DataTable table = new DataTable();
+                table.Load(cmdComandoInicio.ExecuteReader());
+                return table;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
 
     }
 }

@@ -47,7 +47,7 @@ namespace DKbase.web.capaDatos
             try
             {
                 string url_api = pUrl + name;
-                if (pParameter != null) { 
+
                 var myContent = JsonSerializer.Serialize(pParameter);
                 var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
                 var byteContent = new ByteArrayContent(buffer);

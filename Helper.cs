@@ -75,5 +75,9 @@ namespace DKbase
         {
             set; get;
         }
+        public static string getArchivo_ImpresionesComprobante
+        {
+            set; get;
+        }
     }
 }

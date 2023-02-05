@@ -1,4 +1,5 @@
 ﻿using DKbase.dll;
+using DKbase.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -289,7 +290,7 @@ namespace DKbase.web.capaDatos
         {
             cFactura result = null;
             string name = "ObtenerFactura";
-            var parameter = new { pNroFactura = pNroFactura, pLoginWeb = pLoginWeb };
+            var parameter = new DocumentoRequest { documentoID = pNroFactura, loginWeb = pLoginWeb };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {

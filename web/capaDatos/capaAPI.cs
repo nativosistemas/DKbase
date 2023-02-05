@@ -12,7 +12,7 @@ namespace DKbase.web.capaDatos
 {
     public class capaAPI
     {
-        private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromMinutes(30) };        
+        private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromMinutes(30) };
         public static string url_DKcore = Helper.getUrl_DKcore;
         public static string url_DKdll = Helper.getUrl_DKdll;
         private static JsonSerializerOptions oJsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
@@ -164,7 +164,7 @@ namespace DKbase.web.capaDatos
             Models.TomarPedidoConIdCarritoRequest parameter = new Models.TomarPedidoConIdCarritoRequest()
             {
                 pIdCarrito = pIdCarrito
-            }; 
+            };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -198,7 +198,7 @@ namespace DKbase.web.capaDatos
             DKbase.dll.cDllPedido result = null;
             string name = "TomarPedidoTelefonista";
             DKbase.Models.TomarPedidoConIdCarritoRequest parameter = new DKbase.Models.TomarPedidoConIdCarritoRequest() { pIdCarrito = pIdCarrito, pLoginCliente = pLoginCliente, pIdSucursal = pIdSucursal, pMensajeEnFactura = pMensajeEnFactura, pMensajeEnRemito = pMensajeEnRemito, pTipoEnvio = pTipoEnvio, pListaProducto = pListaProducto, pLoginTelefonista = pLoginTelefonista };
-            HttpResponseMessage response = await PostAsync(url_DKcore ,name, parameter);
+            HttpResponseMessage response = await PostAsync(url_DKcore, name, parameter);
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
@@ -223,7 +223,7 @@ namespace DKbase.web.capaDatos
         {
             bool result = false;
             string name = "AgregarVacunas";
-            DKbase.Models.VacunasRequest parameter = new DKbase.Models.VacunasRequest() { pVacunas = pListaVacunas, pLoginTelefonista  = pLoginTelefonista };
+            DKbase.Models.VacunasRequest parameter = new DKbase.Models.VacunasRequest() { pVacunas = pListaVacunas, pLoginTelefonista = pLoginTelefonista };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -265,6 +265,136 @@ namespace DKbase.web.capaDatos
                     result = JsonSerializer.Deserialize<List<DKbase.dll.cReservaVacuna>>(resultResponse);
                 }
             }
+            return result;
+        }
+        public static async Task<string> ModificarPasswordWEBAsync(string pIdentificadorCliente, string pPassActual, string pPassNueva)
+        {
+            string result = null;
+            string name = "ModificarPasswordWEB";
+            var parameter = new { pIdentificadorCliente = pIdentificadorCliente, pPassActual = pPassActual, pPassNueva = pPassNueva };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            result = string.Empty;
+            //if (response != null)
+            //{
+            //    var resultResponse = response.Content.ReadAsStringAsync().Result;
+            //    if (isNotNull(resultResponse))
+            //    {
+            //        result = JsonSerializer.Deserialize<bool>(resultResponse);
+            //    }
+            //}
+            return result;
+        }
+        public static async Task<cFactura> ObtenerFacturaAsync(string pNroFactura, string pLoginWeb)
+        {
+            cFactura result = null;
+            string name = "ObtenerFactura";
+            var parameter = new { pNroFactura = pNroFactura, pLoginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<cFactura>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<cNotaDeCredito> ObtenerNotaDeCreditoAsync(string pNroNotaDeCredito, string pLoginWeb)
+        {
+            cNotaDeCredito result = null;
+            string name = "ObtenerNotaDeCredito";
+            var parameter = new { pNroNotaDeCredito = pNroNotaDeCredito, pLoginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);      
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<cNotaDeCredito>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<cNotaDeDebito> ObtenerNotaDeDebitoAsync(string pNroNotaDeDebito, string pLoginWeb)
+        {
+            cNotaDeDebito result = null;
+            string name = "ObtenerNotaDeDebito";
+            var parameter = new { pNroNotaDeDebito = pNroNotaDeDebito, pLoginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<cNotaDeDebito>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<cResumen> ObtenerResumenCerradoAsync(string pNroResumen, string pLoginWeb)
+        {
+            cResumen result = null;
+            string name = "ObtenerResumenCerrado";
+            var parameter = new { pNroResumen = pNroResumen, pLoginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<cResumen>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<cObraSocialCliente> ObtenerObraSocialClienteAsync(string pNumeroObraSocialCliente, string pLoginWeb)
+        {
+            cObraSocialCliente result = null;
+            string name = "ObtenerObraSocialCliente";
+            var parameter = new { pNumeroObraSocialCliente = pNumeroObraSocialCliente, pLoginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<cObraSocialCliente>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<cRecibo> ObtenerReciboAsync(string pNumeroDoc, string pLoginWeb)
+        {
+            cRecibo result = null;
+            string name = "ObtenerRecibo";
+            var parameter = new { pNumeroDoc = pNumeroDoc, pLoginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<cRecibo>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<string> ImprimirComprobanteAsync(string pTipoComprobante, string pNroComprobante)
+        {
+            string result = null;//ImprimirComprobante(string pTipoComprobante, string pNroComprobante)
+            string name = "ImprimirComprobante";
+            var parameter = new { pTipoComprobante = pTipoComprobante, pNroComprobante = pNroComprobante };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            result = string.Empty;
+            //if (response != null)
+            //{
+            //    var resultResponse = response.Content.ReadAsStringAsync().Result;
+            //    if (isNotNull(resultResponse))
+            //    {
+            //        result = JsonSerializer.Deserialize<bool>(resultResponse);
+            //    }
+            //}
             return result;
         }
     }

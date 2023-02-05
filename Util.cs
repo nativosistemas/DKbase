@@ -7,6 +7,7 @@ using System.Linq;
 using DKbase.web;
 using DKbase.generales;
 using System.IO;
+using DKbase.dll;
 
 namespace DKbase
 {
@@ -1492,7 +1493,7 @@ namespace DKbase
         {
             capaSeguridad_base.GestiónUsuario(pIdUsuario, null, null, null, null, null, null, null, null, pIdUsuarioEnSession, Constantes.cACCION_CAMBIOESTADO, pIdEstado, null, Constantes.cSQL_ESTADO);
         }
-        public static int CambiarEstadoUsuario(Usuario pUsuario,int pIdUsuario)
+        public static int CambiarEstadoUsuario(Usuario pUsuario, int pIdUsuario)
         {
             if (pUsuario == null)
                 return -1;
@@ -1517,6 +1518,54 @@ namespace DKbase
             int codigoUsuarioEnSession = pUsuario.id;
             DKbase.Util.CambiarContraseñaUsuario(pIdUsuario, pPass, codigoUsuarioEnSession);
             return 0;
+        }
+        public static int CambiarContraseñaPersonal(cClientes pCliente, Usuario pUsuario, string pContraseñaVieja, string pContraseñaNueva)
+        {
+            int id = -1;
+
+            if (pCliente != null && pUsuario != null)
+            {
+                cUsuario objUsuario = null;
+                objUsuario = DKbase.Util.RecuperarUsuarioPorId(pUsuario.id);
+                if (pContraseñaVieja == objUsuario.usu_pswDesencriptado)
+                {
+                    id = capaSeguridad_base.CambiarContraseñaPersonal(pUsuario.id, pContraseñaVieja, pContraseñaNueva);
+                    if (pUsuario.idRol == Constantes.cROL_ADMINISTRADORCLIENTE)
+                    {
+                        DKbase.web.capaDatos.capaDLL.ModificarPasswordWEB(pCliente.cli_login, objUsuario.usu_pswDesencriptado, pContraseñaNueva);
+                    }
+                }
+                else { id = 0; }
+            }
+            return id;
+        }
+        public static void ImprimirComprobante(string pTipoComprobante, string pNroComprobante)
+        {
+            DKbase.web.capaDatos.capaDLL.ImprimirComprobante(pTipoComprobante, pNroComprobante);
+        }
+        public static cFactura ObtenerFactura(string pNroFactura, string pLoginWeb)
+        {
+           return DKbase.web.capaDatos.capaDLL.ObtenerFactura(pNroFactura,  pLoginWeb);
+        }
+        public static cNotaDeCredito ObtenerNotaDeCredito(string pNroNotaDeCredito,  string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerNotaDeCredito( pNroNotaDeCredito, pLoginWeb);
+        }
+        public static cNotaDeDebito ObtenerNotaDeDebito(string pNroNotaDeDebito, string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerNotaDeDebito(pNroNotaDeDebito, pLoginWeb);
+        }
+        public static cResumen ObtenerResumenCerrado(string pNroResumen, string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerResumenCerrado(pNroResumen, pLoginWeb);
+        }
+        public static cObraSocialCliente ObtenerObraSocialCliente(string pNumeroObraSocialCliente, string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerObraSocialCliente(pNumeroObraSocialCliente, pLoginWeb);
+        }
+        public static cRecibo ObtenerRecibo(string pNumeroDoc, string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerRecibo(pNumeroDoc, pLoginWeb);
         }
     }
 }

@@ -54,14 +54,14 @@ namespace DKbase.web.capaDatos
             try
             {
                 capaCAR_base.InicioCarritoEnProceso(pIdCarrito, Constantes.cAccionCarrito_TOMAR);
-                var t = Task.Run(() => capaAPI.TomarPedidoDeTransfersConIdCarritoAsync(pIdCarrito,  pLoginCliente,  pIdSucursal,  pMensajeEnFactura,  pMensajeEnRemito,  pTipoEnvio,  pListaProducto));
+                var t = Task.Run(() => capaAPI.TomarPedidoDeTransfersConIdCarritoAsync(pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto));
                 t.Wait();
                 result = t.Result;
             }
             catch (Exception ex)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto);
-          
+
             }
             finally
             {
@@ -74,9 +74,9 @@ namespace DKbase.web.capaDatos
             DKbase.dll.cDllPedido result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.TomarPedidoAsync(pLoginCliente,  pIdSucursal,  pMensajeEnFactura,  pMensajeEnRemito,  pTipoEnvio,  pListaProducto,  pIsUrgente));
+                var t = Task.Run(() => capaAPI.TomarPedidoAsync(pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto, pIsUrgente));
                 t.Wait();
-                result = t.Result;                
+                result = t.Result;
             }
             catch (Exception ex)
             {
@@ -97,9 +97,9 @@ namespace DKbase.web.capaDatos
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb, pDesde, pHasta);
             }
-                    return result;
+            return result;
         }
-        public static DKbase.dll.cDllPedido TomarPedidoTelefonistaAsync(Usuario pUsuario,int pIdCarrito, string pLoginCliente, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, List<DKbase.dll.cDllProductosAndCantidad> pListaProducto, bool pIsUrgente)
+        public static DKbase.dll.cDllPedido TomarPedidoTelefonistaAsync(Usuario pUsuario, int pIdCarrito, string pLoginCliente, string pIdSucursal, string pMensajeEnFactura, string pMensajeEnRemito, string pTipoEnvio, List<DKbase.dll.cDllProductosAndCantidad> pListaProducto, bool pIsUrgente)
         {
             string pLoginTelefonista = pUsuario.usu_login;
             try
@@ -125,7 +125,7 @@ namespace DKbase.web.capaDatos
         {
             string pLoginTelefonista = pUsuario.usu_login;
             try
-            {            
+            {
                 capaCAR_base.InicioCarritoEnProceso(pIdCarrito, Constantes.cAccionCarrito_TOMAR);
                 var t = Task.Run(() => capaAPI.TomarPedidoDeTransfersTelefonistaAsync(pIdCarrito, pLoginCliente, pIdSucursal, pMensajeEnFactura, pMensajeEnRemito, pTipoEnvio, pListaProducto, pLoginTelefonista));
                 t.Wait();
@@ -164,7 +164,7 @@ namespace DKbase.web.capaDatos
             List<DKbase.dll.cVacuna> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerTotalReservasDeVacunasPorClienteEntreFechasAsync(pDesde,  pHasta,  pLoginWEB));
+                var t = Task.Run(() => capaAPI.ObtenerTotalReservasDeVacunasPorClienteEntreFechasAsync(pDesde, pHasta, pLoginWEB));
                 t.Wait();
                 result = t.Result;
             }
@@ -188,6 +188,120 @@ namespace DKbase.web.capaDatos
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pDesde, pHasta, pLoginWEB);
             }
             return result;
+        }
+        public static void ModificarPasswordWEB(string pIdentificadorCliente, string pPassActual, string pPassNueva)
+        {
+            try
+            {
+                var t = Task.Run(() => capaAPI.ModificarPasswordWEBAsync(pIdentificadorCliente, pPassActual, pPassNueva));
+                t.Wait();
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIdentificadorCliente, pPassActual, pPassNueva);
+            }
+        }
+        public static cFactura ObtenerFactura(string pNroFactura, string pLoginWeb)
+        {
+            cFactura result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerFacturaAsync(pNroFactura, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNroFactura, pLoginWeb);
+            }
+            return result;
+        }
+        public static cNotaDeCredito ObtenerNotaDeCredito(string pNroNotaDeCredito, string pLoginWeb)
+        {
+            cNotaDeCredito result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerNotaDeCreditoAsync( pNroNotaDeCredito, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNroNotaDeCredito, pLoginWeb);
+            }
+            return result;
+        }
+        public static cNotaDeDebito ObtenerNotaDeDebito(string pNroNotaDeDebito, string pLoginWeb)
+        {
+            cNotaDeDebito result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerNotaDeDebitoAsync(pNroNotaDeDebito, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNroNotaDeDebito, pLoginWeb);
+            }
+            return result;
+        }
+        public static cResumen ObtenerResumenCerrado(string pNroResumen, string pLoginWeb)
+        {
+            cResumen result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerResumenCerradoAsync(pNroResumen, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNroResumen, pLoginWeb);
+            }
+            return result;
+        }
+        public static cObraSocialCliente ObtenerObraSocialCliente(string pNumeroObraSocialCliente, string pLoginWeb)
+        {
+            cObraSocialCliente result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerObraSocialClienteAsync(pNumeroObraSocialCliente, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroObraSocialCliente, pLoginWeb);
+            }
+            return result;
+        }
+        public static cRecibo ObtenerRecibo(string pNumeroDoc, string pLoginWeb)
+        {
+            cRecibo result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerReciboAsync(pNumeroDoc, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroDoc, pLoginWeb);
+            }
+            return result;
+        }
+        public static void ImprimirComprobante(string pTipoComprobante, string pNroComprobante)
+        {
+            try
+            {
+                var t = Task.Run(() => capaAPI.ImprimirComprobanteAsync(pTipoComprobante, pNroComprobante));
+                t.Wait();
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pTipoComprobante, pNroComprobante);
+            }
         }
     }
 }

@@ -1404,5 +1404,6 @@ namespace DKbase.web
             List<DKbase.dll.cVacuna> result = DKbase.web.capaDatos.capaDLL.ObtenerTotalReservasDeVacunasPorClienteEntreFechas(now.AddMonths(-6), now, pCliente.cli_login);
             return result;
         }
+
     }
 }

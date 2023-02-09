@@ -303,5 +303,20 @@ namespace DKbase.web.capaDatos
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pTipoComprobante, pNroComprobante);
             }
         }
+        public static cDllSaldosComposicion ObtenerSaldosPresentacionParaComposicion(string pLoginWeb, DateTime pFecha)
+        {
+            cDllSaldosComposicion result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerSaldosPresentacionParaComposicionAsync( pLoginWeb,  pFecha));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pFecha, pLoginWeb);
+            }
+            return result;
+        }
     }
 }

@@ -318,5 +318,50 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<cCtaCteMovimiento> ObtenerMovimientosDeCuentaCorriente(bool pIsIncluyeCancelado, DateTime pFechaDesde, DateTime pFechaHasta, string pLoginWeb)
+        {
+            List<cCtaCteMovimiento> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerMovimientosDeCuentaCorrienteAsync(pIsIncluyeCancelado,  pFechaDesde,  pFechaHasta,  pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIsIncluyeCancelado,  pFechaDesde,  pFechaHasta,  pLoginWeb);
+            }
+            return result;
+        }
+        public static cDllRespuestaResumenAbierto ObtenerResumenAbierto(string pLoginWeb)
+        {
+            cDllRespuestaResumenAbierto result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerResumenAbiertoAsync(pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb);
+            }
+            return result;
+        }
+        public static List<cDllChequeRecibido> ObtenerChequesEnCartera(string pLoginWeb)
+        {
+            List<cDllChequeRecibido> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerChequesEnCarteraAsync(pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb);
+            }
+            return result;
+        }
     }
 }

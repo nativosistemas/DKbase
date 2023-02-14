@@ -1754,5 +1754,120 @@ namespace DKbase
         {
             return DKbase.web.capaDatos.capaDLL.ObtenerSaldosPresentacionParaComposicion(pLoginWeb, pFecha);
         }
+        //public static List<string> ObtenerRangoFecha(cClientes pClientes, int pDia, int pPendiente, int pCancelado)
+        //{
+        //    if (pClientes == null)
+        //        return null;
+        //    List<string> lista = new List<string>();
+        //    DateTime fechaActual = DateTime.Now;
+        //    DateTime fechaDesde = fechaActual.AddDays(pDia * -1);
+        //    DateTime fechaHasta = fechaActual;
+        //    lista.Add(fechaDesde.Day.ToString());
+        //    lista.Add((fechaDesde.Month).ToString());
+        //    lista.Add((fechaDesde.Year).ToString());
+
+        //    lista.Add(fechaHasta.Day.ToString());
+        //    lista.Add((fechaHasta.Month).ToString());
+        //    lista.Add((fechaHasta.Year).ToString());
+        //    Session["CompocisionSaldo_ResultadoMovimientosDeCuentaCorriente"] = AgregarVariableSessionComposicionSaldo(fechaDesde, fechaHasta, pPendiente, pCancelado, pClientes.cli_login);
+        //    return lista;
+        //}
+        public static List<cCtaCteMovimiento> ObtenerMovimientosDeCuentaCorriente(bool pIsIncluyeCancelado, DateTime pFechaDesde, DateTime pFechaHasta, string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerMovimientosDeCuentaCorriente(pIsIncluyeCancelado, pFechaDesde, pFechaHasta, pLoginWeb);
+        }
+        public static List<cCtaCteMovimiento> AgregarVariableSessionComposicionSaldo(DateTime pFechaDesde, DateTime pFechaHasta, int pPendiente, int pCancelado, string pCli_login)
+        {
+            string resultado = string.Empty;
+            DateTime fechaDesde = pFechaDesde;
+            DateTime fechaHasta = pFechaHasta;
+
+            int pendiente = pPendiente;
+            int cancelado = pCancelado;
+
+            List<cCtaCteMovimiento> resultadoObj = ObtenerMovimientosDeCuentaCorriente((pendiente == 1 ? true : false), fechaDesde, fechaHasta, pCli_login);
+
+            if (resultadoObj != null)
+            {
+                List<cCtaCteMovimiento> resultadoAUX = new List<cCtaCteMovimiento>();
+                List<cCtaCteMovimiento> parteAUX = null;
+                bool isPaso = false;
+                bool isPasoPorPaso = false;
+                for (int i = 0; i < resultadoObj.Count; i++)
+                {
+                    bool isAgregarAhora = false;
+                    if (isPaso)
+                    {
+                        parteAUX.Add(resultadoObj[i]);
+                        isPaso = false;
+                        isPasoPorPaso = true;
+                    }
+                    if (resultadoObj[i].FechaVencimiento == null)
+                    {
+                        isAgregarAhora = true;
+                    }
+                    else
+                    {
+                        if (i == resultadoObj.Count - 1)
+                        {
+                            isAgregarAhora = true;
+                        }
+                        else
+                        {
+                            if (resultadoObj[i].NumeroComprobante != "" && Convert.ToInt32(resultadoObj[i].TipoComprobante) < 14)
+                            {
+                                if (resultadoObj[i].NumeroComprobante == resultadoObj[i + 1].NumeroComprobante && resultadoObj[i].TipoComprobante == resultadoObj[i + 1].TipoComprobante)
+                                {
+                                    if (parteAUX == null)
+                                    {
+                                        parteAUX = new List<cCtaCteMovimiento>();
+                                    }
+                                    if (!isPasoPorPaso)
+                                    {
+                                        parteAUX.Add(resultadoObj[i]);
+                                    }
+                                    isPaso = true;
+                                }
+                                else
+                                {
+                                    isAgregarAhora = true;
+                                }
+                            }
+                            else
+                            {
+                                isAgregarAhora = true;
+                            }
+                        }
+                    }
+                    if (isAgregarAhora)
+                    {
+                        if (parteAUX != null)
+                        {
+                            resultadoAUX.AddRange(parteAUX.OrderBy(x => x.FechaVencimiento).ToList());
+                            parteAUX = null;
+                        }
+                        if (!isPasoPorPaso)
+                        {
+                            resultadoAUX.Add(resultadoObj[i]);
+                        }
+                    }
+                    isPasoPorPaso = false;
+                }
+                return resultadoAUX;
+            }
+            return null;
+        }
+        public static decimal? RecuperarLimiteSaldo()
+        {
+            return capaClientes_base.RecuperarLimiteSaldo(); ;
+        }
+        public static cDllRespuestaResumenAbierto ObtenerResumenAbierto(string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerResumenAbierto(pLoginWeb);
+        }
+        public static List<cDllChequeRecibido> ObtenerChequesEnCartera(string pLoginWeb)
+        {
+            return DKbase.web.capaDatos.capaDLL.ObtenerChequesEnCartera(pLoginWeb);
+        }
     }
 }

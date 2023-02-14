@@ -448,5 +448,41 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static decimal? RecuperarLimiteSaldo()
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Clientes.spRecuperarLimiteSaldo", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+            try
+            {
+                Conn.Open();
+                DataTable dt = new DataTable();
+                SqlDataReader LectorSQLdata = cmdComandoInicio.ExecuteReader();
+                dt.Load(LectorSQLdata);
+                decimal? resultado = null;
+                if (dt.Rows.Count > 0)
+                {
+                    if (dt.Columns.Contains("tls_limiteSaldo"))
+                    {
+                        resultado = Convert.ToDecimal(dt.Rows[0]["tls_limiteSaldo"]);
+                    }
+                }
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+
     }
 }

@@ -47,7 +47,7 @@ namespace DKbase.web.capaDatos
         {
             try
             {
-                string url_api = pUrl + name + pParameter;
+                string url_api = pUrl + name + "?" + pParameter;
                 HttpResponseMessage response = await client.GetAsync(url_api);
                 if (response.IsSuccessStatusCode)
                     return response;
@@ -320,8 +320,8 @@ namespace DKbase.web.capaDatos
             cFactura result = null;
             string name = "ObtenerFactura";
             // var parameter = new DocumentoRequest { documentoID = pNroFactura, loginWeb = pLoginWeb };
-            //pNumeroFactura, string pLoginWeb
-            string parameter = "pNumeroFactura=" + pNroFactura + "&" + "pLoginWeb=" + pLoginWeb;
+            //(string pNumeroFactura, string pLoginWeb)
+            string parameter = "?" + "pNumeroFactura=" + pNroFactura + "&" + "pLoginWeb=" + pLoginWeb;
              HttpResponseMessage response = await GetAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -442,6 +442,54 @@ namespace DKbase.web.capaDatos
                 if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<cDllSaldosComposicion>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cCtaCteMovimiento>> ObtenerMovimientosDeCuentaCorrienteAsync(bool pIsIncluyeCancelado, DateTime pFechaDesde, DateTime pFechaHasta, string pLoginWeb)
+        {
+            List<cCtaCteMovimiento> result = null;
+            string name = "ObtenerMovimientosDeCuentaCorriente";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, fechaDesde = pFechaDesde,fechaHasta = pFechaHasta,isIncluyeCancelado = pIsIncluyeCancelado };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cCtaCteMovimiento>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<cDllRespuestaResumenAbierto> ObtenerResumenAbiertoAsync(string pLoginWeb)
+        {
+            cDllRespuestaResumenAbierto result = null;
+            string name = "ObtenerResumenAbierto";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb};
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<cDllRespuestaResumenAbierto>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cDllChequeRecibido>> ObtenerChequesEnCarteraAsync(string pLoginWeb)
+        {
+            List<cDllChequeRecibido> result = null;
+            string name = "ObtenerChequesEnCartera";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cDllChequeRecibido>>(resultResponse);
                 }
             }
             return result;

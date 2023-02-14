@@ -10,5 +10,8 @@ namespace DKbase.Models
         public string documentoTipo { get; set; }
         public string loginWeb { get; set; }
         public DateTime fecha { get; set; }
+        public bool isIncluyeCancelado { get; set; }
+        public DateTime fechaDesde { get; set; }
+        public DateTime fechaHasta { get; set; }
     }
 }

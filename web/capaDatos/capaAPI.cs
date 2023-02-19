@@ -319,10 +319,11 @@ namespace DKbase.web.capaDatos
         {
             cFactura result = null;
             string name = "ObtenerFactura";
-            // var parameter = new DocumentoRequest { documentoID = pNroFactura, loginWeb = pLoginWeb };
-            //(string pNumeroFactura, string pLoginWeb)
-            string parameter = "?" + "pNumeroFactura=" + pNroFactura + "&" + "pLoginWeb=" + pLoginWeb;
-             HttpResponseMessage response = await GetAsync(url_DKdll, name, parameter);
+            var parameter = new DocumentoRequest { documentoID = pNroFactura, loginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            ////(string pNumeroFactura, string pLoginWeb)
+            //string parameter = "?" + "pNumeroFactura=" + pNroFactura + "&" + "pLoginWeb=" + pLoginWeb;
+            // HttpResponseMessage response = await GetAsync(url_DKdll, name, parameter);
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;

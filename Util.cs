@@ -1736,7 +1736,7 @@ namespace DKbase
         public static string generar_archivo(cClientes pCliente, string factura)
         {
             string result = null;
-            string rutaTemporal = Path.Combine(DKbase.Helper.getFolder, "archivos" + "facturas");
+            string rutaTemporal = Path.Combine(DKbase.Helper.getFolder, "archivos", "facturas");
 
             DirectoryInfo DIR = new DirectoryInfo(rutaTemporal);
             if (!DIR.Exists)
@@ -1868,6 +1868,156 @@ namespace DKbase
         public static List<cDllChequeRecibido> ObtenerChequesEnCartera(string pLoginWeb)
         {
             return DKbase.web.capaDatos.capaDLL.ObtenerChequesEnCartera(pLoginWeb);
+        }
+        public static List<cCtaCteMovimiento> getHiddenDeudaVencida(string pCli_login)
+        {
+            int pDia = 7;
+            int pPendiente = 1;
+            int pCancelado = 0;
+            DateTime fechaDesde = DateTime.Now.AddDays(pDia * -1);
+            DateTime fechaHasta = DateTime.Now;
+            List<cCtaCteMovimiento> l = AgregarVariableSessionComposicionSaldo(fechaDesde, fechaHasta, pPendiente, pCancelado, pCli_login);
+            return l;
+        }
+        public static string getDeudaVencidaCSV(cClientes pClientes, List<cCtaCteMovimiento> pLista, string pTipo)
+        {
+            string resultado = string.Empty;
+
+            if (pLista != null && pClientes != null)
+            {
+                string ruta = Path.Combine(DKbase.Helper.getFolder, "archivos", "csv");
+                DirectoryInfo DIR = new DirectoryInfo(ruta);
+                if (!DIR.Exists)
+                {
+                    DIR.Create();
+                }
+
+                string nombreArchivoCSV = string.Empty;
+                nombreArchivoCSV = pClientes.cli_login + "-" + pTipo + ".csv";
+                resultado = nombreArchivoCSV;
+                System.IO.StreamWriter FAC_txt = new System.IO.StreamWriter(Path.Combine(ruta, nombreArchivoCSV), false, System.Text.Encoding.UTF8);
+
+                string strCabeceraCSV = string.Empty;
+
+                strCabeceraCSV += "Fecha";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Vencimiento";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Comprobante";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Semana";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Importe";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Saldo";
+                FAC_txt.WriteLine(strCabeceraCSV);
+                for (int i = 0; i < pLista.Count; i++)
+                {
+                    string detalleCSV = string.Empty;
+                    detalleCSV += pLista[i].FechaToString;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].FechaVencimientoToString;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].TipoComprobanteToString + " " + pLista[i].NumeroComprobante;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].Semana;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].Importe != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(pLista[i].Importe.Value) : "";
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].Saldo != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(pLista[i].Saldo.Value) : "";
+                    FAC_txt.WriteLine(detalleCSV);
+                }
+                FAC_txt.Close();
+            }
+            return resultado;
+        }
+        public static string getObraSocialEntreFechasCSV(cClientes pClientes, List<cConsObraSocial> pLista)
+        {
+            string resultado = string.Empty;
+
+            if (pLista != null && pClientes != null)
+            {
+                string ruta = Path.Combine(DKbase.Helper.getFolder, "archivos", "csv");
+                DirectoryInfo DIR = new DirectoryInfo(ruta);
+                if (!DIR.Exists)
+                {
+                    DIR.Create();
+                }
+
+                string nombreArchivoCSV = string.Empty;
+                nombreArchivoCSV = pClientes.cli_login + "-ObrasSociales" + ".csv";
+                resultado = nombreArchivoCSV;
+                System.IO.StreamWriter FAC_txt = new System.IO.StreamWriter(Path.Combine(ruta, nombreArchivoCSV), false, System.Text.Encoding.UTF8);
+
+                string strCabeceraCSV = string.Empty;
+
+                strCabeceraCSV += "Fecha";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Comprobante";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Detalle";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Importe";
+                FAC_txt.WriteLine(strCabeceraCSV);
+                for (int i = 0; i < pLista.Count; i++)
+                {
+                    string detalleCSV = string.Empty;
+                    detalleCSV += pLista[i].FechaComprobanteToString;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].TipoComprobante + " " + pLista[i].NumeroComprobante;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].Detalle;
+                    detalleCSV += ";";
+                    detalleCSV += Numerica.FormatoNumeroPuntoMilesComaDecimal(pLista[i].Importe);
+                    FAC_txt.WriteLine(detalleCSV);
+                }
+                FAC_txt.Close();
+            }
+            return resultado;
+        }
+        public static string getConsultaDeComprobantesEntreFechaCSV(cClientes pClientes, List<cComprobanteDiscriminado> pLista)
+        {
+            string resultado = string.Empty;
+
+            if (pLista != null && pClientes != null)
+            {
+                string ruta = Path.Combine(DKbase.Helper.getFolder, "archivos", "csv");
+                DirectoryInfo DIR = new DirectoryInfo(ruta);
+                if (!DIR.Exists)
+                {
+                    DIR.Create();
+                }
+
+                string nombreArchivoCSV = string.Empty;
+                nombreArchivoCSV = pClientes.cli_login + "-ConsultaDeComprobantes" + ".csv";
+                resultado = nombreArchivoCSV;
+                System.IO.StreamWriter FAC_txt = new System.IO.StreamWriter(Path.Combine(ruta, nombreArchivoCSV), false, System.Text.Encoding.UTF8);
+
+                string strCabeceraCSV = string.Empty;
+
+                strCabeceraCSV += "Fecha";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Tipo";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Comprobante";
+                strCabeceraCSV += ";";
+                strCabeceraCSV += "Importe";
+                FAC_txt.WriteLine(strCabeceraCSV);
+                for (int i = 0; i < pLista.Count; i++)
+                {
+                    string detalleCSV = string.Empty;
+                    detalleCSV += pLista[i].FechaToString;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].Comprobante;
+                    detalleCSV += ";";
+                    detalleCSV += pLista[i].NumeroComprobante;
+                    detalleCSV += ";";
+                    detalleCSV += Numerica.FormatoNumeroPuntoMilesComaDecimal(pLista[i].MontoTotal);
+                    FAC_txt.WriteLine(detalleCSV);
+                }
+                FAC_txt.Close();
+            }
+            return resultado;
         }
     }
 }

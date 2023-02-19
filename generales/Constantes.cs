@@ -333,5 +333,13 @@ namespace DKbase.generales
         {
             get { return ";"; }
         }
+        public static string cSaldoSinImputar
+        {
+            get { return "saldoSinImputar"; }
+        }
+        public static string cDeudaVencida
+        {
+            get { return "deudaVencida"; }
+        }
     }
 }

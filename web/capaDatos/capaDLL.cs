@@ -221,7 +221,7 @@ namespace DKbase.web.capaDatos
             cNotaDeCredito result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerNotaDeCreditoAsync( pNroNotaDeCredito, pLoginWeb));
+                var t = Task.Run(() => capaAPI.ObtenerNotaDeCreditoAsync(pNroNotaDeCredito, pLoginWeb));
                 t.Wait();
                 result = t.Result;
             }
@@ -308,7 +308,7 @@ namespace DKbase.web.capaDatos
             cDllSaldosComposicion result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerSaldosPresentacionParaComposicionAsync( pLoginWeb,  pFecha));
+                var t = Task.Run(() => capaAPI.ObtenerSaldosPresentacionParaComposicionAsync(pLoginWeb, pFecha));
                 t.Wait();
                 result = t.Result;
             }
@@ -323,13 +323,13 @@ namespace DKbase.web.capaDatos
             List<cCtaCteMovimiento> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerMovimientosDeCuentaCorrienteAsync(pIsIncluyeCancelado,  pFechaDesde,  pFechaHasta,  pLoginWeb));
+                var t = Task.Run(() => capaAPI.ObtenerMovimientosDeCuentaCorrienteAsync(pIsIncluyeCancelado, pFechaDesde, pFechaHasta, pLoginWeb));
                 t.Wait();
                 result = t.Result;
             }
             catch (Exception ex)
             {
-                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIsIncluyeCancelado,  pFechaDesde,  pFechaHasta,  pLoginWeb);
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pIsIncluyeCancelado, pFechaDesde, pFechaHasta, pLoginWeb);
             }
             return result;
         }
@@ -360,6 +360,51 @@ namespace DKbase.web.capaDatos
             catch (Exception ex)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb);
+            }
+            return result;
+        }
+        public static decimal? ObtenerCreditoDisponibleSemanal(string pLoginWeb)
+        {
+            decimal? result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerCreditoDisponibleSemanalAsync(pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb);
+            }
+            return result;
+        }
+        public static decimal? ObtenerCreditoDisponibleTotal(string pLoginWeb)
+        {
+            decimal? result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerCreditoDisponibleTotalAsync(pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb);
+            }
+            return result;
+        }
+        public static List<cFichaCtaCte> ObtenerMovimientosDeFichaCtaCte(string pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            List<cFichaCtaCte> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerMovimientosDeFichaCtaCteAsync(pLoginWeb,  pFechaDesde,  pFechaHasta));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb, pFechaDesde, pFechaHasta);
             }
             return result;
         }

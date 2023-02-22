@@ -42,7 +42,7 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
-     
+
         private static async Task<HttpResponseMessage> GetAsync(string pUrl, string name, string pParameter, bool isRepeatBecauseNotAuthorized = true)
         {
             try
@@ -339,7 +339,7 @@ namespace DKbase.web.capaDatos
             cNotaDeCredito result = null;
             string name = "ObtenerNotaDeCredito";
             var parameter = new DocumentoRequest { documentoID = pNroNotaDeCredito, loginWeb = pLoginWeb }; //new { pNroNotaDeCredito = pNroNotaDeCredito, pLoginWeb = pLoginWeb };
-            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);      
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
@@ -451,7 +451,7 @@ namespace DKbase.web.capaDatos
         {
             List<cCtaCteMovimiento> result = null;
             string name = "ObtenerMovimientosDeCuentaCorriente";
-            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, fechaDesde = pFechaDesde,fechaHasta = pFechaHasta,isIncluyeCancelado = pIsIncluyeCancelado };
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, fechaDesde = pFechaDesde, fechaHasta = pFechaHasta, isIncluyeCancelado = pIsIncluyeCancelado };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -467,7 +467,7 @@ namespace DKbase.web.capaDatos
         {
             cDllRespuestaResumenAbierto result = null;
             string name = "ObtenerResumenAbierto";
-            var parameter = new DocumentoRequest { loginWeb = pLoginWeb};
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -491,6 +491,54 @@ namespace DKbase.web.capaDatos
                 if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<List<cDllChequeRecibido>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<decimal?> ObtenerCreditoDisponibleSemanalAsync(string pLoginWeb)
+        {
+            decimal? result = null;
+            string name = "ObtenerCreditoDisponibleSemanal";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<decimal?>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<decimal?> ObtenerCreditoDisponibleTotalAsync(string pLoginWeb)
+        {
+            decimal? result = null;
+            string name = "ObtenerCreditoDisponibleTotal";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<decimal?>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cFichaCtaCte>> ObtenerMovimientosDeFichaCtaCteAsync(string pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            List<cFichaCtaCte> result = null;
+            string name = "ObtenerMovimientosDeFichaCtaCte";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, fechaDesde = pFechaDesde, fechaHasta = pFechaHasta };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cFichaCtaCte>>(resultResponse);
                 }
             }
             return result;

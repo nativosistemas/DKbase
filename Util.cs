@@ -2019,5 +2019,24 @@ namespace DKbase
             }
             return resultado;
         }
+        public static decimal? ObtenerCreditoDisponibleSemanal(string pLoginWeb)
+        {
+            return capaDLL.ObtenerCreditoDisponibleSemanal(pLoginWeb); ;
+        }
+        public static decimal? ObtenerCreditoDisponibleTotal(string pLoginWeb)
+        {
+            return capaDLL.ObtenerCreditoDisponibleTotal(pLoginWeb); ;
+        }
+        public static ResultCreditoDisponible ObtenerCreditoDisponible(string pCli_login)
+        {
+            ResultCreditoDisponible o = new ResultCreditoDisponible();
+            o.CreditoDisponibleSemanal = ObtenerCreditoDisponibleSemanal(pCli_login);
+            o.CreditoDisponibleTotal = ObtenerCreditoDisponibleTotal(pCli_login);
+            return o;// Codigo.clases.Generales.Serializador.SerializarAJson(o);
+        }
+        public static List<cFichaCtaCte> ObtenerMovimientosDeFichaCtaCte(string pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            return capaDLL.ObtenerMovimientosDeFichaCtaCte(pLoginWeb, pFechaDesde, pFechaHasta);
+        }
     }
 }

@@ -77,11 +77,20 @@ namespace DKbase.web.capaDatos
             {
                 string url_api = pUrl + name;
 
-                var myContent = JsonSerializer.Serialize(pParameter);
-                var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                var byteContent = new ByteArrayContent(buffer);
-                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                HttpResponseMessage response = await client.PostAsync(url_api, byteContent);
+                HttpContent oHttpContent = null;
+                if (pParameter == null)
+                {
+                    oHttpContent = new StringContent(string.Empty);
+                }
+                else
+                {
+                    var myContent = JsonSerializer.Serialize(pParameter);
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                    var byteContent = new ByteArrayContent(buffer);
+                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    oHttpContent = byteContent;
+                }
+                HttpResponseMessage response = await client.PostAsync(url_api, oHttpContent);
                 if (response.IsSuccessStatusCode)
                     return response;
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
@@ -101,7 +110,6 @@ namespace DKbase.web.capaDatos
             catch (Exception ex)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pParameter);
-                //FuncionesPersonalizadas.grabarLog(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pParameter);
                 return null;
             }
         }
@@ -539,6 +547,118 @@ namespace DKbase.web.capaDatos
                 if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<List<cFichaCtaCte>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<string>> ObtenerTiposDeComprobantesAMostrarAsync(string pLoginWeb)
+        {
+            List<string> result = null;
+            string name = "ObtenerTiposDeComprobantesAMostrar";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<string>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cPlan>> ObtenerPlanesDeObrasSocialesAsync()
+        {
+            List<cPlan> result = null;
+            string name = "ObtenerPlanesDeObrasSociales";
+            //var parameter = new DocumentoRequest {  };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, null);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cPlan>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cCbteParaImprimir>> ObtenerComprobantesAImprimirEnBaseAResumenAsync(string pNumeroResumen)
+        {
+            List<cCbteParaImprimir> result = null;
+            string name = "ObtenerComprobantesAImprimirEnBaseAResumen";
+            var parameter = new DocumentoRequest { documentoID = pNumeroResumen };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cCbteParaImprimir>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cResumen>> ObtenerUltimos10ResumenesDePuntoDeVentaAsync(string pLoginWeb)
+        {
+            List<cResumen> result = null;
+            string name = "ObtenerUltimos10ResumenesDePuntoDeVenta";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cResumen>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cPlanillaObSoc>> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesAsync(string pNombrePlan, string pLoginWeb, int pAnio, int pMes)
+        {
+            List<cPlanillaObSoc> result = null;
+            string name = "ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes";
+            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb, nombrePlan = pNombrePlan, anio = pAnio, mes = pMes };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cPlanillaObSoc>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cPlanillaObSoc>> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincenaAsync(string pNombrePlan, string pLoginWeb, int pAnio, int pMes, int pQuincena)
+        {
+            List<cPlanillaObSoc> result = null;
+            string name = "ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena";
+            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb, nombrePlan = pNombrePlan, anio = pAnio, mes = pMes ,quincena = pQuincena };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cPlanillaObSoc>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cPlanillaObSoc>> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemanaAsync(string pNombrePlan, string pLoginWeb, int pAnio, int pSemana)
+        {
+            List<cPlanillaObSoc> result = null;
+            string name = "ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana";
+            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb, nombrePlan = pNombrePlan, anio = pAnio, semana = pSemana };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cPlanillaObSoc>>(resultResponse);
                 }
             }
             return result;

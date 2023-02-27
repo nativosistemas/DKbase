@@ -398,13 +398,119 @@ namespace DKbase.web.capaDatos
             List<cFichaCtaCte> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerMovimientosDeFichaCtaCteAsync(pLoginWeb,  pFechaDesde,  pFechaHasta));
+                var t = Task.Run(() => capaAPI.ObtenerMovimientosDeFichaCtaCteAsync(pLoginWeb, pFechaDesde, pFechaHasta));
                 t.Wait();
                 result = t.Result;
             }
             catch (Exception ex)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb, pFechaDesde, pFechaHasta);
+            }
+            return result;
+        }
+        public static List<string> ObtenerTiposDeComprobantesAMostrar(string pLoginWeb)
+        {
+            List<string> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerTiposDeComprobantesAMostrarAsync(pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb);
+            }
+            return result;
+        }
+        public static List<cPlan> ObtenerPlanesDeObrasSociales()
+        {
+            List<cPlan> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerPlanesDeObrasSocialesAsync());
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+            }
+            return result;
+        }
+        public static List<cCbteParaImprimir> ObtenerComprobantesAImprimirEnBaseAResumen(string pNumeroResumen)
+        {
+            List<cCbteParaImprimir> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerComprobantesAImprimirEnBaseAResumenAsync(pNumeroResumen));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroResumen);
+            }
+            return result;
+        }
+        public static List<cResumen> ObtenerUltimos10ResumenesDePuntoDeVenta(string pLoginWeb)
+        {
+            List<cResumen> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerUltimos10ResumenesDePuntoDeVentaAsync(pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb);
+            }
+            return result;
+        }
+        public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes(string pNombrePlan, string pLoginWeb, int pAnio, int pMes)
+        {
+            List<cPlanillaObSoc> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesAsync( pNombrePlan,  pLoginWeb,  pAnio,  pMes));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNombrePlan, pLoginWeb, pAnio, pMes);
+            }
+            return result;
+        }
+        public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena(string pNombrePlan, string pLoginWeb, int pAnio, int pMes, int pQuincena)
+        {
+            List<cPlanillaObSoc> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincenaAsync(pNombrePlan,  pLoginWeb,  pAnio,  pMes,  pQuincena));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNombrePlan, pLoginWeb, pAnio, pMes, pQuincena);
+            }
+            return result;
+        }
+        //List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana(string pNombrePlan, string pLoginWeb, int pAnio, int pSemana)
+        public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana(string pNombrePlan, string pLoginWeb, int pAnio, int pSemana)
+        {
+            List<cPlanillaObSoc> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemanaAsync(pNombrePlan,  pLoginWeb,  pAnio,  pSemana));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNombrePlan, pLoginWeb, pAnio, pSemana);
             }
             return result;
         }

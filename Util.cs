@@ -2038,5 +2038,33 @@ namespace DKbase
         {
             return capaDLL.ObtenerMovimientosDeFichaCtaCte(pLoginWeb, pFechaDesde, pFechaHasta);
         }
+        public static List<string> ObtenerTiposDeComprobantesAMostrar(string pLoginWeb)
+        {
+            return capaDLL.ObtenerTiposDeComprobantesAMostrar(pLoginWeb);
+        }
+        public static List<cPlan> ObtenerPlanesDeObrasSociales()
+        {
+            return capaDLL.ObtenerPlanesDeObrasSociales();
+        }
+        public static List<cCbteParaImprimir> ObtenerComprobantesAImprimirEnBaseAResumen(string pNumeroResumen)
+        {
+            return capaDLL.ObtenerComprobantesAImprimirEnBaseAResumen(pNumeroResumen);
+        }
+        public static List<cResumen> ObtenerUltimos10ResumenesDePuntoDeVenta(string pLoginWeb)
+        {
+            return capaDLL.ObtenerUltimos10ResumenesDePuntoDeVenta(pLoginWeb);
+        }
+        public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes(string pNombrePlan, string pLoginWeb, int pAnio, int pMes)
+        {
+            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes(pNombrePlan,  pLoginWeb,  pAnio,  pMes);
+        }
+        public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena(string pNombrePlan, string pLoginWeb, int pAnio, int pMes, int pQuincena)
+        {
+            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena(pNombrePlan,  pLoginWeb,  pAnio,  pMes,  pQuincena);
+        }
+        public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana(string pNombrePlan, string pLoginWeb, int pAnio, int pSemana)
+        {
+            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana( pNombrePlan,  pLoginWeb,  pAnio,  pSemana);
+        }
     }
 }

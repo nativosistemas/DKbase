@@ -15,6 +15,8 @@ namespace DKbase.Models
         public int mes { get; set; }
         public int quincena { get; set; }
         public int semana { get; set; }
+        public DateTime fechaDesde { get; set; }
+        public DateTime fechaHasta { get; set; }
 
     }
 }

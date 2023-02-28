@@ -2066,5 +2066,9 @@ namespace DKbase
         {
             return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana( pNombrePlan,  pLoginWeb,  pAnio,  pSemana);
         }
+        public static List<cConsObraSocial> ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas(string pLoginWeb, string pPlan, DateTime pFechaDesde, DateTime pFechaHasta)
+        {;
+            return capaDLL.ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas(pLoginWeb, pPlan, pFechaDesde, pFechaHasta);
+        }
     }
 }

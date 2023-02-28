@@ -514,5 +514,20 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<cConsObraSocial> ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas(string pLoginWeb, string pPlan, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            List<cConsObraSocial> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechasAsync(pLoginWeb,  pPlan,  pFechaDesde,  pFechaHasta));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb, pPlan, pFechaDesde, pFechaHasta);
+            }
+            return result;
+        }
     }
 }

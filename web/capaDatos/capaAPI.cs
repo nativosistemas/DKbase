@@ -663,5 +663,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<cConsObraSocial>> ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechasAsync(string pLoginWeb, string pPlan, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            List<cConsObraSocial> result = null;
+            string name = "ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas";
+            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb, nombrePlan = pPlan, fechaDesde = pFechaDesde, fechaHasta = pFechaHasta };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cConsObraSocial>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

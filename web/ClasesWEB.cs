@@ -188,4 +188,10 @@ namespace DKbase.web
         public int id { get; set; }
         public string nombre { get; set; }
     }
+    public class cPdfComprobante
+    {
+        public int index { get; set; }
+        public string nombreArchivo { get; set; }
+        public bool isOk { get; set; }
+    }
 }

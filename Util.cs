@@ -2056,19 +2056,23 @@ namespace DKbase
         }
         public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes(string pNombrePlan, string pLoginWeb, int pAnio, int pMes)
         {
-            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes(pNombrePlan,  pLoginWeb,  pAnio,  pMes);
+            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes(pNombrePlan, pLoginWeb, pAnio, pMes);
         }
         public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena(string pNombrePlan, string pLoginWeb, int pAnio, int pMes, int pQuincena)
         {
-            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena(pNombrePlan,  pLoginWeb,  pAnio,  pMes,  pQuincena);
+            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena(pNombrePlan, pLoginWeb, pAnio, pMes, pQuincena);
         }
         public static List<cPlanillaObSoc> ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana(string pNombrePlan, string pLoginWeb, int pAnio, int pSemana)
         {
-            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana( pNombrePlan,  pLoginWeb,  pAnio,  pSemana);
+            return capaDLL.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana(pNombrePlan, pLoginWeb, pAnio, pSemana);
         }
         public static List<cConsObraSocial> ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas(string pLoginWeb, string pPlan, DateTime pFechaDesde, DateTime pFechaHasta)
-        {;
+        {
             return capaDLL.ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas(pLoginWeb, pPlan, pFechaDesde, pFechaHasta);
+        }
+        public static List<cComprobantesDiscriminadosDePuntoDeVenta> ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas(string pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            return capaDLL.ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas( pLoginWeb,  pFechaDesde,  pFechaHasta);
         }
     }
 }

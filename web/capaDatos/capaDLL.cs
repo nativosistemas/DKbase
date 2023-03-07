@@ -529,5 +529,20 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<cComprobantesDiscriminadosDePuntoDeVenta> ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas(string pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            List<cComprobantesDiscriminadosDePuntoDeVenta> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechasAsync(pLoginWeb,  pFechaDesde,  pFechaHasta));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pLoginWeb, pFechaDesde, pFechaHasta);
+            }
+            return result;
+        }
     }
 }

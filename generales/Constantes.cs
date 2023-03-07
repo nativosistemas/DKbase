@@ -341,5 +341,9 @@ namespace DKbase.generales
         {
             get { return "deudaVencida"; }
         }
+        //public static string cArchivo_ImpresionesComprobante
+        //{
+        //    get { return @"C:\Impresiones\"; }
+        //}
     }
 }

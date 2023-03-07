@@ -422,22 +422,12 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<string> ImprimirComprobanteAsync(string pTipoComprobante, string pNroComprobante)
+        public static async Task<bool> ImprimirComprobanteAsync(string pTipoComprobante, string pNroComprobante)
         {
-            string result = null;//ImprimirComprobante(string pTipoComprobante, string pNroComprobante)
             string name = "ImprimirComprobante";
-            var parameter = new DocumentoRequest { documentoTipo = pTipoComprobante, documentoID = pNroComprobante }; //new { pTipoComprobante = pTipoComprobante, pNroComprobante = pNroComprobante };
+            var parameter = new DocumentoRequest { documentoTipo = pTipoComprobante, documentoID = pNroComprobante }; 
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
-            result = string.Empty;
-            //if (response != null)
-            //{
-            //    var resultResponse = response.Content.ReadAsStringAsync().Result;
-            //    if (isNotNull(resultResponse))
-            //    {
-            //        result = JsonSerializer.Deserialize<bool>(resultResponse);
-            //    }
-            //}
-            return result;
+            return true;
         }
         public static async Task<cDllSaldosComposicion> ObtenerSaldosPresentacionParaComposicionAsync(string pLoginWeb, DateTime pFecha)
         {
@@ -675,6 +665,22 @@ namespace DKbase.web.capaDatos
                 if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<List<cConsObraSocial>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cComprobantesDiscriminadosDePuntoDeVenta>> ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechasAsync(string pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta)
+        {
+            List<cComprobantesDiscriminadosDePuntoDeVenta> result = null;
+            string name = "ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas";
+            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb,fechaDesde = pFechaDesde, fechaHasta = pFechaHasta };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cComprobantesDiscriminadosDePuntoDeVenta>>(resultResponse);
                 }
             }
             return result;

@@ -2074,7 +2074,7 @@ namespace DKbase
         {
             return capaDLL.ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas(pLoginWeb, pFechaDesde, pFechaHasta);
         }
-        public double? ObtenerSaldoFinalADiciembrePorCliente(string pCli_login)
+        public static double? ObtenerSaldoFinalADiciembrePorCliente(string pCli_login)
         {
             return capaDLL.ObtenerSaldoFinalADiciembrePorCliente(pCli_login);
         }

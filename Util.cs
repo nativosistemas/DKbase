@@ -2072,7 +2072,50 @@ namespace DKbase
         }
         public static List<cComprobantesDiscriminadosDePuntoDeVenta> ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas(string pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta)
         {
-            return capaDLL.ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas( pLoginWeb,  pFechaDesde,  pFechaHasta);
+            return capaDLL.ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas(pLoginWeb, pFechaDesde, pFechaHasta);
+        }
+        public double? ObtenerSaldoFinalADiciembrePorCliente(string pCli_login)
+        {
+            return capaDLL.ObtenerSaldoFinalADiciembrePorCliente(pCli_login);
+        }
+        public static int enviarSolicitudSobresRemesa(cClientes oCliente)
+        {
+            int resultado = 0;
+            string nombre = string.Empty;
+            string localidad = string.Empty;
+            string reparto = string.Empty;
+            string numeroCliente = string.Empty;
+            string strHtml = string.Empty;
+            if (oCliente != null)
+            {
+                nombre = oCliente.cli_nombre;
+                localidad = oCliente.cli_localidad;
+                reparto = oCliente.cli_codrep;
+                numeroCliente = oCliente.cli_codigo.ToString();
+
+                strHtml += "El cliente " + nombre + " a solicitado el envio Sobres/Remesas<br/>";
+                strHtml += "Localidad: " + localidad + "<br/>";
+                strHtml += "Código de reparto: " + reparto + "<br/>";
+                strHtml += "Número de cliente: " + numeroCliente + "<br/>";
+            }
+            string l_mail = DKbase.Helper.getMail_solicitudSobresRemesa;
+            if (!string.IsNullOrEmpty(l_mail))
+            {
+                string[] valores = l_mail.Split(';');
+                web.generales.cMail_base.enviarMail_generico(valores.ToList(), "Solicitud Sobres/Remesa", strHtml);
+            }
+            return resultado;
+        }
+        public static int enviarConsultaCtaCte(DKbase.web.Usuario pUsuario, string pMail, string pComentario)
+        {
+            int resultado = 0;
+            string NombreYApellido = string.Empty;
+            if (pUsuario != null)
+            {
+                NombreYApellido = pUsuario.NombreYApellido;
+            }
+            web.generales.cMail_base.enviarMail(DKbase.Helper.getMail_ctacte, "Consultas cuentas corrientes", "Cliente: " + NombreYApellido + "<br/>Mail: " + pMail + "<br/>Comentario: " + pComentario);
+            return resultado;
         }
     }
 }

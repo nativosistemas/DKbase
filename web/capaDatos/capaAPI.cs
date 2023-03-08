@@ -685,5 +685,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<double?> ObtenerSaldoFinalADiciembrePorClienteAsync(string pCli_login)
+        {
+            double? result = null;
+            string name = "ObtenerSaldoFinalADiciembrePorCliente";
+            var parameter = new ObraSocialRequest { loginWeb = pCli_login };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<double?>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

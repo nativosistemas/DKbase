@@ -544,5 +544,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        //
+        public static double? ObtenerSaldoFinalADiciembrePorCliente(string pCli_login)
+        {
+            double? result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerSaldoFinalADiciembrePorClienteAsync(pCli_login));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCli_login);
+            }
+            return result;
+        }
     }
 }

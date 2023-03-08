@@ -79,5 +79,13 @@ namespace DKbase
         {
             set; get;
         }
+        public static string getMail_solicitudSobresRemesa
+        {
+            set; get;
+        }
+        public static string getMail_ctacte
+        {
+            set; get;
+        }
     }
 }

@@ -558,6 +558,15 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataTable spOferta_Rating(int pIdCliente, int pIdOferta ,bool pIsDesdeHome)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("@ofr_idCliente", pIdCliente));
+            l.Add(db.GetParameter("@ofr_idOferta", pIdOferta));
+            l.Add(db.GetParameter("@ofr_isDesdeHome", pIsDesdeHome));
+            return db.GetDataTable("dbo.spOferta_Rating", l);
+        }
 
     }
 }

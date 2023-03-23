@@ -473,7 +473,7 @@ namespace DKbase.web.capaDatos
             List<cPlanillaObSoc> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesAsync( pNombrePlan,  pLoginWeb,  pAnio,  pMes));
+                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesAsync(pNombrePlan, pLoginWeb, pAnio, pMes));
                 t.Wait();
                 result = t.Result;
             }
@@ -488,7 +488,7 @@ namespace DKbase.web.capaDatos
             List<cPlanillaObSoc> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincenaAsync(pNombrePlan,  pLoginWeb,  pAnio,  pMes,  pQuincena));
+                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincenaAsync(pNombrePlan, pLoginWeb, pAnio, pMes, pQuincena));
                 t.Wait();
                 result = t.Result;
             }
@@ -504,7 +504,7 @@ namespace DKbase.web.capaDatos
             List<cPlanillaObSoc> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemanaAsync(pNombrePlan,  pLoginWeb,  pAnio,  pSemana));
+                var t = Task.Run(() => capaAPI.ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemanaAsync(pNombrePlan, pLoginWeb, pAnio, pSemana));
                 t.Wait();
                 result = t.Result;
             }
@@ -519,7 +519,7 @@ namespace DKbase.web.capaDatos
             List<cConsObraSocial> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechasAsync(pLoginWeb,  pPlan,  pFechaDesde,  pFechaHasta));
+                var t = Task.Run(() => capaAPI.ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechasAsync(pLoginWeb, pPlan, pFechaDesde, pFechaHasta));
                 t.Wait();
                 result = t.Result;
             }
@@ -534,7 +534,7 @@ namespace DKbase.web.capaDatos
             List<cComprobantesDiscriminadosDePuntoDeVenta> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechasAsync(pLoginWeb,  pFechaDesde,  pFechaHasta));
+                var t = Task.Run(() => capaAPI.ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechasAsync(pLoginWeb, pFechaDesde, pFechaHasta));
                 t.Wait();
                 result = t.Result;
             }
@@ -557,6 +557,22 @@ namespace DKbase.web.capaDatos
             catch (Exception ex)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCli_login);
+            }
+            return result;
+        }
+
+        public static List<cVencimientoResumen> ObtenerVencimientosResumenPorFecha(string pNumeroResumen, DateTime pFechaVencimiento)
+        {
+            List<cVencimientoResumen> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerVencimientosResumenPorFechaAsync(pNumeroResumen,  pFechaVencimiento));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroResumen, pFechaVencimiento);
             }
             return result;
         }

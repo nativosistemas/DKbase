@@ -851,19 +851,12 @@ namespace DKbase
         {
             try
             {
-                //tbl_Oferta_Rating o = null;
-                //KellerhoffEntities ctx = new KellerhoffEntities();
-                //o = ctx.tbl_Oferta_Rating.Create();
-                //o.ofr_fecha = DateTime.Now;
-                //o.ofr_idCliente = ofr_idCliente;
-                //o.ofr_idOferta = ofr_idOferta;
-                //o.ofr_isDesdeHome = ofr_isDesdeHome;
-                //ctx.tbl_Oferta_Rating.Add(o);
-                //ctx.SaveChanges();
+                capaHome_base.spOferta_Rating(ofr_idCliente, ofr_idOferta, ofr_isDesdeHome);
                 return true;
             }
             catch (Exception ex)
             {
+                generales.Log.LogError(System.Reflection.MethodBase.GetCurrentMethod(), ex, DateTime.Now, ofr_idCliente, ofr_idOferta, ofr_isDesdeHome);
                 return null;
             }
         }
@@ -2116,6 +2109,10 @@ namespace DKbase
             }
             web.generales.cMail_base.enviarMail(DKbase.Helper.getMail_ctacte, "Consultas cuentas corrientes", "Cliente: " + NombreYApellido + "<br/>Mail: " + pMail + "<br/>Comentario: " + pComentario);
             return resultado;
+        }
+        public static List<cVencimientoResumen> ObtenerVencimientosResumenPorFecha(string pNumeroResumen, DateTime pFechaVencimiento)
+        {
+            return capaDLL.ObtenerVencimientosResumenPorFecha( pNumeroResumen,  pFechaVencimiento);
         }
     }
 }

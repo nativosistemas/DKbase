@@ -701,5 +701,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<cVencimientoResumen>> ObtenerVencimientosResumenPorFechaAsync(string pNumeroResumen, DateTime pFechaVencimiento)
+        {
+            List<cVencimientoResumen> result = null;
+            string name = "ObtenerVencimientosResumenPorFecha";
+            var parameter = new DocumentoRequest {documentoID = pNumeroResumen, fecha = pFechaVencimiento };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cVencimientoResumen>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

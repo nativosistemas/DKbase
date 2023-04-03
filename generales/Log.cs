@@ -99,7 +99,7 @@ namespace DKbase.generales
         {
             //try
             //{
-            string path = Path.Combine(Helper.getFolder ,"Log", Helper.getTipoApp);
+            string path = Path.Combine(Helper.getFolder , Helper.getTipoApp, "log");
             if (Directory.Exists(path) == false)
             {
                 Directory.CreateDirectory(path);

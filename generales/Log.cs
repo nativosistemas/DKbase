@@ -63,6 +63,7 @@ namespace DKbase.generales
             }
             catch (Exception ex)
             {
+                LogErrorFile(method.Name, pMensaje);
                 LogErrorFile(MethodBase.GetCurrentMethod().ToString(), ex.ToString());
             }
         }
@@ -76,6 +77,7 @@ namespace DKbase.generales
             }
             catch (Exception ex)
             {
+                LogErrorFile(pException.ToString(), pException.Message);
                 LogErrorFile(MethodBase.GetCurrentMethod().ToString(), ex.ToString());
             }
         }

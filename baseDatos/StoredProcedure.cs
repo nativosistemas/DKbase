@@ -30,6 +30,8 @@ namespace DKbase.baseDatos
             }
             catch (Exception ex)
             {
+                DKbase.generales.Log.LogErrorFile(err_Nombre, "err_Parameters:" + err_Parameters + " - err_Message: " + err_Message);
+                DKbase.generales.Log.LogErrorFile(System.Reflection.MethodBase.GetCurrentMethod().ToString(), ex.ToString());
                 return false;
             }
         }

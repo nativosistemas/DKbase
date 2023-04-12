@@ -576,5 +576,20 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<cDevolucionItemPrecarga> RecuperarDevolucionesPorCliente(cClientes pCliente)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.RecuperarDevolucionesPorClienteAsync(pCliente.cli_login));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCliente.cli_login);
+            }
+            return result;
+        }
     }
 }

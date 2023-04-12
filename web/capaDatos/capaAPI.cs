@@ -717,5 +717,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<cDevolucionItemPrecarga>> RecuperarDevolucionesPorClienteAsync(string pCli_login)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            string name = "RecuperarDevolucionesPorCliente";
+            var parameter = new DocumentoRequest { loginWeb = pCli_login };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

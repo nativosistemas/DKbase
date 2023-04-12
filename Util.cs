@@ -1726,6 +1726,109 @@ namespace DKbase
             }
             return resultado;
         }
+        public static string GrabarFacturaCSV(cClientes pClientes, string pRuta, string pFactura)
+        {
+            string resultado = string.Empty;
+            if (pClientes != null && pFactura != null)
+            {
+                cFactura objFactura = ObtenerFactura(pFactura, pClientes.cli_login);
+                if (objFactura != null)
+                {
+                    string nombreArchivoTXT = string.Empty;
+                    string fechaArchivoTXT = string.Empty;
+                    if (objFactura.Fecha != null)
+                    {
+                        fechaArchivoTXT = ((DateTime)objFactura.Fecha).Day.ToString("00") + ((DateTime)objFactura.Fecha).Month.ToString("00") + ((DateTime)objFactura.Fecha).Year.ToString("0000");
+                    }
+                    else
+                    {
+                        fechaArchivoTXT = "00" + "00" + "0000";
+                    }
+                    nombreArchivoTXT = "dk" + fechaArchivoTXT + "-" + pFactura + ".csv";
+                    resultado = nombreArchivoTXT;
+                    System.IO.StreamWriter FAC_txt = new System.IO.StreamWriter(Path.Combine(pRuta, nombreArchivoTXT), false, System.Text.Encoding.UTF8);
+                    //string strCabeceraCSV = string.Empty;
+
+                    //strCabeceraCSV += "Fecha";
+                    //strCabeceraCSV += ";";
+                    //strCabeceraCSV += "Vencimiento";
+                    //strCabeceraCSV += ";";
+                    //strCabeceraCSV += "Comprobante";
+                    //strCabeceraCSV += ";";
+                    //strCabeceraCSV += "Semana";
+                    //strCabeceraCSV += ";";
+                    //strCabeceraCSV += "Importe";
+                    //strCabeceraCSV += ";";
+                    //strCabeceraCSV += "Saldo";
+                    //FAC_txt.WriteLine(strCabeceraCSV);
+
+                    foreach (cFacturaDetalle item in objFactura.lista)
+                    {
+                        if (item.Troquel != null)
+                        {
+                            if (item.Troquel != string.Empty)
+                            {
+                                //If NOT ISNULL(Importe)
+                                if (item.Importe != null)
+                                {
+                                    if (item.Importe.Trim() != string.Empty)
+                                    {
+                                        string detalleCSV = string.Empty;
+                                        //Nro. Campo Tipo Comentario
+                                        //1 código de barras producto C(13)
+                                        //2 descripción producto C(60)
+                                        //3 cantidad N(5)
+                                        //4 característica C(1)
+                                        //Espacio en blanco - Sin característica
+                                        //F - Farmabono
+                                        //D - Tarjeta D
+                                        //C - Colfacor
+                                        //B - Bonos CIL
+                                        //P - Bonos PAP
+                                        //$ - Ofertas
+                                        //T - Transfer
+                                        //5 neto N(1) 0 - Normail / 1 - Neto + IVA
+                                        //6 precio público N(10) [1]
+                                        //7 precio unitario N(10) [1]
+                                        //8 importe N(10) [1]   
+                                        cProductos producto = capaCAR_WebService_base.RecuperarProductoPorNombre(item.Descripcion);
+                                        bool isNoTieneCodigoBarra = true;//código de barras producto C(13)
+                                        if (producto != null)
+                                        {
+                                            if (producto.pro_codigobarra != null)
+                                            {
+                                                isNoTieneCodigoBarra = false;
+                                                detalleCSV += producto.pro_codigobarra.PadRight(13, ' ');
+                                                detalleCSV += ";";
+                                            }
+                                        }
+                                        if (isNoTieneCodigoBarra)
+                                        {
+                                            detalleCSV += " ".PadRight(13, ' ');
+                                            detalleCSV += ";";
+                                        }                  
+                                        detalleCSV += item.Cantidad.PadLeft(5, '0');
+                                        detalleCSV += ";";                  
+                                        //detalleFAC += Numerica.toString_NumeroTXT_N10(item.PrecioPublico);
+                                        //detalleFAC += Numerica.toString_NumeroTXT_N10(item.PrecioUnitario);
+                                        detalleCSV += item.Importe != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal( item.Importe)) : ""; //Numerica.toString_NumeroTXT_N10(item.Importe);
+                                        detalleCSV += ";";
+                                        //resultado += detalleFAC + "\n";
+                                        FAC_txt.WriteLine(detalleCSV);
+                                        //listaResultado.Add(resultado);
+
+                                    }//   if (item.Importe.Trim() != string.Empty) { 
+                                }//     if (item.Importe != null) { 
+
+                            }// fin if (item.Troquel != string.Empty)
+
+                        }// fin if (item.Troquel != null)
+                    }
+                    FAC_txt.Close();
+                }
+            }
+            return resultado;
+        }
         public static string generar_archivo(cClientes pCliente, string factura)
         {
             string result = null;
@@ -1737,6 +1840,23 @@ namespace DKbase
                 DIR.Create();
             }
             string nombreTXT = GrabarFacturaTXT(pCliente, rutaTemporal, factura);
+            if (!string.IsNullOrEmpty(nombreTXT))
+            {
+                result = Path.Combine(rutaTemporal, nombreTXT);
+            }
+            return result;
+        }
+        public static string generar_factura_csv(cClientes pCliente, string factura)
+        {
+            string result = null;
+            string rutaTemporal = Path.Combine(DKbase.Helper.getFolder, "archivos", "facturas");
+
+            DirectoryInfo DIR = new DirectoryInfo(rutaTemporal);
+            if (!DIR.Exists)
+            {
+                DIR.Create();
+            }
+            string nombreTXT = GrabarFacturaCSV(pCliente, rutaTemporal, factura);
             if (!string.IsNullOrEmpty(nombreTXT))
             {
                 result = Path.Combine(rutaTemporal, nombreTXT);
@@ -2113,6 +2233,10 @@ namespace DKbase
         public static List<cVencimientoResumen> ObtenerVencimientosResumenPorFecha(string pNumeroResumen, DateTime pFechaVencimiento)
         {
             return capaDLL.ObtenerVencimientosResumenPorFecha( pNumeroResumen,  pFechaVencimiento);
+        }
+        public static List<cDevolucionItemPrecarga> RecuperarDevolucionesPorCliente(cClientes pCliente)
+        {
+            return capaDLL.RecuperarDevolucionesPorCliente(pCliente);
         }
     }
 }

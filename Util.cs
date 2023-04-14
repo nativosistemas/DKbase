@@ -1747,20 +1747,23 @@ namespace DKbase
                     nombreArchivoTXT = "dk" + fechaArchivoTXT + "-" + pFactura + ".csv";
                     resultado = nombreArchivoTXT;
                     System.IO.StreamWriter FAC_txt = new System.IO.StreamWriter(Path.Combine(pRuta, nombreArchivoTXT), false, System.Text.Encoding.UTF8);
-                    //string strCabeceraCSV = string.Empty;
+                    string strCabeceraCSV = string.Empty;
 
-                    //strCabeceraCSV += "Fecha";
-                    //strCabeceraCSV += ";";
-                    //strCabeceraCSV += "Vencimiento";
-                    //strCabeceraCSV += ";";
-                    //strCabeceraCSV += "Comprobante";
-                    //strCabeceraCSV += ";";
-                    //strCabeceraCSV += "Semana";
-                    //strCabeceraCSV += ";";
-                    //strCabeceraCSV += "Importe";
-                    //strCabeceraCSV += ";";
-                    //strCabeceraCSV += "Saldo";
-                    //FAC_txt.WriteLine(strCabeceraCSV);
+                    strCabeceraCSV += "Fecha";
+                    strCabeceraCSV += ";";
+                    strCabeceraCSV += "CodBarra";
+                    strCabeceraCSV += ";";
+                    strCabeceraCSV += "Producto";
+                    strCabeceraCSV += ";";
+                    strCabeceraCSV += "Cantidad";
+                    strCabeceraCSV += ";";
+                    strCabeceraCSV += "Precio Público";
+                    strCabeceraCSV += ";";
+                    strCabeceraCSV += "Precio Unit.";
+                    strCabeceraCSV += ";";
+                    strCabeceraCSV += "Importe";
+
+                    FAC_txt.WriteLine(strCabeceraCSV);
 
                     foreach (cFacturaDetalle item in objFactura.lista)
                     {
@@ -1774,25 +1777,11 @@ namespace DKbase
                                     if (item.Importe.Trim() != string.Empty)
                                     {
                                         string detalleCSV = string.Empty;
-                                        //Nro. Campo Tipo Comentario
-                                        //1 código de barras producto C(13)
-                                        //2 descripción producto C(60)
-                                        //3 cantidad N(5)
-                                        //4 característica C(1)
-                                        //Espacio en blanco - Sin característica
-                                        //F - Farmabono
-                                        //D - Tarjeta D
-                                        //C - Colfacor
-                                        //B - Bonos CIL
-                                        //P - Bonos PAP
-                                        //$ - Ofertas
-                                        //T - Transfer
-                                        //5 neto N(1) 0 - Normail / 1 - Neto + IVA
-                                        //6 precio público N(10) [1]
-                                        //7 precio unitario N(10) [1]
-                                        //8 importe N(10) [1]   
+
                                         cProductos producto = capaCAR_WebService_base.RecuperarProductoPorNombre(item.Descripcion);
                                         bool isNoTieneCodigoBarra = true;//código de barras producto C(13)
+                                        detalleCSV += objFactura.FechaToString;
+                                        detalleCSV += ";";
                                         if (producto != null)
                                         {
                                             if (producto.pro_codigobarra != null)
@@ -1801,17 +1790,23 @@ namespace DKbase
                                                 detalleCSV += producto.pro_codigobarra.PadRight(13, ' ');
                                                 detalleCSV += ";";
                                             }
-                                        }
-                                        if (isNoTieneCodigoBarra)
-                                        {
-                                            detalleCSV += " ".PadRight(13, ' ');
+                                            if (isNoTieneCodigoBarra)
+                                            {
+                                                detalleCSV += " ".PadRight(13, ' ');
+                                                detalleCSV += ";";
+                                            }
+                                            detalleCSV += producto.pro_nombre;
                                             detalleCSV += ";";
-                                        }                  
-                                        detalleCSV += item.Cantidad.PadLeft(5, '0');
-                                        detalleCSV += ";";                  
-                                        //detalleFAC += Numerica.toString_NumeroTXT_N10(item.PrecioPublico);
-                                        //detalleFAC += Numerica.toString_NumeroTXT_N10(item.PrecioUnitario);
-                                        detalleCSV += item.Importe != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal( item.Importe)) : ""; //Numerica.toString_NumeroTXT_N10(item.Importe);
+                                            detalleCSV += item.Cantidad.PadLeft(5, '0');
+                                            detalleCSV += ";";
+                                        }
+
+
+                                        detalleCSV += item.PrecioPublico != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioPublico)) : "";
+                                        detalleCSV += ";";
+                                        detalleCSV += item.PrecioUnitario != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioUnitario)) : "";
+                                        detalleCSV += ";";
+                                        detalleCSV += item.Importe != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.Importe)) : ""; //Numerica.toString_NumeroTXT_N10(item.Importe);
                                         detalleCSV += ";";
                                         //resultado += detalleFAC + "\n";
                                         FAC_txt.WriteLine(detalleCSV);
@@ -2232,11 +2227,100 @@ namespace DKbase
         }
         public static List<cVencimientoResumen> ObtenerVencimientosResumenPorFecha(string pNumeroResumen, DateTime pFechaVencimiento)
         {
-            return capaDLL.ObtenerVencimientosResumenPorFecha( pNumeroResumen,  pFechaVencimiento);
+            return capaDLL.ObtenerVencimientosResumenPorFecha(pNumeroResumen, pFechaVencimiento);
         }
         public static List<cDevolucionItemPrecarga> RecuperarDevolucionesPorCliente(cClientes pCliente)
         {
             return capaDLL.RecuperarDevolucionesPorCliente(pCliente);
+        }
+        public static List<cDevolucionItemPrecarga> RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(int pIdCliente)
+        {
+            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            DataTable tabla = capaDevoluciones_base.RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(pIdCliente);
+            if (tabla != null)
+            {
+                foreach (DataRow item in tabla.Rows)
+                {
+                    resultado.Add(capaDevoluciones_base.ConvertToItemDevPrecarga(item));
+                }
+            }
+            return resultado;
+        }
+        public static List<cDevolucionItemPrecarga> RecuperarItemsDevolucionPrecargaPorCliente(int pIdCliente)
+        {
+
+            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            DataTable tabla = capaDevoluciones_base.RecuperarItemsDevolucionPrecargaPorCliente(pIdCliente);
+            if (tabla != null)
+            {
+                foreach (DataRow item in tabla.Rows)
+                {
+                    resultado.Add(capaDevoluciones_base.ConvertToItemDevPrecarga(item));
+                }
+            }
+            return resultado;
+        }
+        public static List<cDevolucionItemPrecarga> RecuperarItemsDevolucionPrecargaVencidosPorCliente(int pIdCliente)
+        {
+            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            DataTable tabla = capaDevoluciones_base.RecuperarItemsDevolucionPrecargaVencidosPorCliente(pIdCliente);
+            if (tabla != null)
+            {
+                foreach (DataRow item in tabla.Rows)
+                {
+                    resultado.Add(capaDevoluciones_base.ConvertToItemDevPrecarga(item));
+                }
+            }
+            return resultado;
+        }
+        public static List<cDevolucionItemPrecarga> RecuperarItemsReclamoFacturadoNoEnviado(int pIdCliente)
+        {
+
+            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            DataTable tabla = capaDevoluciones_base.RecuperarItemsReclamoFacturadoNoEnviado(pIdCliente);
+            if (tabla != null)
+            {
+                foreach (DataRow item in tabla.Rows)
+                {
+                    resultado.Add(capaDevoluciones_base.ConvertToItemDevPrecarga(item));
+                }
+            }
+            return resultado;
+
+        }
+        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorCliente(cClientes pCliente)
+        {
+            List<cDevolucionItemPrecarga> resultado = null;
+            resultado = capaDLL.ObtenerReclamosFacturadoNoEnviadoPorCliente(pCliente);
+            return resultado;
+        }
+        public static long ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente(string NombreProducto, string NumeroFactura, string pLoginWeb)
+        {
+            long? resultado = null;
+            resultado = capaDLL.ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente(NombreProducto, NumeroFactura, pLoginWeb);
+            return resultado == null ? 0 : resultado.Value;
+        }
+        public static int enviarConsultaReclamos(DKbase.web.Usuario pUsuario, string pMail, string pComentario, string pNombreProducto)
+        {
+            int resultado = 0;
+            string NombreYApellido = string.Empty;
+            if (pUsuario != null)
+            {
+                NombreYApellido = pUsuario.NombreYApellido;
+            }
+            DKbase.web.generales.cMail_base.enviarMail(DKbase.Helper.getMail_reclamos, "Consulta por el producto " + pNombreProducto + " con CADENA DE FRÍO", "Cliente: " + NombreYApellido + "<br/>Mail: " + pMail + "<br/>Comentario: " + pComentario);
+            return resultado;
+        }
+        public static int enviarConsultaValePsicotropico(DKbase.web.Usuario pUsuario, string pMail, string pComentario, string pNombreProducto)
+        {
+            int resultado = 0;
+            string NombreYApellido = string.Empty;
+            if (pUsuario != null)
+            {
+                NombreYApellido = pUsuario.NombreYApellido;
+            }
+            DKbase.web.generales.cMail_base.enviarMail(DKbase.Helper.getMail_reclamos, "Consulta por el producto " + pNombreProducto + " el cual requiere VALE DE PSICOTRÓPICO", "Cliente: " + NombreYApellido + "<br/>Mail: " + pMail + "<br/>Comentario: " + pComentario);
+            return resultado;
         }
     }
 }

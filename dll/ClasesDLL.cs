@@ -478,6 +478,7 @@ namespace DKbase.dll
         public DateTime dev_fecha { get; set; }
         public string dev_fechaToString { get; set; }
         public dllMotivoDevolucion dev_motivo { get; set; }
+        //public int dev_motivo_int { get; set; }
         public int dev_numeroitemfactura { get; set; }
         public string dev_nombreproductofactura { get; set; }
         public double dev_cantidad { get; set; }

@@ -13,5 +13,6 @@ namespace DKbase.Models
         public bool isIncluyeCancelado { get; set; }
         public DateTime fechaDesde { get; set; }
         public DateTime fechaHasta { get; set; }
+        public string nombreProducto { get; set; }
     }
 }

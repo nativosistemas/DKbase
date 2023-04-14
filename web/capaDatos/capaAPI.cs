@@ -733,5 +733,37 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<cDevolucionItemPrecarga>> ObtenerReclamosFacturadoNoEnviadoPorClienteAsync(string pCli_login)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            string name = "ObtenerReclamosFacturadoNoEnviadoPorCliente";
+            var parameter = new DocumentoRequest { loginWeb = pCli_login };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<long?> ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYClienteAsync(string NombreProducto, string NumeroFactura, string pLoginWeb)
+        {
+            long? result = null;
+            string name = "ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb,documentoID = NumeroFactura , nombreProducto = NombreProducto };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<long?>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

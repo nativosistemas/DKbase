@@ -87,5 +87,10 @@ namespace DKbase
         {
             set; get;
         }
+        public static string getMail_reclamos
+        {
+            set; get;
+        }
+        
     }
 }

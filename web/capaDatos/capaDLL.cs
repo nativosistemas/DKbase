@@ -591,5 +591,35 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorCliente(cClientes pCliente)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerReclamosFacturadoNoEnviadoPorClienteAsync(pCliente.cli_login));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCliente.cli_login);
+            }
+            return result;
+        }
+        public static long? ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente(string NombreProducto, string NumeroFactura, string pLoginWeb)
+        {
+            long? result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYClienteAsync(NombreProducto, NumeroFactura, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, NombreProducto,  NumeroFactura,  pLoginWeb);
+            }
+            return result;
+        }
     }
 }

@@ -2322,5 +2322,15 @@ namespace DKbase
             DKbase.web.generales.cMail_base.enviarMail(DKbase.Helper.getMail_reclamos, "Consulta por el producto " + pNombreProducto + " el cual requiere VALE DE PSICOTRÓPICO", "Cliente: " + NombreYApellido + "<br/>Mail: " + pMail + "<br/>Comentario: " + pComentario);
             return resultado;
         }
+        public static bool EsFacturaConDevolucionesEnProceso(string pNumeroFactura, string pLoginWeb)
+        {
+            return capaDLL.EsFacturaConDevolucionesEnProceso(pNumeroFactura, pLoginWeb);
+        }
+        public static List<cFactura> ObtenerFacturasPorUltimosNumeros(string pNumeroFactura, string pLoginWeb)
+        {
+            List<cFactura> resultado = null;
+            resultado = capaDLL.ObtenerFacturasPorUltimosNumeros(pNumeroFactura, pLoginWeb);
+            return resultado;
+        }
     }
 }

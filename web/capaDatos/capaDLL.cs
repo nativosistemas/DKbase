@@ -621,5 +621,36 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static bool EsFacturaConDevolucionesEnProceso(string pNumeroFactura, string pLoginWeb)
+        {
+            bool result = false;
+            try
+            {
+                var t = Task.Run(() => capaAPI.EsFacturaConDevolucionesEnProcesoAsync(pNumeroFactura, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroFactura, pLoginWeb);
+            }
+            return result;
+        }
+        //
+        public static List<cFactura> ObtenerFacturasPorUltimosNumeros(string pNumeroFactura, string pLoginWeb)
+        {
+            List<cFactura> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerFacturasPorUltimosNumerosAsync(pNumeroFactura, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroFactura, pLoginWeb);
+            }
+            return result;
+        }
     }
 }

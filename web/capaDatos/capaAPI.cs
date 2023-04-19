@@ -765,5 +765,37 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<bool> EsFacturaConDevolucionesEnProcesoAsync(string pNumeroFactura, string pLoginWeb)
+        {
+            bool result = false;
+            string name = "EsFacturaConDevolucionesEnProceso";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroFactura };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<bool>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cFactura>> ObtenerFacturasPorUltimosNumerosAsync(string pNumeroFactura, string pLoginWeb)
+        {
+            List<cFactura> result = null;
+            string name = "ObtenerFacturasPorUltimosNumeros";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroFactura };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cFactura>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

@@ -652,5 +652,35 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static string AgregarReclamoFacturadoNoEnviadoCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        {
+            string result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.AgregarReclamoFacturadoNoEnviadoClienteAsync(Item, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, Item, pLoginWeb);
+            }
+            return result;
+        }
+        public static string AgregarSolicitudDevolucionCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        {
+            string result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.AgregarSolicitudDevolucionClienteAsync(Item, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, Item, pLoginWeb);
+            }
+            return result;
+        }
     }
 }

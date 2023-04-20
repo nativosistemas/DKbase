@@ -2332,5 +2332,17 @@ namespace DKbase
             resultado = capaDLL.ObtenerFacturasPorUltimosNumeros(pNumeroFactura, pLoginWeb);
             return resultado;
         }
+        public static string AgregarReclamoFacturadoNoEnviadoCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        {
+            string resultado = null;
+            resultado = capaDLL.AgregarReclamoFacturadoNoEnviadoCliente(Item, pLoginWeb);
+            return resultado;
+        }
+        public static string AgregarSolicitudDevolucionCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        {
+            string resultado = null;
+            resultado = capaDLL.AgregarSolicitudDevolucionCliente(Item, pLoginWeb);
+            return resultado;
+        }
     }
 }

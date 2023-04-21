@@ -2335,7 +2335,7 @@ namespace DKbase
         public static string AgregarReclamoFacturadoNoEnviadoCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
         {
             string resultado = null;
-            resultado = capaDLL.AgregarReclamoFacturadoNoEnviadoCliente(Item, pLoginWeb);
+            resultado = capaDLL.AgregarReclamoFacturadoNoEnviado(Item, pLoginWeb);
             return resultado;
         }
         public static string AgregarSolicitudDevolucionCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
@@ -2343,6 +2343,38 @@ namespace DKbase
             string resultado = null;
             resultado = capaDLL.AgregarSolicitudDevolucionCliente(Item, pLoginWeb);
             return resultado;
+        }
+        public static bool EliminarDevolucionItemPrecarga(int NumeroItem)
+        {
+            return capaDevoluciones_base.EliminarDevolucionItemPrecarga(NumeroItem);
+        }
+        public static bool ElimminarItemReclamoFNEPrecarga(int NumeroItem)
+        {
+            return capaDevoluciones_base.ElimminarItemReclamoFNEPrecarga(NumeroItem);
+        }
+        public static bool EliminarPrecargaDevolucionPorCliente(int NumeroCliente)
+        {
+            return capaDevoluciones_base.EliminarPrecargaDevolucionPorCliente(NumeroCliente);
+        }
+        public static bool EliminarPrecargaDevolucionVencidosPorCliente(int NumeroCliente)
+        {
+            return capaDevoluciones_base.EliminarPrecargaDevolucionVencidosPorCliente(NumeroCliente);
+        }
+        public static bool EliminarPrecargaDevolucionFacturaCompletaPorCliente(int NumeroCliente)
+        {
+            return capaDevoluciones_base.EliminarPrecargaDevolucionFacturaCompletaPorCliente(NumeroCliente);
+        }
+        public static bool EliminarPrecargaReclamoFNEPorCliente(int NumeroCliente)
+        {
+            return capaDevoluciones_base.EliminarPrecargaReclamoFNEPorCliente(NumeroCliente);
+        }
+        public static bool AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga Item)
+        {
+            return capaDevoluciones_base.AgregarReclamoFacturadoNoEnviadoItemPrecarga(Item);
+        }
+        public static bool AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga Item)
+        {
+            return capaDevoluciones_base.AgregarDevolucionItemPrecarga(Item);
         }
     }
 }

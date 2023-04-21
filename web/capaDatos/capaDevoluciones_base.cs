@@ -160,7 +160,7 @@ namespace DKbase.web.capaDatos
             if (pItem["dev_motivo"] != DBNull.Value)
             {
                 obj.dev_motivo = (dllMotivoDevolucion)Convert.ToInt32(pItem["dev_motivo"]);
-               // obj.dev_motivo_int = Convert.ToInt32(pItem["dev_motivo"]);
+                // obj.dev_motivo_int = Convert.ToInt32(pItem["dev_motivo"]);
             }
             if (pItem["dev_numeroitemfactura"] != DBNull.Value)
             {
@@ -189,6 +189,362 @@ namespace DKbase.web.capaDatos
             }
             return obj;
         }
+        public static bool EliminarDevolucionItemPrecarga(int NumeroItem)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spElimminarItemDevolucionPrecarga", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
 
+            SqlParameter paNumeroItem = cmdComandoInicio.Parameters.Add("@NumeroItem", SqlDbType.Int);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroItem.Value = NumeroItem;
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+
+        public static bool ElimminarItemReclamoFNEPrecarga(int NumeroItem)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spElimminarItemReclamoFNEPrecarga", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNumeroItem = cmdComandoInicio.Parameters.Add("@NumeroItem", SqlDbType.Int);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroItem.Value = NumeroItem;
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+
+        public static bool EliminarPrecargaDevolucionPorCliente(int NumeroCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spEliminarPrecargaDevolucionPorCliente", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNumeroCliente = cmdComandoInicio.Parameters.Add("@NumeroCliente", SqlDbType.Int);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroCliente.Value = NumeroCliente;
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+
+        public static bool EliminarPrecargaDevolucionVencidosPorCliente(int NumeroCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spEliminarPrecargaDevolucionVencidosPorCliente", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNumeroCliente = cmdComandoInicio.Parameters.Add("@NumeroCliente", SqlDbType.Int);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroCliente.Value = NumeroCliente;
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+
+        public static bool EliminarPrecargaDevolucionFacturaCompletaPorCliente(int NumeroCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spEliminarPrecargaDevolucionFacturaCompletaPorCliente", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNumeroCliente = cmdComandoInicio.Parameters.Add("@NumeroCliente", SqlDbType.Int);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroCliente.Value = NumeroCliente;
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+
+        public static bool EliminarPrecargaReclamoFNEPorCliente(int NumeroCliente)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spEliminarPrecargaReclamoFNEPorCliente", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNumeroCliente = cmdComandoInicio.Parameters.Add("@NumeroCliente", SqlDbType.Int);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroCliente.Value = NumeroCliente;
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static bool AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga Item)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spAgregarItemReclamoFacturadoNoEnviado", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNumeroCliente = cmdComandoInicio.Parameters.Add("@numerocliente", SqlDbType.Int);
+            SqlParameter paNumeroFactura = cmdComandoInicio.Parameters.Add("@numerofactura", SqlDbType.NVarChar, 13);
+            SqlParameter paNombreProducto = cmdComandoInicio.Parameters.Add("@nombreproducto", SqlDbType.NVarChar, 75);
+            SqlParameter paCantidad = cmdComandoInicio.Parameters.Add("@cantidad", SqlDbType.Int);
+            SqlParameter paIdSucursal = cmdComandoInicio.Parameters.Add("@idsucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroCliente.Value = Item.dev_numerocliente;
+            if (Item.dev_numerofactura == null)
+            {
+                paNumeroFactura.Value = DBNull.Value;
+            }
+            else
+            {
+                paNumeroFactura.Value = Item.dev_numerofactura;
+            }
+            paNombreProducto.Value = Item.dev_nombreproductofactura;
+            paCantidad.Value = Item.dev_cantidad;
+
+            if (Item.dev_idsucursal == null)
+            {
+                paIdSucursal.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdSucursal.Value = Item.dev_idsucursal;
+            }
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
+        public static bool AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga Item)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spAgregarItemDevolucion", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paNumeroCliente = cmdComandoInicio.Parameters.Add("@numerocliente", SqlDbType.Int);
+            SqlParameter paNumeroFactura = cmdComandoInicio.Parameters.Add("@numerofactura", SqlDbType.NVarChar, 13);
+            SqlParameter paNombreProductoDevolucion = cmdComandoInicio.Parameters.Add("@nombreproductodevolucion", SqlDbType.NVarChar, 75);
+            SqlParameter paMotivo = cmdComandoInicio.Parameters.Add("@motivo", SqlDbType.Int);
+            SqlParameter paNumeroItemFactura = cmdComandoInicio.Parameters.Add("@numeroitemfactura", SqlDbType.Int);
+            SqlParameter paNombreProductoFactura = cmdComandoInicio.Parameters.Add("@nombreproductofactura", SqlDbType.NVarChar, 75);
+            SqlParameter paCantidad = cmdComandoInicio.Parameters.Add("@cantidad", SqlDbType.Int);
+            SqlParameter paNumeroLote = cmdComandoInicio.Parameters.Add("@numerolote", SqlDbType.NVarChar, 75);
+            SqlParameter paFechaVencimmientoLote = cmdComandoInicio.Parameters.Add("@fechavencimientolote", SqlDbType.NVarChar, 10);
+            SqlParameter paIdSucursal = cmdComandoInicio.Parameters.Add("@idsucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paOK = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            paOK.Direction = ParameterDirection.Output;
+
+            paNumeroCliente.Value = Item.dev_numerocliente;
+            if (Item.dev_numerofactura == null)
+            {
+                paNumeroFactura.Value = DBNull.Value;
+            }
+            else
+            {
+                paNumeroFactura.Value = Item.dev_numerofactura;
+            }
+            paNombreProductoDevolucion.Value = Item.dev_nombreproductodevolucion;
+            paMotivo.Value = Item.dev_motivo;
+            if (Item.dev_numeroitemfactura == 0)
+            {
+                paNumeroItemFactura.Value = DBNull.Value;
+            }
+            else
+            {
+                paNumeroItemFactura.Value = Item.dev_numeroitemfactura;
+            }
+
+            if (Item.dev_nombreproductofactura == null)
+            {
+                paNombreProductoFactura.Value = DBNull.Value;
+            }
+            else
+            {
+                paNombreProductoFactura.Value = Item.dev_nombreproductofactura;
+            }
+
+            paCantidad.Value = Item.dev_cantidad;
+
+            if (Item.dev_idsucursal == null)
+            {
+                paIdSucursal.Value = DBNull.Value;
+            }
+            else
+            {
+                paIdSucursal.Value = Item.dev_idsucursal;
+            }
+
+            if (Item.dev_numerolote == null)
+            {
+                paNumeroLote.Value = DBNull.Value;
+            }
+            else
+            {
+                paNumeroLote.Value = Item.dev_numerolote;
+            }
+
+            if (Item.dev_fechavencimientoloteToString == null)
+            {
+                paFechaVencimmientoLote.Value = DBNull.Value;
+            }
+            else
+            {
+                paFechaVencimmientoLote.Value = Item.dev_fechavencimientoloteToString;
+            }
+            //paOK.Value = false;
+
+            try
+            {
+                Conn.Open();
+                //object objResultado = cmdComandoInicio.ExecuteNonQuery();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paOK.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
     }
 }

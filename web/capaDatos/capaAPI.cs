@@ -797,10 +797,10 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<string> AgregarReclamoFacturadoNoEnviadoClienteAsync(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static async Task<string> AgregarReclamoFacturadoNoEnviadoAsync(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
         {
             string result = null;
-            string name = "AgregarReclamoFacturadoNoEnviadoCliente";
+            string name = "AgregarReclamoFacturadoNoEnviado";
             var parameter = new DocumentoRequest { loginWeb = pLoginWeb, itemDevolucionPrecarga = Item };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)

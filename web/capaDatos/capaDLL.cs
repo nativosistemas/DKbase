@@ -652,12 +652,12 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static string AgregarReclamoFacturadoNoEnviadoCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static string AgregarReclamoFacturadoNoEnviado(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
         {
             string result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.AgregarReclamoFacturadoNoEnviadoClienteAsync(Item, pLoginWeb));
+                var t = Task.Run(() => capaAPI.AgregarReclamoFacturadoNoEnviadoAsync(Item, pLoginWeb));
                 t.Wait();
                 result = t.Result;
             }

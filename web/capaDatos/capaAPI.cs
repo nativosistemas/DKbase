@@ -425,7 +425,7 @@ namespace DKbase.web.capaDatos
         public static async Task<bool> ImprimirComprobanteAsync(string pTipoComprobante, string pNroComprobante)
         {
             string name = "ImprimirComprobante";
-            var parameter = new DocumentoRequest { documentoTipo = pTipoComprobante, documentoID = pNroComprobante }; 
+            var parameter = new DocumentoRequest { documentoTipo = pTipoComprobante, documentoID = pNroComprobante };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             return true;
         }
@@ -625,7 +625,7 @@ namespace DKbase.web.capaDatos
         {
             List<cPlanillaObSoc> result = null;
             string name = "ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena";
-            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb, nombrePlan = pNombrePlan, anio = pAnio, mes = pMes ,quincena = pQuincena };
+            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb, nombrePlan = pNombrePlan, anio = pAnio, mes = pMes, quincena = pQuincena };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -673,7 +673,7 @@ namespace DKbase.web.capaDatos
         {
             List<cComprobantesDiscriminadosDePuntoDeVenta> result = null;
             string name = "ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas";
-            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb,fechaDesde = pFechaDesde, fechaHasta = pFechaHasta };
+            var parameter = new ObraSocialRequest { loginWeb = pLoginWeb, fechaDesde = pFechaDesde, fechaHasta = pFechaHasta };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -705,7 +705,7 @@ namespace DKbase.web.capaDatos
         {
             List<cVencimientoResumen> result = null;
             string name = "ObtenerVencimientosResumenPorFecha";
-            var parameter = new DocumentoRequest {documentoID = pNumeroResumen, fecha = pFechaVencimiento };
+            var parameter = new DocumentoRequest { documentoID = pNumeroResumen, fecha = pFechaVencimiento };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -753,7 +753,7 @@ namespace DKbase.web.capaDatos
         {
             long? result = null;
             string name = "ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente";
-            var parameter = new DocumentoRequest { loginWeb = pLoginWeb,documentoID = NumeroFactura , nombreProducto = NombreProducto };
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = NumeroFactura, nombreProducto = NombreProducto };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {
@@ -825,6 +825,54 @@ namespace DKbase.web.capaDatos
                 if (isNotNull(resultResponse))
                 {
                     result = JsonSerializer.Deserialize<string>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cLote>> ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadenaAsync(string pNombreProducto, string pNumeroLote, string pLoginWeb)
+        {
+            List<cLote> result = null;
+            string name = "ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, nombreProducto = pNombreProducto, documentoID = pNumeroLote };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cLote>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cDevolucionItemPrecarga>> ObtenerDevolucionesPorClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            string name = "ObtenerDevolucionesPorClientePorNumero";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroDevolucion };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
+                }
+            }
+            return result;
+        }
+        public static async Task<List<cDevolucionItemPrecarga>> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            string name = "ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroDevolucion };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
                 }
             }
             return result;

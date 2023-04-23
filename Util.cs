@@ -2376,5 +2376,23 @@ namespace DKbase
         {
             return capaDevoluciones_base.AgregarDevolucionItemPrecarga(Item);
         }
+        public static List<cLote> ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena(string pNombreProducto, string pNumeroLote, string pLoginWeb)
+        {
+            List<cLote> resultado = null;
+            resultado = capaDLL.ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena(pNombreProducto, pNumeroLote, pLoginWeb);
+            return resultado;
+        }
+        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        {
+            List<cDevolucionItemPrecarga> resultado = null;
+            resultado = capaDLL.ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(pNumeroDevolucion, pLoginWeb);
+            return resultado;
+        }
+        public static List<cDevolucionItemPrecarga> RecuperarDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        {
+            List<cDevolucionItemPrecarga> resultado = null;
+            resultado = capaDLL.ObtenerDevolucionesPorClientePorNumero(pNumeroDevolucion, pLoginWeb);
+            return resultado;
+        }
     }
 }

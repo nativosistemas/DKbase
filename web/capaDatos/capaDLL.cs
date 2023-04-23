@@ -566,7 +566,7 @@ namespace DKbase.web.capaDatos
             List<cVencimientoResumen> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerVencimientosResumenPorFechaAsync(pNumeroResumen,  pFechaVencimiento));
+                var t = Task.Run(() => capaAPI.ObtenerVencimientosResumenPorFechaAsync(pNumeroResumen, pFechaVencimiento));
                 t.Wait();
                 result = t.Result;
             }
@@ -617,7 +617,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, NombreProducto,  NumeroFactura,  pLoginWeb);
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, NombreProducto, NumeroFactura, pLoginWeb);
             }
             return result;
         }
@@ -679,6 +679,53 @@ namespace DKbase.web.capaDatos
             catch (Exception ex)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, Item, pLoginWeb);
+
+            }
+            return result;
+        }
+
+        public static List<cLote> ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena(string pNombreProducto, string pNumeroLote, string pLoginWeb)
+        {
+            List<cLote> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadenaAsync(pNombreProducto, pNumeroLote, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNombreProducto, pNumeroLote, pLoginWeb);
+            }
+            return result;
+        }
+        public static List<cDevolucionItemPrecarga> ObtenerDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerDevolucionesPorClientePorNumeroAsync(pNumeroDevolucion, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroDevolucion, pLoginWeb);
+            }
+            return result;
+        }
+        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        {
+            List<cDevolucionItemPrecarga> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerReclamosFacturadoNoEnviadoPorClientePorNumeroAsync(pNumeroDevolucion, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroDevolucion, pLoginWeb);
             }
             return result;
         }

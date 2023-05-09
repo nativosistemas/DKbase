@@ -811,6 +811,7 @@ namespace DKbase.web
             pTablaDetalle.Columns.Add(new DataColumn("nroordenamiento", System.Type.GetType("System.Int32")));
             return pTablaDetalle;
         }
+
         public static List<int> CargarProductoCantidadDependiendoTransfer(cClientes pCliente, cProductosGenerico pProducto, int pCantidad)
         {
             List<int> resultado = new List<int>();
@@ -1035,6 +1036,11 @@ namespace DKbase.web
                 fila["codigobarra"] = pCodigoBarra;
                 fila["codigoalfabeta"] = pCodigoAlfaBeta;
                 fila["troquel"] = pTroquel;//.Trim();
+                fila["cantidad"] = pCantidad;
+            }
+            else if (pTipoArchivoPedidos == "E")
+            {
+                fila["codigobarra"] = pCodigoBarra;
                 fila["cantidad"] = pCantidad;
             }
             fila["nroordenamiento"] = pTabla.Rows.Count + 1;

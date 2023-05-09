@@ -106,7 +106,7 @@ namespace DKbase.web.capaDatos
                     //////////////
                     foreach (DataRow item in tablaProductosNoEncontrado.Rows)
                     {
-                        if (item["nombreNoEncontrado"] != DBNull.Value)
+                        if (item["nombreNoEncontrado"] != DBNull.Value || item["codigobarra"] != DBNull.Value)
                         {
                             cProductosGenerico obj = new cProductosGenerico();
                             obj.isProductoNoEncontrado = true;

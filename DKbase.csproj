@@ -9,14 +9,13 @@
     <Product />
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/nativosistemas/DKbase</RepositoryUrl>
-    <Version>1.0.74</Version>
+    <Version>1.0.75</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>NativoSistemas.DKbase</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
-    <PackageReference Include="EPPlus" Version="6.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />

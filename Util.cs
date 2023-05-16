@@ -2394,5 +2394,10 @@ namespace DKbase
             resultado = capaDLL.ObtenerDevolucionesPorClientePorNumero(pNumeroDevolucion, pLoginWeb);
             return resultado;
         }
+        public static bool spForceChangePasswordFindCliente(int pIdCliente)
+        {
+            DataTable tb = capaLogRegistro_base.spForceChangePasswordFindCliente(pIdCliente)
+            return (tb != null && tb.Rows.Count > 0)?true:false;
+        }
     }
 }

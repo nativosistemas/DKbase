@@ -36,6 +36,29 @@ namespace DKbase.web.capaDatos
     }
     public class capaLogRegistro_base
     {
+        public static DataTable spForceChangePasswordFindCliente(int pIdCliente)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("codCliente", pIdCliente));
+            return db.GetDataTable("spForceChangePasswordFindCliente", l);
+        }
+        public static int spForceChangePasswordDeleteCliente(int pIdCliente)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("codCliente", pIdCliente));
+            return db.ExecuteNonQuery("spForceChangePasswordDeleteCliente", l);
+        }
+        public static int spForceChangePasswordHistoryAdd(int pIdCliente, int pIdUsuario, string pAction)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("codCliente", pIdCliente));
+            l.Add(db.GetParameter("codUsuario", pIdUsuario));
+            l.Add(db.GetParameter("action", pAction));
+            return db.ExecuteNonQuery("spForceChangePasswordHistoryAdd", l);
+        }
         public static string spUltimoProductoSeleccionado(int pIdUsuario)
         {
             BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);

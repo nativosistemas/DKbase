@@ -6,8 +6,9 @@ using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using OfficeOpenXml;
 using System.Linq;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace DKbase.web
 {
@@ -67,18 +68,11 @@ namespace DKbase.web
                     {
                         pFileUpload.CopyToAsync(fileStream);
                     }
-
-                    if (ExtencionArchivo.ToUpper() == "XLSX" || ExtencionArchivo.ToUpper() == "XLS")
-                    {
-                        resultado = LeerArchivoPedido_Excel(oUsuario, oCliente, nombreCompleto, pSucursal, nombreCompletoOriginal, isNombreRepetido);
-                    } else {
-                        resultado = LeerArchivoPedido_Generica(oUsuario, oCliente, nombreCompleto, pSucursal, nombreCompletoOriginal, isNombreRepetido);
-                    }
+                    resultado = LeerArchivoPedido_Generica(oUsuario, oCliente, nombreCompleto, pSucursal, nombreCompletoOriginal, isNombreRepetido);
                 }
             }
             return resultado;
         }
-
 
         private static cSubirPedido_return LeerArchivoPedido_Generica(Usuario oUsuario, cClientes oCliente, string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
         {
@@ -107,55 +101,63 @@ namespace DKbase.web
                         TipoArchivo = "S";
                     }
                     DataTable tablaArchivoPedidos = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
-
-                    while (sLine != null)
+                    if (ext == "XLSX" || ext == "XLS")
                     {
-                        sLine = objReader.ReadLine();
-                        if (!string.IsNullOrEmpty(sLine))
+                        tablaArchivoPedidos = LeerArchivoPedido_Excel(pNombreArchivo, pSucursal, pNombreArchivoOriginal, pIsNombreRepetido);
+
+                        TipoArchivo = "E";
+                    }
+                    else
+                    {
+                        while (sLine != null)
                         {
-                            if (ext == "TXT")
+                            sLine = objReader.ReadLine();
+                            if (!string.IsNullOrEmpty(sLine))
                             {
-                                DataRow r = LeerRenglonArchivoTXT(tablaArchivoPedidos, sLine);
-                                if (r != null)
-                                    tablaArchivoPedidos.Rows.Add(r);
-                            }
-                            else if (ext == "ASC")
-                            {
-                                DataRow r = LeerRenglonArchivoASC(tablaArchivoPedidos, sLine);
-                                if (r != null)
-                                    tablaArchivoPedidos.Rows.Add(r);
-                            }
-                            else
-                            {
-                                // Leer Archivo
-                                switch (TipoArchivo)
+                                if (ext == "TXT")
                                 {
-                                    case "S":
-                                        if (sLine.Length >= longFilaArchivoS) //22
-                                        {
-                                            DataRow r = LeerRenglonArchivoS(tablaArchivoPedidos, sLine);
-                                            if (r != null)
-                                                tablaArchivoPedidos.Rows.Add(r);
-                                        }
-                                        break;
-                                    case "F":
-                                        if (sLine.Length >= longFilaArchivoF)//24
-                                        {
-                                            DataRow r = LeerRenglonArchivoF(tablaArchivoPedidos, sLine);
-                                            if (r != null)
-                                                tablaArchivoPedidos.Rows.Add(r);
-                                        }
-                                        break;
-                                    default:
-                                        isArchivoErroneo = true;
-                                        break;
+                                    DataRow r = LeerRenglonArchivoTXT(tablaArchivoPedidos, sLine);
+                                    if (r != null)
+                                        tablaArchivoPedidos.Rows.Add(r);
+                                }
+                                else if (ext == "ASC")
+                                {
+                                    DataRow r = LeerRenglonArchivoASC(tablaArchivoPedidos, sLine);
+                                    if (r != null)
+                                        tablaArchivoPedidos.Rows.Add(r);
+                                }
+                                else
+                                {
+                                    // Leer Archivo
+                                    switch (TipoArchivo)
+                                    {
+                                        case "S":
+                                            if (sLine.Length >= longFilaArchivoS) //22
+                                            {
+                                                DataRow r = LeerRenglonArchivoS(tablaArchivoPedidos, sLine);
+                                                if (r != null)
+                                                    tablaArchivoPedidos.Rows.Add(r);
+                                            }
+                                            break;
+                                        case "F":
+                                            if (sLine.Length >= longFilaArchivoF)//24
+                                            {
+                                                DataRow r = LeerRenglonArchivoF(tablaArchivoPedidos, sLine);
+                                                if (r != null)
+                                                    tablaArchivoPedidos.Rows.Add(r);
+                                            }
+                                            break;
+                                        default:
+                                            isArchivoErroneo = true;
+                                            break;
+                                    }
                                 }
                             }
-                        }
-                        if (isArchivoErroneo)
-                        {
-                            resultado = null;
-                            break;
+                            if (isArchivoErroneo)
+                            {
+                                resultado = null;
+                                break;
+                            }
                         }
                     }
                     objReader.Close();
@@ -176,10 +178,9 @@ namespace DKbase.web
             return resultado;
         }
 
-        public static cSubirPedido_return LeerArchivoPedido_Excel(Usuario oUsuario, cClientes oCliente, string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
+        public static DataTable LeerArchivoPedido_Excel(string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
         {
-            string tipoArchivo = "E";
-            cSubirPedido_return resultado = null;
+            DataTable resultado = null;
             if (!string.IsNullOrWhiteSpace(pNombreArchivo))
             {
                 string rutaTemporal = Path.Combine(Helper.getFolder, "archivos", "ArchivosPedidos");
@@ -188,59 +189,62 @@ namespace DKbase.web
                 {
                     try
                     {
-                        using (ExcelPackage package = new ExcelPackage(new FileInfo(rutaTemporalAndNombreArchivo)))
+                        using (var document = SpreadsheetDocument.Open(rutaTemporalAndNombreArchivo, false))
                         {
-                            ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
+                            WorkbookPart workbookPart = document.WorkbookPart;
+                            IEnumerable<Sheet> sheets = workbookPart.Workbook.Descendants<Sheet>();
+                            Sheet hojaDeseada = sheets.FirstOrDefault();
+
+                            WorksheetPart worksheetPart = (WorksheetPart)workbookPart.GetPartById(hojaDeseada.Id);
+                            Worksheet worksheet = worksheetPart.Worksheet;
                             if (worksheet != null)
                             {
                                 DataTable tablaArchivoPedidos = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
 
-                                // Leer los datos del archivo de Excel y agregarlos a la tabla
-                                for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                                SheetData sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
+                                foreach (Row excelRow in sheetData.Elements<Row>().Skip(1))
                                 {
-                                    DataRow r = LeerRenglonArchivoExcel(tablaArchivoPedidos, worksheet, row);
+                                    DataRow r = LeerRenglonArchivoExcel(tablaArchivoPedidos, worksheet, excelRow, workbookPart);
                                     if (r != null)
                                         tablaArchivoPedidos.Rows.Add(r);
                                 }
-
-                                // Procesar la tabla de pedidos
-                                string sucElegida = pSucursal;
-                                cSubirPedido_return o = new cSubirPedido_return();
-                                o.SucursalEleginda = sucElegida;
-                                o.ListaProductos = DKbase.web.capaDatos.capaCAR_WebService_base.AgregarProductoAlCarritoDesdeArchivoPedidosV5(oCliente, sucElegida, oCliente.cli_codsuc, tablaArchivoPedidos, tipoArchivo, oCliente.cli_codigo, oCliente.cli_codprov, oCliente.cli_isGLN, oUsuario.id);
-                                o.nombreArchivoCompleto = pNombreArchivo;
-                                o.nombreArchivoCompletoOriginal = pNombreArchivoOriginal;
-                                o.isCorrect = true;
-                                DKbase.Util.AgregarHistorialSubirArchivo(oCliente.cli_codigo, sucElegida, pNombreArchivo, pNombreArchivoOriginal, DateTime.Now);
-                                resultado = o;
+                                resultado = tablaArchivoPedidos;
                             }
                         }
                     }
-                    catch 
+                    catch
                     {
-                        // Manejar cualquier excepción que ocurra al leer el archivo de Excel
-                        Console.WriteLine("Hubo un error");
                         resultado = null;
                     }
                 }
             }
             return resultado;
         }
-
-        public static DataRow LeerRenglonArchivoExcel(DataTable tabla, ExcelWorksheet worksheet, int row)
+        public static DataRow LeerRenglonArchivoExcel(DataTable tabla, Worksheet worksheet, Row excelRow, WorkbookPart workbookPart)
         {
-            string filaCompleta = worksheet.Cells[row, 1, row, tabla.Columns.Count].Select(c => c.Value == null ? string.Empty : c.Value.ToString()).Aggregate((s1, s2) => s1 + "\t" + s2);
-            string[] columnas = filaCompleta.Split('\t');
+            var cellValues = excelRow.Elements<Cell>().Select(c => GetCellValue(c, workbookPart)).ToList();
 
-            string strCodBarra = columnas[0];
-            string strCantidad = columnas[1];
+            string strCodBarra = cellValues[0];
+            string strCantidad = cellValues[1];
 
             if (!string.IsNullOrEmpty(strCodBarra))
                 return FuncionesPersonalizadas_base.ConvertProductosCarritoArchivosPedidosToDataRow(tabla, null, Convert.ToInt32(strCantidad), strCodBarra, string.Empty, string.Empty, "E");
 
             return null;
         }
+        public static string GetCellValue(Cell cell, WorkbookPart workbookPart)
+        {
+            if (cell.DataType == null)
+            {
+                return cell.InnerText;
+            }
+            else if (cell.DataType.Value == CellValues.Number)
+            {
+                return cell.InnerText;
+            }
 
+            return string.Empty;
+        }
         public static DataRow LeerRenglonArchivoTXT(DataTable pTabla, string pRenglon)
         {
             //DataRow r = null;

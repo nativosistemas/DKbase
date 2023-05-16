@@ -2396,8 +2396,16 @@ namespace DKbase
         }
         public static bool spForceChangePasswordFindCliente(int pIdCliente)
         {
-            DataTable tb = capaLogRegistro_base.spForceChangePasswordFindCliente(pIdCliente)
-            return (tb != null && tb.Rows.Count > 0)?true:false;
+            DataTable tb = capaLogRegistro_base.spForceChangePasswordFindCliente(pIdCliente);
+            return (tb != null && tb.Rows.Count > 0) ? true : false;
+        }
+        public static bool spForceChangePasswordDeleteCliente(int pIdCliente)
+        {
+            return capaLogRegistro_base.spForceChangePasswordDeleteCliente(pIdCliente) > 0;
+        }
+        public static bool spForceChangePasswordHistoryAdd(int pIdCliente, int pIdUsuario, string pAction)
+        {
+            return capaLogRegistro_base.spForceChangePasswordHistoryAdd(pIdCliente, pIdUsuario, pAction) > 0;
         }
     }
 }

@@ -1802,11 +1802,11 @@ namespace DKbase
                                         }
 
 
-                                        detalleCSV += item.PrecioPublico != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioPublico)) : "";
+                                        detalleCSV += !string.IsNullOrEmpty(item.PrecioPublico) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioPublico)) : "";
                                         detalleCSV += ";";
-                                        detalleCSV += item.PrecioUnitario != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioUnitario)) : "";
+                                        detalleCSV += !string.IsNullOrEmpty(item.PrecioUnitario) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioUnitario)) : "";
                                         detalleCSV += ";";
-                                        detalleCSV += item.Importe != null ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.Importe)) : ""; //Numerica.toString_NumeroTXT_N10(item.Importe);
+                                        detalleCSV += !string.IsNullOrEmpty(item.Importe) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.Importe)) : ""; //Numerica.toString_NumeroTXT_N10(item.Importe);
                                         detalleCSV += ";";
                                         //resultado += detalleFAC + "\n";
                                         FAC_txt.WriteLine(detalleCSV);

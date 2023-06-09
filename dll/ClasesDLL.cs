@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace DKbase.dll
 {
@@ -477,8 +478,9 @@ namespace DKbase.dll
         public string dev_nombreproductodevolucion { get; set; }
         public DateTime dev_fecha { get; set; }
         public string dev_fechaToString { get; set; }
+        [JsonIgnore]
         public dllMotivoDevolucion dev_motivo { get; set; }
-        //public int dev_motivo_int { get; set; }
+        public int dev_motivo_int { get; set; }
         public int dev_numeroitemfactura { get; set; }
         public string dev_nombreproductofactura { get; set; }
         public double dev_cantidad { get; set; }

@@ -160,7 +160,7 @@ namespace DKbase.web.capaDatos
             if (pItem["dev_motivo"] != DBNull.Value)
             {
                 obj.dev_motivo = (dllMotivoDevolucion)Convert.ToInt32(pItem["dev_motivo"]);
-                // obj.dev_motivo_int = Convert.ToInt32(pItem["dev_motivo"]);
+                obj.dev_motivo_int = Convert.ToInt32(pItem["dev_motivo"]);
             }
             if (pItem["dev_numeroitemfactura"] != DBNull.Value)
             {
@@ -476,8 +476,15 @@ namespace DKbase.web.capaDatos
             {
                 paNumeroFactura.Value = Item.dev_numerofactura;
             }
-            paNombreProductoDevolucion.Value = Item.dev_nombreproductodevolucion;
-            paMotivo.Value = Item.dev_motivo;
+            if (Item.dev_nombreproductofactura == null)
+            {
+                paNombreProductoDevolucion.Value = DBNull.Value;
+            }
+            else
+            {
+                paNombreProductoDevolucion.Value = Item.dev_nombreproductodevolucion;
+            }
+            paMotivo.Value = Item.dev_motivo_int;
             if (Item.dev_numeroitemfactura == 0)
             {
                 paNumeroItemFactura.Value = DBNull.Value;

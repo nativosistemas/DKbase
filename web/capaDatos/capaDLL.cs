@@ -652,7 +652,7 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static string AgregarReclamoFacturadoNoEnviado(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static string AgregarReclamoFacturadoNoEnviado(List<cDevolucionItemPrecarga_java> Item, string pLoginWeb)
         {
             string result = null;
             try
@@ -667,7 +667,7 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static string AgregarSolicitudDevolucionCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static string AgregarSolicitudDevolucionCliente(List<cDevolucionItemPrecarga_java> Item, string pLoginWeb)
         {
             string result = null;
             try
@@ -699,9 +699,9 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static List<cDevolucionItemPrecarga> ObtenerDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        public static List<cDevolucionItemPrecarga_java> ObtenerDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
         {
-            List<cDevolucionItemPrecarga> result = null;
+            List<cDevolucionItemPrecarga_java> result = null;
             try
             {
                 var t = Task.Run(() => capaAPI.ObtenerDevolucionesPorClientePorNumeroAsync(pNumeroDevolucion, pLoginWeb));
@@ -714,9 +714,9 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        public static List<cDevolucionItemPrecarga_java> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
         {
-            List<cDevolucionItemPrecarga> result = null;
+            List<cDevolucionItemPrecarga_java> result = null;
             try
             {
                 var t = Task.Run(() => capaAPI.ObtenerReclamosFacturadoNoEnviadoPorClientePorNumeroAsync(pNumeroDevolucion, pLoginWeb));

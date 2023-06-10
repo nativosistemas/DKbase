@@ -2332,13 +2332,13 @@ namespace DKbase
             resultado = capaDLL.ObtenerFacturasPorUltimosNumeros(pNumeroFactura, pLoginWeb);
             return resultado;
         }
-        public static string AgregarReclamoFacturadoNoEnviadoCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static string AgregarReclamoFacturadoNoEnviadoCliente(List<cDevolucionItemPrecarga_java> Item, string pLoginWeb)
         {
             string resultado = null;
             resultado = capaDLL.AgregarReclamoFacturadoNoEnviado(Item, pLoginWeb);
             return resultado;
         }
-        public static string AgregarSolicitudDevolucionCliente(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static string AgregarSolicitudDevolucionCliente(List<cDevolucionItemPrecarga_java> Item, string pLoginWeb)
         {
             string resultado = null;
             resultado = capaDLL.AgregarSolicitudDevolucionCliente(Item, pLoginWeb);
@@ -2368,11 +2368,11 @@ namespace DKbase
         {
             return capaDevoluciones_base.EliminarPrecargaReclamoFNEPorCliente(NumeroCliente);
         }
-        public static bool AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga Item)
+        public static bool AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga_java Item)
         {
             return capaDevoluciones_base.AgregarReclamoFacturadoNoEnviadoItemPrecarga(Item);
         }
-        public static bool AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga Item)
+        public static bool AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga_java Item)
         {
             return capaDevoluciones_base.AgregarDevolucionItemPrecarga(Item);
         }
@@ -2382,15 +2382,15 @@ namespace DKbase
             resultado = capaDLL.ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena(pNombreProducto, pNumeroLote, pLoginWeb);
             return resultado;
         }
-        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        public static List<cDevolucionItemPrecarga_java> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
         {
-            List<cDevolucionItemPrecarga> resultado = null;
+            List<cDevolucionItemPrecarga_java> resultado = null;
             resultado = capaDLL.ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(pNumeroDevolucion, pLoginWeb);
             return resultado;
         }
-        public static List<cDevolucionItemPrecarga> RecuperarDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        public static List<cDevolucionItemPrecarga_java> RecuperarDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
         {
-            List<cDevolucionItemPrecarga> resultado = null;
+            List<cDevolucionItemPrecarga_java> resultado = null;
             resultado = capaDLL.ObtenerDevolucionesPorClientePorNumero(pNumeroDevolucion, pLoginWeb);
             return resultado;
         }

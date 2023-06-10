@@ -468,7 +468,29 @@ namespace DKbase.dll
         public DateTime? FechaVencimiento { get; set; }
         public string FechaVencimientoToString { get; set; }
     }
-
+    public class cDevolucionItemPrecarga_java
+    {
+        public int dev_numeroitem { get; set; }
+        public int dev_numerocliente { get; set; }
+        public string dev_numerofactura { get; set; }
+        public string dev_numerosolicituddevolucion { get; set; }
+        public string dev_nombreproductodevolucion { get; set; }
+        public DateTime dev_fecha { get; set; }
+        public string dev_fechaToString { get; set; }
+        public int dev_motivo { get; set; }
+        public int dev_numeroitemfactura { get; set; }
+        public string dev_nombreproductofactura { get; set; }
+        public double dev_cantidad { get; set; }
+        public string dev_numerolote { get; set; }
+        public DateTime dev_fechavencimientolote { get; set; }
+        public string dev_fechavencimientoloteToString { get; set; }
+        public string dev_estado { get; set; }
+        public string dev_mensaje { get; set; }
+        public double dev_cantidadrecibida { get; set; }
+        public double dev_cantidadrechazada { get; set; }
+        public string dev_idsucursal { get; set; }
+        public string dev_numerosolicitudNC { get; set; }
+    }
     public class cDevolucionItemPrecarga
     {
         public int dev_numeroitem { get; set; }
@@ -478,9 +500,7 @@ namespace DKbase.dll
         public string dev_nombreproductodevolucion { get; set; }
         public DateTime dev_fecha { get; set; }
         public string dev_fechaToString { get; set; }
-        [JsonIgnore]
         public dllMotivoDevolucion dev_motivo { get; set; }
-        public int dev_motivo_int { get; set; }
         public int dev_numeroitemfactura { get; set; }
         public string dev_nombreproductofactura { get; set; }
         public double dev_cantidad { get; set; }

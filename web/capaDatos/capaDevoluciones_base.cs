@@ -160,7 +160,6 @@ namespace DKbase.web.capaDatos
             if (pItem["dev_motivo"] != DBNull.Value)
             {
                 obj.dev_motivo = (dllMotivoDevolucion)Convert.ToInt32(pItem["dev_motivo"]);
-                obj.dev_motivo_int = Convert.ToInt32(pItem["dev_motivo"]);
             }
             if (pItem["dev_numeroitemfactura"] != DBNull.Value)
             {
@@ -392,7 +391,7 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
-        public static bool AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga Item)
+        public static bool AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga_java Item)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
             SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spAgregarItemReclamoFacturadoNoEnviado", Conn);
@@ -448,7 +447,7 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
-        public static bool AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga Item)
+        public static bool AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga_java Item)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
             SqlCommand cmdComandoInicio = new SqlCommand("Devoluciones.spAgregarItemDevolucion", Conn);
@@ -484,7 +483,6 @@ namespace DKbase.web.capaDatos
             {
                 paNombreProductoDevolucion.Value = Item.dev_nombreproductodevolucion;
             }
-            paMotivo.Value = Item.dev_motivo_int;
             if (Item.dev_numeroitemfactura == 0)
             {
                 paNumeroItemFactura.Value = DBNull.Value;

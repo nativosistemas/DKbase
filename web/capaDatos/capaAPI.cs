@@ -797,7 +797,7 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<string> AgregarReclamoFacturadoNoEnviadoAsync(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static async Task<string> AgregarReclamoFacturadoNoEnviadoAsync(List<cDevolucionItemPrecarga_java> Item, string pLoginWeb)
         {
             string result = null;
             string name = "AgregarReclamoFacturadoNoEnviado";
@@ -813,7 +813,7 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<string> AgregarSolicitudDevolucionClienteAsync(List<cDevolucionItemPrecarga> Item, string pLoginWeb)
+        public static async Task<string> AgregarSolicitudDevolucionClienteAsync(List<cDevolucionItemPrecarga_java> Item, string pLoginWeb)
         {
             string result = null;
             string name = "AgregarSolicitudDevolucionCliente";
@@ -845,9 +845,9 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<List<cDevolucionItemPrecarga>> ObtenerDevolucionesPorClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
+        public static async Task<List<cDevolucionItemPrecarga_java>> ObtenerDevolucionesPorClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
         {
-            List<cDevolucionItemPrecarga> result = null;
+            List<cDevolucionItemPrecarga_java> result = null;
             string name = "ObtenerDevolucionesPorClientePorNumero";
             var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroDevolucion };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
@@ -856,14 +856,14 @@ namespace DKbase.web.capaDatos
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
                 if (isNotNull(resultResponse))
                 {
-                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga_java>>(resultResponse);
                 }
             }
             return result;
         }
-        public static async Task<List<cDevolucionItemPrecarga>> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
+        public static async Task<List<cDevolucionItemPrecarga_java>> ObtenerReclamosFacturadoNoEnviadoPorClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
         {
-            List<cDevolucionItemPrecarga> result = null;
+            List<cDevolucionItemPrecarga_java> result = null;
             string name = "ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero";
             var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroDevolucion };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
@@ -872,7 +872,7 @@ namespace DKbase.web.capaDatos
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
                 if (isNotNull(resultResponse))
                 {
-                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga_java>>(resultResponse);
                 }
             }
             return result;

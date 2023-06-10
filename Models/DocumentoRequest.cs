@@ -14,6 +14,6 @@ namespace DKbase.Models
         public DateTime fechaDesde { get; set; }
         public DateTime fechaHasta { get; set; }
         public string nombreProducto { get; set; }
-        public List<dll.cDevolucionItemPrecarga> itemDevolucionPrecarga { get; set; }
+        public List<dll.cDevolucionItemPrecarga_java> itemDevolucionPrecarga { get; set; }
     }
 }

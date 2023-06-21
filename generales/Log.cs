@@ -53,6 +53,7 @@ namespace DKbase.generales
         {
             try
             {
+                System.Console.WriteLine(pMensaje);
                 string Parameters = getParameters(method, values);
                 bool isNotGeneroError = baseDatos.StoredProcedure.spError(method.Name, Parameters, null,
                       null,
@@ -71,6 +72,7 @@ namespace DKbase.generales
         {
             try
             {
+                System.Console.WriteLine(pException);
                 string Parameters = getParameters(method, values);
                 grabarLog_generico(method.Name, pException, pFechaActual, Parameters, Helper.getTipoApp);
 
@@ -94,39 +96,41 @@ namespace DKbase.generales
             }
             catch (Exception ex)
             {
+                System.Console.WriteLine(pException);
                 LogErrorFile(MethodBase.GetCurrentMethod().ToString(), ex.ToString());
             }
         }
         public static void saveInFile(string pMensaje, string pNombreArchivo)
         {
-            //try
-            //{
-            string path = Path.Combine(Helper.getFolder , Helper.getTipoApp, "log");
-            if (Directory.Exists(path) == false)
+            try
             {
-                Directory.CreateDirectory(path);
-            }
-            string FilePath = Path.Combine(path , pNombreArchivo);
-            if (!File.Exists(FilePath))
-            {
-                using (StreamWriter sw = File.CreateText(FilePath))
+                string path = Path.Combine(Helper.getFolder, Helper.getTipoApp, "log");
+                if (Directory.Exists(path) == false)
                 {
-                    sw.WriteLine(pMensaje);
-                    sw.Close();
+                    Directory.CreateDirectory(path);
+                }
+                string FilePath = Path.Combine(path, pNombreArchivo);
+                if (!File.Exists(FilePath))
+                {
+                    using (StreamWriter sw = File.CreateText(FilePath))
+                    {
+                        sw.WriteLine(pMensaje);
+                        sw.Close();
+                    }
+                }
+                else
+                {
+                    using (StreamWriter sw = File.AppendText(FilePath))
+                    {
+                        sw.WriteLine(pMensaje);
+                        sw.Close();
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                using (StreamWriter sw = File.AppendText(FilePath))
-                {
-                    sw.WriteLine(pMensaje);
-                    sw.Close();
-                }
+                System.Console.WriteLine(ex);
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //}
         }
     }
 }

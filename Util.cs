@@ -2233,9 +2233,9 @@ namespace DKbase
         {
             return capaDLL.RecuperarDevolucionesPorCliente(pCliente);
         }
-        public static List<cDevolucionItemPrecarga> RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(int pIdCliente)
+        public static List<cDevolucionItemPrecarga_java> RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(int pIdCliente)
         {
-            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            List<cDevolucionItemPrecarga_java> resultado = new List<cDevolucionItemPrecarga_java>();
             DataTable tabla = capaDevoluciones_base.RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(pIdCliente);
             if (tabla != null)
             {
@@ -2246,10 +2246,10 @@ namespace DKbase
             }
             return resultado;
         }
-        public static List<cDevolucionItemPrecarga> RecuperarItemsDevolucionPrecargaPorCliente(int pIdCliente)
+        public static List<cDevolucionItemPrecarga_java> RecuperarItemsDevolucionPrecargaPorCliente(int pIdCliente)
         {
 
-            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            List<cDevolucionItemPrecarga_java> resultado = new List<cDevolucionItemPrecarga_java>();
             DataTable tabla = capaDevoluciones_base.RecuperarItemsDevolucionPrecargaPorCliente(pIdCliente);
             if (tabla != null)
             {
@@ -2260,9 +2260,9 @@ namespace DKbase
             }
             return resultado;
         }
-        public static List<cDevolucionItemPrecarga> RecuperarItemsDevolucionPrecargaVencidosPorCliente(int pIdCliente)
+        public static List<cDevolucionItemPrecarga_java> RecuperarItemsDevolucionPrecargaVencidosPorCliente(int pIdCliente)
         {
-            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            List<cDevolucionItemPrecarga_java> resultado = new List<cDevolucionItemPrecarga_java>();
             DataTable tabla = capaDevoluciones_base.RecuperarItemsDevolucionPrecargaVencidosPorCliente(pIdCliente);
             if (tabla != null)
             {
@@ -2273,10 +2273,10 @@ namespace DKbase
             }
             return resultado;
         }
-        public static List<cDevolucionItemPrecarga> RecuperarItemsReclamoFacturadoNoEnviado(int pIdCliente)
+        public static List<cDevolucionItemPrecarga_java> RecuperarItemsReclamoFacturadoNoEnviado(int pIdCliente)
         {
 
-            List<cDevolucionItemPrecarga> resultado = new List<cDevolucionItemPrecarga>();
+            List<cDevolucionItemPrecarga_java> resultado = new List<cDevolucionItemPrecarga_java>();
             DataTable tabla = capaDevoluciones_base.RecuperarItemsReclamoFacturadoNoEnviado(pIdCliente);
             if (tabla != null)
             {

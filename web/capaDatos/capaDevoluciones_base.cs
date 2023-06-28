@@ -131,9 +131,9 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
-        public static cDevolucionItemPrecarga ConvertToItemDevPrecarga(DataRow pItem)
+        public static cDevolucionItemPrecarga_java ConvertToItemDevPrecarga(DataRow pItem)
         {
-            cDevolucionItemPrecarga obj = new cDevolucionItemPrecarga();
+            cDevolucionItemPrecarga_java obj = new cDevolucionItemPrecarga_java();
 
             if (pItem["dev_numeroitem"] != DBNull.Value)
             {
@@ -159,7 +159,7 @@ namespace DKbase.web.capaDatos
             }
             if (pItem["dev_motivo"] != DBNull.Value)
             {
-                obj.dev_motivo = (dllMotivoDevolucion)Convert.ToInt32(pItem["dev_motivo"]);
+                obj.dev_motivo = Convert.ToInt32(pItem["dev_motivo"]);
             }
             if (pItem["dev_numeroitemfactura"] != DBNull.Value)
             {

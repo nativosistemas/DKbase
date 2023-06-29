@@ -475,7 +475,7 @@ namespace DKbase.web.capaDatos
             {
                 paNumeroFactura.Value = Item.dev_numerofactura;
             }
-            if (Item.dev_nombreproductofactura == null)
+            if (Item.dev_nombreproductodevolucion == null)
             {
                 paNombreProductoDevolucion.Value = DBNull.Value;
             }

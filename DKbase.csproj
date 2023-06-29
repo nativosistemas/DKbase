@@ -9,7 +9,7 @@
     <Product />
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/nativosistemas/DKbase</RepositoryUrl>
-    <Version>1.0.86</Version>
+    <Version>1.0.87</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>NativoSistemas.DKbase</PackageId>
   </PropertyGroup>

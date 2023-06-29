@@ -576,12 +576,12 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static List<cDevolucionItemPrecarga> RecuperarDevolucionesPorCliente(cClientes pCliente)
+        public static List<cDevolucionItemPrecarga_java> ObtenerSolicitudesDevolucionCliente(cClientes pCliente)
         {
-            List<cDevolucionItemPrecarga> result = null;
+            List<cDevolucionItemPrecarga_java> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.RecuperarDevolucionesPorClienteAsync(pCliente.cli_login));
+                var t = Task.Run(() => capaAPI.ObtenerSolicitudesDevolucionClienteAsync(pCliente.cli_login));
                 t.Wait();
                 result = t.Result;
             }
@@ -591,9 +591,9 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorCliente(cClientes pCliente)
+        public static List<cDevolucionItemPrecarga_java> ObtenerReclamosFacturadoNoEnviadoPorCliente(cClientes pCliente)
         {
-            List<cDevolucionItemPrecarga> result = null;
+            List<cDevolucionItemPrecarga_java> result = null;
             try
             {
                 var t = Task.Run(() => capaAPI.ObtenerReclamosFacturadoNoEnviadoPorClienteAsync(pCliente.cli_login));

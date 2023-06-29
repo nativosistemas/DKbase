@@ -717,10 +717,10 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<List<cDevolucionItemPrecarga>> RecuperarDevolucionesPorClienteAsync(string pCli_login)
+        public static async Task<List<cDevolucionItemPrecarga_java>> ObtenerSolicitudesDevolucionClienteAsync(string pCli_login)
         {
-            List<cDevolucionItemPrecarga> result = null;
-            string name = "RecuperarDevolucionesPorCliente";
+            List<cDevolucionItemPrecarga_java> result = null;
+            string name = "ObtenerSolicitudesDevolucionCliente";
             var parameter = new DocumentoRequest { loginWeb = pCli_login };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
@@ -728,14 +728,14 @@ namespace DKbase.web.capaDatos
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
                 if (isNotNull(resultResponse))
                 {
-                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga_java>>(resultResponse);
                 }
             }
             return result;
         }
-        public static async Task<List<cDevolucionItemPrecarga>> ObtenerReclamosFacturadoNoEnviadoPorClienteAsync(string pCli_login)
+        public static async Task<List<cDevolucionItemPrecarga_java>> ObtenerReclamosFacturadoNoEnviadoPorClienteAsync(string pCli_login)
         {
-            List<cDevolucionItemPrecarga> result = null;
+            List<cDevolucionItemPrecarga_java> result = null;
             string name = "ObtenerReclamosFacturadoNoEnviadoPorCliente";
             var parameter = new DocumentoRequest { loginWeb = pCli_login };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
@@ -744,7 +744,7 @@ namespace DKbase.web.capaDatos
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
                 if (isNotNull(resultResponse))
                 {
-                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga>>(resultResponse);
+                    result = JsonSerializer.Deserialize<List<cDevolucionItemPrecarga_java>>(resultResponse);
                 }
             }
             return result;

@@ -2229,9 +2229,9 @@ namespace DKbase
         {
             return capaDLL.ObtenerVencimientosResumenPorFecha(pNumeroResumen, pFechaVencimiento);
         }
-        public static List<cDevolucionItemPrecarga> RecuperarDevolucionesPorCliente(cClientes pCliente)
+        public static List<cDevolucionItemPrecarga_java> ObtenerSolicitudesDevolucionCliente(cClientes pCliente)
         {
-            return capaDLL.RecuperarDevolucionesPorCliente(pCliente);
+            return capaDLL.ObtenerSolicitudesDevolucionCliente(pCliente);
         }
         public static List<cDevolucionItemPrecarga_java> RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(int pIdCliente)
         {
@@ -2288,9 +2288,9 @@ namespace DKbase
             return resultado;
 
         }
-        public static List<cDevolucionItemPrecarga> ObtenerReclamosFacturadoNoEnviadoPorCliente(cClientes pCliente)
+        public static List<cDevolucionItemPrecarga_java> ObtenerReclamosFacturadoNoEnviadoPorCliente(cClientes pCliente)
         {
-            List<cDevolucionItemPrecarga> resultado = null;
+            List<cDevolucionItemPrecarga_java> resultado = null;
             resultado = capaDLL.ObtenerReclamosFacturadoNoEnviadoPorCliente(pCliente);
             return resultado;
         }

@@ -2388,10 +2388,10 @@ namespace DKbase
             resultado = capaDLL.ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(pNumeroDevolucion, pLoginWeb);
             return resultado;
         }
-        public static List<cDevolucionItemPrecarga_java> RecuperarDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        public static List<cDevolucionItemPrecarga_java> ObtenerSolicitudesDevolucionClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
         {
             List<cDevolucionItemPrecarga_java> resultado = null;
-            resultado = capaDLL.ObtenerDevolucionesPorClientePorNumero(pNumeroDevolucion, pLoginWeb);
+            resultado = capaDLL.ObtenerSolicitudesDevolucionClientePorNumero(pNumeroDevolucion, pLoginWeb);
             return resultado;
         }
         public static bool spForceChangePasswordFindCliente(int pIdCliente)

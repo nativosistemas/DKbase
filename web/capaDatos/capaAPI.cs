@@ -845,10 +845,10 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<List<cDevolucionItemPrecarga_java>> ObtenerDevolucionesPorClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
+        public static async Task<List<cDevolucionItemPrecarga_java>> ObtenerSolicitudesDevolucionClientePorNumeroAsync(string pNumeroDevolucion, string pLoginWeb)
         {
             List<cDevolucionItemPrecarga_java> result = null;
-            string name = "ObtenerDevolucionesPorClientePorNumero";
+            string name = "ObtenerSolicitudesDevolucionClientePorNumero";
             var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroDevolucion };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)

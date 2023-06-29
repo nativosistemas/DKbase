@@ -699,12 +699,12 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static List<cDevolucionItemPrecarga_java> ObtenerDevolucionesPorClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
+        public static List<cDevolucionItemPrecarga_java> ObtenerSolicitudesDevolucionClientePorNumero(string pNumeroDevolucion, string pLoginWeb)
         {
             List<cDevolucionItemPrecarga_java> result = null;
             try
             {
-                var t = Task.Run(() => capaAPI.ObtenerDevolucionesPorClientePorNumeroAsync(pNumeroDevolucion, pLoginWeb));
+                var t = Task.Run(() => capaAPI.ObtenerSolicitudesDevolucionClientePorNumeroAsync(pNumeroDevolucion, pLoginWeb));
                 t.Wait();
                 result = t.Result;
             }

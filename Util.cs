@@ -2407,5 +2407,11 @@ namespace DKbase
         {
             return capaLogRegistro_base.spForceChangePasswordHistoryAdd(pIdCliente, pIdUsuario, pAction) > 0;
         }
+        public static List<cPedidoItem> ObtenerItemsDePedidoPorNumeroDeFactura(string pNumeroFactura, string pLoginWeb)
+        {
+            List<cPedidoItem> resultado = null;
+            resultado = capaDLL.ObtenerItemsDePedidoPorNumeroDeFactura(pNumeroFactura, pLoginWeb);
+            return resultado;
+        }
     }
 }

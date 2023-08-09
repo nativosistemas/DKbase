@@ -729,5 +729,20 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<cPedidoItem> ObtenerItemsDePedidoPorNumeroDeFactura(string pNumeroFactura, string pLoginWeb)
+        {
+            List<cPedidoItem> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerItemsDePedidoPorNumeroDeFacturaAsync(pNumeroFactura, pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pNumeroFactura, pLoginWeb);
+            }
+            return result;
+        }
     }
 }

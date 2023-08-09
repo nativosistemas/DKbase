@@ -877,5 +877,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<cPedidoItem>> ObtenerItemsDePedidoPorNumeroDeFacturaAsync(string pNumeroFactura, string pLoginWeb)
+        {
+            List<cPedidoItem> result = null;
+            string name = "ObtenerItemsDePedidoPorNumeroDeFactura";
+            var parameter = new DocumentoRequest { loginWeb = pLoginWeb, documentoID = pNumeroFactura };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cPedidoItem>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

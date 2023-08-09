@@ -531,4 +531,16 @@ namespace DKbase.dll
         public bool TomaWeb { get; set; }
         public int UnidadesVendidas { get; set; }
     }
+    public class cPedidoItem
+    {
+        public string NombreObjetoComercial { get; set; }
+        public int Cantidad { get; set; }
+        public int Faltas { get; set; }
+        public string Caracteristica { get; set; }
+        public DateTime? FechaIngreso { get; set; }
+        public string FechaIngresoToString { get; set; }
+        public string PrecioPublico { get; set; }//decimal?
+        public string PrecioUnitario { get; set; }//decimal?
+        public string Importe { get; set; }//decimal?
+    }
 }

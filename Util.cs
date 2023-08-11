@@ -1765,66 +1765,43 @@ namespace DKbase
                     strCabeceraCSV += "Importe";
                     strCabeceraCSV += ";";
                     strCabeceraCSV += "Faltas";
-                    //l_PedidoItem
                     FAC_txt.WriteLine(strCabeceraCSV);
-
-                    foreach (cFacturaDetalle item in objFactura.lista)
+                    foreach (cPedidoItem item in l_PedidoItem)
                     {
-                        if (!string.IsNullOrWhiteSpace(item.Troquel))
+                        string detalleCSV = string.Empty;
+
+                        cProductos producto = capaCAR_WebService_base.RecuperarProductoPorNombre(item.NombreObjetoComercial);
+                        bool isNoTieneCodigoBarra = true;//código de barras producto C(13)
+                        detalleCSV += objFactura.FechaToString;
+                        detalleCSV += ";";
+                        if (producto != null)
                         {
-                            if (item.Importe != null && item.Importe.Trim() != string.Empty)
+                            if (producto.pro_codigobarra != null)
                             {
-                                string falta = string.Empty;
-                                if (l_PedidoItem != null)
-                                {
-                                    cPedidoItem oPed = l_PedidoItem.Where(x => x.NombreObjetoComercial == item.Descripcion).FirstOrDefault();
-                                    if (oPed != null)
-                                    {
-                                        falta = oPed.Faltas.ToString();
-                                    }
-                                }
-
-                                string detalleCSV = string.Empty;
-
-                                cProductos producto = capaCAR_WebService_base.RecuperarProductoPorNombre(item.Descripcion);
-                                bool isNoTieneCodigoBarra = true;//código de barras producto C(13)
-                                detalleCSV += objFactura.FechaToString;
+                                isNoTieneCodigoBarra = false;
+                                detalleCSV += producto.pro_codigobarra.PadRight(13, ' ');
                                 detalleCSV += ";";
-                                if (producto != null)
-                                {
-                                    if (producto.pro_codigobarra != null)
-                                    {
-                                        isNoTieneCodigoBarra = false;
-                                        detalleCSV += producto.pro_codigobarra.PadRight(13, ' ');
-                                        detalleCSV += ";";
-                                    }
-                                    if (isNoTieneCodigoBarra)
-                                    {
-                                        detalleCSV += " ".PadRight(13, ' ');
-                                        detalleCSV += ";";
-                                    }
-                                    detalleCSV += producto.pro_nombre;
-                                    detalleCSV += ";";
-                                    detalleCSV += item.Cantidad.PadLeft(5, '0');
-                                    detalleCSV += ";";
-                                }
-
-
-                                detalleCSV += !string.IsNullOrEmpty(item.PrecioPublico) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioPublico)) : "";
+                            }
+                            if (isNoTieneCodigoBarra)
+                            {
+                                detalleCSV += " ".PadRight(13, ' ');
                                 detalleCSV += ";";
-                                detalleCSV += !string.IsNullOrEmpty(item.PrecioUnitario) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioUnitario)) : "";
-                                detalleCSV += ";";
-                                detalleCSV += !string.IsNullOrEmpty(item.Importe) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.Importe)) : ""; //Numerica.toString_NumeroTXT_N10(item.Importe);
-                                detalleCSV += ";";
-                                detalleCSV += falta;
-                                detalleCSV += ";";
-                                //resultado += detalleFAC + "\n";
-                                FAC_txt.WriteLine(detalleCSV);
-                                //listaResultado.Add(resultado);
+                            }
+                            detalleCSV += producto.pro_nombre;
+                            detalleCSV += ";";
+                            detalleCSV += item.Cantidad.ToString().PadLeft(5, '0');
+                            detalleCSV += ";";
+                        }
 
-                            }//   if (item.Importe.Trim() != string.Empty) {  
-
-                        }// fin if (item.Troquel != null)
+                        detalleCSV += !string.IsNullOrEmpty(item.PrecioPublico) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioPublico)) : "";
+                        detalleCSV += ";";
+                        detalleCSV += !string.IsNullOrEmpty(item.PrecioUnitario) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.PrecioUnitario)) : "";
+                        detalleCSV += ";";
+                        detalleCSV += !string.IsNullOrEmpty(item.Importe) ? Numerica.FormatoNumeroPuntoMilesComaDecimal(Convert.ToDecimal(item.Importe)) : ""; //Numerica.toString_NumeroTXT_N10(item.Importe);
+                        detalleCSV += ";";
+                        detalleCSV += item.Faltas.ToString().PadLeft(5, '0');
+                        detalleCSV += ";";
+                        FAC_txt.WriteLine(detalleCSV);
                     }
                     FAC_txt.Close();
                 }

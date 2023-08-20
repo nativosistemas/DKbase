@@ -194,4 +194,20 @@ namespace DKbase.web
         public string nombreArchivo { get; set; }
         public bool isOk { get; set; }
     }
+   // [DataContract]
+    public class ReglaPorRol
+    {
+        //[DataMember]
+        public int idRegla { get; set; }
+        //[DataMember]
+        public int idRelacionReglaRol { get; set; }
+        //[DataMember]
+        public bool isActivo { get; set; }
+        //[DataMember]
+        public bool? isAgregar { get; set; }
+        //[DataMember]
+        public bool? isEditar { get; set; }
+        //[DataMember]
+        public bool? isEliminar { get; set; }
+    }
 }

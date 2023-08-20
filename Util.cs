@@ -2397,5 +2397,285 @@ namespace DKbase
             resultado = capaDLL.ObtenerItemsDePedidoPorNumeroDeFactura(pNumeroFactura, pLoginWeb);
             return resultado;
         }
+        public static int InsertarActualizarUsuario(cUsuario pUsuario, int pCodUsuarioModif)
+        {//int usu_codigo, int usu_codRol, int? usu_codCliente, string usu_nombre, string usu_apellido, string usu_mail, string usu_login, string usu_psw, string usu_observacion, int? usu_codUsuarioUltMov
+            return DKbase.Util.InsertarActualizarUsuario(pUsuario.usu_codigo, pUsuario.usu_codRol, pUsuario.usu_codCliente, pUsuario.usu_nombre, pUsuario.usu_apellido, pUsuario.usu_mail, pUsuario.usu_login, "", pUsuario.usu_observacion, pCodUsuarioModif);
+        }
+        public static List<cRol> GetRoles(string sortExpression, string pFiltro)
+        {
+            ordenamientoExpresion order = new ordenamientoExpresion(sortExpression);
+            string filtro = string.Empty;
+            if (pFiltro != null)
+            {
+                filtro = pFiltro;
+            }
+            var query = RecuperarTodasRoles(filtro);
+            if (order.isOrderBy)
+            {
+                if (order.OrderByAsc)
+                {
+                    switch (order.OrderByField)
+                    {
+                        case "rol_Nombre":
+                            query = query.OrderBy(b => b.rol_Nombre).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (order.OrderByField)
+                    {
+                        case "rol_Nombre":
+                            query = query.OrderByDescending(b => b.rol_Nombre).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return query;
+        }
+        public static int InsertarActualizarRol(int rol_codRol, string rol_Nombre)
+        {
+            string accion = rol_codRol == 0 ? Constantes.cSQL_INSERT : Constantes.cSQL_UPDATE;
+            DataSet dsResultado = capaSeguridad_base.GestiónRol(rol_codRol, rol_Nombre, null, accion);
+            int resultado = -1;
+            if (rol_codRol == 0)
+            {
+                if (dsResultado != null)
+                {
+                    if (dsResultado.Tables["Rol"].Rows[0]["rol_codRol"] != DBNull.Value)
+                    {
+                        resultado = Convert.ToInt32(dsResultado.Tables["Rol"].Rows[0]["rol_codRol"]);
+                    }
+                }
+            }
+            else
+            {
+                resultado = rol_codRol;
+            }
+            return resultado;
+        }
+        public static List<cRol> RecuperarTodasRoles(string pFiltro)
+        {
+            List<cRol> lista = new List<cRol>();
+            DataSet dsResultado = capaSeguridad_base.GestiónRol(null, null, pFiltro, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Rol"].Rows)
+                {
+                    cRol obj = new cRol();
+                    if (item["rol_codRol"] != DBNull.Value)
+                    {
+                        obj.rol_codRol = Convert.ToInt32(item["rol_codRol"]);
+                    }
+                    if (item["rol_Nombre"] != DBNull.Value)
+                    {
+                        obj.rol_Nombre = item["rol_Nombre"].ToString();
+                    }
+                    lista.Add(obj);
+                }
+            }
+            return lista;
+        }
+        public static cRol RecuperarRolPorId(int pIdRol)
+        {
+            cRol resultado = new cRol();
+            DataSet dsResultado = capaSeguridad_base.GestiónRol(pIdRol, null, null, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Rol"].Rows)
+                {
+                    if (item["rol_codRol"] != DBNull.Value)
+                    {
+                        resultado.rol_codRol = Convert.ToInt32(item["rol_codRol"]);
+                    }
+                    if (item["rol_Nombre"] != DBNull.Value)
+                    {
+                        resultado.rol_Nombre = item["rol_Nombre"].ToString();
+                    }
+                }
+            }
+            return resultado;
+        }
+        public static void EliminarRegla(int rgl_codRegla)
+        {
+            DataSet dsResultado = capaSeguridad_base.GestiónRegla(rgl_codRegla, null, null, null, null, null, null, null, Constantes.cSQL_DELETE);
+        }
+        public static int InsertarActualizarRegla(int rgl_codRegla, string rgl_Descripcion, string rgl_PalabraClave, bool rgl_IsAgregarSoporta, bool rgl_IsEditarSoporta, bool rgl_IsEliminarSoporta, int? rgl_codReglaPadre)
+        {
+            string accion = rgl_codRegla == 0 ? Constantes.cSQL_INSERT : Constantes.cSQL_UPDATE;
+            DataSet dsResultado = capaSeguridad_base.GestiónRegla(rgl_codRegla, rgl_Descripcion, rgl_PalabraClave, rgl_IsAgregarSoporta, rgl_IsEditarSoporta, rgl_IsEliminarSoporta, rgl_codReglaPadre, null, accion);
+            int resultado = -1;
+            if (rgl_codRegla == 0)
+            {
+                if (dsResultado != null)
+                {
+                    if (dsResultado.Tables["Regla"].Rows[0]["rgl_codRegla"] != DBNull.Value)
+                    {
+                        resultado = Convert.ToInt32(dsResultado.Tables["Regla"].Rows[0]["rgl_codRegla"]);
+                    }
+                }
+            }
+            else
+            {
+                resultado = rgl_codRegla;
+            }
+            return resultado;
+        }
+        public static List<cRegla> RecuperarTodasReglas(string pFiltro)
+        {
+            List<cRegla> lista = new List<cRegla>();
+            DataSet dsResultado = capaSeguridad_base.GestiónRegla(null, null, null, null, null, null, null, pFiltro, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Regla"].Rows)
+                {
+                    cRegla obj = new cRegla();
+                    if (item["rgl_codRegla"] != DBNull.Value)
+                    {
+                        obj.rgl_codRegla = Convert.ToInt32(item["rgl_codRegla"]);
+                    }
+                    if (item["rgl_Descripcion"] != DBNull.Value)
+                    {
+                        obj.rgl_Descripcion = item["rgl_Descripcion"].ToString();
+                    }
+                    if (item["rgl_PalabraClave"] != DBNull.Value)
+                    {
+                        obj.rgl_PalabraClave = item["rgl_PalabraClave"].ToString();
+                    }
+                    if (item["rgl_IsAgregarSoporta"] != DBNull.Value)
+                    {
+                        obj.rgl_IsAgregarSoporta = Convert.ToBoolean(item["rgl_IsAgregarSoporta"]);
+                    }
+                    if (item["rgl_IsEditarSoporta"] != DBNull.Value)
+                    {
+                        obj.rgl_IsEditarSoporta = Convert.ToBoolean(item["rgl_IsEditarSoporta"]);
+                    }
+                    if (item["rgl_IsEliminarSoporta"] != DBNull.Value)
+                    {
+                        obj.rgl_IsEliminarSoporta = Convert.ToBoolean(item["rgl_IsEliminarSoporta"]);
+                    }
+                    if (item["rgl_codReglaPadre"] != DBNull.Value)
+                    {
+                        obj.rgl_codReglaPadre = Convert.ToInt32(item["rgl_codReglaPadre"]);
+                    }
+                    lista.Add(obj);
+                }
+            }
+            return lista;
+        }
+        public static cRegla RecuperarReglaPorId(int pIdRegla)
+        {
+            cRegla obj = null;
+            DataSet dsResultado = capaSeguridad_base.GestiónRegla(pIdRegla, null, null, null, null, null, null, null, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Regla"].Rows)
+                {
+                    obj = new cRegla();
+                    if (item["rgl_codRegla"] != DBNull.Value)
+                    {
+                        obj.rgl_codRegla = Convert.ToInt32(item["rgl_codRegla"]);
+                    }
+                    if (item["rgl_Descripcion"] != DBNull.Value)
+                    {
+                        obj.rgl_Descripcion = item["rgl_Descripcion"].ToString();
+                    }
+                    if (item["rgl_PalabraClave"] != DBNull.Value)
+                    {
+                        obj.rgl_PalabraClave = item["rgl_PalabraClave"].ToString();
+                    }
+                    if (item["rgl_IsAgregarSoporta"] != DBNull.Value)
+                    {
+                        obj.rgl_IsAgregarSoporta = Convert.ToBoolean(item["rgl_IsAgregarSoporta"]);
+                    }
+                    if (item["rgl_IsEditarSoporta"] != DBNull.Value)
+                    {
+                        obj.rgl_IsEditarSoporta = Convert.ToBoolean(item["rgl_IsEditarSoporta"]);
+                    }
+                    if (item["rgl_IsEliminarSoporta"] != DBNull.Value)
+                    {
+                        obj.rgl_IsEliminarSoporta = Convert.ToBoolean(item["rgl_IsEliminarSoporta"]);
+                    }
+                    if (item["rgl_codReglaPadre"] != DBNull.Value)
+                    {
+                        obj.rgl_codReglaPadre = Convert.ToInt32(item["rgl_codReglaPadre"]);
+                    }
+                    break;
+                }
+            }
+            return obj;
+        }
+        public static List<cCombo> RecuperarTodasReglas_Combo()
+        {
+            List<cCombo> lista = new List<cCombo>();
+            DataSet dsResultado = capaSeguridad_base.GestiónRegla(null, null, null, null, null, null, null, null, Constantes.cSQL_COMBO);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Regla"].Rows)
+                {
+                    cCombo obj = new cCombo();
+                    if (item["rgl_codRegla"] != DBNull.Value)
+                    {
+                        obj.id = Convert.ToInt32(item["rgl_codRegla"]);
+                    }
+                    if (item["rgl_Descripcion"] != DBNull.Value)
+                    {
+                        obj.nombre = item["rgl_Descripcion"].ToString();
+                    }
+                    lista.Add(obj);
+                }
+            }
+            return lista;
+        }
+        public static void InsertarActualizarRelacionRolRegla(int pIdRol, string pXML)
+        {
+            DataSet dsResultado = capaSeguridad_base.GestiónRoleRegla(pIdRol, null, pXML, Constantes.cSQL_UPDATE);
+        }
+
+        public static List<ReglaPorRol> RecuperarRelacionRolReglasPorRol(int pIdRol)
+        {
+            List<ReglaPorRol> listaResultado = new List<ReglaPorRol>();
+            DataSet dsResultado = capaSeguridad_base.GestiónRoleRegla(pIdRol, null, null, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["RelacionRoleRegla"].Rows)
+                {
+                    ReglaPorRol obj = new ReglaPorRol();
+                    obj.idRegla = Convert.ToInt32(item["rrr_codRegla"]);
+                    obj.idRelacionReglaRol = Convert.ToInt32(item["rrr_codRelacionRolRegla"]);
+                    obj.isActivo = Convert.ToBoolean(item["rrr_IsActivo"]);
+                    if (item["rrr_IsAgregar"] is DBNull)
+                    {
+                        obj.isAgregar = null;
+                    }
+                    else
+                    {
+                        obj.isAgregar = Convert.ToBoolean(item["rrr_IsAgregar"]);
+                    }
+                    if (item["rrr_IsEditar"] is DBNull)
+                    {
+                        obj.isEditar = null;
+                    }
+                    else
+                    {
+                        obj.isEditar = Convert.ToBoolean(item["rrr_IsEditar"]);
+                    }
+                    if (item["rrr_IsEliminar"] is DBNull)
+                    {
+                        obj.isEliminar = null;
+                    }
+                    else
+                    {
+                        obj.isEliminar = Convert.ToBoolean(item["rrr_IsEliminar"]);
+                    }
+                    listaResultado.Add(obj);
+                }
+            }
+            return listaResultado;
+        }
     }
 }

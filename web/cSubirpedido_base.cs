@@ -77,103 +77,110 @@ namespace DKbase.web
         private static cSubirPedido_return LeerArchivoPedido_Generica(Usuario oUsuario, cClientes oCliente, string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
         {
             cSubirPedido_return resultado = null;
-            if (!string.IsNullOrWhiteSpace(pNombreArchivo))
+            try
             {
-                string rutaTemporal = Path.Combine(Helper.getFolder, "archivos", "ArchivosPedidos");
-                string rutaTemporalAndNombreArchivo = Path.Combine(rutaTemporal, pNombreArchivo);
-                if (System.IO.File.Exists(rutaTemporalAndNombreArchivo))
+                if (!string.IsNullOrWhiteSpace(pNombreArchivo))
                 {
-                    //resultado = true;
-                    string sLine = string.Empty;
-                    StreamReader objReader = new StreamReader(rutaTemporalAndNombreArchivo);
-                    string ext = Path.GetExtension(rutaTemporalAndNombreArchivo);
-                    if (ext == null)
-                        ext = string.Empty;
-                    ext = ext.Replace(".", "").ToUpper();
-                    bool isArchivoErroneo = false;
-                    string TipoArchivo = string.Empty;
-                    if (pNombreArchivo.Length > 0)
+                    string rutaTemporal = Path.Combine(Helper.getFolder, "archivos", "ArchivosPedidos");
+                    string rutaTemporalAndNombreArchivo = Path.Combine(rutaTemporal, pNombreArchivo);
+                    if (System.IO.File.Exists(rutaTemporalAndNombreArchivo))
                     {
-                        TipoArchivo = pNombreArchivo[0].ToString();
-                    }
-                    if (ext == "TXT" || ext == "ASC")
-                    {
-                        TipoArchivo = "S";
-                    }
-                    DataTable tablaArchivoPedidos = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
-                    if (ext == "XLSX" || ext == "XLS")
-                    {
-                        tablaArchivoPedidos = LeerArchivoPedido_Excel(pNombreArchivo, pSucursal, pNombreArchivoOriginal, pIsNombreRepetido);
-
-                        TipoArchivo = "E";
-                    }
-                    else
-                    {
-                        while (sLine != null)
+                        //resultado = true;
+                        string sLine = string.Empty;
+                        StreamReader objReader = new StreamReader(rutaTemporalAndNombreArchivo);
+                        string ext = Path.GetExtension(rutaTemporalAndNombreArchivo);
+                        if (ext == null)
+                            ext = string.Empty;
+                        ext = ext.Replace(".", "").ToUpper();
+                        bool isArchivoErroneo = false;
+                        string TipoArchivo = string.Empty;
+                        if (pNombreArchivo.Length > 0)
                         {
-                            sLine = objReader.ReadLine();
-                            if (!string.IsNullOrEmpty(sLine))
+                            TipoArchivo = pNombreArchivo[0].ToString();
+                        }
+                        if (ext == "TXT" || ext == "ASC")
+                        {
+                            TipoArchivo = "S";
+                        }
+                        DataTable tablaArchivoPedidos = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
+                        if (ext == "XLSX" || ext == "XLS")
+                        {
+                            tablaArchivoPedidos = LeerArchivoPedido_Excel(pNombreArchivo, pSucursal, pNombreArchivoOriginal, pIsNombreRepetido);
+
+                            TipoArchivo = "E";
+                        }
+                        else
+                        {
+                            while (sLine != null)
                             {
-                                if (ext == "TXT")
+                                sLine = objReader.ReadLine();
+                                if (!string.IsNullOrEmpty(sLine))
                                 {
-                                    DataRow r = LeerRenglonArchivoTXT(tablaArchivoPedidos, sLine);
-                                    if (r != null)
-                                        tablaArchivoPedidos.Rows.Add(r);
-                                }
-                                else if (ext == "ASC")
-                                {
-                                    DataRow r = LeerRenglonArchivoASC(tablaArchivoPedidos, sLine);
-                                    if (r != null)
-                                        tablaArchivoPedidos.Rows.Add(r);
-                                }
-                                else
-                                {
-                                    // Leer Archivo
-                                    switch (TipoArchivo)
+                                    if (ext == "TXT")
                                     {
-                                        case "S":
-                                            if (sLine.Length >= longFilaArchivoS) //22
-                                            {
-                                                DataRow r = LeerRenglonArchivoS(tablaArchivoPedidos, sLine);
-                                                if (r != null)
-                                                    tablaArchivoPedidos.Rows.Add(r);
-                                            }
-                                            break;
-                                        case "F":
-                                            if (sLine.Length >= longFilaArchivoF)//24
-                                            {
-                                                DataRow r = LeerRenglonArchivoF(tablaArchivoPedidos, sLine);
-                                                if (r != null)
-                                                    tablaArchivoPedidos.Rows.Add(r);
-                                            }
-                                            break;
-                                        default:
-                                            isArchivoErroneo = true;
-                                            break;
+                                        DataRow r = LeerRenglonArchivoTXT(tablaArchivoPedidos, sLine);
+                                        if (r != null)
+                                            tablaArchivoPedidos.Rows.Add(r);
+                                    }
+                                    else if (ext == "ASC")
+                                    {
+                                        DataRow r = LeerRenglonArchivoASC(tablaArchivoPedidos, sLine);
+                                        if (r != null)
+                                            tablaArchivoPedidos.Rows.Add(r);
+                                    }
+                                    else
+                                    {
+                                        // Leer Archivo
+                                        switch (TipoArchivo)
+                                        {
+                                            case "S":
+                                                if (sLine.Length >= longFilaArchivoS) //22
+                                                {
+                                                    DataRow r = LeerRenglonArchivoS(tablaArchivoPedidos, sLine);
+                                                    if (r != null)
+                                                        tablaArchivoPedidos.Rows.Add(r);
+                                                }
+                                                break;
+                                            case "F":
+                                                if (sLine.Length >= longFilaArchivoF)//24
+                                                {
+                                                    DataRow r = LeerRenglonArchivoF(tablaArchivoPedidos, sLine);
+                                                    if (r != null)
+                                                        tablaArchivoPedidos.Rows.Add(r);
+                                                }
+                                                break;
+                                            default:
+                                                isArchivoErroneo = true;
+                                                break;
+                                        }
                                     }
                                 }
-                            }
-                            if (isArchivoErroneo)
-                            {
-                                resultado = null;
-                                break;
+                                if (isArchivoErroneo)
+                                {
+                                    resultado = null;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    objReader.Close();
-                    if (!isArchivoErroneo)
-                    {
-                        string sucElegida = pSucursal;
-                        cSubirPedido_return o = new cSubirPedido_return();
-                        o.SucursalEleginda = sucElegida;
-                        o.ListaProductos = DKbase.web.capaDatos.capaCAR_WebService_base.AgregarProductoAlCarritoDesdeArchivoPedidosV5(oCliente, sucElegida, oCliente.cli_codsuc, tablaArchivoPedidos, TipoArchivo, oCliente.cli_codigo, oCliente.cli_codprov, oCliente.cli_isGLN, oUsuario.id);
-                        o.nombreArchivoCompleto = pNombreArchivo;
-                        o.nombreArchivoCompletoOriginal = pNombreArchivoOriginal;
-                        o.isCorrect = true;
-                        DKbase.Util.AgregarHistorialSubirArchivo(oCliente.cli_codigo, sucElegida, pNombreArchivo, pNombreArchivoOriginal, DateTime.Now);
-                        resultado = o;
+                        objReader.Close();
+                        if (!isArchivoErroneo)
+                        {
+                            string sucElegida = pSucursal;
+                            cSubirPedido_return o = new cSubirPedido_return();
+                            o.SucursalEleginda = sucElegida;
+                            o.ListaProductos = DKbase.web.capaDatos.capaCAR_WebService_base.AgregarProductoAlCarritoDesdeArchivoPedidosV5(oCliente, sucElegida, oCliente.cli_codsuc, tablaArchivoPedidos, TipoArchivo, oCliente.cli_codigo, oCliente.cli_codprov, oCliente.cli_isGLN, oUsuario.id);
+                            o.nombreArchivoCompleto = pNombreArchivo;
+                            o.nombreArchivoCompletoOriginal = pNombreArchivoOriginal;
+                            o.isCorrect = true;
+                            DKbase.Util.AgregarHistorialSubirArchivo(oCliente.cli_codigo, sucElegida, pNombreArchivo, pNombreArchivoOriginal, DateTime.Now);
+                            resultado = o;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
             }
             return resultado;
         }
@@ -351,13 +358,20 @@ namespace DKbase.web
         public static cSubirPedido_return CargarArchivoPedidoDeNuevo(Usuario oUsuario, cClientes oCliente, int has_id)
         {
             cSubirPedido_return result = null;
-            if (oUsuario != null && oCliente != null)
+            try
             {
-                capaDatos.cHistorialArchivoSubir objHistorialArchivoSubir = DKbase.Util.RecuperarHistorialSubirArchivoPorId(has_id);
-                if (objHistorialArchivoSubir != null)
+                if (oUsuario != null && oCliente != null)
+                {
+                    capaDatos.cHistorialArchivoSubir objHistorialArchivoSubir = DKbase.Util.RecuperarHistorialSubirArchivoPorId(has_id);
+                    if (objHistorialArchivoSubir != null)
 
-                    //Cambiar a LeerArchivoPedido y ver los parametros, para que dependa de la extension si llama a LeerArchivoPedido_Generica o a LeerArchivoPedido_Excel
-                    result = LeerArchivoPedido_Generica(oUsuario, oCliente, objHistorialArchivoSubir.has_NombreArchivo, objHistorialArchivoSubir.has_sucursal, objHistorialArchivoSubir.has_NombreArchivoOriginal, null);
+                        //Cambiar a LeerArchivoPedido y ver los parametros, para que dependa de la extension si llama a LeerArchivoPedido_Generica o a LeerArchivoPedido_Excel
+                        result = LeerArchivoPedido_Generica(oUsuario, oCliente, objHistorialArchivoSubir.has_NombreArchivo, objHistorialArchivoSubir.has_sucursal, objHistorialArchivoSubir.has_NombreArchivoOriginal, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
             }
             return result;
         }

@@ -85,7 +85,8 @@ namespace DKbase.web.capaDatos
         public bool pro_ProductoRequiereLote { get; set; }
         public bool pro_AltoCosto { get; set; }
         public string pro_UbicacionPrincipal { get; set; }
-    }
+        public bool pro_requierevale { get; set; }
+}
     public class cSucursalStocks
     {
         public string stk_codpro { get; set; }
@@ -227,6 +228,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -269,6 +271,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -295,6 +298,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -327,7 +331,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                //throw ex;
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -367,6 +371,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -406,6 +411,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -453,6 +459,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -482,6 +489,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally
@@ -511,6 +519,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally

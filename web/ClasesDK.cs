@@ -53,9 +53,12 @@ namespace DKbase.web
         public cjSonBuscadorProductos() { }
         public cjSonBuscadorProductos(cjSonBuscadorProductos pValue)
         {
-            listaSucursal = pValue.listaSucursal;
-            listaProductos = pValue.listaProductos;
-            CantidadRegistroTotal = pValue.CantidadRegistroTotal;
+            if (pValue != null)
+            {
+                listaSucursal = pValue.listaSucursal;
+                listaProductos = pValue.listaProductos;
+                CantidadRegistroTotal = pValue.CantidadRegistroTotal;
+            }
         }
         public List<string> listaSucursal { get; set; }
         public List<cProductosGenerico> listaProductos { get; set; }
@@ -126,12 +129,12 @@ namespace DKbase.web
         public string SucursalEleginda { get; set; }
         public List<cProductosGenerico> ListaProductos { get; set; }
         public string nombreArchivoCompleto { get; set; }
-        public string nombreArchivoCompletoOriginal{ get; set; }
+        public string nombreArchivoCompletoOriginal { get; set; }
         public bool isCorrect { get; set; }
     }
     public class cRangoFecha_Pedidos
     {
         public List<string> lista { get; set; }
-        public List<DKbase.dll.cDllPedido> resultadoObj  { get; set; }
+        public List<DKbase.dll.cDllPedido> resultadoObj { get; set; }
     }
 }

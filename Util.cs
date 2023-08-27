@@ -1055,9 +1055,9 @@ namespace DKbase
                             }
                             fila += CadenaFrio + Constantes.cSeparadorCSV;
                             string RequiereVale = string.Empty;
-                            if (item["RequiereVale"] != DBNull.Value)
+                            if (item["pro_requierevale"] != DBNull.Value)
                             {
-                                RequiereVale = item["RequiereVale"].ToString();
+                                RequiereVale = item["pro_requierevale"].ToString();
                             }
                             fila += RequiereVale + Constantes.cSeparadorCSV;
                             string Trazable = string.Empty;

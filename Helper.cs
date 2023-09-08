@@ -91,6 +91,11 @@ namespace DKbase
         {
             set; get;
         }
-        
+        private static bool _isSAP = false;
+        public static bool isSAP
+        {
+            set { _isSAP = value; }
+            get { return _isSAP; }
+        }
     }
 }

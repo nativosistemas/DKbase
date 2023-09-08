@@ -196,7 +196,7 @@ namespace DKbase.web
             {
                 obj.cli_email = pItem["cli_email"].ToString();
             }
-            if (pItem["cli_paginaweb"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_paginaweb") && pItem["cli_paginaweb"] != DBNull.Value)
             {
                 obj.cli_paginaweb = pItem["cli_paginaweb"].ToString();
             }
@@ -204,7 +204,7 @@ namespace DKbase.web
             {
                 obj.cli_codsuc = pItem["cli_codsuc"].ToString();
             }
-            if (pItem["cli_pordesespmed"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_pordesespmed") && pItem["cli_pordesespmed"] != DBNull.Value)
             {
                 obj.cli_pordesespmed = Convert.ToDecimal(pItem["cli_pordesespmed"]);
             }
@@ -216,35 +216,35 @@ namespace DKbase.web
             {
                 obj.cli_pordesnetos = Convert.ToDecimal(pItem["cli_pordesnetos"]);
             }
-            if (pItem["cli_pordesfinperfcyo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_pordesfinperfcyo") && pItem["cli_pordesfinperfcyo"] != DBNull.Value)
             {
                 obj.cli_pordesfinperfcyo = Convert.ToDecimal(pItem["cli_pordesfinperfcyo"]);
             }
-            if (pItem["cli_pordescomperfcyo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_pordescomperfcyo") && pItem["cli_pordescomperfcyo"] != DBNull.Value)
             {
                 obj.cli_pordescomperfcyo = Convert.ToDecimal(pItem["cli_pordescomperfcyo"]);
             }
-            if (pItem["cli_deswebespmed"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_deswebespmed") && pItem["cli_deswebespmed"] != DBNull.Value)
             {
                 obj.cli_deswebespmed = Convert.ToBoolean(pItem["cli_deswebespmed"]);
             }
-            if (pItem["cli_deswebnetmed"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_deswebnetmed") && pItem["cli_deswebnetmed"] != DBNull.Value)
             {
                 obj.cli_deswebnetmed = Convert.ToBoolean(pItem["cli_deswebnetmed"]);
             }
-            if (pItem["cli_deswebnetacc"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_deswebnetacc") && pItem["cli_deswebnetacc"] != DBNull.Value)
             {
                 obj.cli_deswebnetacc = Convert.ToBoolean(pItem["cli_deswebnetacc"]);
             }
-            if (pItem["cli_deswebnetperpropio"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_deswebnetperpropio") && pItem["cli_deswebnetperpropio"] != DBNull.Value)
             {
                 obj.cli_deswebnetperpropio = Convert.ToBoolean(pItem["cli_deswebnetperpropio"]);
             }
-            if (pItem["cli_deswebnetpercyo"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_deswebnetpercyo") && pItem["cli_deswebnetpercyo"] != DBNull.Value)
             {
                 obj.cli_deswebnetpercyo = Convert.ToBoolean(pItem["cli_deswebnetpercyo"]);
             }
-            if (pItem["cli_destransfer"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("cli_destransfer") && pItem["cli_destransfer"] != DBNull.Value)
             {
                 obj.cli_destransfer = Convert.ToDecimal(pItem["cli_destransfer"]);
             }
@@ -383,7 +383,7 @@ namespace DKbase.web
             {
                 obj.tde_muluni = Convert.ToInt32(pItem["tde_muluni"]);
             }
-            if (pItem["tde_predescuento"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("tde_predescuento") && pItem["tde_predescuento"] != DBNull.Value)
             {
                 obj.tde_predescuento = Convert.ToDecimal(pItem["tde_predescuento"]);
             }
@@ -511,11 +511,11 @@ namespace DKbase.web
                         {
                             obj.pro_preciofarmacia = Convert.ToDecimal(item["pro_preciofarmacia"]);
                         }
-                        if (item["pro_ofeunidades"] != DBNull.Value)
+                        if (item.Table.Columns.Contains("pro_ofeunidades") && item["pro_ofeunidades"] != DBNull.Value)
                         {
                             obj.pro_ofeunidades = Convert.ToInt32(item["pro_ofeunidades"]);
                         }
-                        if (item["pro_ofeporcentaje"] != DBNull.Value)
+                        if (item.Table.Columns.Contains("pro_ofeporcentaje") &&  item["pro_ofeporcentaje"] != DBNull.Value)
                         {
                             obj.pro_ofeporcentaje = Convert.ToDecimal(item["pro_ofeporcentaje"]);
                         }
@@ -527,7 +527,7 @@ namespace DKbase.web
                         {
                             obj.pro_codtpopro = item["pro_codtpopro"].ToString().ToUpper();
                         }
-                        if (item["pro_descuentoweb"] != DBNull.Value)
+                        if (item.Table.Columns.Contains("pro_descuentoweb") && item["pro_descuentoweb"] != DBNull.Value)
                         {
                             obj.pro_descuentoweb = Convert.ToDecimal(item["pro_descuentoweb"]);
                         }
@@ -583,12 +583,12 @@ namespace DKbase.web
                         {
                             obj.pro_ProductoRequiereLote = Convert.ToBoolean(item["pro_ProductoRequiereLote"]);
                         }
-                        if (item["pro_canmaxima"] != DBNull.Value)
+                        if (item.Table.Columns.Contains("pro_canmaxima") && item["pro_canmaxima"] != DBNull.Value)
                         {
                             obj.pro_canmaxima = Convert.ToInt32(item["pro_canmaxima"]);
                         }
                         // Default = false
-                        if (item["pro_entransfer"] != DBNull.Value)
+                        if (item.Table.Columns.Contains("pro_entransfer") && item["pro_entransfer"] != DBNull.Value)
                         {
                             obj.pro_entransfer = Convert.ToBoolean(item["pro_entransfer"]);
                         }
@@ -926,7 +926,7 @@ namespace DKbase.web
             {
                 obj.tfr_codigo = Convert.ToInt32(pItem["tfr_codigo"]);
             }
-            if (pItem["tfr_accion"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("tfr_accion") && pItem["tfr_accion"] != DBNull.Value)
             {
                 obj.tfr_accion = pItem["tfr_accion"].ToString();
             }
@@ -950,11 +950,11 @@ namespace DKbase.web
             {
                 obj.tfr_mospap = Convert.ToBoolean(pItem["tfr_mospap"]);
             }
-            if (pItem["tfr_fijunidades"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("tfr_fijunidades") && pItem["tfr_fijunidades"] != DBNull.Value)
             {
                 obj.tfr_fijunidades = Convert.ToInt32(pItem["tfr_fijunidades"]);
             }
-            if (pItem["tfr_maxunidades"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("tfr_maxunidades") && pItem["tfr_maxunidades"] != DBNull.Value)
             {
                 obj.tfr_maxunidades = Convert.ToInt32(pItem["tfr_maxunidades"]);
             }
@@ -962,7 +962,7 @@ namespace DKbase.web
             {
                 obj.tfr_mulunidades = Convert.ToInt32(pItem["tfr_mulunidades"]);
             }
-            if (pItem["tfr_minrenglones"] != DBNull.Value)
+            if (pItem.Table.Columns.Contains("tfr_minrenglones") && pItem["tfr_minrenglones"] != DBNull.Value)
             {
                 obj.tfr_minrenglones = Convert.ToInt32(pItem["tfr_minrenglones"]);
             }
@@ -978,19 +978,13 @@ namespace DKbase.web
             {
                 obj.tfr_pordesadi = 0;
             }
-            if (pItem.Table.Columns.Contains("tfr_facturaciondirecta"))
+            if (pItem.Table.Columns.Contains("tfr_facturaciondirecta") && pItem["tfr_facturaciondirecta"] != DBNull.Value)
             {
-                if (pItem["tfr_facturaciondirecta"] != DBNull.Value)
-                {
-                    obj.tfr_facturaciondirecta = Convert.ToBoolean(pItem["tfr_facturaciondirecta"]);
-                }
+                obj.tfr_facturaciondirecta = Convert.ToBoolean(pItem["tfr_facturaciondirecta"]);
             }
-            if (pItem.Table.Columns.Contains("tfr_provincia"))
+            if (pItem.Table.Columns.Contains("tfr_provincia") && pItem["tfr_provincia"] != DBNull.Value)
             {
-                if (pItem["tfr_provincia"] != DBNull.Value)
-                {
-                    obj.tfr_provincia = Convert.ToString(pItem["tfr_provincia"]);
-                }
+                obj.tfr_provincia = Convert.ToString(pItem["tfr_provincia"]);
             }
             return obj;
         }

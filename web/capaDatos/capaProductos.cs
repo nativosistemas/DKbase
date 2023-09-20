@@ -27,12 +27,12 @@ namespace DKbase.web.capaDatos
         public cProductos()
         {
         }
-        public cProductos(string pPro_codigo, string pPro_nombre)
+        public cProductos(int pPro_codigo, string pPro_nombre)
         {
             pro_codigo = pPro_codigo;
             pro_nombre = pPro_nombre;
         }
-        public string pro_codigo { get; set; }
+        public int pro_codigo { get; set; }
         public string pro_nombre { get; set; }
         //public string pro_codtpopro { get; set; }
         //public decimal pro_descuentoweb { get; set; }
@@ -136,7 +136,7 @@ namespace DKbase.web.capaDatos
         public int nroordenamiento { get; set; }
         public bool isProductoNoEncontrado { get; set; }
         public bool isProductoFacturacionDirecta { get; set; }
-        public string codProducto { get; set; }
+        public int codProducto { get; set; }
         public int idUsuario { get; set; }
         public string stk_stock { get; set; }
         //
@@ -153,7 +153,7 @@ namespace DKbase.web.capaDatos
             base.tde_maxuni = pValor.tde_maxuni;
             base.tde_minuni = pValor.tde_minuni;
             base.tde_muluni = pValor.tde_muluni;
-            base.tde_predescuento = pValor.tde_predescuento;
+            //base.tde_predescuento = pValor.tde_predescuento;
             base.tde_prepublico = pValor.tde_prepublico;
             base.tde_proobligatorio = pValor.tde_proobligatorio;
             base.tde_unidadesbonificadas = pValor.tde_unidadesbonificadas;

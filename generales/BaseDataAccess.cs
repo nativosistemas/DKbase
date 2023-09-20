@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DKbase.generales
 {
@@ -107,7 +108,33 @@ namespace DKbase.generales
 
             return returnValue;
         }
+        public async Task<int?> ExecuteNonQueryAsync(string procedureName, List<SqlParameter> parameters = null, CommandType commandType = CommandType.StoredProcedure)
+        {
 
+            try
+            {
+                using (SqlConnection connection = this.GetConnection())
+                {
+                    using (SqlCommand command = new SqlCommand(procedureName, connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        if (parameters != null && parameters.Count > 0)
+                        {
+                            command.Parameters.AddRange(parameters.ToArray());
+                        }
+
+                        //  await connection.OpenAsync();
+
+                        return await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+        }
         public object ExecuteScalar(string procedureName, List<SqlParameter> parameters = null)
         {
             object returnValue = null;

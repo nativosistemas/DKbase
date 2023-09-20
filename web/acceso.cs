@@ -357,7 +357,7 @@ namespace DKbase.web
             cTransferDetalle obj = new cTransferDetalle();
             if (pItem["tde_codpro"] != DBNull.Value)
             {
-                obj.tde_codpro = pItem["tde_codpro"].ToString();
+                obj.tde_codpro = Convert.ToInt32(pItem["tde_codpro"]);
             }
             if (pItem["tde_codtfr"] != DBNull.Value)
             {
@@ -383,10 +383,10 @@ namespace DKbase.web
             {
                 obj.tde_muluni = Convert.ToInt32(pItem["tde_muluni"]);
             }
-            if (pItem.Table.Columns.Contains("tde_predescuento") && pItem["tde_predescuento"] != DBNull.Value)
-            {
-                obj.tde_predescuento = Convert.ToDecimal(pItem["tde_predescuento"]);
-            }
+            //if (pItem.Table.Columns.Contains("tde_predescuento") && pItem["tde_predescuento"] != DBNull.Value)
+            //{
+            //    obj.tde_predescuento = Convert.ToDecimal(pItem["tde_predescuento"]);
+            //}
             if (pItem["tde_prepublico"] != DBNull.Value)
             {
                 obj.tde_prepublico = Convert.ToDecimal(pItem["tde_prepublico"]);
@@ -417,7 +417,7 @@ namespace DKbase.web
             {
                 if (pItem["pro_codigo"] != DBNull.Value)
                 {
-                    obj.pro_codigo = Convert.ToString(pItem["pro_codigo"]);
+                    obj.pro_codigo = Convert.ToInt32(pItem["pro_codigo"]);
                 }
             }
             if (pItem.Table.Columns.Contains("pro_descuentoweb"))
@@ -498,7 +498,7 @@ namespace DKbase.web
                     {
                         cProductosGenerico obj = new cProductosGenerico();
                         obj.listaSucursalStocks = tempListaSucursalStocks;
-                        obj.pro_codigo = item["pro_codigo"].ToString();
+                        obj.pro_codigo = Convert.ToInt32(item["pro_codigo"]);
                         if (item["pro_nombre"] != DBNull.Value)
                         {
                             obj.pro_nombre = item["pro_nombre"].ToString();
@@ -659,7 +659,7 @@ namespace DKbase.web
                         if ((listaTransferDetalle != null && obj.isMostrarTransfersEnClientesPerf && pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeBuscador) ||
                         (listaTransferDetalle != null && (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeBuscador_OfertaTransfer || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isSubirArchivo || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeTabla || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)))
                         {
-                            List<cTransferDetalle> listaAUXtransferDetalle = listaTransferDetalle.Where(x => x.tde_codpro == obj.pro_nombre).ToList();
+                            List<cTransferDetalle> listaAUXtransferDetalle = listaTransferDetalle.Where(x => x.tde_codpro == obj.pro_codigo).ToList();
                             if (listaAUXtransferDetalle.Count > 0)
                             {
                                 int indexTransfer = 0;
@@ -678,7 +678,7 @@ namespace DKbase.web
                                 obj.CargarTransferYTransferDetalle(listaAUXtransferDetalle[indexTransfer]);
                                 if (pCliente != null)
                                 {
-                                    obj.PrecioFinalTransfer = FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, obj.tfr_deshab, obj.tfr_pordesadi, obj.pro_neto, obj.pro_codtpopro, obj.pro_descuentoweb, obj.tde_predescuento == null ? 0 : (decimal)obj.tde_predescuento, obj.tde_PrecioConDescuentoDirecto, obj.tde_PorcARestarDelDtoDeCliente);
+                                    obj.PrecioFinalTransfer = FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, obj.tfr_deshab, obj.tfr_pordesadi, obj.pro_neto, obj.pro_codtpopro, obj.pro_descuentoweb, obj.tde_PrecioConDescuentoDirecto, obj.tde_PorcARestarDelDtoDeCliente);
                                 }
                             }
                         }
@@ -839,7 +839,7 @@ namespace DKbase.web
             cProductos obj = new cProductos();
             if (pItem.Table.Columns.Contains("pro_codigo") && pItem["pro_codigo"] != DBNull.Value)
             {
-                obj.pro_codigo = pItem["pro_codigo"].ToString();
+                obj.pro_codigo = Convert.ToInt32(pItem["pro_codigo"]);
             }
             if (pItem.Table.Columns.Contains("pro_nombre") && pItem["pro_nombre"] != DBNull.Value)
             {
@@ -994,7 +994,7 @@ namespace DKbase.web
             {
                 List<cSucursalCarritoTransfer> resultado = new List<cSucursalCarritoTransfer>();
                 List<cCarritoTransfer> listaSucursal = (from item in dsProductoCarrito.Tables[1].AsEnumerable()
-                                                        select new cCarritoTransfer { car_id_aux = item.Table.Columns.Contains("car_id") ? item.Field<int>("car_id") : -1, ctr_id = item.Field<int>("ctr_id"), ctr_codSucursal = item.Field<string>("ctr_codSucursal"), tfr_codigo = item.Field<int>("tfr_codigo"), tfr_nombre = item.Field<string>("tfr_nombre"), tfr_deshab = item.Field<Boolean>("tfr_deshab"), tfr_pordesadi = item.IsNull("tfr_pordesadi") ? null : (decimal?)item.Field<decimal>("tfr_pordesadi"), tfr_tipo = item.Field<string>("tfr_tipo") }).OrderBy(x => x.ctr_codSucursal).ToList();
+                                                        select new cCarritoTransfer { car_id_aux = item.Table.Columns.Contains("car_id") ? item.Field<int>("car_id") : -1, ctr_id = item.Field<int>("ctr_id"), ctr_codSucursal = item.Field<string>("ctr_codSucursal"), tfr_codigo = item.Field<Int64>("tfr_codigo"), tfr_nombre = item.Field<string>("tfr_nombre"), tfr_deshab = item.Field<Boolean>("tfr_deshab"), tfr_pordesadi = item.IsNull("tfr_pordesadi") ? null : (decimal?)item.Field<decimal>("tfr_pordesadi"), tfr_tipo = item.Field<string>("tfr_tipo") }).OrderBy(x => x.ctr_codSucursal).ToList();
 
                 /// Nuevo
                 List<cTransferDetalle> listaTransferDetalle = null;
@@ -1016,13 +1016,14 @@ namespace DKbase.web
                 foreach (cCarritoTransfer item in listaSucursal)
                 {
                     List<cProductosGenerico> listaProductoCarrtios = (from itemProductoCarrtios in dsProductoCarrito.Tables[0].AsEnumerable()
-                                                                      where itemProductoCarrtios.Field<int>("ctd_idCarritoTransfers") == item.ctr_id
+                                                                      where itemProductoCarrtios.Field<Int64>("ctd_idCarritoTransfers") == item.tfr_codigo && itemProductoCarrtios.Field<string>("car_codSucursal") == item.ctr_codSucursal// && itemProductoCarrtios.Field<string>("car_tipo") == item.
                                                                       select new cProductosGenerico
                                                                       {
-                                                                          codProducto = itemProductoCarrtios.Field<string>("ctd_codProducto"),
+                                                                          codProducto = Convert.ToInt32( itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
                                                                           cantidad = itemProductoCarrtios.Field<int>("ctd_Cantidad"),
                                                                           pro_nombre = itemProductoCarrtios.Field<string>("pro_nombre"),
-                                                                          tde_codpro = itemProductoCarrtios.Field<string>("pro_nombre"),
+                                                                          tde_codpro = Convert.ToInt32(itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
+                                                                          pro_codigo = Convert.ToInt32(itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
                                                                           pro_precio = itemProductoCarrtios.Field<decimal>("pro_precio"),
                                                                           pro_preciofarmacia = itemProductoCarrtios.Field<decimal>("pro_preciofarmacia"),
                                                                           pro_neto = itemProductoCarrtios.Field<bool>("pro_neto"),
@@ -1031,9 +1032,9 @@ namespace DKbase.web
                                                                           pro_ofeunidades = itemProductoCarrtios.IsNull("pro_ofeunidades") ? 0 : itemProductoCarrtios.Field<int>("pro_ofeunidades"),
                                                                           pro_ofeporcentaje = itemProductoCarrtios.IsNull("pro_ofeporcentaje") ? 0 : itemProductoCarrtios.Field<decimal>("pro_ofeporcentaje"),
                                                                           tde_prepublico = itemProductoCarrtios.IsNull("tde_prepublico") ? 0 : itemProductoCarrtios.Field<decimal>("tde_prepublico"),
-                                                                          tde_predescuento = itemProductoCarrtios.IsNull("tde_predescuento") ? 0 : itemProductoCarrtios.Field<decimal>("tde_predescuento"),
+                                                                         // tde_predescuento = itemProductoCarrtios.IsNull("tde_predescuento") ? 0 : itemProductoCarrtios.Field<decimal>("tde_predescuento"),
                                                                           stk_stock = itemProductoCarrtios.Table.Columns.Contains("stk_stock") && !itemProductoCarrtios.IsNull("stk_stock") ? itemProductoCarrtios.Field<string>("stk_stock") : null,
-                                                                          PrecioFinalTransfer = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, item.tfr_deshab, item.tfr_pordesadi, itemProductoCarrtios.Field<bool>("pro_neto"), itemProductoCarrtios.Field<string>("pro_codtpopro"), itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"), itemProductoCarrtios.Field<decimal>("tde_predescuento"), itemProductoCarrtios.IsNull("tde_PrecioConDescuentoDirecto") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PrecioConDescuentoDirecto"), itemProductoCarrtios.IsNull("tde_PorcARestarDelDtoDeCliente") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PorcARestarDelDtoDeCliente"))
+                                                                          PrecioFinalTransfer = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, item.tfr_deshab, item.tfr_pordesadi, itemProductoCarrtios.Field<bool>("pro_neto"), itemProductoCarrtios.Field<string>("pro_codtpopro"), itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"), itemProductoCarrtios.IsNull("tde_PrecioConDescuentoDirecto") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PrecioConDescuentoDirecto"), itemProductoCarrtios.IsNull("tde_PorcARestarDelDtoDeCliente") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PorcARestarDelDtoDeCliente"))
                                                                       }).ToList();
 
                     for (int iProductoCarrtios = 0; iProductoCarrtios < listaProductoCarrtios.Count; iProductoCarrtios++)
@@ -1041,7 +1042,7 @@ namespace DKbase.web
                         listaProductoCarrtios[iProductoCarrtios].isProductoFacturacionDirecta = false;
                         if (listaTransferDetalle != null)
                         {
-                            List<cTransferDetalle> listaAUXtransferDetalle = listaTransferDetalle.Where(x => x.tde_codpro == listaProductoCarrtios[iProductoCarrtios].pro_nombre && x.tfr_codigo == item.tfr_codigo).ToList();
+                            List<cTransferDetalle> listaAUXtransferDetalle = listaTransferDetalle.Where(x => x.tde_codpro == listaProductoCarrtios[iProductoCarrtios].pro_codigo && x.tfr_codigo == item.tfr_codigo).ToList();
                             if (listaAUXtransferDetalle.Count > 0)
                             {
                                 listaProductoCarrtios[iProductoCarrtios].isProductoFacturacionDirecta = true;
@@ -1126,7 +1127,7 @@ namespace DKbase.web
             cProductos obj = new cProductos();
             if (pItem.Table.Columns.Contains("pro_codigo") && pItem["pro_codigo"] != DBNull.Value)
             {
-                obj.pro_codigo = Convert.ToString(pItem["pro_codigo"]);
+                obj.pro_codigo = Convert.ToInt32(pItem["pro_codigo"]);
             }
             if (pItem.Table.Columns.Contains("pro_nombre"))
             {

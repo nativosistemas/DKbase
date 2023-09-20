@@ -12,10 +12,10 @@ namespace DKbase.web
 {
     public class FuncionesPersonalizadas_base
     {
-        public static decimal ObtenerPrecioFinalTransferBase(cClientes pClientes, bool pTfr_deshab, decimal? pTfr_pordesadi, bool pPro_neto, string pPro_codtpopro, decimal pPro_descuentoweb, decimal pTde_predescuento, decimal pTde_PrecioConDescuentoDirecto, decimal pTde_PorcARestarDelDtoDeCliente)
+        public static decimal ObtenerPrecioFinalTransferBase(cClientes pClientes, bool pTfr_deshab, decimal? pTfr_pordesadi, bool pPro_neto, string pPro_codtpopro, decimal pPro_descuentoweb,  decimal pTde_PrecioConDescuentoDirecto, decimal pTde_PorcARestarDelDtoDeCliente)
         {
             decimal resultado = new decimal(0.0);
-            resultado = pTde_predescuento;
+            resultado = pTde_PrecioConDescuentoDirecto;
             if (pTfr_deshab)
             {
                 if (pPro_neto)
@@ -112,6 +112,32 @@ namespace DKbase.web
                 DataRow fila = pTablaDetalle.NewRow();
                 fila["codProducto"] = item.codProductoNombre;
                 fila["cantidad"] = item.cantidad;
+                pTablaDetalle.Rows.Add(fila);
+            }
+            return pTablaDetalle;
+        }
+        public static DataTable ConvertProductosAndCantidadToDataTable_new(List<cProductosAndCantidad> pListaProductosMasCantidad)
+        {
+            
+            DataTable pTablaDetalle = new DataTable();
+            pTablaDetalle.Columns.Add(new DataColumn("codProducto", System.Type.GetType("System.Decimal")));
+            pTablaDetalle.Columns.Add(new DataColumn("cantidad", System.Type.GetType("System.Int32")));
+            pTablaDetalle.Columns.Add(new DataColumn("idTransfer", System.Type.GetType("System.Int64")));
+            foreach (cProductosAndCantidad item in pListaProductosMasCantidad)
+            {
+                DataRow fila = pTablaDetalle.NewRow();
+                fila["codProducto"] = item.codProducto;
+                if (item.tde_codtfr == 0)
+                {
+                    fila["idTransfer"] = DBNull.Value;
+                }
+                else
+                {
+                    fila["idTransfer"] = item.tde_codtfr;// ;
+                }
+                fila["cantidad"] = item.cantidad;
+
+
                 pTablaDetalle.Rows.Add(fila);
             }
             return pTablaDetalle;
@@ -697,7 +723,7 @@ namespace DKbase.web
                 List<cProductosAndCantidad> listaProductos = new List<cProductosAndCantidad>();
                 foreach (cProductosGenerico item in pListaProductos)
                 {
-                    listaProductos.Add(new cProductosAndCantidad { codProductoNombre = item.pro_codigo });
+                    listaProductos.Add(new cProductosAndCantidad { codProductoNombre = item.pro_codigo.ToString() });
                 }
                 DataTable table = capaProductos_base.RecuperarStockPorProductosAndSucursal(ConvertNombresSeccionToDataTable(pListaSucursal), DKbase.web.FuncionesPersonalizadas_base.ConvertProductosAndCantidadToDataTable(listaProductos));
                 if (table != null)

@@ -295,7 +295,7 @@ namespace DKbase.dll
     public class cDllProductosAndCantidad
     {
         public string codProductoNombre { get; set; }
-        public int IdTransfer { get; set; }
+        public Int64 IdTransfer { get; set; }
         public int cantidad { get; set; }
         public bool isOferta { get; set; }
     }

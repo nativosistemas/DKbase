@@ -36,11 +36,11 @@ namespace DKbase.web.capaDatos
         {
             listaSucursalStocks = new List<cSucursalStocks>();
         }
-        public int tde_codtfr { get; set; }
-        public string tde_codpro { get; set; }
+        public Int64 tde_codtfr { get; set; }
+        public int tde_codpro { get; set; }
         public string tde_descripcion { get; set; }
         public decimal? tde_prepublico { get; set; }
-        public decimal? tde_predescuento { get; set; }
+     //   public decimal? tde_predescuento { get; set; }
         public int? tde_minuni { get; set; }
         public int? tde_maxuni { get; set; }
         public int? tde_muluni { get; set; }
@@ -57,7 +57,7 @@ namespace DKbase.web.capaDatos
         public bool isTablaTransfersClientes { get { return _isTablaTransfersClientes; } set { _isTablaTransfersClientes = value; } }
         public List<cSucursalStocks> listaSucursalStocks { get; set; }
 
-        public int tfr_codigo { get; set; }
+        public Int64 tfr_codigo { get; set; }
         public string tfr_accion { get; set; }
         public string tfr_nombre { get; set; }
         public bool tfr_deshab { get; set; }

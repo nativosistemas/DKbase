@@ -420,13 +420,13 @@ namespace DKbase.web
                     obj.pro_codigo = Convert.ToInt32(pItem["pro_codigo"]);
                 }
             }
-            if (pItem.Table.Columns.Contains("pro_descuentoweb"))
-            {
-                if (pItem["pro_descuentoweb"] != DBNull.Value)
-                {
-                    obj.pro_descuentoweb = Convert.ToDecimal(pItem["pro_descuentoweb"]);
-                }
-            }
+            ////if (pItem.Table.Columns.Contains("pro_descuentoweb"))
+            ////{
+            ////    if (pItem["pro_descuentoweb"] != DBNull.Value)
+            ////    {
+            ////        obj.pro_descuentoweb = Convert.ToDecimal(pItem["pro_descuentoweb"]);
+            ////    }
+            ////}
             if (pItem.Table.Columns.Contains("pro_isTrazable"))
             {
                 if (pItem["pro_isTrazable"] != DBNull.Value)
@@ -511,14 +511,14 @@ namespace DKbase.web
                         {
                             obj.pro_preciofarmacia = Convert.ToDecimal(item["pro_preciofarmacia"]);
                         }
-                        if (item.Table.Columns.Contains("pro_ofeunidades") && item["pro_ofeunidades"] != DBNull.Value)
-                        {
-                            obj.pro_ofeunidades = Convert.ToInt32(item["pro_ofeunidades"]);
-                        }
-                        if (item.Table.Columns.Contains("pro_ofeporcentaje") &&  item["pro_ofeporcentaje"] != DBNull.Value)
-                        {
-                            obj.pro_ofeporcentaje = Convert.ToDecimal(item["pro_ofeporcentaje"]);
-                        }
+                        //if (item.Table.Columns.Contains("pro_ofeunidades") && item["pro_ofeunidades"] != DBNull.Value)
+                        //{
+                        //    obj.pro_ofeunidades = Convert.ToInt32(item["pro_ofeunidades"]);
+                        //}
+                        //if (item.Table.Columns.Contains("pro_ofeporcentaje") &&  item["pro_ofeporcentaje"] != DBNull.Value)
+                        //{
+                        //    obj.pro_ofeporcentaje = Convert.ToDecimal(item["pro_ofeporcentaje"]);
+                        //}
                         if (item["pro_neto"] != DBNull.Value)
                         {
                             obj.pro_neto = Convert.ToBoolean(item["pro_neto"]);
@@ -527,10 +527,10 @@ namespace DKbase.web
                         {
                             obj.pro_codtpopro = item["pro_codtpopro"].ToString().ToUpper();
                         }
-                        if (item.Table.Columns.Contains("pro_descuentoweb") && item["pro_descuentoweb"] != DBNull.Value)
-                        {
-                            obj.pro_descuentoweb = Convert.ToDecimal(item["pro_descuentoweb"]);
-                        }
+                        //if (item.Table.Columns.Contains("pro_descuentoweb") && item["pro_descuentoweb"] != DBNull.Value)
+                        //{
+                        //    obj.pro_descuentoweb = Convert.ToDecimal(item["pro_descuentoweb"]);
+                        //}
                         if (item["pro_laboratorio"] != DBNull.Value)
                         {
                             obj.pro_laboratorio = item["pro_laboratorio"].ToString();
@@ -587,11 +587,11 @@ namespace DKbase.web
                         {
                             obj.pro_canmaxima = Convert.ToInt32(item["pro_canmaxima"]);
                         }
-                        // Default = false
-                        if (item.Table.Columns.Contains("pro_entransfer") && item["pro_entransfer"] != DBNull.Value)
-                        {
-                            obj.pro_entransfer = Convert.ToBoolean(item["pro_entransfer"]);
-                        }
+                        //// Default = false
+                        //if (item.Table.Columns.Contains("pro_entransfer") && item["pro_entransfer"] != DBNull.Value)
+                        //{
+                        //    obj.pro_entransfer = Convert.ToBoolean(item["pro_entransfer"]);
+                        //}
                         if (item["pro_vtasolotransfer"] != DBNull.Value)
                         {
                             obj.pro_vtasolotransfer = Convert.ToBoolean(item["pro_vtasolotransfer"]);
@@ -650,12 +650,12 @@ namespace DKbase.web
                             obj.pro_UbicacionPrincipal = Convert.ToString(item["pro_UbicacionPrincipal"]);
                         }
                         obj.isProductoFacturacionDirecta = false;
-                        if (item.Table.Columns.Contains("pro_NoTransfersEnClientesPerf") && item["pro_NoTransfersEnClientesPerf"] != DBNull.Value)
-                        {
-                            obj.pro_NoTransfersEnClientesPerf = Convert.ToBoolean(item["pro_NoTransfersEnClientesPerf"]);
-                            if (pCliente != null && pCliente.cli_tipo == "P" && obj.pro_NoTransfersEnClientesPerf)
-                                obj.isMostrarTransfersEnClientesPerf = false;
-                        }
+                        //if (item.Table.Columns.Contains("pro_NoTransfersEnClientesPerf") && item["pro_NoTransfersEnClientesPerf"] != DBNull.Value)
+                        //{
+                        //    obj.pro_NoTransfersEnClientesPerf = Convert.ToBoolean(item["pro_NoTransfersEnClientesPerf"]);
+                        //    if (pCliente != null && pCliente.cli_tipo == "P" && obj.pro_NoTransfersEnClientesPerf)
+                        //        obj.isMostrarTransfersEnClientesPerf = false;
+                        //}
                         if ((listaTransferDetalle != null && obj.isMostrarTransfersEnClientesPerf && pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeBuscador) ||
                         (listaTransferDetalle != null && (pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeBuscador_OfertaTransfer || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isSubirArchivo || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isDesdeTabla || pCargarProductosBuscador == Constantes.CargarProductosBuscador.isRecuperadorFaltaCredito)))
                         {
@@ -853,14 +853,14 @@ namespace DKbase.web
             {
                 obj.pro_preciofarmacia = Convert.ToDecimal(pItem["pro_preciofarmacia"]);
             }
-            if (pItem.Table.Columns.Contains("pro_ofeunidades") && pItem["pro_ofeunidades"] != DBNull.Value)
-            {
-                obj.pro_ofeunidades = Convert.ToInt32(pItem["pro_ofeunidades"]);
-            }
-            if (pItem.Table.Columns.Contains("pro_ofeporcentaje") && pItem["pro_ofeporcentaje"] != DBNull.Value)
-            {
-                obj.pro_ofeporcentaje = Convert.ToDecimal(pItem["pro_ofeporcentaje"]);
-            }
+            //if (pItem.Table.Columns.Contains("pro_ofeunidades") && pItem["pro_ofeunidades"] != DBNull.Value)
+            //{
+            //    obj.pro_ofeunidades = Convert.ToInt32(pItem["pro_ofeunidades"]);
+            //}
+            //if (pItem.Table.Columns.Contains("pro_ofeporcentaje") && pItem["pro_ofeporcentaje"] != DBNull.Value)
+            //{
+            //    obj.pro_ofeporcentaje = Convert.ToDecimal(pItem["pro_ofeporcentaje"]);
+            //}
             if (pItem.Table.Columns.Contains("pro_neto") && pItem["pro_neto"] != DBNull.Value)
             {
                 obj.pro_neto = Convert.ToBoolean(pItem["pro_neto"]);
@@ -869,10 +869,10 @@ namespace DKbase.web
             {
                 obj.pro_codtpopro = pItem["pro_codtpopro"].ToString().ToUpper();
             }
-            if (pItem.Table.Columns.Contains("pro_descuentoweb") && pItem["pro_descuentoweb"] != DBNull.Value)
-            {
-                obj.pro_descuentoweb = Convert.ToDecimal(pItem["pro_descuentoweb"]);
-            }
+            //if (pItem.Table.Columns.Contains("pro_descuentoweb") && pItem["pro_descuentoweb"] != DBNull.Value)
+            //{
+            //    obj.pro_descuentoweb = Convert.ToDecimal(pItem["pro_descuentoweb"]);
+            //}
             if (pItem.Table.Columns.Contains("pro_laboratorio") && pItem["pro_laboratorio"] != DBNull.Value)
             {
                 obj.pro_laboratorio = pItem["pro_laboratorio"].ToString();
@@ -897,10 +897,10 @@ namespace DKbase.web
             {
                 obj.pro_isCadenaFrio = Convert.ToBoolean(pItem["pro_isCadenaFrio"]);
             }
-            if (pItem.Table.Columns.Contains("pro_acuerdo") && pItem["pro_acuerdo"] != DBNull.Value)
-            {
-                obj.pro_acuerdo = Convert.ToInt32(pItem["pro_acuerdo"]);
-            }
+            //if (pItem.Table.Columns.Contains("pro_acuerdo") && pItem["pro_acuerdo"] != DBNull.Value)
+            //{
+            //    obj.pro_acuerdo = Convert.ToInt32(pItem["pro_acuerdo"]);
+            //}
             if (pItem.Table.Columns.Contains("pro_PrecioBase") && pItem["pro_PrecioBase"] != DBNull.Value)
             {
                 obj.pro_PrecioBase = Convert.ToDecimal(pItem["pro_PrecioBase"]);
@@ -1028,13 +1028,13 @@ namespace DKbase.web
                                                                           pro_preciofarmacia = itemProductoCarrtios.Field<decimal>("pro_preciofarmacia"),
                                                                           pro_neto = itemProductoCarrtios.Field<bool>("pro_neto"),
                                                                           pro_codtpopro = itemProductoCarrtios.Field<string>("pro_codtpopro"),
-                                                                          pro_descuentoweb = itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"),
-                                                                          pro_ofeunidades = itemProductoCarrtios.IsNull("pro_ofeunidades") ? 0 : itemProductoCarrtios.Field<int>("pro_ofeunidades"),
-                                                                          pro_ofeporcentaje = itemProductoCarrtios.IsNull("pro_ofeporcentaje") ? 0 : itemProductoCarrtios.Field<decimal>("pro_ofeporcentaje"),
+                                                                          //pro_descuentoweb = itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"),
+                                                                          //pro_ofeunidades = itemProductoCarrtios.IsNull("pro_ofeunidades") ? 0 : itemProductoCarrtios.Field<int>("pro_ofeunidades"),
+                                                                          //pro_ofeporcentaje = itemProductoCarrtios.IsNull("pro_ofeporcentaje") ? 0 : itemProductoCarrtios.Field<decimal>("pro_ofeporcentaje"),
                                                                           tde_prepublico = itemProductoCarrtios.IsNull("tde_prepublico") ? 0 : itemProductoCarrtios.Field<decimal>("tde_prepublico"),
                                                                          // tde_predescuento = itemProductoCarrtios.IsNull("tde_predescuento") ? 0 : itemProductoCarrtios.Field<decimal>("tde_predescuento"),
                                                                           stk_stock = itemProductoCarrtios.Table.Columns.Contains("stk_stock") && !itemProductoCarrtios.IsNull("stk_stock") ? itemProductoCarrtios.Field<string>("stk_stock") : null,
-                                                                          PrecioFinalTransfer = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, item.tfr_deshab, item.tfr_pordesadi, itemProductoCarrtios.Field<bool>("pro_neto"), itemProductoCarrtios.Field<string>("pro_codtpopro"), itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"), itemProductoCarrtios.IsNull("tde_PrecioConDescuentoDirecto") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PrecioConDescuentoDirecto"), itemProductoCarrtios.IsNull("tde_PorcARestarDelDtoDeCliente") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PorcARestarDelDtoDeCliente"))
+                                                                          PrecioFinalTransfer = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, item.tfr_deshab, item.tfr_pordesadi, itemProductoCarrtios.Field<bool>("pro_neto"), itemProductoCarrtios.Field<string>("pro_codtpopro"),  0, itemProductoCarrtios.IsNull("tde_PrecioConDescuentoDirecto") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PrecioConDescuentoDirecto"), itemProductoCarrtios.IsNull("tde_PorcARestarDelDtoDeCliente") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PorcARestarDelDtoDeCliente"))
                                                                       }).ToList();
 
                     for (int iProductoCarrtios = 0; iProductoCarrtios < listaProductoCarrtios.Count; iProductoCarrtios++)

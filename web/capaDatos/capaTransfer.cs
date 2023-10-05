@@ -119,16 +119,16 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
-        public static DataSet RecuperarTodosTransferMasDetallePorIdProducto(string pSucursal, string pNombreProducto, int pIdCliente)
+        public static DataSet RecuperarTodosTransferMasDetallePorIdProducto(string pSucursal, int pCodigoProducto, int pIdCliente)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
             SqlCommand cmdComandoInicio = new SqlCommand("Transfers.spRecuperarTodosTransferMasDetallePorIdProducto", Conn);
             cmdComandoInicio.CommandType = CommandType.StoredProcedure;
 
-            SqlParameter paTde_codpro = cmdComandoInicio.Parameters.Add("@tde_codpro", SqlDbType.NVarChar, 75);
+            SqlParameter paTde_codpro = cmdComandoInicio.Parameters.Add("@tde_codpro", SqlDbType.Decimal);
             SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@sucursal", SqlDbType.NVarChar, 2);
             SqlParameter paCodCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
-            paTde_codpro.Value = pNombreProducto;
+            paTde_codpro.Value = pCodigoProducto;
             paSucursal.Value = pSucursal;
             paCodCliente.Value = pIdCliente;
             try

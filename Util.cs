@@ -560,10 +560,10 @@ namespace DKbase
             }
             return result;
         }
-        public static List<cTransfer> RecuperarTodosTransferMasDetallePorIdProducto(string pNombreProducto, cClientes pClientes, List<string> pListaSucursal)
+        public static List<cTransfer> RecuperarTodosTransferMasDetallePorIdProducto(int  pCodigoProducto, cClientes pClientes, List<string> pListaSucursal)
         {
             List<cTransfer> resultado = null;
-            DataSet dsResultado = DKbase.web.capaDatos.capaTransfer_base.RecuperarTodosTransferMasDetallePorIdProducto(pClientes.cli_codsuc, pNombreProducto, pClientes.cli_codigo);
+            DataSet dsResultado = DKbase.web.capaDatos.capaTransfer_base.RecuperarTodosTransferMasDetallePorIdProducto(pClientes.cli_codsuc, pCodigoProducto, pClientes.cli_codigo);
             if (dsResultado != null)
             {
                 resultado = new List<cTransfer>();

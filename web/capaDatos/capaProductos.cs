@@ -86,7 +86,8 @@ namespace DKbase.web.capaDatos
         public bool pro_AltoCosto { get; set; }
         public string pro_UbicacionPrincipal { get; set; }
         public bool pro_requierevale { get; set; }
-}
+        public int tde_codproBonificado { get; set; }
+    }
     public class cSucursalStocks
     {
         public string stk_codpro { get; set; }

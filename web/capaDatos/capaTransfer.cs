@@ -26,6 +26,8 @@ namespace DKbase.web.capaDatos
         public bool? tfr_facturaciondirecta { get; set; }
         public string tfr_descripcion { get; set; }
         public string tfr_provincia { get; set; }
+        public bool? tfr_EsTransfer { get; set; }
+        public int? tfr_unidadesBonificadas { get; set; }
         public List<cTransferDetalle> listaDetalle { get; set; }
 
     }
@@ -40,7 +42,7 @@ namespace DKbase.web.capaDatos
         public int tde_codpro { get; set; }
         public string tde_descripcion { get; set; }
         public decimal? tde_prepublico { get; set; }
-     //   public decimal? tde_predescuento { get; set; }
+        //   public decimal? tde_predescuento { get; set; }
         public int? tde_minuni { get; set; }
         public int? tde_maxuni { get; set; }
         public int? tde_muluni { get; set; }
@@ -141,7 +143,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now); 
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
                 return null;
             }
             finally

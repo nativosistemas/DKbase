@@ -481,6 +481,8 @@ namespace DKbase.web
                 obj.pro_AltoCosto = Convert.ToBoolean(pItem["pro_AltoCosto"]);
             if (pItem.Table.Columns.Contains("pro_UbicacionPrincipal") && pItem["pro_UbicacionPrincipal"] != DBNull.Value)
                 obj.pro_UbicacionPrincipal = Convert.ToString(pItem["pro_UbicacionPrincipal"]);
+            if (pItem.Table.Columns.Contains("tde_codproBonificado") && pItem["tde_codproBonificado"] != DBNull.Value)
+                obj.tde_codproBonificado = Convert.ToInt32(pItem["tde_codproBonificado"]);
             return obj;
         }
         public static List<cProductosGenerico> cargarProductosBuscadorArchivos(cClientes pCliente, DataTable tablaProductos, DataTable tablaSucursalStocks, List<cTransferDetalle> listaTransferDetalle, Constantes.CargarProductosBuscador pCargarProductosBuscador, string pSucursalElejida)
@@ -985,6 +987,14 @@ namespace DKbase.web
             if (pItem.Table.Columns.Contains("tfr_provincia") && pItem["tfr_provincia"] != DBNull.Value)
             {
                 obj.tfr_provincia = Convert.ToString(pItem["tfr_provincia"]);
+            }
+            if (pItem.Table.Columns.Contains("tfr_EsTransfer") && pItem["tfr_EsTransfer"] != DBNull.Value)
+            {
+                obj.tfr_EsTransfer = Convert.ToBoolean(pItem["tfr_EsTransfer"]);
+            }
+            if (pItem.Table.Columns.Contains("tfr_unidadesBonificadas") && pItem["tfr_unidadesBonificadas"] != DBNull.Value)
+            {
+                obj.tfr_unidadesBonificadas = Convert.ToInt32(pItem["tfr_unidadesBonificadas"]);
             }
             return obj;
         }

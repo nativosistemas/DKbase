@@ -9,5 +9,6 @@ namespace DKbase.Models
         public string login { get; set; }
 
         public string pass { get; set; }
+        public string token { get; set; }
     }
 }

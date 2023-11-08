@@ -1260,7 +1260,7 @@ namespace DKbase.web
                 foreach (cProductosAndCantidad itemProductosAndCantidad in pListaProducto)
                 {
                     DataRow fila = pTablaDetalle.NewRow();
-                    fila["codProducto"] = itemProductosAndCantidad.codProductoNombre;
+                    fila["codProducto"] = itemProductosAndCantidad.codProducto;
                     fila["cantidad"] = itemProductosAndCantidad.cantidad;
                     pTablaDetalle.Rows.Add(fila);
                 }
@@ -1275,14 +1275,15 @@ namespace DKbase.web
             {
                 cProductosAndCantidad obj = new cProductosAndCantidad();
                 obj.cantidad = pArrayCantidad[i];
-                obj.codProductoNombre = pArrayNombreProducto[i];
+               // obj.codProductoNombre = pArrayNombreProducto[i];
+                obj.codProducto = Convert.ToInt32( pArrayNombreProducto[i]);
                 listaAUX.Add(obj);
             }
             List<cProductosGenerico> listaProductos = RecuperarTodosProductosDesdeTabla(pCliente, listaAUX, pCliente.cli_codsuc, pCliente.cli_codprov, pCliente.cli_codigo);
             List<cProductosAndCantidad> listaProductos_capaCAR = new List<cProductosAndCantidad>();
             for (int i = 0; i < pArrayNombreProducto.Count(); i++)
             {
-                cProductosGenerico objProducto = listaProductos.Where(x => x.pro_nombre == pArrayNombreProducto[i]).First();
+                cProductosGenerico objProducto = listaProductos.Where(x => x.pro_codigo == Convert.ToInt32(pArrayNombreProducto[i])).First();
                 int cantidad = pArrayCantidad[i];
                 int cantidadTotalMasBD = cantidad;
                 List<int> listaCantidades = FuncionesPersonalizadas_base.CargarProductoCantidadDependiendoTransfer(pCliente, objProducto, cantidadTotalMasBD);
@@ -1323,7 +1324,7 @@ namespace DKbase.web
                 foreach (cProductosAndCantidad itemProductosAndCantidad in pListaProducto)
                 {
                     DataRow fila = pTablaDetalle.NewRow();
-                    fila["codProducto"] = itemProductosAndCantidad.codProductoNombre;
+                    fila["codProducto"] = itemProductosAndCantidad.codProducto;
                     fila["cantidad"] = itemProductosAndCantidad.cantidad;
                     pTablaDetalle.Rows.Add(fila);
                 }

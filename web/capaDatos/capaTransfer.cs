@@ -49,7 +49,8 @@ namespace DKbase.web.capaDatos
         public int? tde_fijuni { get; set; }
         public bool tde_proobligatorio { get; set; }
         public decimal PrecioFinalTransfer { get; set; }
-        public int? tde_unidadesbonificadas { get; set; }
+        private int _tde_unidadesbonificadas = 0;
+        public int? tde_unidadesbonificadas { get { return _tde_unidadesbonificadas; } set { _tde_unidadesbonificadas = value != null ? value.Value : 0; } }
         public string tde_unidadesbonificadasdescripcion { get; set; }
         public string tde_DescripcionDeProducto { get; set; }
         public decimal tde_PrecioConDescuentoDirecto { get; set; }

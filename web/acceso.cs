@@ -596,10 +596,10 @@ namespace DKbase.web
                         {
                             obj.pro_vtasolotransfer = Convert.ToBoolean(item["pro_vtasolotransfer"]);
                         }
-                        //if (item["RequiereVale"] != DBNull.Value)
-                        //{
-                        //    obj.isValePsicotropicos = Convert.ToBoolean(item["RequiereVale"]);
-                        //}
+                        if (item.Table.Columns.Contains("RequiereVale") && item["RequiereVale"] != DBNull.Value)
+                        {
+                            obj.isValePsicotropicos = Convert.ToBoolean(item["RequiereVale"]);
+                        }
                         if (item.Table.Columns.Contains("pro_requierevale") && item["pro_requierevale"] != DBNull.Value)
                         {
                             obj.pro_requierevale = Convert.ToBoolean(item["pro_requierevale"]);

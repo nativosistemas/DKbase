@@ -509,10 +509,10 @@ namespace DKbase.web
                         {
                             obj.pro_precio = Convert.ToDecimal(item["pro_precio"]);
                         }
-                        if (item["pro_preciofarmacia"] != DBNull.Value)
-                        {
-                            obj.pro_preciofarmacia = Convert.ToDecimal(item["pro_preciofarmacia"]);
-                        }
+                        //if (item.Table.Columns.Contains("pro_preciofarmacia") && item["pro_preciofarmacia"] != DBNull.Value)
+                        //{
+                        //    obj.pro_preciofarmacia = Convert.ToDecimal(item["pro_preciofarmacia"]);
+                        //}
                         //if (item.Table.Columns.Contains("pro_ofeunidades") && item["pro_ofeunidades"] != DBNull.Value)
                         //{
                         //    obj.pro_ofeunidades = Convert.ToInt32(item["pro_ofeunidades"]);
@@ -851,10 +851,10 @@ namespace DKbase.web
             {
                 obj.pro_precio = Convert.ToDecimal(pItem["pro_precio"]);
             }
-            if (pItem.Table.Columns.Contains("pro_preciofarmacia") && pItem["pro_preciofarmacia"] != DBNull.Value)
-            {
-                obj.pro_preciofarmacia = Convert.ToDecimal(pItem["pro_preciofarmacia"]);
-            }
+            //if (pItem.Table.Columns.Contains("pro_preciofarmacia") && pItem["pro_preciofarmacia"] != DBNull.Value)
+            //{
+            //    obj.pro_preciofarmacia = Convert.ToDecimal(pItem["pro_preciofarmacia"]);
+            //}
             //if (pItem.Table.Columns.Contains("pro_ofeunidades") && pItem["pro_ofeunidades"] != DBNull.Value)
             //{
             //    obj.pro_ofeunidades = Convert.ToInt32(pItem["pro_ofeunidades"]);
@@ -1035,7 +1035,7 @@ namespace DKbase.web
                                                                           tde_codpro = Convert.ToInt32(itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
                                                                           pro_codigo = Convert.ToInt32(itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
                                                                           pro_precio = itemProductoCarrtios.Field<decimal>("pro_precio"),
-                                                                          pro_preciofarmacia = itemProductoCarrtios.Field<decimal>("pro_preciofarmacia"),
+                                                                          //pro_preciofarmacia = itemProductoCarrtios.Field<decimal>("pro_preciofarmacia"),
                                                                           pro_neto = itemProductoCarrtios.Field<bool>("pro_neto"),
                                                                           pro_codtpopro = itemProductoCarrtios.Field<string>("pro_codtpopro"),
                                                                           //pro_descuentoweb = itemProductoCarrtios.IsNull("pro_descuentoweb") ? 0 : itemProductoCarrtios.Field<decimal>("pro_descuentoweb"),

@@ -37,7 +37,7 @@ namespace DKbase.web.capaDatos
         //public string pro_codtpopro { get; set; }
         //public decimal pro_descuentoweb { get; set; }
         public decimal pro_precio { get; set; }
-        public decimal pro_preciofarmacia { get; set; }
+        //public decimal pro_preciofarmacia { get; set; }
         public int pro_ofeunidades { get; set; }
         public decimal pro_ofeporcentaje { get; set; }
         public bool pro_neto { get; set; }
@@ -118,7 +118,7 @@ namespace DKbase.web.capaDatos
             base.pro_ofeporcentaje = pProducto.pro_ofeporcentaje;
             base.pro_ofeunidades = pProducto.pro_ofeunidades;
             base.pro_precio = pProducto.pro_precio;
-            base.pro_preciofarmacia = pProducto.pro_preciofarmacia;
+           // base.pro_preciofarmacia = pProducto.pro_preciofarmacia;
             base.pro_isTrazable = pProducto.pro_isTrazable;
          //   base.pro_NoTransfersEnClientesPerf = pProducto.pro_NoTransfersEnClientesPerf;
             base.pro_Familia = pProducto.pro_Familia;

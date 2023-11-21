@@ -188,6 +188,10 @@ namespace DKbase.generales
         {
             get { return "servidorDLL"; }
         }
+        public static int cROL_ADMINISTRADOR
+        {
+            get { return 1; }
+        }
         public static int cROL_ADMINISTRADORCLIENTE
         {
             get { return 2; }

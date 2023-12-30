@@ -710,5 +710,18 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static List<cUsuario> RecuperarTodosUsuarios(string pFiltro)
+        {
+            List<cUsuario> lista = new List<cUsuario>();
+            DataSet dsResultado = capaSeguridad_base.GestiónUsuario(null, null, null, null, null, null, null, null, null, null, null, null, pFiltro, Constantes.cSQL_SELECT);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Usuario"].Rows)
+                {
+                    lista.Add(DKbase.web.capaDatos.capaSeguridad_base.ConvertToUsuario(item));
+                }
+            }
+            return lista;
+        }
     }
 }

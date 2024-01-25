@@ -132,5 +132,18 @@ namespace DKbase.generales
                 System.Console.WriteLine(ex);
             }
         }
+        public static void LogInfo(MethodBase method, string pMensaje, string pInfoAdicional, params object[] values)
+        {
+            try
+            {
+                System.Console.WriteLine(pMensaje);
+                string Parameters = getParameters(method, values);
+                bool isNotGeneroError = baseDatos.StoredProcedure.spLogInfo(method.Name, pMensaje,  pInfoAdicional, Parameters, DateTime.Now, Helper.getTipoApp);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, values);                
+            }
+        }
     }
 }

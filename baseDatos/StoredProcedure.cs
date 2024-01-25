@@ -36,6 +36,29 @@ namespace DKbase.baseDatos
                 return false;
             }
         }
+        public static bool spLogInfo(string pNombreOrigen, string  pMensaje, string pInfoAdicional, string   pParameters, DateTime pFecha, string pTipo)
+        {
+            BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+            List<SqlParameter> l = new List<SqlParameter>();
+            l.Add(db.GetParameter("log_Nombre", pNombreOrigen));
+            l.Add(db.GetParameter("log_Mensaje", pMensaje));
+            l.Add(db.GetParameter("log_InfoAdicional", pInfoAdicional));
+            l.Add(db.GetParameter("log_Parameters", pParameters));
+            l.Add(db.GetParameter("log_fecha", pFecha));
+            l.Add(db.GetParameter("log_tipo", pTipo));
+            try
+            {
+                int result = db.ExecuteNonQuery_forError("LogRegistro.spLogInfo", l);
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+                DKbase.generales.Log.LogErrorFile(pNombreOrigen, "Parameters:" + pParameters + " - Message: " + pMensaje + " - InfoAdicional: " + pInfoAdicional );
+                DKbase.generales.Log.LogErrorFile(System.Reflection.MethodBase.GetCurrentMethod().ToString(), ex.ToString());
+                return false;
+            }
+        }
         public static DataTable RecuperarTodasSucursales()
         {
             BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);

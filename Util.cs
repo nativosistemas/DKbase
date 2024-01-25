@@ -2690,6 +2690,6 @@ namespace DKbase
         public static void LogInfo(System.Reflection.MethodBase method, string pMensaje, string pInfoAdicional, params object[] values)
         {
             DKbase.generales.Log.LogInfo(method, pMensaje, pInfoAdicional, values);
-        }
+        }//
     }
 }

@@ -36,7 +36,7 @@ namespace DKbase.baseDatos
                 return false;
             }
         }
-        public static bool spLogInfo(string pNombreOrigen, string  pMensaje, string pInfoAdicional, string   pParameters, DateTime pFecha, string pTipo)
+        public static bool spLogInfo(string pNombreOrigen, string pMensaje, string pInfoAdicional, string pParameters, DateTime pFecha, string pApp, string pType, string pFile_type, byte[] pFile_content)
         {
             BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
             List<SqlParameter> l = new List<SqlParameter>();
@@ -45,7 +45,20 @@ namespace DKbase.baseDatos
             l.Add(db.GetParameter("log_InfoAdicional", pInfoAdicional));
             l.Add(db.GetParameter("log_Parameters", pParameters));
             l.Add(db.GetParameter("log_fecha", pFecha));
-            l.Add(db.GetParameter("log_tipo", pTipo));
+            l.Add(db.GetParameter("log_app", pApp));
+            l.Add(db.GetParameter("log_type", pType));
+            l.Add(db.GetParameter("log_file_type", pFile_type));
+            if (pFile_content != null)
+            {
+                l.Add(db.GetParameter("log_file_content", pFile_content));
+            }
+            else
+            {
+                byte[] emptyBytes = Array.Empty<byte>();
+                l.Add(db.GetParameter("log_file_content", emptyBytes));
+            }
+
+
             try
             {
                 int result = db.ExecuteNonQuery_forError("LogRegistro.spLogInfo", l);
@@ -54,7 +67,7 @@ namespace DKbase.baseDatos
             catch (Exception ex)
             {
                 System.Console.WriteLine(ex);
-                DKbase.generales.Log.LogErrorFile(pNombreOrigen, "Parameters:" + pParameters + " - Message: " + pMensaje + " - InfoAdicional: " + pInfoAdicional );
+                DKbase.generales.Log.LogErrorFile(pNombreOrigen, "Parameters:" + pParameters + " - Message: " + pMensaje + " - InfoAdicional: " + pInfoAdicional);
                 DKbase.generales.Log.LogErrorFile(System.Reflection.MethodBase.GetCurrentMethod().ToString(), ex.ToString());
                 return false;
             }

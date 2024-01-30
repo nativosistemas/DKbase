@@ -52,7 +52,7 @@ namespace DKbase.web
                     string nombreCompleto = NombreArchivo + SegundaParteNombre + "." + ExtencionArchivo;
                     using (Stream fileStream = new FileStream(Path.Combine(rutaTemporal, nombreCompleto), FileMode.Create))
                     {
-                        pFileUpload.CopyToAsync(fileStream);
+                        await pFileUpload.CopyToAsync(fileStream);
                     }
                     resultado = LeerArchivoPedido_Generica(oUsuario, oCliente, nombreCompleto, pSucursal, nombreCompletoOriginal);
                 }

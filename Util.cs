@@ -2687,9 +2687,9 @@ namespace DKbase
             resultado = capaDLL.ObtenerComprobantesEntreFechas(pTipoComprobante,  pDesde,  pHasta,  pLoginWeb);
             return resultado;
         }
-        public static void LogInfo(System.Reflection.MethodBase method, string pMensaje, string pInfoAdicional, params object[] values)
+        public static void LogInfo(System.Reflection.MethodBase method, string pMensaje, string pInfoAdicional,  string pType, string pFile_type, byte[] pFile_content, params object[] values)
         {
-            DKbase.generales.Log.LogInfo(method, pMensaje, pInfoAdicional, values);
+            DKbase.generales.Log.LogInfo(method, pMensaje, pInfoAdicional, pType,  pFile_type, pFile_content, values);
         }//
     }
 }

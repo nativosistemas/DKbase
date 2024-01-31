@@ -9,6 +9,7 @@ using System.Text;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.Threading.Tasks;
 
 namespace DKbase.web
 {
@@ -17,7 +18,7 @@ namespace DKbase.web
         const int longFilaArchivoS = 22;
         const int longFilaArchivoF = 24;
 
-        public static cSubirPedido_return LeerArchivoPedido(Usuario oUsuario, cClientes oCliente, IFormFile pFileUpload, string pSucursal)
+        public static async Task<cSubirPedido_return> LeerArchivoPedido(Usuario oUsuario, cClientes oCliente, IFormFile pFileUpload, string pSucursal)
         {
             cSubirPedido_return resultado = null;
             if (oUsuario != null && oCliente != null)

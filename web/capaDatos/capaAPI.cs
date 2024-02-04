@@ -897,7 +897,7 @@ namespace DKbase.web.capaDatos
         {
             List<cComprobanteDiscriminado> result = null;
             string name = "ObtenerComprobantesEntreFechas";
-            var parameter = new DocumentoRequest { documentoTipo = pTipoComprobante, fechaDesde = pDesde, fechaHasta = pDesde, loginWeb = pLoginWeb };
+            var parameter = new DocumentoRequest { documentoTipo = pTipoComprobante, fechaDesde = pDesde, fechaHasta = pHasta, loginWeb = pLoginWeb };
             HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
             if (response != null)
             {

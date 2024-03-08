@@ -893,5 +893,21 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<cComprobanteDiscriminado>> ObtenerComprobantesEntreFechasAsync(string pTipoComprobante, DateTime pDesde, DateTime pHasta, string pLoginWeb)
+        {
+            List<cComprobanteDiscriminado> result = null;
+            string name = "ObtenerComprobantesEntreFechas";
+            var parameter = new DocumentoRequest { documentoTipo = pTipoComprobante, fechaDesde = pDesde, fechaHasta = pHasta, loginWeb = pLoginWeb };
+            HttpResponseMessage response = await PostAsync(url_DKdll, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    result = JsonSerializer.Deserialize<List<cComprobanteDiscriminado>>(resultResponse);
+                }
+            }
+            return result;
+        }
     }
 }

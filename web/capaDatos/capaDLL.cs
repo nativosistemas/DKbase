@@ -744,5 +744,20 @@ namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static List<cComprobanteDiscriminado> ObtenerComprobantesEntreFechas(string pTipoComprobante, DateTime pDesde, DateTime pHasta, string pLoginWeb)
+        {
+            List<cComprobanteDiscriminado> result = null;
+            try
+            {
+                var t = Task.Run(() => capaAPI.ObtenerComprobantesEntreFechasAsync(pTipoComprobante,  pDesde,  pHasta,  pLoginWeb));
+                t.Wait();
+                result = t.Result;
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pTipoComprobante, pDesde, pHasta, pLoginWeb);
+            }
+            return result;
+        }
     }
 }

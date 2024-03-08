@@ -114,5 +114,83 @@ namespace DKbase.web
             }
             return query;
         }
+        public static List<cUsuario> GetUsuarios(string sortExpression, string pFiltro)
+        {
+            ordenamientoExpresion order = new ordenamientoExpresion(sortExpression);
+            string filtro = string.Empty;
+            if (pFiltro != null)
+            {
+                filtro = pFiltro;
+            }
+            var query = DKbase.web.capaDatos.capaSeguridad_base.RecuperarTodosUsuarios(filtro);
+            if (order.isOrderBy)
+            {
+                if (order.OrderByAsc)
+                {
+                    switch (order.OrderByField)
+                    {
+                        case "usu_nombre":
+                            query = query.OrderBy(b => b.usu_nombre).ToList();
+                            break;
+                        case "usu_apellido":
+                            query = query.OrderBy(b => b.usu_apellido).ToList();
+                            break;
+                        case "usu_mail":
+                            query = query.OrderBy(b => b.usu_mail).ToList();
+                            break;
+                        case "usu_login":
+                            query = query.OrderBy(b => b.usu_login).ToList();
+                            break;
+                        case "NombreYapellido":
+                            query = query.OrderBy(b => b.NombreYapellido).ToList();
+                            break;
+                        case "rol_Nombre":
+                            query = query.OrderBy(b => b.rol_Nombre).ToList();
+                            break;
+                        case "usu_estadoToString":
+                            query = query.OrderBy(b => b.usu_estadoToString).ToList();
+                            break;
+                        case "cli_nombre":
+                            query = query.OrderBy(b => b.cli_nombre).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (order.OrderByField)
+                    {
+                        case "usu_nombre":
+                            query = query.OrderByDescending(b => b.usu_nombre).ToList();
+                            break;
+                        case "usu_apellido":
+                            query = query.OrderByDescending(b => b.usu_apellido).ToList();
+                            break;
+                        case "usu_mail":
+                            query = query.OrderByDescending(b => b.usu_mail).ToList();
+                            break;
+                        case "usu_login":
+                            query = query.OrderByDescending(b => b.usu_login).ToList();
+                            break;
+                        case "NombreYapellido":
+                            query = query.OrderByDescending(b => b.NombreYapellido).ToList();
+                            break;
+                        case "rol_Nombre":
+                            query = query.OrderByDescending(b => b.rol_Nombre).ToList();
+                            break;
+                        case "usu_estadoToString":
+                            query = query.OrderByDescending(b => b.usu_estadoToString).ToList();
+                            break;
+                        case "cli_nombre":
+                            query = query.OrderByDescending(b => b.cli_nombre).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return query;
+        }
     }
 }

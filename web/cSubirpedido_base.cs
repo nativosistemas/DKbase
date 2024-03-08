@@ -9,6 +9,7 @@ using System.Text;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.Threading.Tasks;
 
 namespace DKbase.web
 {
@@ -17,7 +18,7 @@ namespace DKbase.web
         const int longFilaArchivoS = 22;
         const int longFilaArchivoF = 24;
 
-        public static cSubirPedido_return LeerArchivoPedido(Usuario oUsuario, cClientes oCliente, IFormFile pFileUpload, string pSucursal)
+        public static async Task<cSubirPedido_return> LeerArchivoPedido(Usuario oUsuario, cClientes oCliente, IFormFile pFileUpload, string pSucursal)
         {
             cSubirPedido_return resultado = null;
             if (oUsuario != null && oCliente != null)
@@ -25,7 +26,6 @@ namespace DKbase.web
                 string nombreCompletoOriginal = pFileUpload.FileName;
                 if (nombreCompletoOriginal != string.Empty)
                 {
-                    //isRedireccionar = true;
                     string rutaTemporal = Path.Combine(Helper.getFolder, "archivos", "ArchivosPedidos");
                     DirectoryInfo DIR = new DirectoryInfo(rutaTemporal);
                     if (!DIR.Exists)
@@ -42,16 +42,6 @@ namespace DKbase.web
                     ExtencionArchivo = listaNombre[listaNombre.Length - 1];
                     int count = 0;
                     string SegundaParteNombre = string.Empty;
-                    //
-                    bool isNombreRepetido = false;
-                    List<cHistorialArchivoSubir> listaHistorialArchivoSubir = DKbase.Util.RecuperarHistorialSubirArchivoPorNombreArchivoOriginal(nombreCompletoOriginal);
-                    if (listaHistorialArchivoSubir != null)
-                    {
-                        if (listaHistorialArchivoSubir.Count > 0)
-                        {
-                            isNombreRepetido = true;
-                        }
-                    }
                     while (System.IO.File.Exists(Path.Combine(rutaTemporal, NombreArchivo + SegundaParteNombre + "." + ExtencionArchivo)))
                     {
                         if (count > 0)
@@ -61,20 +51,17 @@ namespace DKbase.web
                         count++;
                     }
                     string nombreCompleto = NombreArchivo + SegundaParteNombre + "." + ExtencionArchivo;
-                    //pFileUpload.SaveAs(rutaTemporal + nombreCompleto);
-
-                    //string filePath = Path.Combine(uploads, file.FileName);
                     using (Stream fileStream = new FileStream(Path.Combine(rutaTemporal, nombreCompleto), FileMode.Create))
                     {
-                        pFileUpload.CopyToAsync(fileStream);
+                        await pFileUpload.CopyToAsync(fileStream);
                     }
-                    resultado = LeerArchivoPedido_Generica(oUsuario, oCliente, nombreCompleto, pSucursal, nombreCompletoOriginal, isNombreRepetido);
+                    resultado = LeerArchivoPedido_Generica(oUsuario, oCliente, nombreCompleto, pSucursal, nombreCompletoOriginal);
                 }
             }
             return resultado;
         }
 
-        private static cSubirPedido_return LeerArchivoPedido_Generica(Usuario oUsuario, cClientes oCliente, string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
+        private static cSubirPedido_return LeerArchivoPedido_Generica(Usuario oUsuario, cClientes oCliente, string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal)
         {
             cSubirPedido_return resultado = null;
             try
@@ -105,7 +92,7 @@ namespace DKbase.web
                         DataTable tablaArchivoPedidos = FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
                         if (ext == "XLSX" || ext == "XLS")
                         {
-                            tablaArchivoPedidos = LeerArchivoPedido_Excel(pNombreArchivo, pSucursal, pNombreArchivoOriginal, pIsNombreRepetido);
+                            tablaArchivoPedidos = LeerArchivoPedido_Excel(pNombreArchivo, pSucursal, pNombreArchivoOriginal);
 
                             TipoArchivo = "E";
                         }
@@ -185,7 +172,7 @@ namespace DKbase.web
             return resultado;
         }
 
-        public static DataTable LeerArchivoPedido_Excel(string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal, Boolean? pIsNombreRepetido)
+        public static DataTable LeerArchivoPedido_Excel(string pNombreArchivo, string pSucursal, string pNombreArchivoOriginal)
         {
             DataTable resultado = null;
             if (!string.IsNullOrWhiteSpace(pNombreArchivo))
@@ -366,7 +353,7 @@ namespace DKbase.web
                     if (objHistorialArchivoSubir != null)
 
                         //Cambiar a LeerArchivoPedido y ver los parametros, para que dependa de la extension si llama a LeerArchivoPedido_Generica o a LeerArchivoPedido_Excel
-                        result = LeerArchivoPedido_Generica(oUsuario, oCliente, objHistorialArchivoSubir.has_NombreArchivo, objHistorialArchivoSubir.has_sucursal, objHistorialArchivoSubir.has_NombreArchivoOriginal, null);
+                        result = LeerArchivoPedido_Generica(oUsuario, oCliente, objHistorialArchivoSubir.has_NombreArchivo, objHistorialArchivoSubir.has_sucursal, objHistorialArchivoSubir.has_NombreArchivoOriginal);
                 }
             }
             catch (Exception ex)

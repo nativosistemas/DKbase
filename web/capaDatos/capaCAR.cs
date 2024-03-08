@@ -84,6 +84,51 @@ namespace DKbase.web.capaDatos
             DataTable pTablaDetalleProductos = DKbase.web.FuncionesPersonalizadas_base.ConvertProductosAndCantidadToDataTable_new(listaProductos);
             return spCargarCarrito(pTablaDetalleProductos, pIdCliente, pIdUsuario.Value, pSucursal, pTipo);
         }
+        public static bool spCargarCarritoComboCerrado(int pIdCliente, int pIdUsuario, int pIdTransfers, string pCodSucursal, string pTipo, int pQinput)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("CAR.spCargarCarritoComboCerrado2", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdUsuario = cmdComandoInicio.Parameters.Add("@idUsuario", SqlDbType.Int);
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@idCliente", SqlDbType.Int);
+            SqlParameter paIdTransfers = cmdComandoInicio.Parameters.Add("@idTransfers", SqlDbType.BigInt);
+            SqlParameter paCodSucursal = cmdComandoInicio.Parameters.Add("@ctr_codSucursal", SqlDbType.NVarChar, 2);
+            SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@tipo", SqlDbType.NVarChar, 100);
+            SqlParameter paSumar = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+            SqlParameter paCantidad = cmdComandoInicio.Parameters.Add("@cantidad", SqlDbType.Int);
+
+            paCantidad.Value = pQinput;
+            paSumar.Direction = ParameterDirection.Output;
+            paTipo.Value = pTipo;
+            paIdTransfers.Value = pIdTransfers;
+            paIdUsuario.Value = pIdUsuario;
+            paIdCliente.Value = pIdCliente;
+            paCodSucursal.Value = pCodSucursal;
+
+            try
+            {
+                Conn.Open();
+                cmdComandoInicio.ExecuteNonQuery();
+                return Convert.ToBoolean(paSumar.Value);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return false;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+                
+            }
+
+        }
+
+
         public static bool spCargarCarrito(DataTable pTablaDetalleProductos, int pIdCliente, int pIdUsuario, string pCodSucursal, string pTipo)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);

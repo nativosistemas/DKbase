@@ -10,15 +10,18 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Dynamic;
 
-namespace DKbase.web.capaDatos
+namespace DKbase //namespace DKbase.web.capaDatos
 {
     public class capaSAP
     {
         private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromMinutes(30) };
         public static string url_SAP = Helper.getUrl_SAP;
-
-        private static async Task<HttpResponseMessage> PostAsync(string pUrl, string name, object pParameter, bool isRepeatBecauseNotAuthorized = true)
+        private static readonly System.Globalization.CultureInfo culture_enUS = new System.Globalization.CultureInfo("en-US");
+        private static readonly string authenticationString = $"{Helper.getSAP_user}:{Helper.getSAP_pass}";
+        private static readonly string base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
+        private static async Task<HttpResponseMessage> PostAsync(string pUrl, string name, object pParameter)
         {
+            HttpResponseMessage result = null;
             try
             {
                 string url_api = pUrl + name;
@@ -36,25 +39,24 @@ namespace DKbase.web.capaDatos
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     oHttpContent = byteContent;
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", $"{base64EncodedAuthenticationString}");
                 HttpResponseMessage response = await client.PostAsync(url_api, oHttpContent);
                 if (response.IsSuccessStatusCode)
-                    return response;
-                if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                {
-                    DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), "StatusCode == HttpStatusCode.Unauthorized", DateTime.Now, name, pParameter);
 
+                {
+                    result = response;
                 }
                 else
                 {
+                    // (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), "StatusCode: " + response.StatusCode.ToString(), DateTime.Now, name, pParameter);
                 }
-                return null;
             }
             catch (Exception ex)
             {
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pParameter);
-                return null;
             }
+            return result;
         }
         public static bool isNotNull(object pp)
         {
@@ -70,20 +72,34 @@ namespace DKbase.web.capaDatos
             return result;
 
         }
-        public static async Task<double> CreditoDisponibleAsync(int pIdCliente)
+        public static string convertSAPformat_CLIENTE(int pIdCliente)
+        {
+            return pIdCliente.ToString();
+        }
+        public static double convertSAPformat_Double(string pValue)
+        {
+            return double.Parse(pValue, culture_enUS);//Convert.ToDouble(pValue);
+        }
+        public static async Task<double> CRED_DISP(int pIdCliente)
         {
             double result = 0;
             string name = "ZFI_WS_CRED_DISP_SET";
-            //dynamic parameter = new ExpandoObject();
-            //parameter.CLIENTE = pIdCliente;
-                DKbase.Models.AuthenticateRequest parameter = new DKbase.Models.AuthenticateRequest() { login = "pLogin", pass = "pPass" };
+            DKbase.Models.SAP_RES_CRED_DISP parameter = new DKbase.Models.SAP_RES_CRED_DISP() { CLIENTE = convertSAPformat_CLIENTE(pIdCliente) };
             HttpResponseMessage response = await PostAsync(url_SAP, name, parameter);
             if (response != null)
             {
                 var resultResponse = response.Content.ReadAsStringAsync().Result;
                 if (isNotNull(resultResponse))
                 {
-                    result = JsonSerializer.Deserialize<double>(resultResponse);
+                    try
+                    {
+                        SAP_REQ_CRES_DISP oResponse = JsonSerializer.Deserialize<SAP_REQ_CRES_DISP>(resultResponse);
+                        result = convertSAPformat_Double(oResponse.CREDITO_DISP);
+                    }
+                    catch (Exception ex)
+                    {
+                        DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pIdCliente);
+                    }
                 }
             }
             return result;

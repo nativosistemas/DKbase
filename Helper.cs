@@ -55,6 +55,18 @@ namespace DKbase
         {
             set; get;
         }
+        public static string getUrl_SAP
+        {
+            set; get;
+        }
+        public static string getSAP_user
+        {
+            set; get;
+        }
+        public static string getSAP_pass
+        {
+            set; get;
+        }
         public static string getReCAPTCHA_ClaveSecreta
         {
             set; get;

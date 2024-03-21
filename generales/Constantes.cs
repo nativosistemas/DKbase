@@ -188,6 +188,10 @@ namespace DKbase.generales
         {
             get { return "servidorDLL"; }
         }
+        public static string cBAN_servidorSAP
+        {
+            get { return "servidorSAP"; }
+        }
         public static int cROL_ADMINISTRADOR
         {
             get { return 1; }
@@ -348,6 +352,14 @@ namespace DKbase.generales
         public static string cLog_type_subirArchivo
         {
             get { return "subirArchivo"; }
+        }
+        public static string cTomarPedido_type_noSeProcesoMostrarMsg
+        {
+            get { return "mostrarMsg"; }
+        }
+        public static string cTomarPedido_type_SeProceso
+        {
+            get { return "seProceso"; }
         }
     }
 }

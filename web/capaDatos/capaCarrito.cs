@@ -4,14 +4,21 @@ using System.Text;
 
 namespace DKbase.web.capaDatos
 {
+    public interface ICarrito
+    {
+        int idCarrito { get; set; }
+        string codSucursal { get; set; }
+        List<cProductosGenerico> l_Productos { get; set; }
+    }
     public class cCarrito
     {
         public cCarrito() { listaProductos = new List<cProductosGenerico>(); }
         public int car_id { get; set; }
         public int lrc_id { get; set; }
         public string codSucursal { get; set; }
+        public string tipo { get; set; }
         public string proximoHorarioEntrega { get; set; }
-      //  public int car_codUsuario { get; set; }
+        //  public int car_codUsuario { get; set; }
         public List<cProductosGenerico> listaProductos { get; set; }
     }
     public class cProductosAndCantidad
@@ -28,7 +35,7 @@ namespace DKbase.web.capaDatos
         public int car_id { get; set; }
         public string Sucursal { get; set; }
         public string proximoHorarioEntrega { get; set; }
-      //  public int car_codUsuario { get; set; }
+        //  public int car_codUsuario { get; set; }
         public List<cCarritoTransfer> listaTransfer { get; set; }
     }
     public class cCarritoTransfer

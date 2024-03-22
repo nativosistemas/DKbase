@@ -368,6 +368,40 @@ namespace DKbase.web.capaDatos
                 }
             }
         }
+        public static DataSet GetCarrito(int pIdCliente, string pTipo, string pCodSucursal)
+        {
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("CAR.spGetCarrito", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
+            SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@tipo", SqlDbType.NVarChar, 100);
+            SqlParameter paCodSucursal = cmdComandoInicio.Parameters.Add("@codSucursal", SqlDbType.NVarChar, 2);
+            paTipo.Value = pTipo;
+            paIdCliente.Value = pIdCliente;
+            paCodSucursal.Value = pCodSucursal;
+
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "Carrito");
+                return dsResultado;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return null;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+            }
+        }
         public static int BorrarCarrito(int pIdCliente, string pSucursal, string pTipo, string pAccion)
         {
             SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);

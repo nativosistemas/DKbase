@@ -54,7 +54,7 @@ namespace DKbase.web.capaDatos
         public bool pro_isTrazable { get; set; }
         public bool pro_isCadenaFrio { get; set; }
         public int? pro_canmaxima { get; set; }
-       // public bool pro_entransfer { get; set; }
+        // public bool pro_entransfer { get; set; }
         public bool pro_vtasolotransfer { get; set; }
         //public int pro_acuerdo { get; set; }
         public string pri_nombreArchivo { get; set; }
@@ -64,7 +64,7 @@ namespace DKbase.web.capaDatos
         public int? pri_alto_ampliar_original { get; set; }
         public int pri_ancho_ampliar { get { return _pri_ancho_ampliar; } set { _pri_ancho_ampliar = value; } }
         public int pri_alto_ampliar { get { return _pri_alto_ampliar; } set { _pri_alto_ampliar = value; } }
-       // public bool pro_NoTransfersEnClientesPerf { get; set; }
+        // public bool pro_NoTransfersEnClientesPerf { get; set; }
         public bool pro_AceptaVencidos { get; set; }
         private bool _isMostrarTransfersEnClientesPerf = true;
         public bool isMostrarTransfersEnClientesPerf
@@ -118,9 +118,9 @@ namespace DKbase.web.capaDatos
             base.pro_ofeporcentaje = pProducto.pro_ofeporcentaje;
             base.pro_ofeunidades = pProducto.pro_ofeunidades;
             base.pro_precio = pProducto.pro_precio;
-           // base.pro_preciofarmacia = pProducto.pro_preciofarmacia;
+            // base.pro_preciofarmacia = pProducto.pro_preciofarmacia;
             base.pro_isTrazable = pProducto.pro_isTrazable;
-         //   base.pro_NoTransfersEnClientesPerf = pProducto.pro_NoTransfersEnClientesPerf;
+            //   base.pro_NoTransfersEnClientesPerf = pProducto.pro_NoTransfersEnClientesPerf;
             base.pro_Familia = pProducto.pro_Familia;
             base.pro_AceptaVencidos = pProducto.pro_AceptaVencidos;
             base.pro_PackDeVenta = pProducto.pro_PackDeVenta;
@@ -144,6 +144,21 @@ namespace DKbase.web.capaDatos
         public string fpc_nombreProducto { get; set; }
         public int fpc_cantidad { get; set; }
         public decimal PrecioFinalRecuperador { get; set; }
+        public string tipoCarrito { get; set; }
+        //private decimal _PrecioFinal_DK{ get; set; }
+        public decimal PrecioFinal_MasCantidad
+        {
+            get
+            {
+                decimal precioUnitario = PrecioFinal;
+                if (tipoCarrito == Constantes.cTipo_CarritoTransfers || tipoCarrito == Constantes.cTipo_CarritoDiferidoTransfers || isProductoFacturacionDirecta)
+                {
+                    precioUnitario = PrecioFinalTransfer;
+                }
+                return precioUnitario * cantidad;
+
+            }
+        }
         //
         public void CargarTransferYTransferDetalle(cTransferDetalle pValor)
         {

@@ -1059,7 +1059,7 @@ namespace DKbase
                             {
                                 RequiereVale = item["RequiereVale"].ToString();
                             }
-                            if (item.Table.Columns.Contains("pro_requierevale") &&  item["pro_requierevale"] != DBNull.Value)
+                            if (item.Table.Columns.Contains("pro_requierevale") && item["pro_requierevale"] != DBNull.Value)
                             {
                                 RequiereVale = item["pro_requierevale"].ToString();
                             }
@@ -2684,12 +2684,30 @@ namespace DKbase
         public static List<cComprobanteDiscriminado> ObtenerComprobantesEntreFechas(string pTipoComprobante, DateTime pDesde, DateTime pHasta, string pLoginWeb)
         {
             List<cComprobanteDiscriminado> resultado = null;
-            resultado = capaDLL.ObtenerComprobantesEntreFechas(pTipoComprobante,  pDesde,  pHasta,  pLoginWeb);
+            resultado = capaDLL.ObtenerComprobantesEntreFechas(pTipoComprobante, pDesde, pHasta, pLoginWeb);
             return resultado;
         }
-        public static void LogInfo(System.Reflection.MethodBase method, string pMensaje, string pInfoAdicional,  string pType, string pFile_type, byte[] pFile_content, params object[] values)
+        public static void LogInfo(System.Reflection.MethodBase method, string pMensaje, string pInfoAdicional, string pType, string pFile_type, byte[] pFile_content, params object[] values)
         {
-            DKbase.generales.Log.LogInfo(method, pMensaje, pInfoAdicional, pType,  pFile_type, pFile_content, values);
+            DKbase.generales.Log.LogInfo(method, pMensaje, pInfoAdicional, pType, pFile_type, pFile_content, values);
         }//
+        public static string spInsertSessionApp(string pName)
+        {
+            string result = string.Empty;
+            try
+            {
+                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                List<System.Data.SqlClient.SqlParameter> l = new List<System.Data.SqlClient.SqlParameter>();
+                l.Add(db.GetParameter("name", pName));
+                object var = db.ExecuteScalar("spInsertSessionApp", l);
+                result = var != null ? var.ToString() : null;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(System.Reflection.MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+            }
+            return result;
+        }
+
     }
 }

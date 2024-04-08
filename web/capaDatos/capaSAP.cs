@@ -23,6 +23,9 @@ namespace DKbase //namespace DKbase.web.capaDatos
         private static string msgErrorAlRecuperarCreditoDisponible = "Error al recuperar crédito disponible.";
         private static string msgErrorGenerico = "Se produjo un error. Código interno: 01";
         private static string msgNoHayProductosAProcesar = "No hay producto para procesar o el crédito disponible no es suficiente.";
+        private static string msgCarritoRepetido = "Carrito ya se encuentra facturado.";
+        private static string msgCarritoEnProceso = "Carrito se está procesando.";
+        private static string msgError_carritoNoSeEncontro = "Carrito no encontrado.";
         private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromMinutes(30) };
         public static string url_SAP = Helper.getUrl_SAP;
         private static readonly System.Globalization.CultureInfo culture_enUS = new System.Globalization.CultureInfo("en-US");
@@ -181,52 +184,178 @@ namespace DKbase //namespace DKbase.web.capaDatos
             TomarPedidoResponse result = new TomarPedidoResponse();
             result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
             result.msg = msgErrorGenerico;
-            if (!capaCAR_WebService_base.IsBanderaCodigo(DKbase.generales.Constantes.cBAN_servidorSAP))
+            try
             {
-                result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
-                result.msg = msgRealizandoTareasMantenimiento;
-            }
-            else
-            {
-                decimal? creditoDisponible = await CRED_DISP(pCliente.cli_codigo);
-                if (creditoDisponible == null)
+                if (!capaCAR_WebService_base.IsBanderaCodigo(DKbase.generales.Constantes.cBAN_servidorSAP))
                 {
                     result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
-                    result.msg = msgErrorAlRecuperarCreditoDisponible;
+                    result.msg = msgRealizandoTareasMantenimiento;
                 }
                 else
                 {
-                    result.tipo = Constantes.cTomarPedido_type_SeProceso;
-                    result.msg = string.Empty;
-                    cCarrito oCarrito = GetCarrito(pUsuario, pCliente, pTipo, pCodSucursal);
-                    if (oCarrito.listaProductos != null)
+                    decimal? creditoDisponible = await CRED_DISP(pCliente.cli_codigo);
+                    if (creditoDisponible == null)
                     {
-                        List<cProductosGenerico> l_Procesar = new List<cProductosGenerico>();
-                        List<cProductosGenerico> l_sin_Procesar = new List<cProductosGenerico>();
-                        decimal sumaTotal_sap = 0;
-                        foreach (cProductosGenerico o in oCarrito.listaProductos)
+                        result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
+                        result.msg = msgErrorAlRecuperarCreditoDisponible;
+                    }
+                    else
+                    {
+                        result.tipo = Constantes.cTomarPedido_type_SeProceso;
+                        result.msg = string.Empty;
+                        cCarrito oCarrito = GetCarrito(pUsuario, pCliente, pTipo, pCodSucursal);
+                        if (oCarrito == null || oCarrito.listaProductos == null)
                         {
-                            if (creditoDisponible.Value < (sumaTotal_sap + o.PrecioFinal_MasCantidad))
+                            result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
+                            result.msg = msgError_carritoNoSeEncontro;
+                        }
+                        else //if (oCarrito.listaProductos != null)
+                        {
+                            List<cProductosGenerico> l_Procesar = new List<cProductosGenerico>();
+                            List<cProductosGenerico> l_sin_Procesar_ProblemasDeCreditos = new List<cProductosGenerico>();
+                            decimal sumaTotal_sap = 0;
+                            foreach (cProductosGenerico o in oCarrito.listaProductos)
                             {
-                                sumaTotal_sap += o.PrecioFinal_MasCantidad;
-                                l_Procesar.Add(o);
+                                if (creditoDisponible.Value >= (sumaTotal_sap + o.PrecioFinal_MasCantidad))
+                                {
+                                    sumaTotal_sap += o.PrecioFinal_MasCantidad;
+                                    l_Procesar.Add(o);
+                                }
+                                else
+                                {
+                                    l_sin_Procesar_ProblemasDeCreditos.Add(o);
+                                }
+                            }
+                            if (l_Procesar.Count == 0)
+                            {
+                                result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
+                                result.msg = msgNoHayProductosAProcesar;
                             }
                             else
                             {
-                                l_sin_Procesar.Add(o);
+                                if (Helper.isSAP)
+                                {
+
+                                    result = TomarPedidoCarrito_sap(oCarrito, l_Procesar, l_sin_Procesar_ProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
+
+
+                                }
+                                else
+                                {
+                                    result.tipo = Constantes.cTomarPedido_type_SeProceso_dll;
+                                    // inicio dll
+                                    string pTipoEnvio = string.Empty;
+                                    string horarioCierre = string.Empty;
+                                    List<cCarrito> l_Carrito = new List<cCarrito>();
+                                    l_Carrito.Add(oCarrito);
+                                    result.result_dll = DKbase.web.capaDatos.capaCAR_WebService_base.TomarPedidoCarrito_generico(pUsuario, pCliente, l_Carrito, horarioCierre, pTipo, pCodSucursal, "", "", pTipoEnvio, false);
+                                    // fin dll
+                                }
+
                             }
                         }
-                        if (l_Procesar.Count == 0)
-                        {
-                            result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
-                            result.msg = msgNoHayProductosAProcesar;
-                        }
+
+
                     }
-
-
                 }
             }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pUsuario, pCliente, pTipo, pCodSucursal);
+            }
+            return result;
+        }
 
+        public static bool recuperador_ProblemasDeCreditos(cClientes pCliente, cCarrito pCarrito, string pCodSucursal, List<cProductosGenerico> pItemsConProblemasDeCreditos)
+        {
+            bool result = true;
+            if (pItemsConProblemasDeCreditos != null)
+            {
+                foreach (cProductosGenerico itemConProblemasDeCreditos in pItemsConProblemasDeCreditos)
+                {
+                    int cantidadProblemaCrediticia = itemConProblemasDeCreditos.cantidad;
+                    if (cantidadProblemaCrediticia > 0)
+                    {
+                        capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(pCarrito.car_id, pCodSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.pro_nombre, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
+                    }
+                }
+            }
+            return result;
+        }
+        public static TomarPedidoResponse TomarPedidoCarrito_sap(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, List<cProductosGenerico> pL_ItemsConProblemasDeCreditos, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
+        {
+            TomarPedidoResponse result = new TomarPedidoResponse();
+            if (pCarrito == null)
+                return null;
+            try
+            {
+                if (capaCAR_base.IsCarritoEnProceso(pCarrito.car_id))
+                {
+                    result.tipo = Constantes.cTomarPedido_type_SeProcesoMostrarMsg;
+                    result.msg = msgCarritoEnProceso;
+                }
+                capaCAR_base.InicioCarritoEnProceso(pCarrito.car_id, Constantes.cAccionCarrito_TOMAR);
+
+                // ACA va logica cuando se llama a toma pedido sap
+                result.tipo = Constantes.cTomarPedido_type_SeProceso;
+                result.msg = "Ok";
+
+                // Fin llamada sap
+                if (pL_ItemsConProblemasDeCreditos.Count > 0)
+                {
+                    recuperador_ProblemasDeCreditos(pCliente, pCarrito, pCodSucursal, pL_ItemsConProblemasDeCreditos);
+                }
+                capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "pMensajeEnFactura", "pMensajeEnRemito", "pTipoEnvio", false);
+                /* if (resultadoPedido != null)
+                 {
+                     bool isErrorPedido = false;
+                     if (!string.IsNullOrEmpty(resultadoPedido.Error) ||
+                         !string.IsNullOrEmpty(resultadoPedido.web_Error))
+                     {
+                         isErrorPedido = true;
+                     }
+
+                     // Si se genero error
+                     if (isErrorPedido)
+                     {
+                         resultadoPedido.Error = DKbase.web.FuncionesPersonalizadas_base.LimpiarStringErrorPedido(resultadoPedido.Error);
+                     }
+                     else
+                     {
+                         // Obtener horario cierre
+                         resultadoPedido.Login = "pHorarioCierre";
+                         // OPTIMIZAR //////////////////
+                         if (resultadoPedido.Items != null)
+                         {
+                             foreach (cDllPedidoItem itemFaltantes in resultadoPedido.Items)
+                             {
+                                 if (itemFaltantes.Faltas > 0)
+                                 {
+                                     capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(pCarrito.lrc_id, pCodSucursal, pCliente.cli_codigo, itemFaltantes.NombreObjetoComercial, itemFaltantes.Faltas, Constantes.cPEDIDO_FALTANTES);
+                                 }
+                             }
+                         }
+                         if (resultadoPedido.ItemsConProblemasDeCreditos != null)
+                         {
+                             foreach (cDllPedidoItem itemConProblemasDeCreditos in resultadoPedido.ItemsConProblemasDeCreditos)
+                             {
+                                 int cantidadProblemaCrediticia = itemConProblemasDeCreditos.Cantidad + itemConProblemasDeCreditos.Faltas;
+                                 if (cantidadProblemaCrediticia > 0)
+                                 {
+                                     capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(pCarrito.lrc_id, pCodSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.NombreObjetoComercial, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
+                                 }
+                             }
+                         }
+
+                         capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "pMensajeEnFactura", "pMensajeEnRemito", "pTipoEnvio", false);
+                     }
+                 }*/
+
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCarrito, pUsuario, pCliente, pTipo, pCodSucursal);
+            }
             return result;
         }
     }

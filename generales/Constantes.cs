@@ -361,5 +361,13 @@ namespace DKbase.generales
         {
             get { return "seProceso"; }
         }
+        public static string cTomarPedido_type_SeProcesoMostrarMsg
+        {
+            get { return "seProceso_mostrarMsg"; }
+        }
+        public static string cTomarPedido_type_SeProceso_dll
+        {
+            get { return "seProceso_dll"; }
+        }
     }
 }

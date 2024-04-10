@@ -109,5 +109,11 @@ namespace DKbase
             set { _isSAP = value; }
             get { return _isSAP; }
         }
+        private static bool _isModoDev = false;
+        public static bool isModoDev
+        {
+            set { _isModoDev = value; }
+            get { return _isModoDev; }
+        }
     }
 }

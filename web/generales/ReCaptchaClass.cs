@@ -5,22 +5,29 @@ using System.Text;
 
 namespace DKbase.web.generales
 {
-  public class ReCaptchaClass
+    public class ReCaptchaClass
     {
         static string PrivateKey = Helper.getReCAPTCHA_ClaveSecreta;
         public static bool Validate(string EncodedResponse)
         {
             bool result = false;
-            try
+            if (Helper.isModoDev)
             {
-                var client = new System.Net.WebClient();
-                string GoogleReply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", PrivateKey, EncodedResponse));
-                if (!string.IsNullOrEmpty(GoogleReply) && GoogleReply.ToLower().Contains("true"))
-                    result = true;
+                result = true;
             }
-            catch (Exception ex)
+            else
             {
-                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                try
+                {
+                    var client = new System.Net.WebClient();
+                    string GoogleReply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", PrivateKey, EncodedResponse));
+                    if (!string.IsNullOrEmpty(GoogleReply) && GoogleReply.ToLower().Contains("true"))
+                        result = true;
+                }
+                catch (Exception ex)
+                {
+                    DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                }
             }
             return result;
         }

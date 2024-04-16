@@ -305,7 +305,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 {
                     recuperador_ProblemasDeCreditos(pCliente, pCarrito, pCodSucursal, pL_ItemsConProblemasDeCreditos);
                 }
-                capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "pMensajeEnFactura", "pMensajeEnRemito", "pTipoEnvio", false);
+                capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "", "", "", false);
                 /* if (resultadoPedido != null)
                  {
                      bool isErrorPedido = false;

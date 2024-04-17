@@ -14,6 +14,9 @@ using DKbase.web.capaDatos;
 using System.Data;
 using DKbase.generales;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
+using System.Xml.Linq;
+using DKbase.Entities;
+using System.Data.SqlClient;
 
 namespace DKbase //namespace DKbase.web.capaDatos
 {
@@ -219,6 +222,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                                 if (creditoDisponible.Value >= (sumaTotal_sap + o.PrecioFinal_MasCantidad))
                                 {
                                     sumaTotal_sap += o.PrecioFinal_MasCantidad;
+                                    //o.cad_id = cad_id
                                     l_Procesar.Add(o);
                                 }
                                 else
@@ -300,6 +304,8 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 result.tipo = Constantes.cTomarPedido_type_SeProceso;
                 result.msg = "Ok";
 
+                int tbl_tomarPedido = spTomarPedido(pCarrito, pL_Procesar, pL_ItemsConProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
+
                 // Fin llamada sap
                 if (pL_ItemsConProblemasDeCreditos.Count > 0)
                 {
@@ -357,6 +363,69 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCarrito, pUsuario, pCliente, pTipo, pCodSucursal);
             }
             return result;
+        }
+        public static int spTomarPedido(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, List<cProductosGenerico> pL_ItemsConProblemasDeCreditos, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
+        {
+            int result = 0;
+            try
+            {
+                string strXML = string.Empty;
+                strXML += "<Root>";
+                foreach (cProductosGenerico item in pL_Procesar)
+                {
+                    List<XAttribute> listaAtributos = new List<XAttribute>();
+                    listaAtributos.Add(new XAttribute("tpd_cantidad", item.cantidad));
+                    listaAtributos.Add(new XAttribute("tpd_codProducto", item.codProducto));
+                    listaAtributos.Add(new XAttribute("tpd_codTransfers", item.tfr_codigo));
+                    listaAtributos.Add(new XAttribute("tpd_codUsuario", pUsuario.id));
+                    listaAtributos.Add(new XAttribute("tpd_status", "create"));
+                    listaAtributos.Add(new XAttribute("tpd_codCarritosDetalles", 0));
+
+                    XElement nodo = new XElement("DetallePedido", listaAtributos);
+                    strXML += nodo.ToString();
+                }
+                foreach (cProductosGenerico item in pL_ItemsConProblemasDeCreditos)
+                {
+                    List<XAttribute> listaAtributos = new List<XAttribute>();
+                    listaAtributos.Add(new XAttribute("tpd_cantidad", item.cantidad));
+                    listaAtributos.Add(new XAttribute("tpd_codProducto", item.codProducto));
+                    listaAtributos.Add(new XAttribute("tpd_codTransfers", item.tfr_codigo));
+                    listaAtributos.Add(new XAttribute("tpd_codUsuario", pUsuario.id));
+                    listaAtributos.Add(new XAttribute("tpd_status", "ProblemasDeCreditos"));
+                    listaAtributos.Add(new XAttribute("tpd_codCarritosDetalles", 0));
+
+                    XElement nodo = new XElement("DetallePedido", listaAtributos);
+                    strXML += nodo.ToString();
+                }
+                strXML += "</Root>";
+                //return capaModulo.spAddPedido(pPedido.promotor, strXML, pConnectionStringSQL);
+
+
+
+
+                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                List<SqlParameter> l = new List<SqlParameter>();
+                l.Add(db.GetParameter("tpc_codCarrito", pCarrito.car_id));
+                l.Add(db.GetParameter("tpc_CarritoTipo", pCarrito.tipo));
+                l.Add(db.GetParameter("tpc_codSucursal", pCodSucursal));
+                l.Add(db.GetParameter("tpc_codUsuario", pUsuario.id));
+                l.Add(db.GetParameter("tpc_codCliente", pCliente.cli_codigo));
+                l.Add(db.GetParameter("tpc_status", "create"));
+                l.Add(db.GetParameter("strXML", strXML, SqlDbType.Xml));
+                SqlParameter ParameterOut_tpc_id = db.GetParameterOut("tpc_id", SqlDbType.Int);
+                l.Add(ParameterOut_tpc_id);
+                db.ExecuteNonQuery("CAR.spTomarPedido", l);
+                if (ParameterOut_tpc_id.Value != DBNull.Value)
+                {
+                    result = Convert.ToInt32(ParameterOut_tpc_id.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCarrito, pL_Procesar, pUsuario, pCliente, pTipo, pCodSucursal);
+            }
+            return result;
+
         }
     }
 }

@@ -1029,7 +1029,7 @@ namespace DKbase.web
                                                                       where itemProductoCarrtios.Field<Int64>("ctd_idCarritoTransfers") == item.tfr_codigo && itemProductoCarrtios.Field<string>("car_codSucursal") == item.ctr_codSucursal// && itemProductoCarrtios.Field<string>("car_tipo") == item.
                                                                       select new cProductosGenerico
                                                                       {
-                                                                          codProducto = Convert.ToInt32( itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
+                                                                          codProducto = Convert.ToInt32(itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
                                                                           cantidad = itemProductoCarrtios.Field<int>("ctd_Cantidad"),
                                                                           pro_nombre = itemProductoCarrtios.Field<string>("pro_nombre"),
                                                                           tde_codpro = Convert.ToInt32(itemProductoCarrtios.Field<decimal>("ctd_codProducto")),
@@ -1042,9 +1042,9 @@ namespace DKbase.web
                                                                           //pro_ofeunidades = itemProductoCarrtios.IsNull("pro_ofeunidades") ? 0 : itemProductoCarrtios.Field<int>("pro_ofeunidades"),
                                                                           //pro_ofeporcentaje = itemProductoCarrtios.IsNull("pro_ofeporcentaje") ? 0 : itemProductoCarrtios.Field<decimal>("pro_ofeporcentaje"),
                                                                           tde_prepublico = itemProductoCarrtios.IsNull("tde_prepublico") ? 0 : itemProductoCarrtios.Field<decimal>("tde_prepublico"),
-                                                                         // tde_predescuento = itemProductoCarrtios.IsNull("tde_predescuento") ? 0 : itemProductoCarrtios.Field<decimal>("tde_predescuento"),
+                                                                          // tde_predescuento = itemProductoCarrtios.IsNull("tde_predescuento") ? 0 : itemProductoCarrtios.Field<decimal>("tde_predescuento"),
                                                                           stk_stock = itemProductoCarrtios.Table.Columns.Contains("stk_stock") && !itemProductoCarrtios.IsNull("stk_stock") ? itemProductoCarrtios.Field<string>("stk_stock") : null,
-                                                                          PrecioFinalTransfer = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, item.tfr_deshab, item.tfr_pordesadi, itemProductoCarrtios.Field<bool>("pro_neto"), itemProductoCarrtios.Field<string>("pro_codtpopro"),  0, itemProductoCarrtios.IsNull("tde_PrecioConDescuentoDirecto") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PrecioConDescuentoDirecto"), itemProductoCarrtios.IsNull("tde_PorcARestarDelDtoDeCliente") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PorcARestarDelDtoDeCliente"))
+                                                                          PrecioFinalTransfer = DKbase.web.FuncionesPersonalizadas_base.ObtenerPrecioFinalTransferBase(pCliente, item.tfr_deshab, item.tfr_pordesadi, itemProductoCarrtios.Field<bool>("pro_neto"), itemProductoCarrtios.Field<string>("pro_codtpopro"), 0, itemProductoCarrtios.IsNull("tde_PrecioConDescuentoDirecto") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PrecioConDescuentoDirecto"), itemProductoCarrtios.IsNull("tde_PorcARestarDelDtoDeCliente") ? 0 : itemProductoCarrtios.Field<decimal>("tde_PorcARestarDelDtoDeCliente"))
                                                                       }).ToList();
 
                     for (int iProductoCarrtios = 0; iProductoCarrtios < listaProductoCarrtios.Count; iProductoCarrtios++)
@@ -1275,8 +1275,8 @@ namespace DKbase.web
             {
                 cProductosAndCantidad obj = new cProductosAndCantidad();
                 obj.cantidad = pArrayCantidad[i];
-               // obj.codProductoNombre = pArrayNombreProducto[i];
-                obj.codProducto = Convert.ToInt32( pArrayNombreProducto[i]);
+                // obj.codProductoNombre = pArrayNombreProducto[i];
+                obj.codProducto = Convert.ToInt32(pArrayNombreProducto[i]);
                 listaAUX.Add(obj);
             }
             List<cProductosGenerico> listaProductos = RecuperarTodosProductosDesdeTabla(pCliente, listaAUX, pCliente.cli_codsuc, pCliente.cli_codprov, pCliente.cli_codigo);
@@ -1308,8 +1308,8 @@ namespace DKbase.web
                 listaProductos_capaCAR.Add(objProductosAndCantidad_transfer);
 
             }
-            DKbase.web.acceso.BorrarPorProductosFaltasProblemasCrediticiosV3(listaAUX, pSucursal, pCliente.cli_codigo, pRecuperador_Tipo, pRecuperador_CantidadDia);
-
+            // DKbase.web.acceso.BorrarPorProductosFaltasProblemasCrediticiosV3(listaAUX, pSucursal, pCliente.cli_codigo, pRecuperador_Tipo, pRecuperador_CantidadDia);
+            capaSAP.BorrarPorProductosFaltasProblemasCrediticios_Carrito(pCliente, pUsuario, pRecuperador_Tipo, pSucursal, listaAUX, pRecuperador_CantidadDia);
             return capaCAR_WebService_base.ActualizarProductoCarritoSubirArchivo(listaProductos_capaCAR, pCliente.cli_codigo, pUsuario.id);
         }
         public static List<cProductosGenerico> RecuperarTodosProductosDesdeTabla(cClientes pCliente, List<cProductosAndCantidad> pListaProducto, string pSucursalPerteneciente, string pCli_codprov, int pCli_codigo)

@@ -369,5 +369,17 @@ namespace DKbase.generales
         {
             get { return "seProceso_dll"; }
         }
+        public static string cTomarPedido_type_SeEnvioSAP
+        {
+            get { return "SeEnvioSAP"; }
+        }
+        public static string cTomarPedido_type_SinRespuestaSAP
+        {
+            get { return "SinRespuestaSAP"; }
+        }
+        public static string cTomarPedido_type_LlegoRespuestaSAP
+        {
+            get { return "LlegoRespuestaSAP"; }
+        }
     }
 }

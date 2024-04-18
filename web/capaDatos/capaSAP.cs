@@ -237,24 +237,23 @@ namespace DKbase //namespace DKbase.web.capaDatos
                             }
                             else
                             {
-                                if (Helper.isSAP)
-                                {
+                                //if (Helper.isSAP)           {
 
-                                    result = TomarPedidoCarrito_sap(oCarrito, l_Procesar, l_sin_Procesar_ProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
+                                result = TomarPedidoCarrito_sap(oCarrito, l_Procesar, l_sin_Procesar_ProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
 
 
-                                }
-                                else
-                                {
-                                    result.tipo = Constantes.cTomarPedido_type_SeProceso_dll;
-                                    // inicio dll
-                                    string pTipoEnvio = string.Empty;
-                                    string horarioCierre = string.Empty;
-                                    List<cCarrito> l_Carrito = new List<cCarrito>();
-                                    l_Carrito.Add(oCarrito);
-                                    result.result_dll = DKbase.web.capaDatos.capaCAR_WebService_base.TomarPedidoCarrito_generico(pUsuario, pCliente, l_Carrito, horarioCierre, pTipo, pCodSucursal, "", "", pTipoEnvio, false);
-                                    // fin dll
-                                }
+                                /* }
+                                 else
+                                 {
+                                     result.tipo = Constantes.cTomarPedido_type_SeProceso_dll;
+                                     // inicio dll
+                                     string pTipoEnvio = string.Empty;
+                                     string horarioCierre = string.Empty;
+                                     List<cCarrito> l_Carrito = new List<cCarrito>();
+                                     l_Carrito.Add(oCarrito);
+                                     result.result_dll = DKbase.web.capaDatos.capaCAR_WebService_base.TomarPedidoCarrito_generico(pUsuario, pCliente, l_Carrito, horarioCierre, pTipo, pCodSucursal, "", "", pTipoEnvio, false);
+                                     // fin dll
+                                 }*/
 
                             }
                         }
@@ -270,21 +269,180 @@ namespace DKbase //namespace DKbase.web.capaDatos
             return result;
         }
 
-        public static bool recuperador_ProblemasDeCreditos(cClientes pCliente, cCarrito pCarrito, string pCodSucursal, List<cProductosGenerico> pItemsConProblemasDeCreditos)
+        public static bool recuperador_ProblemasDeCreditos(cClientes pCliente, DKbase.web.Usuario pUsuario, cCarrito pCarrito, int pTipo, string pCodSucursal, List<cProductosGenerico> pItemsConProblemasDeCreditos)
         {
             bool result = true;
-            if (pItemsConProblemasDeCreditos != null)
+            try
             {
-                foreach (cProductosGenerico itemConProblemasDeCreditos in pItemsConProblemasDeCreditos)
+                if (pItemsConProblemasDeCreditos != null)
                 {
-                    int cantidadProblemaCrediticia = itemConProblemasDeCreditos.cantidad;
-                    if (cantidadProblemaCrediticia > 0)
+                    string strXML = string.Empty;
+                    strXML += "<Root>";
+                    foreach (cProductosGenerico item in pItemsConProblemasDeCreditos)
                     {
-                        capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(pCarrito.car_id, pCodSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.pro_nombre, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
+                        List<XAttribute> listaAtributos = new List<XAttribute>();
+                        listaAtributos.Add(new XAttribute("cantidad", item.cantidad));
+                        listaAtributos.Add(new XAttribute("codProducto", item.codProducto));
+                        listaAtributos.Add(new XAttribute("codTransfers", item.tfr_codigo));
+                        listaAtributos.Add(new XAttribute("tipo", pTipo));
+
+                        XElement nodo = new XElement("DetallePedido", listaAtributos);
+                        strXML += nodo.ToString();
+                    }
+
+                    strXML += "</Root>";
+
+
+                    BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                    List<SqlParameter> l = new List<SqlParameter>();
+                    l.Add(db.GetParameter("fpc_codCarrito", pCarrito.car_id));
+                    l.Add(db.GetParameter("fpc_CarritoTipo", pCarrito.tipo));
+                    l.Add(db.GetParameter("fpc_codSucursal", pCodSucursal));
+                    l.Add(db.GetParameter("fpc_codUsuario", pUsuario.id));
+                    l.Add(db.GetParameter("fpc_codCliente", pCliente.cli_codigo));
+                    //l.Add(db.GetParameter("fpc_tipo",pTipo));
+                    l.Add(db.GetParameter("strXML", strXML, SqlDbType.Xml));
+                    SqlParameter ParameterOut_isOk = db.GetParameterOut("isOk", SqlDbType.Int);
+                    l.Add(ParameterOut_isOk);
+                    db.ExecuteNonQuery("CAR.spFaltasProblemasCrediticios", l);
+                    if (ParameterOut_isOk.Value != DBNull.Value)
+                    {
+                        result = Convert.ToBoolean(ParameterOut_isOk.Value);
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCliente, pUsuario, pCarrito, pTipo, pCodSucursal, pItemsConProblemasDeCreditos);
+            }
             return result;
+        }
+        public static List<cFaltantesConProblemasCrediticiosPadre> RecuperarFaltasProblemasCrediticios_TodosEstados(cClientes pCliente, int fpc_tipo, int pCantidadDia, string pSucursal)
+        {
+            List<cFaltantesConProblemasCrediticiosPadre> resultado = null;
+            try
+            {
+                //DataSet dsResultado = capaLogRegistro_base.RecuperarFaltasProblemasCrediticios_TodosEstados(pCliente.cli_codigo, fpc_tipo, pCantidadDia, pSucursal);
+                //
+                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                List<SqlParameter> l = new List<SqlParameter>();
+                l.Add(db.GetParameter("fpc_tipo", fpc_tipo));
+                l.Add(db.GetParameter("cantidadDia", pCantidadDia));
+                l.Add(db.GetParameter("Sucursal", pSucursal));
+                l.Add(db.GetParameter("fpc_codCliente", pCliente.cli_codigo));
+                DataSet dsResultado = db.GetDataSet("CAR.spRecuperarFaltasProblemasCrediticiosTodosEstados", l);
+                //
+                List<cTransferDetalle> listaTransferDetalle = new List<cTransferDetalle>();
+                DataTable tablaTransferDetalle = dsResultado.Tables[1];
+                foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+                {
+                    cTransferDetalle objTransferDetalle = DKbase.web.acceso.ConvertToTransferDetalle(itemTransferDetalle);
+                    objTransferDetalle.CargarTransfer(DKbase.web.acceso.ConvertToTransfer(itemTransferDetalle));
+                    listaTransferDetalle.Add(objTransferDetalle);
+                }
+                resultado = DKbase.Util.ConvertDataTableAClase(dsResultado.Tables[0], dsResultado.Tables[2], listaTransferDetalle, pCliente);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCliente, fpc_tipo, pCantidadDia, pSucursal);
+            }
+            return resultado;
+        }
+        public static bool BorrarPorProductosFaltasProblemasCrediticios(cClientes pCliente, DKbase.web.Usuario pUsuario, int fpc_tipo, string pSucursal, string[] pArrayCodigoProducto)
+        {
+            bool result = false;
+            try
+            {
+                string strXML = string.Empty;
+                strXML += "<Root>";
+                foreach (string item in pArrayCodigoProducto)
+                {
+                    List<XAttribute> listaAtributos = new List<XAttribute>();
+                    listaAtributos.Add(new XAttribute("codProducto", Convert.ToDouble(item)));
+                    XElement nodo = new XElement("DetallePedido", listaAtributos);
+                    strXML += nodo.ToString();
+                }
+
+                strXML += "</Root>";
+                //
+                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                List<SqlParameter> l = new List<SqlParameter>();
+                l.Add(db.GetParameter("fpc_tipo", fpc_tipo));
+                l.Add(db.GetParameter("fpc_codSucursal", pSucursal));//fpc_codSucursal
+                l.Add(db.GetParameter("fpc_codCliente", pCliente.cli_codigo));
+                l.Add(db.GetParameter("strXML", strXML, SqlDbType.Xml));
+                DataSet dsResultado = db.GetDataSet("CAR.spBorrarPorProductosFaltasProblemasCrediticios", l);
+                //
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCliente, fpc_tipo, pSucursal, pArrayCodigoProducto);
+            }
+            return result;
+        }
+        public static bool BorrarPorProductosFaltasProblemasCrediticios_Carrito(cClientes pCliente, DKbase.web.Usuario pUsuario, int fpc_tipo, string pSucursal, List<cProductosAndCantidad> pListaProducto, int pCantidadDia)
+        {//(List<cProductosAndCantidad> pListaProducto, string fpc_codSucursal, int fpc_codCliente, int fpc_tipo, int pCantidadDia)
+            bool result = false;
+            try
+            {
+                DataTable pTablaDetalle = web.FuncionesPersonalizadas_base.ObtenerDataTableProductosCarritoArchivosPedidos();
+                if (pListaProducto.Count > 0)
+                {
+                    foreach (cProductosAndCantidad itemProductosAndCantidad in pListaProducto)
+                    {
+                        DataRow fila = pTablaDetalle.NewRow();
+                        fila["codProducto"] = itemProductosAndCantidad.codProducto;
+                        fila["cantidad"] = itemProductosAndCantidad.cantidad;
+                        pTablaDetalle.Rows.Add(fila);
+                    }
+                }
+                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                List<SqlParameter> l = new List<SqlParameter>();
+                l.Add(db.GetParameter("fpc_tipo", fpc_tipo));
+                l.Add(db.GetParameter("fpc_codSucursal", pSucursal));
+                l.Add(db.GetParameter("fpc_codCliente", pCliente.cli_codigo));
+                l.Add(db.GetParameter("cantidadDia", pCantidadDia));
+                l.Add(db.GetParameter("Tabla_Detalle", pTablaDetalle));
+                DataSet dsResultado = db.GetDataSet("CAR.spBorrarPorProductosFaltasProblemasCrediticios_Carrito", l);
+                //
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCliente, pUsuario, fpc_tipo, pSucursal, pListaProducto, pCantidadDia);
+            }
+            return result;
+        }
+        public static List<cFaltantesConProblemasCrediticiosPadre> RecuperarFaltasProblemasCrediticios(cClientes pCliente, int fpc_tipo, int pCantidadDia, string pSucursal)
+        {
+            List<cFaltantesConProblemasCrediticiosPadre> resultado = null;
+            try
+            {
+                //DataSet dsResultado = capaLogRegistro_base.RecuperarFaltasProblemasCrediticios(pCliente.cli_codigo, fpc_tipo, pCantidadDia, pSucursal);
+                //
+                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                List<SqlParameter> l = new List<SqlParameter>();
+                l.Add(db.GetParameter("fpc_tipo", fpc_tipo));
+                l.Add(db.GetParameter("cantidadDia", pCantidadDia));
+                l.Add(db.GetParameter("Sucursal", pSucursal));
+                l.Add(db.GetParameter("fpc_codCliente", pCliente.cli_codigo));
+                DataSet dsResultado = db.GetDataSet("CAR.spRecuperarFaltasProblemasCrediticios", l);
+                //
+                List<cTransferDetalle> listaTransferDetalle = new List<cTransferDetalle>();
+                DataTable tablaTransferDetalle = dsResultado.Tables[1];
+                foreach (DataRow itemTransferDetalle in tablaTransferDetalle.Rows)
+                {
+                    cTransferDetalle objTransferDetalle = DKbase.web.acceso.ConvertToTransferDetalle(itemTransferDetalle);
+                    objTransferDetalle.CargarTransfer(DKbase.web.acceso.ConvertToTransfer(itemTransferDetalle));
+                    listaTransferDetalle.Add(objTransferDetalle);
+                }
+
+                resultado = DKbase.Util.ConvertDataTableAClase(dsResultado.Tables[0], dsResultado.Tables[2], listaTransferDetalle, pCliente);
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCliente, fpc_tipo, pCantidadDia, pSucursal);
+            }
+            return resultado;
         }
         public static TomarPedidoResponse TomarPedidoCarrito_sap(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, List<cProductosGenerico> pL_ItemsConProblemasDeCreditos, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
         {
@@ -304,58 +462,16 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 result.tipo = Constantes.cTomarPedido_type_SeProceso;
                 result.msg = "Ok";
 
-                int tbl_tomarPedido = spTomarPedido(pCarrito, pL_Procesar, pL_ItemsConProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
+                int tbl_tomarPedido = spTomarPedido(pCarrito, pL_Procesar, pUsuario, pCliente, pTipo, pCodSucursal);
+
+                spTomarPedidoUpdate(tbl_tomarPedido, pUsuario, Constantes.cTomarPedido_type_LlegoRespuestaSAP, "respuesta sap");
 
                 // Fin llamada sap
                 if (pL_ItemsConProblemasDeCreditos.Count > 0)
                 {
-                    recuperador_ProblemasDeCreditos(pCliente, pCarrito, pCodSucursal, pL_ItemsConProblemasDeCreditos);
+                    recuperador_ProblemasDeCreditos(pCliente, pUsuario, pCarrito, Constantes.cPEDIDO_PROBLEMACREDITICIO, pCodSucursal, pL_ItemsConProblemasDeCreditos);
                 }
                 capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "", "", "", false);
-                /* if (resultadoPedido != null)
-                 {
-                     bool isErrorPedido = false;
-                     if (!string.IsNullOrEmpty(resultadoPedido.Error) ||
-                         !string.IsNullOrEmpty(resultadoPedido.web_Error))
-                     {
-                         isErrorPedido = true;
-                     }
-
-                     // Si se genero error
-                     if (isErrorPedido)
-                     {
-                         resultadoPedido.Error = DKbase.web.FuncionesPersonalizadas_base.LimpiarStringErrorPedido(resultadoPedido.Error);
-                     }
-                     else
-                     {
-                         // Obtener horario cierre
-                         resultadoPedido.Login = "pHorarioCierre";
-                         // OPTIMIZAR //////////////////
-                         if (resultadoPedido.Items != null)
-                         {
-                             foreach (cDllPedidoItem itemFaltantes in resultadoPedido.Items)
-                             {
-                                 if (itemFaltantes.Faltas > 0)
-                                 {
-                                     capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(pCarrito.lrc_id, pCodSucursal, pCliente.cli_codigo, itemFaltantes.NombreObjetoComercial, itemFaltantes.Faltas, Constantes.cPEDIDO_FALTANTES);
-                                 }
-                             }
-                         }
-                         if (resultadoPedido.ItemsConProblemasDeCreditos != null)
-                         {
-                             foreach (cDllPedidoItem itemConProblemasDeCreditos in resultadoPedido.ItemsConProblemasDeCreditos)
-                             {
-                                 int cantidadProblemaCrediticia = itemConProblemasDeCreditos.Cantidad + itemConProblemasDeCreditos.Faltas;
-                                 if (cantidadProblemaCrediticia > 0)
-                                 {
-                                     capaLogRegistro_base.InsertarFaltantesProblemasCrediticios(pCarrito.lrc_id, pCodSucursal, pCliente.cli_codigo, itemConProblemasDeCreditos.NombreObjetoComercial, cantidadProblemaCrediticia, Constantes.cPEDIDO_PROBLEMACREDITICIO);
-                                 }
-                             }
-                         }
-
-                         capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "pMensajeEnFactura", "pMensajeEnRemito", "pTipoEnvio", false);
-                     }
-                 }*/
 
             }
             catch (Exception ex)
@@ -364,7 +480,29 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static int spTomarPedido(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, List<cProductosGenerico> pL_ItemsConProblemasDeCreditos, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
+
+        public static int spTomarPedidoUpdate(int pTpc_id, DKbase.web.Usuario pUsuario, string pStatus, string pResultJson)
+        {
+            int result = 0;
+            try
+            {
+                BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
+                List<SqlParameter> l = new List<SqlParameter>();
+                l.Add(db.GetParameter("tpc_id", pTpc_id));
+                l.Add(db.GetParameter("tpc_codUsuario", pUsuario.id));
+                l.Add(db.GetParameter("tpc_status", Constantes.cTomarPedido_type_LlegoRespuestaSAP));
+                l.Add(db.GetParameter("tpc_resultResponseContent", pResultJson));
+                db.ExecuteNonQuery("CAR.spTomarPedidoUpdate", l);
+
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pTpc_id, pUsuario, pStatus, pResultJson);
+            }
+            return result;
+
+        }
+        public static int spTomarPedido(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
         {
             int result = 0;
             try
@@ -378,20 +516,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                     listaAtributos.Add(new XAttribute("tpd_codProducto", item.codProducto));
                     listaAtributos.Add(new XAttribute("tpd_codTransfers", item.tfr_codigo));
                     listaAtributos.Add(new XAttribute("tpd_codUsuario", pUsuario.id));
-                    listaAtributos.Add(new XAttribute("tpd_status", "create"));
-                    listaAtributos.Add(new XAttribute("tpd_codCarritosDetalles", 0));
-
-                    XElement nodo = new XElement("DetallePedido", listaAtributos);
-                    strXML += nodo.ToString();
-                }
-                foreach (cProductosGenerico item in pL_ItemsConProblemasDeCreditos)
-                {
-                    List<XAttribute> listaAtributos = new List<XAttribute>();
-                    listaAtributos.Add(new XAttribute("tpd_cantidad", item.cantidad));
-                    listaAtributos.Add(new XAttribute("tpd_codProducto", item.codProducto));
-                    listaAtributos.Add(new XAttribute("tpd_codTransfers", item.tfr_codigo));
-                    listaAtributos.Add(new XAttribute("tpd_codUsuario", pUsuario.id));
-                    listaAtributos.Add(new XAttribute("tpd_status", "ProblemasDeCreditos"));
+                    listaAtributos.Add(new XAttribute("tpd_status", Constantes.cTomarPedido_type_SeEnvioSAP));
                     listaAtributos.Add(new XAttribute("tpd_codCarritosDetalles", 0));
 
                     XElement nodo = new XElement("DetallePedido", listaAtributos);
@@ -410,7 +535,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 l.Add(db.GetParameter("tpc_codSucursal", pCodSucursal));
                 l.Add(db.GetParameter("tpc_codUsuario", pUsuario.id));
                 l.Add(db.GetParameter("tpc_codCliente", pCliente.cli_codigo));
-                l.Add(db.GetParameter("tpc_status", "create"));
+                l.Add(db.GetParameter("tpc_status", Constantes.cTomarPedido_type_SeEnvioSAP));
                 l.Add(db.GetParameter("strXML", strXML, SqlDbType.Xml));
                 SqlParameter ParameterOut_tpc_id = db.GetParameterOut("tpc_id", SqlDbType.Int);
                 l.Add(ParameterOut_tpc_id);

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DKbase.web.capaDatos
 {
-   public class capaSeguridad_base
+    public class capaSeguridad_base
     {
         public static DataSet Login(string pNombreLogin, string pPassword, string pIp, string pHostName, string pUserAgent)
         {
@@ -39,7 +39,7 @@ namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, procedureName, pNombreLogin, pPassword,  pIp,  pHostName,  pUserAgent);
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, procedureName, pNombreLogin, pPassword, pIp, pHostName, pUserAgent);
                 return null;
             }
             finally
@@ -79,7 +79,7 @@ namespace DKbase.web.capaDatos
 
             }
             catch (Exception ex)
-            {       
+            {
                 Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, procedureName, pIdRol);
                 return null;
             }
@@ -719,6 +719,28 @@ namespace DKbase.web.capaDatos
                 foreach (DataRow item in dsResultado.Tables["Usuario"].Rows)
                 {
                     lista.Add(DKbase.web.capaDatos.capaSeguridad_base.ConvertToUsuario(item));
+                }
+            }
+            return lista;
+        }
+        public static List<cRol> RecuperarTodasRoles_Combo()
+        {
+            List<cRol> lista = new List<cRol>();
+            DataSet dsResultado = GestiónRol(null, null, null, Constantes.cSQL_COMBO);
+            if (dsResultado != null)
+            {
+                foreach (DataRow item in dsResultado.Tables["Rol"].Rows)
+                {
+                    cRol obj = new cRol();
+                    if (item["rol_codRol"] != DBNull.Value)
+                    {
+                        obj.rol_codRol = Convert.ToInt32(item["rol_codRol"]);
+                    }
+                    if (item["rol_Nombre"] != DBNull.Value)
+                    {
+                        obj.rol_Nombre = item["rol_Nombre"].ToString();
+                    }
+                    lista.Add(obj);
                 }
             }
             return lista;

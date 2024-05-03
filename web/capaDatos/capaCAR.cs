@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,63 +21,158 @@ namespace DKbase.web.capaDatos
         {
             return AgregarProductoAlCarrito_generica(pSucursal, pIdProducto, pCantidadProducto, Constantes.cTipo_CarritoDiferido, pIdCliente, pIdUsuario);
         }
-        //public static bool AgregarProductoAlCarrito_generica(string pSucursal, int pIdProducto, int pCantidadProducto, string pTipo, int pIdCliente, int? pIdUsuario)
-        //{
-        //    SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
-        //    SqlCommand cmdComandoInicio = new SqlCommand("CAR.spCargarCarritoProductoSucursal", Conn);
-        //    cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+        public static DateTime spObtenerSiguienteItinerarioCliente(decimal codCliente, string idSuc)
+{
+    SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+    SqlCommand cmdComandoInicio = new SqlCommand("dbo.spObtenerSiguienteItinerarioCliente", Conn);
+    cmdComandoInicio.CommandType = CommandType.StoredProcedure;
 
-        //    SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@codSucursal", SqlDbType.NVarChar, 2);
-        //    SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
-        //    SqlParameter paIdUsuario = cmdComandoInicio.Parameters.Add("@codUsuario", SqlDbType.Int);
-        //    //SqlParameter paCodTransfer = cmdComandoInicio.Parameters.Add("@car_codTransfer", SqlDbType.Int);
-        //    SqlParameter paIdProducto = cmdComandoInicio.Parameters.Add("@codProducto", SqlDbType.Int);
-        //    SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@car_tipo", SqlDbType.NVarChar, 100);
-        //    SqlParameter paCantidad = cmdComandoInicio.Parameters.Add("@cantidad", SqlDbType.Int);
-        //    SqlParameter paSumar = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
-        //    paSumar.Direction = ParameterDirection.Output;
-        //    if (pIdUsuario == null)
-        //    {
-        //        paIdUsuario.Value = DBNull.Value;
-        //    }
-        //    else
-        //    {
-        //        paIdUsuario.Value = pIdUsuario;
-        //    }
-        //    //if (car_codTransfer == null)
-        //    //{
-        //    //    paCodTransfer.Value = DBNull.Value;
-        //    //}
-        //    //else
-        //    //{
-        //    //    paCodTransfer.Value = car_codTransfer;
-        //    //}
-        //    paSucursal.Value = pSucursal;
-        //    paIdCliente.Value = pIdCliente;
-        //    paIdProducto.Value = pIdProducto;
-        //    paCantidad.Value = pCantidadProducto;
-        //    paTipo.Value = pTipo;
+    SqlParameter paIdSuc = cmdComandoInicio.Parameters.Add("@idSucursal", SqlDbType.NChar);
+    SqlParameter paCodigoCliente = cmdComandoInicio.Parameters.Add("@CodigoCliente", SqlDbType.Decimal);
 
-        //    try
-        //    {
-        //        Conn.Open();
-        //        cmdComandoInicio.ExecuteNonQuery();
-        //        return Convert.ToBoolean(paSumar.Value);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
-        //        return false;
-        //    }
-        //    finally
-        //    {
-        //        if (Conn.State == ConnectionState.Open)
-        //        {
-        //            Conn.Close();
-        //        }
-        //        InsertarAuditoriaPasoAPasoAsync(pIdCliente, pIdUsuario, pSucursal, pTipo, pIdProducto, pCantidadProducto, null);
-        //    }
-        //}
+    paIdSuc.Value = idSuc;
+    paCodigoCliente.Value = codCliente;
+
+    try
+    {
+        Conn.Open();
+        DataSet dsResultado = new DataSet();
+        SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+        da.Fill(dsResultado, "ItinerariosSiguienteCliente");
+
+        DateTime fechaHora = DateTime.MinValue; 
+
+        if (dsResultado.Tables.Count > 0 && dsResultado.Tables["ItinerariosSiguienteCliente"].Rows.Count > 0)
+        {
+            foreach (DataRow row in dsResultado.Tables["ItinerariosSiguienteCliente"].Rows)
+            {
+                string diaSemanaSiguienteString = row["iti_DiaSMNum"].ToString();
+                string horaSiguienteString = row["iti_Hora"].ToString();
+                DayOfWeek diaSemanaSiguiente = (DayOfWeek)(int.Parse(diaSemanaSiguienteString));
+
+
+                DateTime fechaActual = DateTime.Today;
+                int diferenciaDias = ((int)diaSemanaSiguiente - (int)fechaActual.DayOfWeek + 7) % 7;
+                DateTime fechaDiaSemana = fechaActual.AddDays(diferenciaDias);
+
+
+                string fechaHoraString = $"{fechaDiaSemana.ToString("yyyy-MM-dd")} {horaSiguienteString}";
+
+
+                if (DateTime.TryParseExact(fechaHoraString, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaHora))
+                {
+                    Console.WriteLine("Fecha y hora resultante: " + fechaHora.ToString("yyyy-MM-dd HH:mm:ss"));
+                }
+                else
+                {
+                    Console.WriteLine("Formato de fecha y hora no válido.");
+                }
+
+                Console.WriteLine("Segundo Horario:");
+                Console.WriteLine($"Día: {row["iti_Dia"]}, Hora: {row["iti_Hora"]}, Día de la semana: {row["iti_DiaSMNum"]}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No se encontró el segundo horario");
+        }
+
+        return fechaHora; 
+    }
+    catch (Exception ex)
+    {
+        Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+        return DateTime.MinValue; 
+    }
+    finally
+    {
+        if (Conn.State == ConnectionState.Open)
+        {
+            Conn.Close();
+        }
+    }
+}
+
+
+
+        
+        public static DateTime spObtenerItinerarioCliente(decimal codCliente, string idSuc)
+        {
+
+            SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+            SqlCommand cmdComandoInicio = new SqlCommand("dbo.spObtenerItinerarioCliente", Conn);
+            cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+            SqlParameter paIdSuc = cmdComandoInicio.Parameters.Add("@idSucursal", SqlDbType.NChar);
+            SqlParameter paCodigoCliente = cmdComandoInicio.Parameters.Add("@CodigoCliente", SqlDbType.Decimal);
+
+            paIdSuc.Value = idSuc;
+            paCodigoCliente.Value = codCliente;
+
+            try
+            {
+                Conn.Open();
+                DataSet dsResultado = new DataSet();
+                SqlDataAdapter da = new SqlDataAdapter(cmdComandoInicio);
+                da.Fill(dsResultado, "ItinerariosCliente");
+
+                DateTime fechaHora = DateTime.MinValue;
+                
+                if (dsResultado.Tables.Count > 0)
+                {
+
+                    if (dsResultado.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dsResultado.Tables[0].Rows)
+                        {
+
+                            string diaSemanaString  = row["iti_DiaSMNum"].ToString();
+                            string horaString = row["iti_Hora"].ToString();
+                            DayOfWeek diaSemana = (DayOfWeek)(int.Parse(diaSemanaString));
+
+                            DateTime fechaActual = DateTime.Today;
+                            int diferenciaDias = ((int)diaSemana - (int)fechaActual.DayOfWeek + 7) % 7;
+                            DateTime fechaDiaSemana = fechaActual.AddDays(diferenciaDias);
+
+
+                            string fechaHoraString = $"{fechaDiaSemana.ToString("yyyy-MM-dd")} {horaString}";
+
+
+                            if (DateTime.TryParseExact(fechaHoraString, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out fechaHora))
+                            {
+                                Console.WriteLine("Fecha y hora resultante: " + fechaHora.ToString("yyyy-MM-dd HH:mm:ss"));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Formato de fecha y hora no válido.");
+                            }
+                            Console.WriteLine("Primer Horario:");
+                            Console.WriteLine($"Día: {row["iti_Dia"]}, Hora: {row["iti_Hora"]}, Día de la semana: {row["iti_DiaSMNum"]}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No se encontro el primer horario");
+                }
+                return fechaHora;
+            }
+            catch (Exception ex)
+            {
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+                return DateTime.MinValue;
+            }
+            finally
+            {
+                if (Conn.State == ConnectionState.Open)
+                {
+                    Conn.Close();
+                }
+                
+            }
+
+        }
+        
         public static bool AgregarProductoAlCarrito_generica(string pSucursal, int pIdProducto, int pCantidadProducto, string pTipo, int pIdCliente, int? pIdUsuario)
         {
             List<cProductosAndCantidad> listaProductos = new List<cProductosAndCantidad>();
@@ -855,3 +951,60 @@ namespace DKbase.web.capaDatos
 
     }
 }
+//public static bool AgregarProductoAlCarrito_generica(string pSucursal, int pIdProducto, int pCantidadProducto, string pTipo, int pIdCliente, int? pIdUsuario)
+        //{
+        //    SqlConnection Conn = new SqlConnection(Helper.getConnectionStringSQL);
+        //    SqlCommand cmdComandoInicio = new SqlCommand("CAR.spCargarCarritoProductoSucursal", Conn);
+        //    cmdComandoInicio.CommandType = CommandType.StoredProcedure;
+
+        //    SqlParameter paSucursal = cmdComandoInicio.Parameters.Add("@codSucursal", SqlDbType.NVarChar, 2);
+        //    SqlParameter paIdCliente = cmdComandoInicio.Parameters.Add("@codCliente", SqlDbType.Int);
+        //    SqlParameter paIdUsuario = cmdComandoInicio.Parameters.Add("@codUsuario", SqlDbType.Int);
+        //    //SqlParameter paCodTransfer = cmdComandoInicio.Parameters.Add("@car_codTransfer", SqlDbType.Int);
+        //    SqlParameter paIdProducto = cmdComandoInicio.Parameters.Add("@codProducto", SqlDbType.Int);
+        //    SqlParameter paTipo = cmdComandoInicio.Parameters.Add("@car_tipo", SqlDbType.NVarChar, 100);
+        //    SqlParameter paCantidad = cmdComandoInicio.Parameters.Add("@cantidad", SqlDbType.Int);
+        //    SqlParameter paSumar = cmdComandoInicio.Parameters.Add("@isOk", SqlDbType.Bit);
+        //    paSumar.Direction = ParameterDirection.Output;
+        //    if (pIdUsuario == null)
+        //    {
+        //        paIdUsuario.Value = DBNull.Value;
+        //    }
+        //    else
+        //    {
+        //        paIdUsuario.Value = pIdUsuario;
+        //    }
+        //    //if (car_codTransfer == null)
+        //    //{
+        //    //    paCodTransfer.Value = DBNull.Value;
+        //    //}
+        //    //else
+        //    //{
+        //    //    paCodTransfer.Value = car_codTransfer;
+        //    //}
+        //    paSucursal.Value = pSucursal;
+        //    paIdCliente.Value = pIdCliente;
+        //    paIdProducto.Value = pIdProducto;
+        //    paCantidad.Value = pCantidadProducto;
+        //    paTipo.Value = pTipo;
+
+        //    try
+        //    {
+        //        Conn.Open();
+        //        cmdComandoInicio.ExecuteNonQuery();
+        //        return Convert.ToBoolean(paSumar.Value);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now);
+        //        return false;
+        //    }
+        //    finally
+        //    {
+        //        if (Conn.State == ConnectionState.Open)
+        //        {
+        //            Conn.Close();
+        //        }
+        //        InsertarAuditoriaPasoAPasoAsync(pIdCliente, pIdUsuario, pSucursal, pTipo, pIdProducto, pCantidadProducto, null);
+        //    }
+        //}

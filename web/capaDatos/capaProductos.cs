@@ -146,6 +146,7 @@ namespace DKbase.web.capaDatos
         public decimal PrecioFinalRecuperador { get; set; }
         public string tipoCarrito { get; set; }
         //private decimal _PrecioFinal_DK{ get; set; }
+        public int cad_id { get; set; }
         public decimal PrecioFinal_MasCantidad
         {
             get

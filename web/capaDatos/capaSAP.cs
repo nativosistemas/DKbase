@@ -119,6 +119,30 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<decimal?> CTA_CTE(int pIdCliente)
+        {
+            decimal? result = null;
+            string name = "ZFI_WS_CRED_DISP_SET";
+            DKbase.Models.SAP_RES_CRED_DISP parameter = new DKbase.Models.SAP_RES_CRED_DISP() { CLIENTE = convertSAPformat_CLIENTE(pIdCliente) };
+            HttpResponseMessage response = await PostAsync(url_SAP, name, parameter);
+            if (response != null)
+            {
+                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                if (isNotNull(resultResponse))
+                {
+                    try
+                    {
+                        SAP_REQ_CRES_DISP oResponse = JsonSerializer.Deserialize<SAP_REQ_CRES_DISP>(resultResponse);
+                        result = convertSAPformat_Decimal(oResponse.CREDITO_DISP);
+                    }
+                    catch (Exception ex)
+                    {
+                        DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pIdCliente, resultResponse);
+                    }
+                }
+            }
+            return result;
+        }
         public static cCarrito GetCarrito(DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
         {
             DataSet dsProductoCarrito = new DataSet();

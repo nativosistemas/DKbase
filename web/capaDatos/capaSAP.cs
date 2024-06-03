@@ -119,21 +119,41 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return result;
         }
-        public static async Task<decimal?> CTA_CTE(int pIdCliente)
+        public static async Task<List<SAP_REQ_CTA_CTE>> CTA_CTE(
+            int pIdCliente,
+            string claseDoc = null,
+            string documento = null,
+            string ejercicio = null,
+            string fechaDesde = null,
+            string fechaHasta = null)
         {
-            decimal? result = null;
-            string name = "ZFI_WS_CRED_DISP_SET";
-            DKbase.Models.SAP_RES_CRED_DISP parameter = new DKbase.Models.SAP_RES_CRED_DISP() { CLIENTE = convertSAPformat_CLIENTE(pIdCliente) };
+            List<SAP_REQ_CTA_CTE> result = new List<SAP_REQ_CTA_CTE>();
+            string name = "ZFI_WS_RFC_CTA_CTE";
+
+            DKbase.Models.SAP_RES_CTA_CTE parameter = new DKbase.Models.SAP_RES_CTA_CTE()
+            {
+                CLIENTE = convertSAPformat_CLIENTE(pIdCliente),
+                CLASE_DOC = claseDoc,
+                DOCUMENTO = documento,
+                EJERCICIO = ejercicio,
+                FECHA_DESDE = fechaDesde,
+                FECHA_HASTA = fechaHasta
+            };
+
             HttpResponseMessage response = await PostAsync(url_SAP, name, parameter);
+
             if (response != null)
             {
-                var resultResponse = response.Content.ReadAsStringAsync().Result;
+                var resultResponse = await response.Content.ReadAsStringAsync();
                 if (isNotNull(resultResponse))
                 {
                     try
                     {
-                        SAP_REQ_CRES_DISP oResponse = JsonSerializer.Deserialize<SAP_REQ_CRES_DISP>(resultResponse);
-                        result = convertSAPformat_Decimal(oResponse.CREDITO_DISP);
+                        SAP_REQ_CTA_CTE_WRAPPER oResponse = JsonSerializer.Deserialize<SAP_REQ_CTA_CTE_WRAPPER>(resultResponse);
+                        if (oResponse != null && oResponse.ET_LISTA != null)
+                        {
+                            result = oResponse.ET_LISTA.item;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -143,6 +163,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return result;
         }
+
         public static cCarrito GetCarrito(DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
         {
             DataSet dsProductoCarrito = new DataSet();

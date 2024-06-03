@@ -17,9 +17,9 @@ namespace DKbase.Models
         public decimal MONTO_EXENTO { get; set; }
         public decimal PERCEPCION_IVA { get; set; }
     }
-
-    public class SAP_REQ_CTA_CTE_LIST
+    public class SAP_REQ_CTA_CTE_WRAPPER
     {
-        public List<SAP_REQ_CTA_CTE> CTA_CTE_LIST { get; set; }
+        public SAP_REQ_CTA_CTE_LIST ET_LISTA { get; set; }
     }
+
 }

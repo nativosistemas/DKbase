@@ -20,14 +20,16 @@ namespace DKbase.generales
             string Parameters = string.Empty;
             try
             {
-                ParameterInfo[] parms = method.GetParameters();
-                object[] namevalues = new object[2 * parms.Length];
+               // ParameterInfo[] parms = method.GetParameters();
+                //object[] namevalues = new object[2 * parms.Length];
                 if (values != null && values.Length > 0)
                 {
-                    for (int i = 0, j = 0; i < parms.Length; i++, j += 2)
+                    for (int i = 0, j = 0; i < values.Length; i++, j += 2)
                     {
-                        Parameters += "<" + parms[i].Name + ">";
-                        if (values[i] != null && values[i].GetType() == typeof(List<cDllProductosAndCantidad>))
+                        Type typeParam = values[i].GetType();
+                        string nameType = typeParam.ToString();
+                        Parameters += "<" + "" + ">";//nameType
+                        if (values[i] != null && typeParam == typeof(List<cDllProductosAndCantidad>))
                         {
                             List<cDllProductosAndCantidad> list = (List<cDllProductosAndCantidad>)values[i];
                             for (int y = 0; y < list.Count; y++)
@@ -39,7 +41,7 @@ namespace DKbase.generales
                         {
                             Parameters += values[i];
                         }
-                        Parameters += "</" + parms[i].Name + ">";
+                        Parameters += "</" + "" + ">"; //nameType
                     }
                 }
             }
@@ -53,7 +55,7 @@ namespace DKbase.generales
         {
             try
             {
-                System.Console.WriteLine(pMensaje);
+                //System.Console.WriteLine(pMensaje);
                 string Parameters = getParameters(method, values);
                 bool isNotGeneroError = baseDatos.StoredProcedure.spError(method.Name, Parameters, null,
                       null,
@@ -104,7 +106,7 @@ namespace DKbase.generales
         {
             try
             {
-                string path = Path.Combine(Helper.getFolder,  "log");
+                string path = Path.Combine(Helper.getFolder, "log");
                 if (Directory.Exists(path) == false)
                 {
                     Directory.CreateDirectory(path);
@@ -132,18 +134,18 @@ namespace DKbase.generales
                 System.Console.WriteLine(ex);
             }
         }
-        public static void LogInfo(MethodBase method, string pMensaje, string pInfoAdicional,string pType, string pFile_type, byte[] pFile_content, params object[] values)
+        public static void LogInfo(MethodBase method, string pMensaje, string pInfoAdicional, string pType, string pFile_type, byte[] pFile_content, params object[] values)
         {
             try
             {
                 System.Console.WriteLine(pMensaje);
                 string Parameters = getParameters(method, values);
                 string method_Name = method.DeclaringType.AssemblyQualifiedName;
-                bool isNotGeneroError = baseDatos.StoredProcedure.spLogInfo(method_Name, pMensaje,  pInfoAdicional, Parameters, DateTime.Now, Helper.getTipoApp, pType, pFile_type, pFile_content);
+                bool isNotGeneroError = baseDatos.StoredProcedure.spLogInfo(method_Name, pMensaje, pInfoAdicional, Parameters, DateTime.Now, Helper.getTipoApp, pType, pFile_type, pFile_content);
             }
             catch (Exception ex)
             {
-                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, values);                
+                Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, values);
             }
         }
     }

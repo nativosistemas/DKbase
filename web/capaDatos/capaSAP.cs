@@ -119,7 +119,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
         }
         //
 
-        public static object convertSAPformat_TomarPedido(cCarrito pCarrito, cClientes pCliente)
+        public static object convertSAPformat_TomarPedido(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, cClientes pCliente)
         {
             //   pCarrito.listaProductos
             // Crear el objeto JSON dinámico
@@ -141,7 +141,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                         COND_EXPEDICION = "01",//[01 (Reparto) / 02 (Mostrador) / 03 Cadetería / 04(Encomienda)]
 
                     },
-                    POSICION = convertSAPformat_TomarPedido_detalle(pCarrito, pCliente),
+                    POSICION = convertSAPformat_TomarPedido_detalle(pCarrito, pL_Procesar, pCliente),
                 }
             };
 
@@ -150,13 +150,13 @@ namespace DKbase //namespace DKbase.web.capaDatos
 
             return jsonObject;
         }
-        public static object convertSAPformat_TomarPedido_detalle(cCarrito pCarrito, cClientes pCliente)
+        public static object convertSAPformat_TomarPedido_detalle(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, cClientes pCliente)
         {
             var result = new List<dynamic>();
             int cont = 0;
             if (pCarrito.listaProductos != null)
             {
-                foreach (cProductosGenerico obj in pCarrito.listaProductos.Where(x => x.cantidad > 0))
+                foreach (cProductosGenerico obj in pL_Procesar)
                 {
                     cont++;
                     result.Add(new
@@ -179,13 +179,13 @@ namespace DKbase //namespace DKbase.web.capaDatos
             return result;
         }
         //
-        public static async Task<decimal?> PEDIDOS_LEGADO_WEB(cCarrito pCarrito, cClientes pCliente)
+        public static async Task<decimal?> PEDIDOS_LEGADO_WEB(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, cClientes pCliente)
         {
             decimal? result = null;
             try
             {
                 string name = "Z_SD_PEDIDOS_LEGADO_WEB";
-                dynamic parameter = convertSAPformat_TomarPedido(pCarrito, pCliente);
+                dynamic parameter = convertSAPformat_TomarPedido(pCarrito, pL_Procesar, pCliente);
                 HttpResponseMessage response = await PostAsync(url_SAP, name, parameter);
                 if (response != null)
                 {
@@ -206,7 +206,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             catch (Exception ex)
             {
-                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now,pCarrito, pCliente);
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCarrito, pCliente);
             }
             return result;
         }
@@ -311,7 +311,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 }
                 else
                 {
-                    decimal? creditoDisponible = 10000000;// await CRED_DISP(pCliente.cli_codigo);
+                    decimal? creditoDisponible =await CRED_DISP(pCliente.cli_codigo); // 10000000;// 
                     if (creditoDisponible == null)
                     {
                         result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
@@ -353,8 +353,8 @@ namespace DKbase //namespace DKbase.web.capaDatos
                             else
                             {
                                 //if (Helper.isSAP)           {
-                                var ddd = convertSAPformat_TomarPedido(oCarrito, pCliente);
-                                result = TomarPedidoCarrito_sap(oCarrito, l_Procesar, l_sin_Procesar_ProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
+                                //var ddd = convertSAPformat_TomarPedido(oCarrito, pCliente);
+                                result = await TomarPedidoCarrito_sap(oCarrito, l_Procesar, l_sin_Procesar_ProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
 
 
                                 /* }
@@ -559,7 +559,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return resultado;
         }
-        public static TomarPedidoResponse TomarPedidoCarrito_sap(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, List<cProductosGenerico> pL_ItemsConProblemasDeCreditos, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
+        public static async Task<TomarPedidoResponse> TomarPedidoCarrito_sap(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, List<cProductosGenerico> pL_ItemsConProblemasDeCreditos, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
         {
             TomarPedidoResponse result = new TomarPedidoResponse();
             if (pCarrito == null)
@@ -578,6 +578,11 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 result.msg = "Ok";
 
                 int tbl_tomarPedido = spTomarPedido(pCarrito, pL_Procesar, pUsuario, pCliente, pTipo, pCodSucursal);
+
+                var result_pedidos = await PEDIDOS_LEGADO_WEB(pCarrito, pL_Procesar, pCliente);
+
+
+
 
                 spTomarPedidoUpdate(tbl_tomarPedido, pUsuario, Constantes.cTomarPedido_type_LlegoRespuestaSAP, "respuesta sap");
 

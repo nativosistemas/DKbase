@@ -87,6 +87,28 @@ namespace DKbase //namespace DKbase.web.capaDatos
             return result;
 
         }
+        public static Dictionary<string, int> dictionarySucursal = new Dictionary<string, int>()
+        {
+            { "CC",1001},
+            {"SF",1002},
+            {"CH", 1003},
+            {"VH", 1004},
+            {"CB", 2001},
+            {"RC", 2002},
+            {"VM", 2003},
+            {"CO", 3001},
+            {"CD", 3002},
+            {"SN", 4001}
+        };
+        public static int convertSAPformat_SUCURSAL(string pValue)
+        {
+            int result = 0;
+            if (dictionarySucursal.ContainsKey(pValue))
+            {
+                result = dictionarySucursal[pValue];
+            }
+            return result;
+        }
         public static string convertSAPformat_CLIENTE(int pIdCliente)
         {
             return pIdCliente.ToString();
@@ -94,6 +116,99 @@ namespace DKbase //namespace DKbase.web.capaDatos
         public static decimal convertSAPformat_Decimal(string pValue)
         {
             return decimal.Parse(pValue, culture_enUS);
+        }
+        //
+
+        public static object convertSAPformat_TomarPedido(cCarrito pCarrito, cClientes pCliente)
+        {
+            //   pCarrito.listaProductos
+            // Crear el objeto JSON dinámico
+            dynamic jsonObject = new
+            {
+                S_LEGADOS_WEB_IN = new
+                {
+                    CABECERA = new
+                    {
+                        ID_CARRITO = pCarrito.car_id.ToString(),
+                        SUCURSAL = convertSAPformat_SUCURSAL(pCarrito.codSucursal).ToString(),
+                        FECHA_CREACION = DateTime.Now.ToString("dd/MM/yyyy"),
+                        CLIENTE = pCliente.cli_codigo.ToString(),
+                        WS_PEDIDO = pCarrito.car_id.ToString(),
+                        PEDIDO_VALE = "",  // [va así]
+                        RETIRA_MOSTRADOR = "",//   [va así]
+                        CENTRO = convertSAPformat_SUCURSAL(pCarrito.codSucursal).ToString(),///  [idem Sucursal]
+                        IDVENDEDOR = "",    //[estp se va a usar para la APP, para la web no, pasa asi]
+                        COND_EXPEDICION = "01",//[01 (Reparto) / 02 (Mostrador) / 03 Cadetería / 04(Encomienda)]
+
+                    },
+                    POSICION = convertSAPformat_TomarPedido_detalle(pCarrito, pCliente),
+                }
+            };
+
+            //var json = Serializador_base.SerializarAJson(jsonObject);
+            //string jsonString = JsonSerializer.Serialize<dynamic>(jsonObject);
+
+            return jsonObject;
+        }
+        public static object convertSAPformat_TomarPedido_detalle(cCarrito pCarrito, cClientes pCliente)
+        {
+            var result = new List<dynamic>();
+            int cont = 0;
+            if (pCarrito.listaProductos != null)
+            {
+                foreach (cProductosGenerico obj in pCarrito.listaProductos.Where(x => x.cantidad > 0))
+                {
+                    cont++;
+                    result.Add(new
+                    {
+                        item = new
+                        {
+                            ID_CARRITO = pCarrito.car_id.ToString(),
+                            ID_POSICION = cont.ToString(),//"01",
+                            MATERIAL = obj.pro_codigo.ToString(),
+                            CANTIDAD = obj.cantidad.ToString(),
+                            ACUERDO = "",   // [se va a usar para las promociones, en el pedido habitual va vacío]
+                            COMBO = "",  //  [va vacío en el pedido habitual]
+                            //POSICION_PEDIDO = 0,//  [posición en la web, si querés pasar algo distinto a posición]
+                            REGALO = "",//  [vacío]
+
+                        }
+                    });
+                }
+            }
+            return result;
+        }
+        //
+        public static async Task<decimal?> PEDIDOS_LEGADO_WEB(cCarrito pCarrito, cClientes pCliente)
+        {
+            decimal? result = null;
+            try
+            {
+                string name = "Z_SD_PEDIDOS_LEGADO_WEB";
+                dynamic parameter = convertSAPformat_TomarPedido(pCarrito, pCliente);
+                HttpResponseMessage response = await PostAsync(url_SAP, name, parameter);
+                if (response != null)
+                {
+                    var resultResponse = response.Content.ReadAsStringAsync().Result;
+                    if (isNotNull(resultResponse))
+                    {
+                        try
+                        {
+                            // SAP_REQ_CRES_DISP oResponse = JsonSerializer.Deserialize<SAP_REQ_CRES_DISP>(resultResponse);
+                            result = 10;// convertSAPformat_Decimal(oResponse.CREDITO_DISP);
+                        }
+                        catch (Exception ex)
+                        {
+                            DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pCarrito, pCliente, resultResponse);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now,pCarrito, pCliente);
+            }
+            return result;
         }
         public static async Task<decimal?> CRED_DISP(int pIdCliente)
         {
@@ -196,7 +311,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 }
                 else
                 {
-                    decimal? creditoDisponible = await CRED_DISP(pCliente.cli_codigo);
+                    decimal? creditoDisponible = 10000000;// await CRED_DISP(pCliente.cli_codigo);
                     if (creditoDisponible == null)
                     {
                         result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
@@ -238,7 +353,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                             else
                             {
                                 //if (Helper.isSAP)           {
-
+                                var ddd = convertSAPformat_TomarPedido(oCarrito, pCliente);
                                 result = TomarPedidoCarrito_sap(oCarrito, l_Procesar, l_sin_Procesar_ProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
 
 

@@ -119,7 +119,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
         }
         //
 
-        public static object convertSAPformat_TomarPedido(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, cClientes pCliente)
+        public static object convertSAPformat_TomarPedido(cCarrito pCarrito, List<TomarPedidoSAPDetalles> pL_Procesar, cClientes pCliente)
         {
             //   pCarrito.listaProductos
             // Crear el objeto JSON dinámico
@@ -150,13 +150,13 @@ namespace DKbase //namespace DKbase.web.capaDatos
 
             return jsonObject;
         }
-        public static object convertSAPformat_TomarPedido_detalle(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, cClientes pCliente)
+        public static object convertSAPformat_TomarPedido_detalle(cCarrito pCarrito, List<TomarPedidoSAPDetalles> pL_Procesar, cClientes pCliente)
         {
             var result = new List<dynamic>();
             int cont = 0;
             if (pCarrito.listaProductos != null)
             {
-                foreach (cProductosGenerico obj in pL_Procesar)
+                foreach (TomarPedidoSAPDetalles obj in pL_Procesar)
                 {
                     cont++;
                     result.Add(new
@@ -165,8 +165,8 @@ namespace DKbase //namespace DKbase.web.capaDatos
                         {
                             ID_CARRITO = pCarrito.car_id.ToString(),
                             ID_POSICION = cont.ToString(),//"01",
-                            MATERIAL = obj.pro_codigo.ToString(),
-                            CANTIDAD = obj.cantidad.ToString(),
+                            MATERIAL = obj.tpd_codProducto.ToString(),
+                            CANTIDAD = obj.tpd_cantidad.ToString(),
                             ACUERDO = "",   // [se va a usar para las promociones, en el pedido habitual va vacío]
                             COMBO = "",  //  [va vacío en el pedido habitual]
                             //POSICION_PEDIDO = 0,//  [posición en la web, si querés pasar algo distinto a posición]
@@ -179,7 +179,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
             return result;
         }
         //
-        public static async Task<decimal?> PEDIDOS_LEGADO_WEB(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, cClientes pCliente)
+        public static async Task<decimal?> PEDIDOS_LEGADO_WEB(cCarrito pCarrito, List<TomarPedidoSAPDetalles> pL_Procesar, cClientes pCliente)
         {
             decimal? result = null;
             try
@@ -311,7 +311,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 }
                 else
                 {
-                    decimal? creditoDisponible =await CRED_DISP(pCliente.cli_codigo); // 10000000;// 
+                    decimal? creditoDisponible = await CRED_DISP(pCliente.cli_codigo); // 10000000;//
                     if (creditoDisponible == null)
                     {
                         result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
@@ -352,24 +352,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                             }
                             else
                             {
-                                //if (Helper.isSAP)           {
-                                //var ddd = convertSAPformat_TomarPedido(oCarrito, pCliente);
                                 result = await TomarPedidoCarrito_sap(oCarrito, l_Procesar, l_sin_Procesar_ProblemasDeCreditos, pUsuario, pCliente, pTipo, pCodSucursal);
-
-
-                                /* }
-                                 else
-                                 {
-                                     result.tipo = Constantes.cTomarPedido_type_SeProceso_dll;
-                                     // inicio dll
-                                     string pTipoEnvio = string.Empty;
-                                     string horarioCierre = string.Empty;
-                                     List<cCarrito> l_Carrito = new List<cCarrito>();
-                                     l_Carrito.Add(oCarrito);
-                                     result.result_dll = DKbase.web.capaDatos.capaCAR_WebService_base.TomarPedidoCarrito_generico(pUsuario, pCliente, l_Carrito, horarioCierre, pTipo, pCodSucursal, "", "", pTipoEnvio, false);
-                                     // fin dll
-                                 }*/
-
                             }
                         }
 
@@ -574,24 +557,36 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 capaCAR_base.InicioCarritoEnProceso(pCarrito.car_id, Constantes.cAccionCarrito_TOMAR);
 
                 // ACA va logica cuando se llama a toma pedido sap
-                result.tipo = Constantes.cTomarPedido_type_SeProceso;
-                result.msg = "Ok";
+                result.tipo = Constantes.cTomarPedido_type_EnProceso;
+                result.msg = "EnProceso";
 
-                int tbl_tomarPedido = spTomarPedido(pCarrito, pL_Procesar, pUsuario, pCliente, pTipo, pCodSucursal);
-
-                var result_pedidos = await PEDIDOS_LEGADO_WEB(pCarrito, pL_Procesar, pCliente);
-
-
-
-
-                spTomarPedidoUpdate(tbl_tomarPedido, pUsuario, Constantes.cTomarPedido_type_LlegoRespuestaSAP, "respuesta sap");
-
-                // Fin llamada sap
-                if (pL_ItemsConProblemasDeCreditos.Count > 0)
+                TomarPedidoSAP oTomarPedidoSAP = spTomarPedido(pCarrito, pL_Procesar, pUsuario, pCliente, pTipo, pCodSucursal);
+                if (oTomarPedidoSAP != null)
                 {
-                    recuperador_ProblemasDeCreditos(pCliente, pUsuario, pCarrito, Constantes.cPEDIDO_PROBLEMACREDITICIO, pCodSucursal, pL_ItemsConProblemasDeCreditos);
+                    result.tipo = Constantes.cTomarPedido_type_SeEnvioSAP;
+                    result.msg = "SeEnvioSAP";
+                    var result_sap = await PEDIDOS_LEGADO_WEB(pCarrito, oTomarPedidoSAP.l_detalle, pCliente);
+                    if (result_sap == null)
+                    {
+
+                        result.tipo = Constantes.cTomarPedido_type_SinRespuestaSAP;
+                        result.msg = "SinRespuestaSAP";
+                    }
+                    else
+                    {
+                        result.tipo = Constantes.cTomarPedido_type_SeProceso;
+                        result.msg = "SeProceso";
+                        spTomarPedidoUpdate(oTomarPedidoSAP.tpc_id, pUsuario, Constantes.cTomarPedido_type_LlegoRespuestaSAP, "respuesta sap");
+
+                        // Fin llamada sap
+                        if (pL_ItemsConProblemasDeCreditos.Count > 0)
+                        {
+                            recuperador_ProblemasDeCreditos(pCliente, pUsuario, pCarrito, Constantes.cPEDIDO_PROBLEMACREDITICIO, pCodSucursal, pL_ItemsConProblemasDeCreditos);
+                        }
+                        capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "", "", "", false);
+                    }
                 }
-                capaCAR_base.GuardarPedidoBorrarCarrito(pUsuario, pCliente, pCarrito, pTipo, "", "", "", false);
+
 
             }
             catch (Exception ex)
@@ -622,9 +617,9 @@ namespace DKbase //namespace DKbase.web.capaDatos
             return result;
 
         }
-        public static int spTomarPedido(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
+        public static TomarPedidoSAP spTomarPedido(cCarrito pCarrito, List<cProductosGenerico> pL_Procesar, DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
         {
-            int result = 0;
+            TomarPedidoSAP result = null;
             try
             {
                 string strXML = string.Empty;
@@ -657,12 +652,26 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 l.Add(db.GetParameter("tpc_codCliente", pCliente.cli_codigo));
                 l.Add(db.GetParameter("tpc_status", Constantes.cTomarPedido_type_SeEnvioSAP));
                 l.Add(db.GetParameter("strXML", strXML, SqlDbType.Xml));
-                SqlParameter ParameterOut_tpc_id = db.GetParameterOut("tpc_id", SqlDbType.Int);
-                l.Add(ParameterOut_tpc_id);
-                db.ExecuteNonQuery("CAR.spTomarPedido", l);
-                if (ParameterOut_tpc_id.Value != DBNull.Value)
+                //SqlParameter ParameterOut_tpc_id = db.GetParameterOut("tpc_id", SqlDbType.Int);
+                //l.Add(ParameterOut_tpc_id);
+                // db.ExecuteNonQuery("CAR.spTomarPedido", l);
+                DataSet dsResult = db.GetDataSet("CAR.spTomarPedido", l);
+                if (dsResult != null && dsResult.Tables.Count > 1)
                 {
-                    result = Convert.ToInt32(ParameterOut_tpc_id.Value);
+                    DataTable tbPedidoSAP = dsResult.Tables[0];
+                    if (tbPedidoSAP.Rows.Count > 0)
+                    {
+                        result = (TomarPedidoSAP)convertRowClass(tbPedidoSAP.Rows[0], typeof(TomarPedidoSAP).GetProperties(), new TomarPedidoSAP());
+                        DataTable tbPedidoSAPdetalle = dsResult.Tables[1];
+                        result.l_detalle = new List<TomarPedidoSAPDetalles>();
+                        for (int i = 0; i < tbPedidoSAP.Rows.Count; i++)
+                        {
+                            TomarPedidoSAPDetalles oTomarPedidoSAP_Detalle = (TomarPedidoSAPDetalles)convertRowClass(tbPedidoSAPdetalle.Rows[i], typeof(TomarPedidoSAPDetalles).GetProperties(), new TomarPedidoSAPDetalles());
+                            oTomarPedidoSAP_Detalle.oProductosGenerico = pL_Procesar.Where(x => x.codProducto == oTomarPedidoSAP_Detalle.tpd_codProducto && x.tfr_codigo == oTomarPedidoSAP_Detalle.tpd_codTransfers).FirstOrDefault();
+                            result.l_detalle.Add(oTomarPedidoSAP_Detalle);
+                        }
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -671,6 +680,22 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return result;
 
+        }
+        public static object convertRowClass(DataRow pDataRow, PropertyInfo[] pPropertyInfo, object pObject)
+        {
+            foreach (PropertyInfo propiedad in pPropertyInfo)
+            {
+                string nombreColumna = propiedad.Name;
+                if (pDataRow.Table.Columns.Contains(nombreColumna))
+                {
+                    object valor = pDataRow[nombreColumna];
+                    if (valor != DBNull.Value)
+                    {
+                        propiedad.SetValue(pObject, valor);
+                    }
+                }
+            }
+            return pObject;
         }
     }
 }

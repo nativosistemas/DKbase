@@ -357,6 +357,10 @@ namespace DKbase.generales
         {
             get { return "mostrarMsg"; }
         }
+                public static string cTomarPedido_type_EnProceso
+        {
+            get { return "enProceso"; }
+        }
         public static string cTomarPedido_type_SeProceso
         {
             get { return "seProceso"; }

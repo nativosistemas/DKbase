@@ -129,7 +129,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
         {
             List<SAP_REQ_CTA_CTE> result = new List<SAP_REQ_CTA_CTE>();
             string name = "ZFI_WS_RFC_CTA_CTE";
-
+            //pIdCliente = 1000002560;
             DKbase.Models.SAP_RES_CTA_CTE parameter = new DKbase.Models.SAP_RES_CTA_CTE()
             {
                 CLIENTE = convertSAPformat_CLIENTE(pIdCliente),

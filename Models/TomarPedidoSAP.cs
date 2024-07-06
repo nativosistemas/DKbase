@@ -16,5 +16,6 @@ namespace DKbase.Models
         public DateTime tpc_createDate { get; set; }
         public string tpc_resultResponseContent { get; set; }
         public List<TomarPedidoSAPDetalles> l_detalle { get; set; }
+        public DKbase.web.capaDatos.cCarrito oCarrito { get; set; }
     }
 }

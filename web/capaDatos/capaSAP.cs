@@ -36,26 +36,52 @@ namespace DKbase //namespace DKbase.web.capaDatos
         private static readonly string base64EncodedAuthenticationString = Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(authenticationString));
         private static async Task<HttpResponseMessage> PostAsync(string pUrl, string name, object pParameter)
         {
+
+            HttpContent oHttpContent = null;
+            if (pParameter == null)
+            {
+                oHttpContent = new StringContent(string.Empty);
+            }
+            else
+            {
+                var myContent = JsonSerializer.Serialize(pParameter);
+                var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                oHttpContent = byteContent;
+            }
+
+            return await PostAsync_generic(pUrl, name, oHttpContent);
+        }
+        private static async Task<HttpResponseMessage> PostAsync_string(string pUrl, string name, string pParameter)
+        {
+            HttpContent oHttpContent = null;
+            if (pParameter == null)
+            {
+                oHttpContent = new StringContent(string.Empty);
+            }
+            else
+            {
+                var myContent = pParameter;
+                var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                oHttpContent = byteContent;
+            }
+            return await PostAsync_generic(pUrl, name, oHttpContent);
+        }
+        private static async Task<HttpResponseMessage> PostAsync_generic(string pUrl, string name, HttpContent pHttpContent)
+        {
             HttpResponseMessage result = null;
             try
             {
                 string url_api = pUrl + name;
-
-                HttpContent oHttpContent = null;
-                if (pParameter == null)
+                if (pHttpContent == null)
                 {
-                    oHttpContent = new StringContent(string.Empty);
-                }
-                else
-                {
-                    var myContent = JsonSerializer.Serialize(pParameter);
-                    var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                    var byteContent = new ByteArrayContent(buffer);
-                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    oHttpContent = byteContent;
+                    pHttpContent = new StringContent(string.Empty);
                 }
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", $"{base64EncodedAuthenticationString}");
-                HttpResponseMessage response = await client.PostAsync(url_api, oHttpContent);
+                HttpResponseMessage response = await client.PostAsync(url_api, pHttpContent);
                 if (response.IsSuccessStatusCode)
 
                 {
@@ -64,12 +90,12 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 else
                 {
                     // (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                    DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), "StatusCode: " + response.StatusCode.ToString(), DateTime.Now, name, pParameter);
+                    DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), "StatusCode: " + response.StatusCode.ToString(), DateTime.Now, name, pHttpContent);
                 }
             }
             catch (Exception ex)
             {
-                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pParameter);
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pHttpContent);
             }
             return result;
         }
@@ -119,7 +145,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
         }
         //
 
-        public static object convertSAPformat_TomarPedido(cCarrito pCarrito, List<TomarPedidoSAPDetalles> pL_Procesar, cClientes pCliente)
+        public static object convertSAPformat_TomarPedido(TomarPedidoSAP pTomarPedidoSAP, cClientes pCliente)
         {
             //   pCarrito.listaProductos
             // Crear el objeto JSON dinámico
@@ -129,47 +155,41 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 {
                     CABECERA = new
                     {
-                        ID_CARRITO = pCarrito.car_id.ToString(),
-                        SUCURSAL = convertSAPformat_SUCURSAL(pCarrito.codSucursal).ToString(),
+                        ID_CARRITO = pTomarPedidoSAP.tpc_id.ToString(),
+                        SUCURSAL = convertSAPformat_SUCURSAL(pTomarPedidoSAP.tpc_codSucursal).ToString(),
                         FECHA_CREACION = DateTime.Now.ToString("dd/MM/yyyy"),
                         CLIENTE = pCliente.cli_codigo.ToString(),
-                        WS_PEDIDO = pCarrito.car_id.ToString(),
+                        WS_PEDIDO = pTomarPedidoSAP.tpc_id.ToString(),
                         PEDIDO_VALE = "",  // [va así]
                         RETIRA_MOSTRADOR = "",//   [va así]
-                        CENTRO = convertSAPformat_SUCURSAL(pCarrito.codSucursal).ToString(),///  [idem Sucursal]
+                        CENTRO = convertSAPformat_SUCURSAL(pTomarPedidoSAP.tpc_codSucursal).ToString(),///  [idem Sucursal]
                         IDVENDEDOR = "",    //[estp se va a usar para la APP, para la web no, pasa asi]
                         COND_EXPEDICION = "01",//[01 (Reparto) / 02 (Mostrador) / 03 Cadetería / 04(Encomienda)]
 
                     },
-                    POSICION = convertSAPformat_TomarPedido_detalle(pCarrito, pL_Procesar, pCliente),
+                    POSICION = "",
                 }
             };
-
-            //var json = Serializador_base.SerializarAJson(jsonObject);
-            //string jsonString = JsonSerializer.Serialize<dynamic>(jsonObject);
-
             return jsonObject;
         }
-        public static object convertSAPformat_TomarPedido_detalle(cCarrito pCarrito, List<TomarPedidoSAPDetalles> pL_Procesar, cClientes pCliente)
+        /*public static object convertSAPformat_TomarPedido_detalle(TomarPedidoSAP pTomarPedidoSAP, cClientes pCliente)
         {
             var result = new List<dynamic>();
-            int cont = 0;
-            if (pCarrito.listaProductos != null)
+            if (pTomarPedidoSAP.l_detalle != null)
             {
-                foreach (TomarPedidoSAPDetalles obj in pL_Procesar)
+                foreach (TomarPedidoSAPDetalles obj in pTomarPedidoSAP.l_detalle)
                 {
-                    cont++;
                     result.Add(new
                     {
                         item = new
                         {
-                            ID_CARRITO = pCarrito.car_id.ToString(),
-                            ID_POSICION = cont.ToString(),//"01",
+                            ID_CARRITO = pTomarPedidoSAP.tpc_id.ToString(),
+                            ID_POSICION = obj.tpd_idPosicion.ToString(),//"01",
                             MATERIAL = obj.tpd_codProducto.ToString(),
                             CANTIDAD = obj.tpd_cantidad.ToString(),
                             ACUERDO = "",   // [se va a usar para las promociones, en el pedido habitual va vacío]
                             COMBO = "",  //  [va vacío en el pedido habitual]
-                            //POSICION_PEDIDO = 0,//  [posición en la web, si querés pasar algo distinto a posición]
+                            POSICION_PEDIDO = obj.tpd_id.ToString(),//  [posición en la web, si querés pasar algo distinto a posición]
                             REGALO = "",//  [vacío]
 
                         }
@@ -177,16 +197,61 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 }
             }
             return result;
+        }*/
+        public static string convertSAPformat_TomarPedido_detalle_string(TomarPedidoSAP pTomarPedidoSAP, cClientes pCliente)
+        {
+            string result = string.Empty;
+            if (pTomarPedidoSAP.l_detalle != null)
+            {
+                result += "{";
+                int count = pTomarPedidoSAP.l_detalle.Count;
+                if (count > 0)
+                {
+                    count--;
+                }
+                for (int i = 0; i <= count; i++)
+                {
+                    var item_json = new
+                    {
+                        item = new
+                        {
+                            ID_CARRITO = pTomarPedidoSAP.tpc_id.ToString(),
+                            ID_POSICION = pTomarPedidoSAP.l_detalle[i].tpd_idPosicion.ToString(),//"01",
+                            MATERIAL = pTomarPedidoSAP.l_detalle[i].tpd_codProducto.ToString(),
+                            CANTIDAD = pTomarPedidoSAP.l_detalle[i].tpd_cantidad.ToString(),
+                            ACUERDO = "",   // [se va a usar para las promociones, en el pedido habitual va vacío]
+                            COMBO = "",  //  [va vacío en el pedido habitual]
+                            POSICION_PEDIDO = pTomarPedidoSAP.l_detalle[i].tpd_id.ToString(),//  [posición en la web, si querés pasar algo distinto a posición]
+                            REGALO = "",//  [vacío]
+
+                        }
+                    };
+                    string item_json_string = Serializador_base.SerializarAJson(item_json);
+                    string result_aux = item_json_string.Substring(1);
+                    result_aux = result_aux.Substring(0, result_aux.Length - 1);
+                    result += result_aux;
+                    if (i != count)
+                    {
+                        result += ",";
+                    }
+                }
+                result += "}";
+            }
+
+
+            return result;
         }
         //
-        public static async Task<decimal?> PEDIDOS_LEGADO_WEB(cCarrito pCarrito, List<TomarPedidoSAPDetalles> pL_Procesar, cClientes pCliente)
+        public static async Task<S_LEGADOS_WEB_OUT_class> PEDIDOS_LEGADO_WEB(TomarPedidoSAP pTomarPedidoSAP, cClientes pCliente)
         {
-            decimal? result = null;
+            S_LEGADOS_WEB_OUT_class result = null;
             try
             {
                 string name = "Z_SD_PEDIDOS_LEGADO_WEB";
-                dynamic parameter = convertSAPformat_TomarPedido(pCarrito, pL_Procesar, pCliente);
-                HttpResponseMessage response = await PostAsync(url_SAP, name, parameter);
+                string parameter = "";
+                string cabecera = Serializador_base.SerializarAJson(convertSAPformat_TomarPedido(pTomarPedidoSAP, pCliente));
+                parameter = cabecera.Replace("\"POSICION\":\"\"", "\"POSICION\":" + convertSAPformat_TomarPedido_detalle_string(pTomarPedidoSAP, pCliente));
+                HttpResponseMessage response = await PostAsync_string(url_SAP, name, parameter);
                 if (response != null)
                 {
                     var resultResponse = response.Content.ReadAsStringAsync().Result;
@@ -194,19 +259,18 @@ namespace DKbase //namespace DKbase.web.capaDatos
                     {
                         try
                         {
-                            // SAP_REQ_CRES_DISP oResponse = JsonSerializer.Deserialize<SAP_REQ_CRES_DISP>(resultResponse);
-                            result = 10;// convertSAPformat_Decimal(oResponse.CREDITO_DISP);
+                            result = JsonSerializer.Deserialize<S_LEGADOS_WEB_OUT_class>(resultResponse);
                         }
                         catch (Exception ex)
                         {
-                            DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pCarrito, pCliente, resultResponse);
+                            DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, name, pTomarPedidoSAP, pCliente, resultResponse);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pCarrito, pCliente);
+                DKbase.generales.Log.LogError(MethodBase.GetCurrentMethod(), ex, DateTime.Now, pTomarPedidoSAP, pCliente);
             }
             return result;
         }
@@ -311,7 +375,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 }
                 else
                 {
-                    decimal? creditoDisponible = await CRED_DISP(pCliente.cli_codigo); // 10000000;//
+                    decimal? creditoDisponible =  await CRED_DISP(pCliente.cli_codigo); //10000000;//
                     if (creditoDisponible == null)
                     {
                         result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
@@ -565,7 +629,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 {
                     result.tipo = Constantes.cTomarPedido_type_SeEnvioSAP;
                     result.msg = "SeEnvioSAP";
-                    var result_sap = await PEDIDOS_LEGADO_WEB(pCarrito, oTomarPedidoSAP.l_detalle, pCliente);
+                    S_LEGADOS_WEB_OUT_class result_sap = await PEDIDOS_LEGADO_WEB(oTomarPedidoSAP, pCliente);
                     if (result_sap == null)
                     {
 
@@ -576,7 +640,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                     {
                         result.tipo = Constantes.cTomarPedido_type_SeProceso;
                         result.msg = "SeProceso";
-                        spTomarPedidoUpdate(oTomarPedidoSAP.tpc_id, pUsuario, Constantes.cTomarPedido_type_LlegoRespuestaSAP, "respuesta sap");
+                        spTomarPedidoUpdate(oTomarPedidoSAP.tpc_id, pUsuario, Constantes.cTomarPedido_type_LlegoRespuestaSAP, JsonSerializer.Serialize(result_sap), result_sap.S_LEGADOS_WEB_OUT.POSICION.item);
 
                         // Fin llamada sap
                         if (pL_ItemsConProblemasDeCreditos.Count > 0)
@@ -596,17 +660,33 @@ namespace DKbase //namespace DKbase.web.capaDatos
             return result;
         }
 
-        public static int spTomarPedidoUpdate(int pTpc_id, DKbase.web.Usuario pUsuario, string pStatus, string pResultJson)
+        public static int spTomarPedidoUpdate(int pTpc_id, DKbase.web.Usuario pUsuario, string pStatus, string pResultJson, List<Item> pItem)
         {
             int result = 0;
             try
             {
+                string strXML = string.Empty;
+                strXML += "<Root>";
+                foreach (Item item in pItem)
+                {
+                    List<XAttribute> listaAtributos = new List<XAttribute>();
+                    listaAtributos.Add(new XAttribute("PEDIDO_SAP", item.PEDIDO_SAP));
+                    listaAtributos.Add(new XAttribute("tpd_idPosicion", item.ID_POSICION));
+                    listaAtributos.Add(new XAttribute("tpd_resultResponseContent", JsonSerializer.Serialize(item)));
+                    listaAtributos.Add(new XAttribute("tpd_status", Constantes.cTomarPedido_type_LlegoRespuestaSAP));
+
+                    XElement nodo = new XElement("DetallePedido", listaAtributos);
+                    strXML += nodo.ToString();
+                }
+                strXML += "</Root>";
+
                 BaseDataAccess db = new BaseDataAccess(Helper.getConnectionStringSQL);
                 List<SqlParameter> l = new List<SqlParameter>();
                 l.Add(db.GetParameter("tpc_id", pTpc_id));
                 l.Add(db.GetParameter("tpc_codUsuario", pUsuario.id));
                 l.Add(db.GetParameter("tpc_status", Constantes.cTomarPedido_type_LlegoRespuestaSAP));
                 l.Add(db.GetParameter("tpc_resultResponseContent", pResultJson));
+                l.Add(db.GetParameter("strXML", strXML, SqlDbType.Xml));
                 db.ExecuteNonQuery("CAR.spTomarPedidoUpdate", l);
 
             }
@@ -624,9 +704,12 @@ namespace DKbase //namespace DKbase.web.capaDatos
             {
                 string strXML = string.Empty;
                 strXML += "<Root>";
+                int cont = 0;
                 foreach (cProductosGenerico item in pL_Procesar)
                 {
+                    cont++;
                     List<XAttribute> listaAtributos = new List<XAttribute>();
+                    listaAtributos.Add(new XAttribute("tpd_idPosicion", cont));
                     listaAtributos.Add(new XAttribute("tpd_cantidad", item.cantidad));
                     listaAtributos.Add(new XAttribute("tpd_codProducto", item.codProducto));
                     listaAtributos.Add(new XAttribute("tpd_codTransfers", item.tfr_codigo));
@@ -662,9 +745,10 @@ namespace DKbase //namespace DKbase.web.capaDatos
                     if (tbPedidoSAP.Rows.Count > 0)
                     {
                         result = (TomarPedidoSAP)convertRowClass(tbPedidoSAP.Rows[0], typeof(TomarPedidoSAP).GetProperties(), new TomarPedidoSAP());
+                        result.oCarrito = pCarrito;
                         DataTable tbPedidoSAPdetalle = dsResult.Tables[1];
                         result.l_detalle = new List<TomarPedidoSAPDetalles>();
-                        for (int i = 0; i < tbPedidoSAP.Rows.Count; i++)
+                        for (int i = 0; i < tbPedidoSAPdetalle.Rows.Count; i++)
                         {
                             TomarPedidoSAPDetalles oTomarPedidoSAP_Detalle = (TomarPedidoSAPDetalles)convertRowClass(tbPedidoSAPdetalle.Rows[i], typeof(TomarPedidoSAPDetalles).GetProperties(), new TomarPedidoSAPDetalles());
                             oTomarPedidoSAP_Detalle.oProductosGenerico = pL_Procesar.Where(x => x.codProducto == oTomarPedidoSAP_Detalle.tpd_codProducto && x.tfr_codigo == oTomarPedidoSAP_Detalle.tpd_codTransfers).FirstOrDefault();

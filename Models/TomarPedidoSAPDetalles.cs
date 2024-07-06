@@ -15,6 +15,7 @@ namespace DKbase.Models
         public DateTime? tpd_statusUpdate { get; set; }
         public DateTime tpd_createDate { get; set; }
         public string tpd_resultResponseContent { get; set; }
+        public int  tpd_idPosicion{ get; set; }
         public web.capaDatos.cProductosGenerico oProductosGenerico { get; set; }
     }
 }

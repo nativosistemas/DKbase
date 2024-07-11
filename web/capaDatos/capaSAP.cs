@@ -375,7 +375,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 }
                 else
                 {
-                    decimal? creditoDisponible =  await CRED_DISP(pCliente.cli_codigo); //10000000;//
+                    decimal? creditoDisponible =  10000000;//await CRED_DISP(pCliente.cli_codigo); //
                     if (creditoDisponible == null)
                     {
                         result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;
@@ -638,6 +638,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                     }
                     else
                     {
+                        result.result_sap = result_sap.S_LEGADOS_WEB_OUT.POSICION.item;
                         result.tipo = Constantes.cTomarPedido_type_SeProceso;
                         result.msg = "SeProceso";
                         spTomarPedidoUpdate(oTomarPedidoSAP.tpc_id, pUsuario, Constantes.cTomarPedido_type_LlegoRespuestaSAP, JsonSerializer.Serialize(result_sap), result_sap.S_LEGADOS_WEB_OUT.POSICION.item);

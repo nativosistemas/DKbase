@@ -2708,6 +2708,20 @@ namespace DKbase
             }
             return result;
         }
+        public static List<cOferta> RecuperarTodasOfertas_generico()
+        {
+            List<cOferta> resultado = null;
+            DataTable tabla = capaHome_base.RecuperarTodasOfertas();
+            if (tabla != null)
+            {
+                resultado = new List<cOferta>();
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    resultado.Add(DKbase.web.capaDatos.capaHome_base.ConvertToOferta(fila));
+                }
+            }
+            return resultado;
+        }
 
     }
 }

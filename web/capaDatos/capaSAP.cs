@@ -165,7 +165,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                         CENTRO = convertSAPformat_SUCURSAL(pTomarPedidoSAP.tpc_codSucursal).ToString(),///  [idem Sucursal]
                         IDVENDEDOR = "",    //[estp se va a usar para la APP, para la web no, pasa asi]
                         COND_EXPEDICION = "01",//[01 (Reparto) / 02 (Mostrador) / 03 Cadetería / 04(Encomienda)]
-
+                        CLASE_PEDIDO = "ZTP",//
                     },
                     POSICION = "",
                 }
@@ -420,7 +420,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                 }
                 else
                 {
-                    decimal? creditoDisponible =  10000000;//await CRED_DISP(pCliente.cli_codigo); //
+                    decimal? creditoDisponible = 10000000;//await CRED_DISP(pCliente.cli_codigo); //
                     if (creditoDisponible == null)
                     {
                         result.tipo = Constantes.cTomarPedido_type_noSeProcesoMostrarMsg;

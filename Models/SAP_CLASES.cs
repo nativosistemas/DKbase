@@ -1,9 +1,13 @@
 
 using System.Collections.Generic;
+using DKbase.generales;
+using System.Text.Json.Serialization;
 
 namespace DKbase.Models
 {
-        public class S_LEGADOS_WEB_OUT_class
+
+
+    public class S_LEGADOS_WEB_OUT_class
     {
         public S_LEGADOS_WEB_OUT S_LEGADOS_WEB_OUT { get; set; }
     }
@@ -14,6 +18,7 @@ namespace DKbase.Models
 
     public class POSICION
     {
+        [JsonConverter(typeof(SingleOrArrayConverter<Item>))]
         public List<Item> item { get; set; }
     }
 

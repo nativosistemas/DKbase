@@ -157,7 +157,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
                     {
                         ID_CARRITO = pTomarPedidoSAP.tpc_id.ToString(),
                         SUCURSAL = convertSAPformat_SUCURSAL(pTomarPedidoSAP.tpc_codSucursal).ToString(),
-                        FECHA_CREACION = DateTime.Now.ToString("dd/MM/yyyy"),
+                        FECHA_CREACION = DateTime.Now.ToString("dd-MM-yyyy"),
                         CLIENTE = pCliente.cli_codigo.ToString(),
                         WS_PEDIDO = pTomarPedidoSAP.tpc_id.ToString(),
                         PEDIDO_VALE = "",  // [va así]

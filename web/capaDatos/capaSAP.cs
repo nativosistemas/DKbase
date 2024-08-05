@@ -342,6 +342,48 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return result;
         }
+        public static async Task<List<SAP_REQ_DEUDA_VENCIDA>> DEUDA_VENCIDA(int pIdCliente)
+        {
+            //pIdCliente = 1000002560;
+            DKbase.Models.SAP_RES_DEUDA_VENCIDA parameter = new DKbase.Models.SAP_RES_DEUDA_VENCIDA()
+            {
+                IV_CLIENTE = convertSAPformat_CLIENTE(pIdCliente)
+            };
+            List<SAP_REQ_DEUDA_VENCIDA> result = new List<SAP_REQ_DEUDA_VENCIDA>();
+            string name = "Z_FI_RFC_DEUDA_VENCIDA";
+            HttpResponseMessage response = await PostAsync(url_SAP, name, parameter);
+
+            if (response != null)
+            {
+                var resultResponse = await response.Content.ReadAsStringAsync();
+
+                if (isNotNull(resultResponse))
+                {
+                    try
+                    {
+                        SAP_REQ_DEUDA_VENCIDA_WRAPPER oResponse = JsonSerializer.Deserialize<SAP_REQ_DEUDA_VENCIDA_WRAPPER>(resultResponse);
+                        if (oResponse != null && oResponse.ET_DEUDA_VENCIDA != null)
+                        {
+                            result = oResponse.ET_DEUDA_VENCIDA.item;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Deserialización devolvió nulo o ET_DEUDA_VENCIDA es nulo.");
+                        }
+                    }
+                    catch (JsonException jsonEx)
+                    {
+                        Log.LogError(MethodBase.GetCurrentMethod(), jsonEx, DateTime.Now, name, pIdCliente, resultResponse);
+                    }
+                    catch (Exception ex2)
+                    {
+                        Log.LogError(MethodBase.GetCurrentMethod(), ex2, DateTime.Now, name, pIdCliente, resultResponse);
+                    }
+                }
+            }
+
+            return result;
+        }
 
         public static cCarrito GetCarrito(DKbase.web.Usuario pUsuario, DKbase.web.capaDatos.cClientes pCliente, string pTipo, string pCodSucursal)
         {

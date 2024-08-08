@@ -198,11 +198,21 @@ namespace DKbase //namespace DKbase.web.capaDatos
             }
             return result;
         }*/
+        public static bool isCarritoTransfer(string pCarritoTipo)
+        {
+            bool result = false;
+            if (pCarritoTipo == Constantes.cTipo_CarritoTransfers || pCarritoTipo == Constantes.cTipo_CarritoDiferidoTransfers)
+            {
+                result = true;
+            }
+            return result;
+        }
         public static string convertSAPformat_TomarPedido_detalle_string(TomarPedidoSAP pTomarPedidoSAP, cClientes pCliente)
         {
             string result = string.Empty;
             if (pTomarPedidoSAP.l_detalle != null)
             {
+                bool isTransfer = isCarritoTransfer(pTomarPedidoSAP.tpc_CarritoTipo);
                 result += "{";
                 int count = pTomarPedidoSAP.l_detalle.Count;
                 if (count > 0)
@@ -219,10 +229,10 @@ namespace DKbase //namespace DKbase.web.capaDatos
                             ID_POSICION = pTomarPedidoSAP.l_detalle[i].tpd_idPosicion.ToString(),//"01",
                             MATERIAL = pTomarPedidoSAP.l_detalle[i].tpd_codProducto.ToString(),
                             CANTIDAD = pTomarPedidoSAP.l_detalle[i].tpd_cantidad.ToString(),
-                            ACUERDO = "",   // [se va a usar para las promociones, en el pedido habitual va vacío]
-                            COMBO = "",  //  [va vacío en el pedido habitual]
+                            ACUERDO = pTomarPedidoSAP.l_detalle[i].tpd_codTransfers != null ? pTomarPedidoSAP.l_detalle[i].tpd_codTransfers.Value.ToString() : string.Empty,   // [se va a usar para las promociones, en el pedido habitual va vacío]
+                            COMBO = pTomarPedidoSAP.l_detalle[i].tpd_combo != null ? pTomarPedidoSAP.l_detalle[i].tpd_combo : string.Empty,  //  [va vacío en el pedido habitual]
                             POSICION_PEDIDO = pTomarPedidoSAP.l_detalle[i].tpd_id.ToString(),//  [posición en la web, si querés pasar algo distinto a posición]
-                            REGALO = "",//  [vacío]
+                            REGALO = pTomarPedidoSAP.l_detalle[i].tpd_regalo != null ? pTomarPedidoSAP.l_detalle[i].tpd_regalo : string.Empty,//  [vacío]
 
                         }
                     };
@@ -446,7 +456,6 @@ namespace DKbase //namespace DKbase.web.capaDatos
                                 if (creditoDisponible.Value >= (sumaTotal_sap + o.PrecioFinal_MasCantidad))
                                 {
                                     sumaTotal_sap += o.PrecioFinal_MasCantidad;
-                                    //o.cad_id = cad_id
                                     l_Procesar.Add(o);
                                 }
                                 else
@@ -748,6 +757,7 @@ namespace DKbase //namespace DKbase.web.capaDatos
             TomarPedidoSAP result = null;
             try
             {
+                bool isTransfer = isCarritoTransfer(pTipo);
                 string strXML = string.Empty;
                 strXML += "<Root>";
                 int cont = 0;
@@ -761,6 +771,15 @@ namespace DKbase //namespace DKbase.web.capaDatos
                     listaAtributos.Add(new XAttribute("tpd_codTransfers", item.tfr_codigo));
                     listaAtributos.Add(new XAttribute("tpd_codUsuario", pUsuario.id));
                     listaAtributos.Add(new XAttribute("tpd_status", Constantes.cTomarPedido_type_SeEnvioSAP));
+                    //
+                    string combo = string.Empty;                    
+                    if (isTransfer && item.isTieneTransfer && !item.isProductoFacturacionDirecta)
+                    {
+                        combo = "1";
+                    }
+                    listaAtributos.Add(new XAttribute("tpd_combo", combo));
+                    listaAtributos.Add(new XAttribute("tpd_regalo", string.Empty));
+                    //
                     listaAtributos.Add(new XAttribute("tpd_codCarritosDetalles", 0));
 
                     XElement nodo = new XElement("DetallePedido", listaAtributos);

@@ -1638,6 +1638,8 @@ namespace DKbase
                     strCabeceraFAC += Numerica.toString_NumeroTXT_N10(objFactura.DescuentoWeb);
                     //13 Monto Percepcion Municipal N(10) [1] 
                     strCabeceraFAC += Numerica.toString_NumeroTXT_N10(objFactura.MontoPercepcionMunicipal);
+                    //14 Monto Percepcion Municipal N(10) [1]
+                    strCabeceraFAC += Numerica.toString_NumeroTXT_N10(objFactura.MontoPercepcionIVA);
 
 
                     FAC_txt.WriteLine(strCabeceraFAC);

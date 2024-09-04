@@ -132,6 +132,7 @@ namespace DKbase.dll
         public decimal MontoIvaInscripto { get; set; }
         public decimal MontoIvaNoInscripto { get; set; }
         public decimal MontoPercepcionDGR { get; set; }
+        public decimal MontoPercepcionIVA { get; set; }
         public decimal MontoTotal { get; set; }
         public string NumeroComprobante { get; set; }
     }
@@ -146,6 +147,7 @@ namespace DKbase.dll
         public decimal MontoIvaInscripto { get; set; }
         public decimal MontoIvaNoInscripto { get; set; }
         public decimal MontoPercepcionDGR { get; set; }
+        public decimal MontoPercepcionIVA { get; set; }
         public decimal MontoTotal { get; set; }
         public string Motivo { get; set; }
         public string Numero { get; set; }
@@ -203,6 +205,7 @@ namespace DKbase.dll
         public decimal MontoIvaInscripto { get; set; }
         public decimal MontoIvaNoInscripto { get; set; }
         public decimal MontoPercepcionDGR { get; set; }
+        public decimal MontoPercepcionIVA { get; set; }
         public decimal MontoTotal { get; set; }
         public string Motivo { get; set; }
         public string Numero { get; set; }
@@ -239,6 +242,7 @@ namespace DKbase.dll
         public decimal MontoIvaInscripto { get; set; }
         public decimal MontoIvaNoInscripto { get; set; }
         public decimal MontoPercepcionDGR { get; set; }
+        public decimal MontoPercepcionIVA { get; set; }
         public decimal MontoTotal { get; set; }
         public string Numero { get; set; }
         public int NumeroCuentaCorriente { get; set; }

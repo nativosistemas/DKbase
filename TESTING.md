@@ -5,7 +5,7 @@ Los tests no dicen qué *debería* hacer el código: dicen qué *hace hoy*.
 Si un test falla después de un cambio, el cambio alteró un comportamiento observable.
 Ese cambio puede ser intencional (se actualiza el test) o una regresión (se corrige el código).
 
-No se modificó código de producción. Todo vive en `tests/` (más este archivo y `.gitignore`).
+No se modificó código de producción. Todo vive en `tests/`, más este archivo, `.gitignore` y la exclusión de `tests/` en `DKbase.csproj`.
 
 ## Cómo ejecutar
 
@@ -32,18 +32,14 @@ tools/mutacion.sh          # reporte en tests/StrykerOutput/reports/mutation-rep
 
 ### Por qué hay un script para Stryker
 
-Stryker analiza `DKbase.csproj` por su cuenta y choca con dos cosas del repo:
-el SDK 5 fijado en `global.json` y el glob del csproj, que compila todos los `.cs` del árbol (incluidos los de `tests/`).
-`tools/mutacion.sh` copia el repo a una carpeta temporal y, **solo en la copia**, quita `global.json` y excluye `tests/` del csproj.
+Stryker analiza `DKbase.csproj` por su cuenta y choca con el SDK 5 fijado en el `global.json` de la raíz.
+`tools/mutacion.sh` copia el repo a una carpeta temporal y, **solo en la copia**, quita `global.json`.
 
-### Importante: el csproj de la librería y la carpeta `tests/`
+### El csproj de la librería y la carpeta `tests/`
 
-`DKbase.csproj` no excluye `tests/`, así que `dotnet build DKbase.csproj` (o el autobuild de CodeQL) intenta compilar los tests dentro de la librería y falla.
-El proyecto de tests evita el problema al referenciar la librería con `DefaultItemExcludes` (ver `DKbase.Tests.csproj`), pero un build directo de la librería no.
-Hay dos salidas, a decidir antes de mergear:
-
-1. Agregar al csproj `<Compile Remove="tests\**" />`, `<None Remove="tests\**" />` y `<EmbeddedResource Remove="tests\**" />` (configuración de build, sin cambios de código).
-2. Renombrar la carpeta a `.tests/`, que el SDK ya ignora.
+`DKbase.csproj` compila todos los `.cs` del árbol. Para que no incluya los tests tiene un `ItemGroup` con
+`<Compile Remove="tests\**" />`, `<None Remove="tests\**" />` y `<EmbeddedResource Remove="tests\**" />`.
+Es el único cambio fuera de `tests/` (configuración de build, aprobado por Pablo; no cambia código).
 
 ## Cómo está armada la suite
 

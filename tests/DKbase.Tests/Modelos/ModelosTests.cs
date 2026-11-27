@@ -195,6 +195,40 @@ namespace DKbase.Tests.Modelos
         }
 
         [Fact]
+        public void deberia_crear_cliente_con_codigo_nombre_y_tipo_vacio()
+        {
+            new cClientes(1234, "Farmacia").Should().BeEquivalentTo(new { cli_codigo = 1234, cli_nombre = "Farmacia", cli_tipo = "" });
+            new cClientes().cli_tipo.Should().Be("");
+        }
+
+        [Fact]
+        public void deberia_devolver_textos_vacios_cuando_el_recall_no_tiene_fecha_ni_descripcion()
+        {
+            var r = new cRecall();
+            (r.rec_FechaNoticiaToString, r.descripcionReducidoMostrar, r.descripcionReducidoMostrarMediano).Should().Be(("", "", ""));
+        }
+
+        [Fact]
+        public void deberia_formatear_fecha_y_cortar_descripcion_cuando_el_recall_tiene_datos()
+        {
+            UsarCultura("es-AR");
+            var texto = string.Join(" ", Enumerable.Repeat("palabra", 80));
+            var r = new cRecall { rec_FechaNoticia = new DateTime(2024, 3, 5), rec_descripcionReducido = texto };
+
+            r.rec_FechaNoticiaToString.Should().Be(new DateTime(2024, 3, 5).ToShortDateString());
+            r.descripcionReducidoMostrar.Should().Be(DKbase.web.generales.Texto_base.CortarBajada(texto, 120));
+            r.descripcionReducidoMostrarMediano.Should().Be(DKbase.web.generales.Texto_base.CortarBajada(texto, 380));
+            r.descripcionReducidoMostrar.Length.Should().BeLessThan(r.descripcionReducidoMostrarMediano.Length);
+        }
+
+        [Fact]
+        public void deberia_ignorar_la_asignacion_de_las_propiedades_calculadas_del_recall()
+        {
+            var r = new cRecall { rec_FechaNoticiaToString = "x", descripcionReducidoMostrar = "y", descripcionReducidoMostrarMediano = "z", arc_nombre = "a.pdf" };
+            (r.rec_FechaNoticiaToString, r.descripcionReducidoMostrar, r.arc_nombre).Should().Be(("", "", "a.pdf"));
+        }
+
+        [Fact]
         public void deberia_compartir_el_campo_entre_web_error_y_su_stack_trace()
         {
             // CARACTERIZACIÓN: posible bug - web_Error_StackTrace lee y escribe el mismo campo que web_Error.

@@ -225,7 +225,13 @@ namespace DKbase.Tests.web.capaDatos
                 var error = Invocar(m, args);
                 var dbError = FakeDb.Llamadas.Where(l => l.Tipo != "Open").Select(l => l.Comando).ToList();
 
-                contrato.Add(new { Metodo = m.Name, Endpoints = endpoints, Base = db, ConRespuesta = ok, ConError500 = error, BaseConError = dbError });
+                // Respuesta que no es JSON: capaAPI no la captura y cae en el catch de capaDLL.
+                Http.Llamadas.Clear(); FakeDb.Llamadas.Clear();
+                Http.ResponderJson("no-json");
+                var invalido = Invocar(m, args);
+                var logInvalido = FakeDb.ErroresLogueados.Select(l => l.Param("err_Nombre") + ": " + l.Param("err_Message")).ToList();
+
+                contrato.Add(new { Metodo = m.Name, Endpoints = endpoints, Base = db, ConRespuesta = ok, ConError500 = error, BaseConError = dbError, ConJsonInvalido = invalido, LogJsonInvalido = logInvalido });
             }
             metodos.Should().HaveCountGreaterThan(45);
             await Verifier.Verify(contrato);

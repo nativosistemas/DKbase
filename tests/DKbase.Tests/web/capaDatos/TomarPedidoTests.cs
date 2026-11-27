@@ -428,6 +428,7 @@ namespace DKbase.Tests.web.capaDatos
         [Fact]
         public void deberia_reintentar_diez_veces_con_esperas_crecientes_y_devolver_false_cuando_nunca_se_puede_borrar()
         {
+            // CARACTERIZACIÓN: posible bug - si el borrado nunca funciona, el hilo queda bloqueado con Thread.Sleep más de un minuto (10 reintentos).
             FakeDb.Cuando(SpBorrar).Salida("@isOk", false);
 
             capaCAR_base.BorrarCarritoPorId_SleepTimer(5, "A").Should().BeFalse();

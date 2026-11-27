@@ -26,6 +26,8 @@ namespace DKbase.Tests.TestInfra
                 if (_instalado) return;
                 var h = new Harmony("dkbase.tests");
                 Prefijo(h, AccessTools.Method(typeof(SqlConnection), nameof(SqlConnection.Open), Type.EmptyTypes), nameof(Open));
+                Prefijo(h, AccessTools.PropertyGetter(typeof(SqlConnection), nameof(SqlConnection.State)), nameof(State));
+                Prefijo(h, AccessTools.Method(typeof(SqlConnection), nameof(SqlConnection.Close), Type.EmptyTypes), nameof(Close));
                 Prefijo(h, AccessTools.Method(typeof(SqlCommand), nameof(SqlCommand.ExecuteNonQuery), Type.EmptyTypes), nameof(ExecuteNonQuery));
                 Prefijo(h, AccessTools.Method(typeof(SqlCommand), nameof(SqlCommand.ExecuteScalar), Type.EmptyTypes), nameof(ExecuteScalar));
                 Prefijo(h, AccessTools.Method(typeof(SqlCommand), nameof(SqlCommand.ExecuteReader), Type.EmptyTypes), nameof(ExecuteReader));
@@ -48,7 +50,17 @@ namespace DKbase.Tests.TestInfra
         }
 
         // ---------- SQL ----------
-        private static bool Open(SqlConnection __instance) { FakeDb.RegistrarApertura(__instance); return false; }
+        // Una conexión "abierta" por el fake informa State = Open hasta que se cierra, así el código ejecuta sus
+        // bloques finally { if (Conn.State == Open) Conn.Close(); } como con una base real.
+        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<SqlConnection, object> _abiertas = new();
+        private static bool Open(SqlConnection __instance) { FakeDb.RegistrarApertura(__instance); _abiertas.AddOrUpdate(__instance, null); return false; }
+        private static bool State(SqlConnection __instance, ref ConnectionState __result)
+        {
+            if (!_abiertas.TryGetValue(__instance, out _)) return true;
+            __result = ConnectionState.Open;
+            return false;
+        }
+        private static bool Close(SqlConnection __instance) { _abiertas.Remove(__instance); return false; }
         private static bool ExecuteNonQuery(SqlCommand __instance, ref int __result) { __result = FakeDb.Registrar("NonQuery", __instance).FilasAfectadas; return false; }
         private static bool ExecuteScalar(SqlCommand __instance, ref object __result) { __result = FakeDb.Registrar("Scalar", __instance).Escalar; return false; }
         private static bool ExecuteReader(SqlCommand __instance, ref SqlDataReader __result)

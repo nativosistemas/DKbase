@@ -24,7 +24,7 @@ TESTS = {
     "Dominio y servicios": ["FuncionesPersonalizadas.", "NumericaTests", "cSubirpedido.", "TomarPedidoTests",
                             "ValidacionesTests", "Texto_baseTests", "GrillaYPermisosTests"],
     "Integraciones externas (HTTP, SMTP, ReCaptcha)": ["capaAPITests", "capaAPIContratoTests", "capaDLLTests", "capaDLLContratoTests", "ReCaptcha", "cMail"],
-    "Acceso a datos (capa*, acceso, Util)": ["Contratos", "StoredProcedureTests", "BaseDataAccessTests"],
+    "Acceso a datos (capa*, acceso, Util)": ["Contratos", "StoredProcedureTests", "BaseDataAccessTests", "BuscadorYCarritosTests"],
     "Infraestructura (Log, Helper, Constantes, Serializador, Thumbnail)": ["LogTests", "Serializador", "ConstantesYHelperTests"],
     "Modelos y DTOs": ["Modelos"],
 }

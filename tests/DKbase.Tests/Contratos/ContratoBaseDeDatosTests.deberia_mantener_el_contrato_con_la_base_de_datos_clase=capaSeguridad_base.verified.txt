@@ -1,0 +1,230 @@
+﻿[
+  {
+    Metodo: CambiarContraseñaPersonal(Int32 pUsu_codigo, String pPasswordViejo, String pPasswordNuevo),
+    BaseVacia: {
+      Llamadas: [
+        Scalar Seguridad.spCambiarContraseñaPersonal(@usu_codigo=7, @PasswordViejo=v_pPasswordViejo, @PasswordNuevo=v_pPasswordNuevo, @usu_codAccion=4)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: CerrarSession(Int32 pIdUsuarioLog),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Seguridad.spCerrarSession(IdUsuarioLog=7)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: ConvertToUsuario(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: GestiónRegla(Nullable`1 rgl_codRegla, String rgl_Descripcion, String rgl_PalabraClave, Nullable`1 rgl_IsAgregarSoporta, Nullable`1 rgl_IsEditarSoporta, Nullable`1 rgl_IsEliminarSoporta, Nullable`1 rgl_codReglaPadre, String filtro, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRegla(@rgl_codRegla=7, @rgl_Descripcion=v_rgl_Descripcion, @rgl_PalabraClave=v_rgl_PalabraClave, @rgl_IsAgregarSoporta=True, @rgl_IsEditarSoporta=True, @rgl_IsEliminarSoporta=True, @rgl_codReglaPadre=7, @filtro=v_filtro, @accion=v_accion)
+      ],
+      Devuelve: DataSet[Regla(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Regla(2), Regla1(2), Regla2(2), Regla3(2)]
+    }
+  },
+  {
+    Metodo: GestiónRol(Nullable`1 rol_codRol, String rol_Nombre, String filtro, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRol(@rol_codRol=7, @rol_Nombre=v_rol_Nombre, @filtro=v_filtro, @accion=v_accion)
+      ],
+      Devuelve: DataSet[Rol(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Rol(2), Rol1(2), Rol2(2), Rol3(2)]
+    }
+  },
+  {
+    Metodo: GestiónRoleRegla(Nullable`1 rrr_codRol, Nullable`1 rrr_codRegla, String pXML, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRelacionRoleRegla(@rrr_codRol=7, @rrr_codRegla=7, @strXML=v_pXML, @accion=v_accion)
+      ],
+      Devuelve: DataSet[RelacionRoleRegla(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[RelacionRoleRegla(2), RelacionRoleRegla1(2), RelacionRoleRegla2(2), RelacionRoleRegla3(2)]
+    }
+  },
+  {
+    Metodo: GestiónUsuario(Nullable`1 usu_codigo, Nullable`1 usu_codRol, Nullable`1 usu_codCliente, String usu_nombre, String usu_apellido, String usu_mail, String usu_login, String usu_psw, String usu_observacion, Nullable`1 usu_codUsuarioUltMov, Nullable`1 usu_codAccion, Nullable`1 usu_estado, String filtro, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=7, @usu_codCliente=7, @usu_nombre=v_usu_nombre, @usu_apellido=v_usu_apellido, @usu_mail=v_usu_mail, @usu_login=v_usu_login, @usu_psw=v_usu_psw, @usu_observacion=v_usu_observacion, @usu_codUsuarioUltMov=7, @usu_codAccion=7, @usu_estado=7, @filtro=v_filtro, @accion=v_accion)
+      ],
+      Devuelve: DataSet[Usuario(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Usuario(2), Usuario1(2), Usuario2(2), Usuario3(2)]
+    }
+  },
+  {
+    Metodo: InsertarSinPermisoUsuarioIntranetPorIdUsuario(Int32 pIdUsuario, DataTable pTablaNombresSeccion),
+    BaseVacia: {
+      Llamadas: [
+        Scalar Seguridad.spInsertarSinPermisoUsuarioIntranet(@idUsuario=7, @Tabla_NombreSeccion=TVP[col](1))
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: IsRepetidoLogin(Int32 usu_codigo, String usu_login),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spIsRepetidoLogin(@usu_codigo=7, @usu_login=v_usu_login)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: Login(String pNombreLogin, String pPassword, String pIp, String pHostName, String pUserAgent),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spInicioSession(@login=v_pNombreLogin, @Password=v_pPassword, @Ip=v_pIp, @Host=v_pHostName, @UserName=v_pUserAgent)
+      ],
+      Devuelve: DataSet[Login(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Login(2), Login1(2), Login2(2), Login3(2)]
+    }
+  },
+  {
+    Metodo: obtenerStringEstado(Int32 pIdEstado),
+    BaseVacia: {
+      Devuelve: ""
+    },
+    BaseCaida: {
+      Devuelve: ""
+    },
+    BaseConDatos: {
+      Devuelve: ""
+    }
+  },
+  {
+    Metodo: RecuperarSinPermisoUsuarioIntranetPorIdUsuario(Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spRecuperarSinPermisoUsuarioIntranetPorIdUsuario(@idUsuario=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTablaBandera(String ban_codigo),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spEstadoBandera(@ban_codigo=v_ban_codigo)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodasAccionesRol(Int32 pIdRol),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spRecuperarAccionesUsuario(@IdRol=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

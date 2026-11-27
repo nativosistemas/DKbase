@@ -1,0 +1,184 @@
+﻿[
+  {
+    Metodo: GestiónSucursal(Nullable`1 sde_codigo, String sde_sucursal, String sde_sucursalDependiente, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill Clientes.spGestionSucursal(@sde_codigo=7, @sde_sucursal=v_sde_sucursal, @sde_sucursalDependiente=v_sde_sucursalDependiente, @accion=v_accion)
+      ],
+      Devuelve: DataSet[Sucursal(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Sucursal(2), Sucursal1(2), Sucursal2(2), Sucursal3(2)]
+    }
+  },
+  {
+    Metodo: GestiónSucursalDependienteHorarios(Nullable`1 sdh_SucursalDependienteHorario, String sdh_sucursal, String sdh_sucursalDependiente, String sdh_codReparto, String sdh_diaSemana, String sdh_horario, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill Clientes.spGestionSucursalHorarios(@sdh_SucursalDependienteHorario=7, @sdh_sucursal=v_sdh_sucursal, @sdh_sucursalDependiente=v_sdh_sucursalDependiente, @sdh_codReparto=v_sdh_codReparto, @sdh_diaSemana=v_sdh_diaSemana, @sdh_horario=v_sdh_horario, @accion=v_accion)
+      ],
+      Devuelve: DataSet[SucursalHorario(0)]
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[SucursalHorario(2), SucursalHorario1(2), SucursalHorario2(2), SucursalHorario3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarClientePorId(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarClientePorId(@cli_codigo=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarLimiteSaldo(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarLimiteSaldo()
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Decimal 12.5
+    }
+  },
+  {
+    Metodo: RecuperarTodasSucursales(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodasSucursal()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosClientes(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientes()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosClientesByGrupoCliente(String pGC),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesByGrupoCliente(@cli_GrupoCliente=v_pGC)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosClientesBySucursal(String pSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesBySucursal(@cli_sucursal=v_pSucursal)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosCodigoReparto(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosCodigoReparto()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarUsuariosDeCliente(Int32 usu_codRol, Int32 usu_codCliente, String filtro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spRecuperarUsuariosPorIdCliente(@filtro=v_filtro, @usu_codRol=7, @usu_codCliente=7)
+      ],
+      Devuelve: DataSet[UsuariosCliente(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[UsuariosCliente(2), UsuariosCliente1(2), UsuariosCliente2(2), UsuariosCliente3(2)]
+    }
+  },
+  {
+    Metodo: spRecuperarTodosClientesByPromotor(String pPromotor, String pConnectionStringSQL),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentException
+    }
+  }
+]

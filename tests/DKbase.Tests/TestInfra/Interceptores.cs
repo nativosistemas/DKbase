@@ -107,6 +107,8 @@ namespace DKbase.Tests.TestInfra
         // ---------- Sleep ----------
         private static bool Sleep(int millisecondsTimeout)
         {
+            // Solo se intercepta en el hilo del test: el runtime también llama a Thread.Sleep en hilos propios.
+            if (Thread.CurrentThread.ManagedThreadId != FakeSleep.HiloDelTest) return true;
             FakeSleep.Esperas.Add(millisecondsTimeout);
             return false;
         }
@@ -161,6 +163,7 @@ namespace DKbase.Tests.TestInfra
     public static class FakeSleep
     {
         public static List<int> Esperas { get; } = new List<int>();
-        public static void Reset() => Esperas.Clear();
+        internal static int HiloDelTest { get; private set; } = -1;
+        public static void Reset() { Esperas.Clear(); HiloDelTest = Thread.CurrentThread.ManagedThreadId; }
     }
 }

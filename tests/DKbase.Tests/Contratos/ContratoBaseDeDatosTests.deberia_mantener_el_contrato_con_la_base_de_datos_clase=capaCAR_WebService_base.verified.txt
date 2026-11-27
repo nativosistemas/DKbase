@@ -1,0 +1,207 @@
+﻿[
+  {
+    Metodo: ActualizarProductoCarritoSubirArchivo(List`1 pListaValor, Int32 pIdCliente, Int32 pIdUsuario),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentNullException
+    }
+  },
+  {
+    Metodo: AgregarProductoAlCarritoDesdeArchivoPedidosV5(cClientes pCliente, String pSucursalElejida, String pSucursalCliente, DataTable pTabla, String pTipoDeArchivo, Int32 pIdCliente, String pCli_codprov, Boolean pCli_isGLN, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spCargarCarritoProductoSucursalDesdeArchivoPedidosV5(@lrc_codSucursal=v_pSucursalElejida, @Sucursal=v_pSucursalCliente, @lrc_codCliente=7, @lcp_codUsuario=7, @Tabla_Detalle=TVP[col](1), @TipoDeArchivo=v_pTipoDeArchivo, @cli_codprov=v_pCli_codprov, @cli_isGLN=True)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"pro_Ranking":0,"isTieneTransfer":false,"isValePsicotropicos":false,"cantidad":7,"nroordenamiento":7,"isProductoNoEncontrado":true,"isProductoFacturacionDirecta":false,"codProducto":null,"idUsuario":0,"stk_stock":null,"fpc_nombreProducto":null,"fpc_cantidad":0,"PrecioFinalRecuperador":0,"tde_codtfr":0,"tde_codpro":null,"tde_descripcion":null,"tde_prepublico":null,"tde_predescuento":null,"tde_min…
+    }
+  },
+  {
+    Metodo: ConvertToProductoBuscadorV5(cClientes pCliente, DataSet DataSetResultado, String pSucursalElejida),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: IsBanderaCodigo(String pCodigoBandera),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spEstadoBandera(@ban_codigo=v_pCodigoBandera)
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean True
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: ObtenerPedidosEntreFechas(String pLoginWeb, DateTime pDesde, DateTime pHasta),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: RecuperarCarritosPorSucursalYProductos_generica(cClientes objClientes, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritosPorSucursalYProductos(@car_codCliente=1234, @car_tipo=v_pTipo)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: RecuperarCarritosTransferPorIdClienteOrdenadosPorSucursal(cClientes pCliente, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritoTransferPorIdCliente(@lrc_codCliente=1234, @tipo=v_pTipo)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: RecuperarProductoPorNombre(String pNombreProducto),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperadorTodosProductosPorNombre(@pro_nombre=v_pNombreProducto)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cProductos {"pro_codigo":"x_pro_codigo","pro_nombre":"x_pro_nombre","pro_precio":12.5,"pro_preciofarmacia":12.5,"pro_ofeunidades":7,"pro_ofeporcentaje":12.5,"pro_neto":true,"pro_codtpopro":"X_PRO_CODTPOPRO","pro_descuentoweb":12.5,"pro_laboratorio":"x_pro_laboratorio","pro_monodroga":"x_pro_monodroga","pro_codtpovta":null,"pro_codigobarra":"x_pro_codigobarra","pro_troquel":null,"pro_codigoalfabeta":"x_pro_co…
+    }
+  },
+  {
+    Metodo: RecuperarTodasSucursales(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodasSucursal()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"sde_codigo":0,"sde_sucursal":"x_suc_codigo","suc_montoMinimo":12.5,"suc_codigo":"x_suc_codigo","suc_nombre":"x_suc_nombre","suc_provincia":"x_suc_provincia","suc_facturaTrazables":true,"suc_facturaTrazablesEnOtrasProvincias":true,"sde_sucursalDependiente":null,"sucursal_sucursalDependiente":null,"suc_pedirCC_ok":true,"suc_pedirCC_sucursalReferencia":"x_suc_pedirCC_sucursalReferencia","suc_pedir…
+    }
+  },
+  {
+    Metodo: RecuperarTodosProductosDesdeBuscador_OfertaTransfer(cClientes pCliente, String pSucursal, Nullable`1 pIdCliente, Boolean pIsOferta, Boolean pIsTransfer, String pCli_codprov),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarTodosProductosBuscadorEnOferta(@Sucursal=v_pSucursal, @codCliente=7, @cli_codprov=v_pCli_codprov)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 []
+    }
+  },
+  {
+    Metodo: TomarPedidoCarrito_generico(Usuario pUsuario, cClientes pCliente, List`1 pListaCarrito, String pHorarioCierre, String pTipo, String pIdSucursal, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: TomarPedidoCarritoFacturarseFormaHabitual(Usuario pUsuario, cClientes pCliente, String pHorarioCierre, String pIdSucursal, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente, String[] pListaNombreComercial, Int32[] pListaCantidad),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperadorTodosProductosPorTablaNombre(@Tabla_Detalle=TVP[codProducto|codigobarra|codigoalfabeta|troquel|cantidad|nroordenamiento](1))
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: TomarTransferPedidoCarrito(Usuario pUsuario, cClientes pCliente, List`1 pListaCarrito, Boolean pIsDiferido, String pIdSucursal, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spIsCarritoEnProceso(@car_id=0, @isOk=NULL),
+        NonQuery CAR.spInicioCarritoEnProceso(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spEndCarritoEnProceso(@car_id=0, @isOk=NULL),
+        NonQuery LogRegistro.spError(err_Nombre=getParameters, err_Parameters=<pUsuario>0</pUsuario><pCliente>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Index was outside the bounds of the array., err_Source=DKbase, err_StackTrace=   at DKbase.generales.Log.getParameters(MethodBase method, Object[] values) in /home/user/DKbase/generales/Log.cs:line 30, err_fecha=2024-03-15T10:00:00, err_tipo=test),
+        NonQuery LogRegistro.spError(err_Nombre=TomarTransferPedidoCarrito, err_Parameters=<pUsuario>0</pUsuario><pCliente>, err_Data=NULL, err_HelpLink=NULL, err_InnerException=NULL, err_Message=La función ValidarExistenciaDeCarritoWebPasado no reconoce el idCarrito procesado. idCarrito: 0, err_Source=NULL, err_StackTrace=NULL, err_fecha=2024-03-15T10:00:00, err_tipo=test)
+      ],
+      Devuelve: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"Se produjo un error. C\u00F3digo interno: 01","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"Nume…
+    },
+    BaseCaida: {
+      Conexiones: 8,
+      Devuelve: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"Se produjo un error. C\u00F3digo interno: 01","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"Nume…
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"Carrito se est\u00E1 procesando.","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":n…
+    }
+  }
+]

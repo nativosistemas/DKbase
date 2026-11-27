@@ -1,0 +1,72 @@
+﻿[
+  {
+    Metodo: GestiónArchivo(Nullable`1 arc_codRecurso, Nullable`1 arc_codRelacion, String arc_galeria, String arc_tipo, String arc_mime, String arc_nombre, String arc_titulo, String arc_descripcion, String arc_hash, Nullable`1 arc_codUsuarioUltMov, Nullable`1 arc_estado, Nullable`1 arc_accion, String filtro, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spGestionArchivo(@arc_codRecurso=7, @arc_codRelacion=7, @arc_galeria=v_arc_galeria, @arc_tipo=v_arc_tipo, @arc_mime=v_arc_mime, @arc_nombre=v_arc_nombre, @arc_titulo=v_arc_titulo, @arc_descripcion=v_arc_descripcion, @arc_hash=v_arc_hash, @arc_codUsuarioUltMov=7, @arc_estado=7, @arc_accion=7, @filtro=v_filtro, @accion=v_accion)
+      ],
+      Devuelve: DataSet[Archivo(0)]
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Archivo(2), Archivo1(2), Archivo2(2), Archivo3(2)]
+    }
+  },
+  {
+    Metodo: nombreArchivoSinRepetir(String pPath, String pNombreArchivo),
+    BaseVacia: {
+      Devuelve: ".v_pNombreArchivo"
+    },
+    BaseCaida: {
+      Devuelve: ".v_pNombreArchivo"
+    },
+    BaseConDatos: {
+      Devuelve: ".v_pNombreArchivo"
+    }
+  },
+  {
+    Metodo: obtenerExtencion(String pNombreArchivo),
+    BaseVacia: {
+      Devuelve: "v_pnombrearchivo"
+    },
+    BaseCaida: {
+      Devuelve: "v_pnombrearchivo"
+    },
+    BaseConDatos: {
+      Devuelve: "v_pnombrearchivo"
+    }
+  },
+  {
+    Metodo: remplazarCaracteresEspeciales(String pStr),
+    BaseVacia: {
+      Devuelve: "v_pStr"
+    },
+    BaseCaida: {
+      Devuelve: "v_pStr"
+    },
+    BaseConDatos: {
+      Devuelve: "v_pStr"
+    }
+  },
+  {
+    Metodo: spRatingArchivos(String arc_galeria, String arc_nombre),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Recursos.spRatingArchivos(@arc_galeria=v_arc_galeria, @arc_nombre=v_arc_nombre, @arc_ratingOUTPUT=NULL)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  }
+]

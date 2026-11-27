@@ -47,6 +47,13 @@ namespace DKbase.Tests.TestInfra
         /// <summary>Si no es null, toda apertura de conexión falla con esta excepción (base caída).</summary>
         public static Exception ErrorAlConectar { get; set; }
         internal static DataTable LecturaPendiente { get; set; }
+        /// <summary>
+        /// "Base con datos": todo comando no configurado devuelve 4 tablas con 2 filas iguales que tienen
+        /// todas las columnas conocidas (<see cref="ColumnasConocidas"/>) con valores tipados, escalar 7 y
+        /// parámetros de salida completados. Sirve para ejercitar los mapeadores DataRow → objeto.
+        /// </summary>
+        public static bool ModoUniversal { get; set; }
+        public static readonly DateTime FechaUniversal = new DateTime(2024, 1, 2, 3, 4, 5);
 
         public static void Reset()
         {
@@ -55,6 +62,7 @@ namespace DKbase.Tests.TestInfra
             Llamadas.Clear();
             ErrorAlConectar = null;
             LecturaPendiente = null;
+            ModoUniversal = false;
         }
 
         /// <summary>Respuesta para todas las ejecuciones de <paramref name="comando"/>.</summary>
@@ -105,9 +113,54 @@ namespace DKbase.Tests.TestInfra
             DbRespuesta r = null;
             if (_respuestas.TryGetValue(cmd.CommandText, out var q) && q.Count > 0) r = q.Dequeue();
             else _respuestasFijas.TryGetValue(cmd.CommandText, out r);
-            r ??= new DbRespuesta();
+            r ??= ModoUniversal ? RespuestaUniversal(cmd) : new DbRespuesta();
             if (r.Error != null) throw r.Error;
             r.AlEjecutar?.Invoke(cmd);
+            return r;
+        }
+
+        private static object ValorUniversal(Type t, string columna)
+        {
+            if (t == typeof(int)) return 7;
+            if (t == typeof(bool)) return true;
+            if (t == typeof(decimal)) return 12.5m;
+            if (t == typeof(double)) return 12.5d;
+            if (t == typeof(DateTime)) return FechaUniversal;
+            return "x_" + columna;
+        }
+
+        public static DataTable TablaUniversal()
+        {
+            var t = new DataTable();
+            foreach (var c in ColumnasConocidas.Todas) t.Columns.Add(c.Key, c.Value);
+            for (int i = 0; i < 2; i++)
+            {
+                var fila = t.NewRow();
+                foreach (var c in ColumnasConocidas.Todas) fila[c.Key] = ValorUniversal(c.Value, c.Key);
+                t.Rows.Add(fila);
+            }
+            return t;
+        }
+
+        private static DbRespuesta RespuestaUniversal(SqlCommand cmd)
+        {
+            var r = new DbRespuesta { FilasAfectadas = 1, Escalar = 7 };
+            for (int i = 0; i < 4; i++) r.Tablas.Add(TablaUniversal());
+            r.AlEjecutar = c =>
+            {
+                foreach (SqlParameter p in c.Parameters)
+                {
+                    if (p.Direction == ParameterDirection.Input) continue;
+                    p.Value = p.SqlDbType switch
+                    {
+                        SqlDbType.Bit => true,
+                        SqlDbType.Int or SqlDbType.BigInt or SqlDbType.SmallInt or SqlDbType.TinyInt => 7,
+                        SqlDbType.Decimal or SqlDbType.Money or SqlDbType.Float => 12.5m,
+                        SqlDbType.DateTime or SqlDbType.Date or SqlDbType.DateTime2 or SqlDbType.SmallDateTime => FechaUniversal,
+                        _ => "x",
+                    };
+                }
+            };
             return r;
         }
 

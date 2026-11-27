@@ -1,0 +1,19 @@
+﻿[
+  {
+    Metodo: GetUsuariosDeCliente(String sortExpression, Int32 pIdCliente, String pFiltro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spRecuperarUsuariosPorIdCliente(@filtro=v_pFiltro, @usu_codRol=3, @usu_codCliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 3,
+      Devuelve: List`1 [{"usu_codigo":7,"usu_codRol":7,"usu_codCliente":7,"rol_Nombre":"x_rol_Nombre","NombreYapellido":"x_NombreYapellido","ApNombre":null,"usu_nombre":"x_usu_nombre","usu_apellido":"x_usu_apellido","usu_login":"x_usu_login","usu_mail":"x_usu_mail","usu_pswDesencriptado":"x_usu_pswDesencriptado","usu_observacion":"x_usu_observacion","usu_estado":7,"usu_estadoToString":"","cli_nombre":"x_cli_nombre","lis…
+    }
+  }
+]

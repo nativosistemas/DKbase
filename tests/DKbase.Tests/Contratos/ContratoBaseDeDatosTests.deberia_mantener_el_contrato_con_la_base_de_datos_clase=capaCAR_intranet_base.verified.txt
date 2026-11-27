@@ -1,0 +1,235 @@
+﻿[
+  {
+    Metodo: AgregarProductoAlCarrito(String pSucursal, String pIdProducto, Int32 pCantidadProducto, Int32 pIdCliente, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoProductoSucursal_intranet(@codSucursal=v_pSucursal, @codCliente=7, @codUsuario=7, @codProducto=v_pIdProducto, @car_tipo=Carrito, @cantidad=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarProductoAlCarrito_generica_intranet(String pSucursal, String pIdProducto, Int32 pCantidadProducto, String pTipo, Int32 pIdCliente, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoProductoSucursal_intranet(@codSucursal=v_pSucursal, @codCliente=7, @codUsuario=7, @codProducto=v_pIdProducto, @car_tipo=v_pTipo, @cantidad=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarProductosTransfersAlCarrito(List`1 pListaProductosMasCantidad, Int32 pIdCliente, Int32 pIdUsuario, Int32 pIdTransfers, String pCodSucursal, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoTransferPorDetalles_intranet(@idUsuario=7, @idCliente=7, @Tabla_Detalle=TVP[codProducto|cantidad](1), @idTransfer=7, @ctr_codSucursal=v_pCodSucursal, @tipo=v_pTipo, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarProductosTransfersAlCarrito_intranet(DataTable pTablaDetalleProductos, Int32 pIdCliente, Int32 pIdUsuario, Int32 pIdTransfers, String pCodSucursal, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoTransferPorDetalles_intranet(@idUsuario=7, @idCliente=7, @Tabla_Detalle=TVP[col](1), @idTransfer=7, @ctr_codSucursal=v_pCodSucursal, @tipo=v_pTipo, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: BorrarCarrito(Usuario pUsuario, Int32 pIdCliente, String pSucursal, String pTipo, String pAccion),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spBorrarCarrito_intranet(@codCliente=7, @sucursal=v_pSucursal, @tipo=v_pTipo, @accion=v_pAccion, @codUsuario=77, @idCarrito=NULL)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: CargarCarritoDiferido(String pSucursal, String pIdProducto, Int32 pCantidadProducto, Int32 pIdCliente, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoProductoSucursal_intranet(@codSucursal=v_pSucursal, @codCliente=7, @codUsuario=7, @codProducto=v_pIdProducto, @car_tipo=CarritoDiferido, @cantidad=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: guardarPedido_base(Usuario pUsuario, Int32 pCodigoCliente, String strXML, Int32 car_id, String codSucursal, String pTipo, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarPedido_intranet(@car_id=7, @car_codSucursal=v_codSucursal, @car_codCliente=7, @codUsuario=77, @tipo=v_pTipo, @FechaPedido=2024-03-15T10:00:00, @MensajeEnFactura=v_pMensajeEnFactura, @MensajeEnRemito=v_pMensajeEnRemito, @TipoEnvio=v_pTipoEnvio, @IsUrgente=True, @strXML=v_strXML)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: RecuperarCarritosDiferidosPorCliente(Usuario pUsuario, Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritosPorSucursalYProductos_intranet(@car_codCliente=7, @codUsuario=77, @car_tipo=CarritoDiferido)
+      ],
+      Devuelve: DataSet[CarritosPorSucursalYProductos(0)]
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[CarritosPorSucursalYProductos(2), CarritosPorSucursalYProductos1(2), CarritosPorSucursalYProductos2(2), CarritosPorSucursalYProductos3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarCarritosPorSucursalYProductos(Usuario pUsuario, Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritosPorSucursalYProductos_intranet(@car_codCliente=7, @codUsuario=77, @car_tipo=Carrito)
+      ],
+      Devuelve: DataSet[CarritosPorSucursalYProductos(0)]
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[CarritosPorSucursalYProductos(2), CarritosPorSucursalYProductos1(2), CarritosPorSucursalYProductos2(2), CarritosPorSucursalYProductos3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarCarritosPorSucursalYProductos_generica(Usuario user, cClientes objClientes, String pTipo),
+    BaseVacia: {
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    }
+  },
+  {
+    Metodo: RecuperarCarritosPorSucursalYProductos_generica_intranet(Int32 pIdCliente, Int32 pCodUsuario, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritosPorSucursalYProductos_intranet(@car_codCliente=7, @codUsuario=7, @car_tipo=v_pTipo)
+      ],
+      Devuelve: DataSet[CarritosPorSucursalYProductos(0)]
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[CarritosPorSucursalYProductos(2), CarritosPorSucursalYProductos1(2), CarritosPorSucursalYProductos2(2), CarritosPorSucursalYProductos3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarCarritosTransferPorIdClienteOrdenadosPorSucursal(Usuario pUsuario, cClientes pCliente, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritoTransferPorIdCliente_intranet(@lrc_codCliente=1234, @codUsuario=77, @tipo=v_pTipo)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: RecuperarCarritoTransferPorIdCliente_intranet(Int32 pIdCliente, Int32 pCodCliente, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritoTransferPorIdCliente_intranet(@lrc_codCliente=7, @codUsuario=7, @tipo=v_pTipo)
+      ],
+      Devuelve: DataSet[Transfers(0)]
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Transfers(2), Transfers1(2), Transfers2(2), Transfers3(2)]
+    }
+  },
+  {
+    Metodo: spRecuperarIdClientesConCarritos(Int32 pCodUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Reader CAR.spRecuperarIdClientesConCarritos(codUsuario=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

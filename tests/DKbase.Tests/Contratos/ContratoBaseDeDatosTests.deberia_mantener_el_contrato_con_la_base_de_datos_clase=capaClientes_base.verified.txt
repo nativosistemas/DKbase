@@ -172,13 +172,18 @@
   {
     Metodo: spRecuperarTodosClientesByPromotor(String pPromotor, String pConnectionStringSQL),
     BaseVacia: {
-      Devuelve: EXCEPCION ArgumentException
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesByPromotor(@cli_promotor=v_pPromotor)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
     },
     BaseCaida: {
-      Devuelve: EXCEPCION ArgumentException
+      Conexiones: 1,
+      Devuelve: null
     },
     BaseConDatos: {
-      Devuelve: EXCEPCION ArgumentException
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
     }
   }
 ]

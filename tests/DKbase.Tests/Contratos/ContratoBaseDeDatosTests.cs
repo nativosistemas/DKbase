@@ -99,7 +99,8 @@ namespace DKbase.Tests.Contratos
         }
 
         // ---------- argumentos sintéticos ----------
-        private static object[] Argumentos(MethodInfo m) => m.GetParameters().Select(p => Valor(p.ParameterType, p.Name)).ToArray();
+        // Los parámetros opcionales (p. ej. pConnectionStringSQL = null) se dejan en su valor por defecto, como los llama el código real.
+        private static object[] Argumentos(MethodInfo m) => m.GetParameters().Select(p => p.HasDefaultValue && p.Name.IndexOf("Connection", StringComparison.OrdinalIgnoreCase) >= 0 ? p.DefaultValue : Valor(p.ParameterType, p.Name)).ToArray();
 
         internal static object Valor(Type t, string nombre)
         {

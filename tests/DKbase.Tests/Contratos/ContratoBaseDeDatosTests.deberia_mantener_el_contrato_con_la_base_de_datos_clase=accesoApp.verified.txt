@@ -91,31 +91,18 @@
   {
     Metodo: GetLaboratorios(String pConnectionStringSQL),
     BaseVacia: {
-      Llamadas: [        
-NonQuery LogRegistro.spError(err_Nombre=GetDataSet, err_Parameters=<procedureName>app.spGetLaboratorios</procedureName><parameters></parameters><commandType>StoredProcedure</commandType>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Format of the initialization string does not conform to specification starting at index 0., err_Source=System.Data.SqlClient, err_StackTrace=   at System.Data.Common.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, Boolean useOdbcRules, String& keyname, String& keyvalue)
-   at System.Data.Common.DbConnectionOptions.ParseInternal(Dictionary`2 parsetable, String connectionString, Boolean buildChain, Dictionary`2 synonyms, Boolean firstKey)
-   at System.Data.Common.DbConnectionOptions..ctor(String connectionString, Dictionary`2 synonyms)
-   at System.Data.SqlClient.SqlConnectionString..ctor(String connectionString)
-   at System.Data.SqlClient.SqlConnectionFactory.CreateConnectionOptions(String connectionString, DbConnectionOptions previous)
-   at System.Data.ProviderBase.DbConnectionFactory.GetConnectionPoolGroup(DbConnectionPoolKey key, DbConnectionPoolGroupOptions poolOptions, DbConnectionOptions& userConnectionOptions)
-   at System.Data.SqlClient.SqlConnection.ConnectionString_Set(DbConnectionPoolKey key)
-   at System.Data.SqlClient.SqlConnection.set_ConnectionString(String value)
-   at System.Data.SqlClient.SqlConnection..ctor(String connectionString)
-   at DKbase.generales.BaseDataAccess.GetConnection() in /home/user/DKbase/generales/BaseDataAccess.cs:line 23
-   at DKbase.generales.BaseDataAccess.GetDataSet(String procedureName, List`1 parameters, CommandType commandType) in /home/user/DKbase/generales/BaseDataAccess.cs:line 189, err_fecha=2024-03-15T10:00:00, err_tipo=test)
+      Llamadas: [
+        Fill app.spGetLaboratorios()
       ],
-      Devuelve: null
+      Devuelve: List`1 []
     },
     BaseCaida: {
-      Conexiones: 1,
+      Conexiones: 2,
       Devuelve: null
     },
     BaseConDatos: {
-      Llamadas: 1,
-      Devuelve: null,
-      ErroresLogueados: [
-        GetDataSet: Format of the initialization string does not conform to specification starting at index 0.
-      ]
+      Llamadas: 3,
+      Devuelve: List`1 [{"idParaArchivo":7,"id":7,"nombre":"x_lab_laboratorio","imagen":"x_arc_nombre","imagenBase64":null},{"idParaArchivo":7,"id":7,"nombre":"x_lab_laboratorio","imagen":"x_arc_nombre","imagenBase64":null}]
     }
   },
   {
@@ -145,103 +132,69 @@ NonQuery LogRegistro.spError(err_Nombre=GetDataSet, err_Parameters=<procedureNam
   {
     Metodo: RecuperarFarmacias(String pPromotor, String pConnectionStringSQL),
     BaseVacia: {
-      Devuelve: EXCEPCION ArgumentException
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesByPromotor(@cli_promotor=v_pPromotor)
+      ],
+      Devuelve: List`1 []
     },
     BaseCaida: {
-      Devuelve: EXCEPCION ArgumentException
+      Conexiones: 1,
+      Devuelve: null
     },
     BaseConDatos: {
-      Devuelve: EXCEPCION ArgumentException
+      Llamadas: 1,
+      Devuelve: List`1 [{"objCliente":{"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_…
     }
   },
   {
     Metodo: RecuperarTodoInfoPedidos(String pPromotor, String pConnectionStringSQL),
     BaseVacia: {
-      Llamadas: [        
-NonQuery LogRegistro.spError(err_Nombre=GetDataSet, err_Parameters=<procedureName>app.spGetInfoPedidos</procedureName><parameters>System.Collections.Generic.List`1[System.Data.SqlClient.SqlParameter]</parameters><commandType>StoredProcedure</commandType>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Format of the initialization string does not conform to specification starting at index 0., err_Source=System.Data.SqlClient, err_StackTrace=   at System.Data.Common.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, Boolean useOdbcRules, String& keyname, String& keyvalue)
-   at System.Data.Common.DbConnectionOptions.ParseInternal(Dictionary`2 parsetable, String connectionString, Boolean buildChain, Dictionary`2 synonyms, Boolean firstKey)
-   at System.Data.Common.DbConnectionOptions..ctor(String connectionString, Dictionary`2 synonyms)
-   at System.Data.SqlClient.SqlConnectionString..ctor(String connectionString)
-   at System.Data.SqlClient.SqlConnectionFactory.CreateConnectionOptions(String connectionString, DbConnectionOptions previous)
-   at System.Data.ProviderBase.DbConnectionFactory.GetConnectionPoolGroup(DbConnectionPoolKey key, DbConnectionPoolGroupOptions poolOptions, DbConnectionOptions& userConnectionOptions)
-   at System.Data.SqlClient.SqlConnection.ConnectionString_Set(DbConnectionPoolKey key)
-   at System.Data.SqlClient.SqlConnection.set_ConnectionString(String value)
-   at System.Data.SqlClient.SqlConnection..ctor(String connectionString)
-   at DKbase.generales.BaseDataAccess.GetConnection() in /home/user/DKbase/generales/BaseDataAccess.cs:line 23
-   at DKbase.generales.BaseDataAccess.GetDataSet(String procedureName, List`1 parameters, CommandType commandType) in /home/user/DKbase/generales/BaseDataAccess.cs:line 189, err_fecha=2024-03-15T10:00:00, err_tipo=test)
+      Llamadas: [
+        Fill app.spGetInfoPedidos(promotor=v_pPromotor)
       ],
-      Devuelve: null
+      Devuelve: List`1 []
     },
     BaseCaida: {
-      Conexiones: 1,
+      Conexiones: 2,
       Devuelve: null
     },
     BaseConDatos: {
       Llamadas: 1,
-      Devuelve: null,
-      ErroresLogueados: [
-        GetDataSet: Format of the initialization string does not conform to specification starting at index 0.
-      ]
+      Devuelve: EXCEPCION FormatException
     }
   },
   {
     Metodo: RecuperarTodoPedidoModuloHistorial(String pPromotor, String pConnectionStringSQL),
     BaseVacia: {
-      Llamadas: [        
-NonQuery LogRegistro.spError(err_Nombre=GetDataSet, err_Parameters=<procedureName>app.spGetHistorialPedidos</procedureName><parameters>System.Collections.Generic.List`1[System.Data.SqlClient.SqlParameter]</parameters><commandType>StoredProcedure</commandType>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Format of the initialization string does not conform to specification starting at index 0., err_Source=System.Data.SqlClient, err_StackTrace=   at System.Data.Common.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, Boolean useOdbcRules, String& keyname, String& keyvalue)
-   at System.Data.Common.DbConnectionOptions.ParseInternal(Dictionary`2 parsetable, String connectionString, Boolean buildChain, Dictionary`2 synonyms, Boolean firstKey)
-   at System.Data.Common.DbConnectionOptions..ctor(String connectionString, Dictionary`2 synonyms)
-   at System.Data.SqlClient.SqlConnectionString..ctor(String connectionString)
-   at System.Data.SqlClient.SqlConnectionFactory.CreateConnectionOptions(String connectionString, DbConnectionOptions previous)
-   at System.Data.ProviderBase.DbConnectionFactory.GetConnectionPoolGroup(DbConnectionPoolKey key, DbConnectionPoolGroupOptions poolOptions, DbConnectionOptions& userConnectionOptions)
-   at System.Data.SqlClient.SqlConnection.ConnectionString_Set(DbConnectionPoolKey key)
-   at System.Data.SqlClient.SqlConnection.set_ConnectionString(String value)
-   at System.Data.SqlClient.SqlConnection..ctor(String connectionString)
-   at DKbase.generales.BaseDataAccess.GetConnection() in /home/user/DKbase/generales/BaseDataAccess.cs:line 23
-   at DKbase.generales.BaseDataAccess.GetDataSet(String procedureName, List`1 parameters, CommandType commandType) in /home/user/DKbase/generales/BaseDataAccess.cs:line 189, err_fecha=2024-03-15T10:00:00, err_tipo=test)
+      Llamadas: [
+        Fill app.spGetHistorialPedidos(promotor=v_pPromotor)
       ],
-      Devuelve: null
+      Devuelve: List`1 []
     },
     BaseCaida: {
-      Conexiones: 1,
+      Conexiones: 2,
       Devuelve: null
     },
     BaseConDatos: {
       Llamadas: 1,
-      Devuelve: null,
-      ErroresLogueados: [
-        GetDataSet: Format of the initialization string does not conform to specification starting at index 0.
-      ]
+      Devuelve: EXCEPCION FormatException
     }
   },
   {
     Metodo: RecuperarTodosModulos(String pConnectionStringSQL),
     BaseVacia: {
-      Llamadas: [        
-NonQuery LogRegistro.spError(err_Nombre=GetDataSet, err_Parameters=<procedureName>app.spGetModulos</procedureName><parameters></parameters><commandType>StoredProcedure</commandType>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Format of the initialization string does not conform to specification starting at index 0., err_Source=System.Data.SqlClient, err_StackTrace=   at System.Data.Common.DbConnectionOptions.GetKeyValuePair(String connectionString, Int32 currentPosition, StringBuilder buffer, Boolean useOdbcRules, String& keyname, String& keyvalue)
-   at System.Data.Common.DbConnectionOptions.ParseInternal(Dictionary`2 parsetable, String connectionString, Boolean buildChain, Dictionary`2 synonyms, Boolean firstKey)
-   at System.Data.Common.DbConnectionOptions..ctor(String connectionString, Dictionary`2 synonyms)
-   at System.Data.SqlClient.SqlConnectionString..ctor(String connectionString)
-   at System.Data.SqlClient.SqlConnectionFactory.CreateConnectionOptions(String connectionString, DbConnectionOptions previous)
-   at System.Data.ProviderBase.DbConnectionFactory.GetConnectionPoolGroup(DbConnectionPoolKey key, DbConnectionPoolGroupOptions poolOptions, DbConnectionOptions& userConnectionOptions)
-   at System.Data.SqlClient.SqlConnection.ConnectionString_Set(DbConnectionPoolKey key)
-   at System.Data.SqlClient.SqlConnection.set_ConnectionString(String value)
-   at System.Data.SqlClient.SqlConnection..ctor(String connectionString)
-   at DKbase.generales.BaseDataAccess.GetConnection() in /home/user/DKbase/generales/BaseDataAccess.cs:line 23
-   at DKbase.generales.BaseDataAccess.GetDataSet(String procedureName, List`1 parameters, CommandType commandType) in /home/user/DKbase/generales/BaseDataAccess.cs:line 189, err_fecha=2024-03-15T10:00:00, err_tipo=test)
+      Llamadas: [
+        Fill app.spGetModulos()
       ],
-      Devuelve: null
+      Devuelve: List`1 []
     },
     BaseCaida: {
-      Conexiones: 1,
+      Conexiones: 2,
       Devuelve: null
     },
     BaseConDatos: {
       Llamadas: 1,
-      Devuelve: null,
-      ErroresLogueados: [
-        GetDataSet: Format of the initialization string does not conform to specification starting at index 0.
-      ]
+      Devuelve: List`1 [{"id":7,"nombre_laboratorio":"x_lab_laboratorio","descripcion":"x_mod_descripcion","cantidadMinimos":7,"idLaboratorio":7,"laboratorio":null,"moduloDetalle":[{"objProducto":{"pro_codigo":"x_pro_codigo","pro_nombre":"x_pro_nombre","pro_precio":12.5,"pro_preciofarmacia":12.5,"pro_ofeunidades":7,"pro_ofeporcentaje":12.5,"pro_neto":true,"pro_codtpopro":"X_PRO_CODTPOPRO","pro_descuentoweb":12.5,"pro_la…
     }
   }
 ]

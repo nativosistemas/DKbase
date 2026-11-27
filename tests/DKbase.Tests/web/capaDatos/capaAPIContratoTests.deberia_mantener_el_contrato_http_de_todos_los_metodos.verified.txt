@@ -1,0 +1,386 @@
+﻿[
+  {
+    Metodo: AgregarReclamoFacturadoNoEnviadoAsync,
+    Destino: DKdll,
+    Endpoint: AgregarReclamoFacturadoNoEnviado,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":[{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}]},
+    RespuestaNull: null,
+    RespuestaObjeto: texto
+  },
+  {
+    Metodo: AgregarSolicitudDevolucionClienteAsync,
+    Destino: DKdll,
+    Endpoint: AgregarSolicitudDevolucionCliente,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":[{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}]},
+    RespuestaNull: null,
+    RespuestaObjeto: texto
+  },
+  {
+    Metodo: AgregarVacunasAsync,
+    Destino: DKdll,
+    Endpoint: AgregarVacunas,
+    Cuerpo: {"pVacunas":[{"ID":0,"Login":null,"NombreProducto":null,"UnidadesVendidas":0}],"pDesde":"0001-01-01T00:00:00","pHasta":"0001-01-01T00:00:00","pLoginWEB":null,"pLoginTelefonista":"v_pLoginTelefonista"},
+    RespuestaNull: Boolean false,
+    RespuestaObjeto: Boolean true
+  },
+  {
+    Metodo: EsFacturaConDevolucionesEnProcesoAsync,
+    Destino: DKdll,
+    Endpoint: EsFacturaConDevolucionesEnProceso,
+    Cuerpo: {"documentoID":"v_pNumeroFactura","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: Boolean false,
+    RespuestaObjeto: Boolean true
+  },
+  {
+    Metodo: ImprimirComprobanteAsync,
+    Destino: DKdll,
+    Endpoint: ImprimirComprobante,
+    Cuerpo: {"documentoID":"v_pNroComprobante","documentoTipo":"v_pTipoComprobante","loginWeb":null,"fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: Boolean true,
+    RespuestaObjeto: Boolean true
+  },
+  {
+    Metodo: ModificarPasswordWEBAsync,
+    Destino: DKdll,
+    Endpoint: ModificarPasswordWEB,
+    Cuerpo: {"pIdentificadorCliente":"v_pIdentificadorCliente","pPassActual":"v_pPassActual","pPassNueva":"v_pPassNueva"},
+    RespuestaNull: ,
+    RespuestaObjeto: 
+  },
+  {
+    Metodo: ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYClienteAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente,
+    Cuerpo: {"documentoID":"v_NumeroFactura","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":"v_NombreProducto","itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: Int64 12
+  },
+  {
+    Metodo: ObtenerChequesEnCarteraAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerChequesEnCartera,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Banco":null,"Estado":0,"EstadoToString":null,"Fecha":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Importe":0,"Numero":null}]
+  },
+  {
+    Metodo: ObtenerComprobantesAImprimirEnBaseAResumenAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerComprobantesAImprimirEnBaseAResumen,
+    Cuerpo: {"documentoID":"v_pNumeroResumen","documentoTipo":null,"loginWeb":null,"fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"FechaComprobante":"0001-01-01T00:00:00","FechaComprobanteToString":null,"NumeroComprobante":null,"TipoComprobante":null}]
+  },
+  {
+    Metodo: ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechasAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas,
+    Cuerpo: {"nombrePlan":null,"loginWeb":"v_pLoginWeb","anio":0,"mes":0,"quincena":0,"semana":0,"fechaDesde":"2024-03-15T10:30:00","fechaHasta":"2024-03-15T10:30:00"},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Comprobante":null,"Destinatario":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionesDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"MontoPercepcionesMunicipal":0,"NumeroComprobante":null}]
+  },
+  {
+    Metodo: ObtenerComprobantesEntreFechasAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerComprobantesEntreFechas,
+    Cuerpo: {"documentoID":null,"documentoTipo":"v_pTipoComprobante","loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"2024-03-15T10:30:00","fechaHasta":"2024-03-15T10:30:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Comprobante":null,"Destinatario":null,"DetallePercepciones":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"NumeroComprobante":null}]
+  },
+  {
+    Metodo: ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechasAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas,
+    Cuerpo: {"nombrePlan":"v_pPlan","loginWeb":"v_pLoginWeb","anio":0,"mes":0,"quincena":0,"semana":0,"fechaDesde":"2024-03-15T10:30:00","fechaHasta":"2024-03-15T10:30:00"},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Detalle":null,"FechaComprobante":"0001-01-01T00:00:00","FechaComprobanteToString":null,"Importe":0,"NumeroComprobante":null,"TipoComprobante":null}]
+  },
+  {
+    Metodo: ObtenerCreditoDisponibleSemanalAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerCreditoDisponibleSemanal,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: Decimal 12.5
+  },
+  {
+    Metodo: ObtenerCreditoDisponibleTotalAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerCreditoDisponibleTotal,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: Decimal 12.5
+  },
+  {
+    Metodo: ObtenerFacturaAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerFactura,
+    Cuerpo: {"documentoID":"v_pNroFactura","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cFactura {"CantidadHojas":null,"CantidadRenglones":0,"CodigoFormaDePago":null,"DescuentoEspecial":0,"DescuentoNetos":0,"DescuentoPerfumeria":0,"DescuentoWeb":0,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Numero":null,"NumeroCuentaCorriente":0,"NumeroRemito":null,"TotalUnidades":0,"MontoPercepcionMunicipal":0,"FacturaTrazable":null,"lista":null}
+  },
+  {
+    Metodo: ObtenerFacturasPorUltimosNumerosAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerFacturasPorUltimosNumeros,
+    Cuerpo: {"documentoID":"v_pNumeroFactura","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"CantidadHojas":null,"CantidadRenglones":0,"CodigoFormaDePago":null,"DescuentoEspecial":0,"DescuentoNetos":0,"DescuentoPerfumeria":0,"DescuentoWeb":0,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Numero":null,"NumeroCuentaCorriente":0,"NumeroRemito":null,"TotalUnidades":0,"MontoPercepcionMunicipal":0,"FacturaTrazable":null,"lista":null}]
+  },
+  {
+    Metodo: ObtenerItemsDePedidoPorNumeroDeFacturaAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerItemsDePedidoPorNumeroDeFactura,
+    Cuerpo: {"documentoID":"v_pNumeroFactura","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"NombreObjetoComercial":null,"Cantidad":0,"Faltas":0,"Caracteristica":null,"FechaIngreso":null,"FechaIngresoToString":null,"PrecioPublico":null,"PrecioUnitario":null,"Importe":null}]
+  },
+  {
+    Metodo: ObtenerMovimientosDeCuentaCorrienteAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerMovimientosDeCuentaCorriente,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":true,"fechaDesde":"2024-03-15T10:30:00","fechaHasta":"2024-03-15T10:30:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Atraso":null,"Fecha":null,"FechaToString":null,"FechaPago":null,"FechaPagoToString":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Importe":null,"MedioPago":null,"NumeroComprobante":null,"NumeroRecibo":null,"Pago":null,"Saldo":null,"Semana":null,"TipoComprobante":0,"TipoComprobanteToString":null,"lista":null}]
+  },
+  {
+    Metodo: ObtenerMovimientosDeFichaCtaCteAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerMovimientosDeFichaCtaCte,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"2024-03-15T10:30:00","fechaHasta":"2024-03-15T10:30:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Fecha":"0001-01-01T00:00:00","FechaToString":null,"TipoComprobante":0,"TipoComprobanteToString":null,"Comprobante":null,"Motivo":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Debe":null,"Haber":null,"Saldo":null}]
+  },
+  {
+    Metodo: ObtenerNotaDeCreditoAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerNotaDeCredito,
+    Cuerpo: {"documentoID":"v_pNroNotaDeCredito","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cNotaDeCredito {"CantidadHojas":null,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Motivo":null,"Numero":null,"TotalUnidades":0,"lista":null}
+  },
+  {
+    Metodo: ObtenerNotaDeDebitoAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerNotaDeDebito,
+    Cuerpo: {"documentoID":"v_pNroNotaDeDebito","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cNotaDeDebito {"CantidadHojas":null,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Motivo":null,"Numero":null,"lista":null}
+  },
+  {
+    Metodo: ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadenaAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena,
+    Cuerpo: {"documentoID":"v_pNumeroLote","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":"v_pNombreProducto","itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"ID":null,"NombreProducto":null,"NumeroLote":null,"FechaVencimiento":null,"FechaVencimientoToString":null}]
+  },
+  {
+    Metodo: ObtenerObraSocialClienteAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerObraSocialCliente,
+    Cuerpo: {"documentoID":"v_pNumeroObraSocialCliente","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cObraSocialCliente {"CantidadHojas":null,"Destinatario":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"MontoTotal":0,"NombrePlan":null,"NumeroPlanilla":0,"lista":null}
+  },
+  {
+    Metodo: ObtenerPedidosEntreFechasAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerPedidosEntreFechas,
+    Cuerpo: {"pLoginWeb":"v_pLoginWeb","pDesde":"2024-03-15T10:30:00","pHasta":"2024-03-15T10:30:00"},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0}]
+  },
+  {
+    Metodo: ObtenerPlanesDeObrasSocialesAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerPlanesDeObrasSociales,
+    Cuerpo: ,
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Nombre":null,"PideSemana":false}]
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes,
+    Cuerpo: {"nombrePlan":"v_pNombrePlan","loginWeb":"v_pLoginWeb","anio":7,"mes":7,"quincena":0,"semana":0,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00"},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Anio":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"Importe":0,"Mes":null,"Quincena":null,"Semana":null}]
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincenaAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena,
+    Cuerpo: {"nombrePlan":"v_pNombrePlan","loginWeb":"v_pLoginWeb","anio":7,"mes":7,"quincena":7,"semana":0,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00"},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Anio":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"Importe":0,"Mes":null,"Quincena":null,"Semana":null}]
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemanaAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana,
+    Cuerpo: {"nombrePlan":"v_pNombrePlan","loginWeb":"v_pLoginWeb","anio":7,"mes":0,"quincena":0,"semana":7,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00"},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Anio":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"Importe":0,"Mes":null,"Quincena":null,"Semana":null}]
+  },
+  {
+    Metodo: ObtenerReciboAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerRecibo,
+    Cuerpo: {"documentoID":"v_pNumeroDoc","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cRecibo {"Numero":null,"Fecha":null,"FechaToString":null,"FechaAnulacion":null,"Destinatario":null,"DireccionDestinatario":null,"LocalidadDestinatario":null,"CondicionIVADestinatarioToString":null,"CuitDestinatario":0,"NumeroCliente":0,"NumeroCuentaCorriente":0,"TipoEnvioToString":null,"CodigoReparto":null,"MontoTotal":0,"MontoTOTALenLetras":null,"CantidadHojas":null,"MontoEnDolares":null,"ComprobantePAMI":false,"lista":null}
+  },
+  {
+    Metodo: ObtenerReclamosFacturadoNoEnviadoPorClienteAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerReclamosFacturadoNoEnviadoPorCliente,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pCli_login","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}]
+  },
+  {
+    Metodo: ObtenerReclamosFacturadoNoEnviadoPorClientePorNumeroAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero,
+    Cuerpo: {"documentoID":"v_pNumeroDevolucion","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}]
+  },
+  {
+    Metodo: ObtenerReservasDeVacunasPorClienteEntreFechasAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerReservasDeVacunasPorClienteEntreFechas,
+    Cuerpo: {"pVacunas":null,"pDesde":"2024-03-15T10:30:00","pHasta":"2024-03-15T10:30:00","pLoginWEB":"v_pLoginWEB","pLoginTelefonista":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"ID":0,"NombreProducto":null,"FechaAlta":"0001-01-01T00:00:00","FechaAltaToString":null,"Estado":null,"DescripcionPack":null,"TomaWeb":false,"UnidadesVendidas":0}]
+  },
+  {
+    Metodo: ObtenerResumenAbiertoAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerResumenAbierto,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cDllRespuestaResumenAbierto {"lista":null,"isPoseeCuenta":false,"ImporteTotal":0}
+  },
+  {
+    Metodo: ObtenerResumenCerradoAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerResumenCerrado,
+    Cuerpo: {"documentoID":"v_pNroResumen","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cResumen {"Numero":null,"NumeroSemana":null,"PeriodoDesde":null,"PeriodoDesdeToString":null,"PeriodoHasta":null,"PeriodoHastaToString":null,"TotalResumen":null,"lista":null}
+  },
+  {
+    Metodo: ObtenerSaldoFinalADiciembrePorClienteAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerSaldoFinalADiciembrePorCliente,
+    Cuerpo: {"nombrePlan":null,"loginWeb":"v_pCli_login","anio":0,"mes":0,"quincena":0,"semana":0,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00"},
+    RespuestaNull: null,
+    RespuestaObjeto: Double 12.5
+  },
+  {
+    Metodo: ObtenerSaldosPresentacionParaComposicionAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerSaldosPresentacionParaComposicion,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"2024-03-15T10:30:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: cDllSaldosComposicion {"SaldoTotal":null,"SaldoCtaCte":null,"SaldoResumenAbierto":null,"SaldoChequeCartera":null,"isPoseeCuentaResumen":false}
+  },
+  {
+    Metodo: ObtenerSolicitudesDevolucionClienteAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerSolicitudesDevolucionCliente,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pCli_login","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}]
+  },
+  {
+    Metodo: ObtenerSolicitudesDevolucionClientePorNumeroAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerSolicitudesDevolucionClientePorNumero,
+    Cuerpo: {"documentoID":"v_pNumeroDevolucion","documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}]
+  },
+  {
+    Metodo: ObtenerTiposDeComprobantesAMostrarAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerTiposDeComprobantesAMostrar,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 ["texto"]
+  },
+  {
+    Metodo: ObtenerTotalReservasDeVacunasPorClienteEntreFechasAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerTotalReservasDeVacunasPorClienteEntreFechas,
+    Cuerpo: {"pVacunas":null,"pDesde":"2024-03-15T10:30:00","pHasta":"2024-03-15T10:30:00","pLoginWEB":"v_pLoginWEB","pLoginTelefonista":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"ID":0,"Login":null,"NombreProducto":null,"UnidadesVendidas":0}]
+  },
+  {
+    Metodo: ObtenerUltimos10ResumenesDePuntoDeVentaAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerUltimos10ResumenesDePuntoDeVenta,
+    Cuerpo: {"documentoID":null,"documentoTipo":null,"loginWeb":"v_pLoginWeb","fecha":"0001-01-01T00:00:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Numero":null,"NumeroSemana":null,"PeriodoDesde":null,"PeriodoDesdeToString":null,"PeriodoHasta":null,"PeriodoHastaToString":null,"TotalResumen":null,"lista":null}]
+  },
+  {
+    Metodo: ObtenerVencimientosResumenPorFechaAsync,
+    Destino: DKdll,
+    Endpoint: ObtenerVencimientosResumenPorFecha,
+    Cuerpo: {"documentoID":"v_pNumeroResumen","documentoTipo":null,"loginWeb":null,"fecha":"2024-03-15T10:30:00","isIncluyeCancelado":false,"fechaDesde":"0001-01-01T00:00:00","fechaHasta":"0001-01-01T00:00:00","nombreProducto":null,"itemDevolucionPrecarga":null},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"Tipo":null,"NumeroComprobante":null,"Fecha":null,"FechaToString":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Importe":null}]
+  },
+  {
+    Metodo: TomarPedidoAsync,
+    Destino: DKdll,
+    Endpoint: TomarPedido,
+    Cuerpo: {"pIdCarrito":0,"pLoginCliente":"v_pLoginCliente","pIdSucursal":"v_pIdSucursal","pMensajeEnFactura":"v_pMensajeEnFactura","pMensajeEnRemito":"v_pMensajeEnRemito","pTipoEnvio":"v_pTipoEnvio","pLoginTelefonista":null,"pListaProducto":[{"codProductoNombre":null,"IdTransfer":0,"cantidad":0,"isOferta":false}],"pIsUrgente":true},
+    RespuestaNull: null,
+    RespuestaObjeto: cDllPedido {"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0}
+  },
+  {
+    Metodo: TomarPedidoConIdCarritoAsync,
+    Destino: DKdll,
+    Endpoint: TomarPedidoConIdCarrito,
+    Cuerpo: {"pIdCarrito":7,"pLoginCliente":"v_pLoginCliente","pIdSucursal":"v_pIdSucursal","pMensajeEnFactura":"v_pMensajeEnFactura","pMensajeEnRemito":"v_pMensajeEnRemito","pTipoEnvio":"v_pTipoEnvio","pLoginTelefonista":null,"pListaProducto":[{"codProductoNombre":null,"IdTransfer":0,"cantidad":0,"isOferta":false}],"pIsUrgente":true},
+    RespuestaNull: null,
+    RespuestaObjeto: cDllPedido {"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0}
+  },
+  {
+    Metodo: TomarPedidoDeTransfersConIdCarritoAsync,
+    Destino: DKdll,
+    Endpoint: TomarPedidoDeTransfersConIdCarrito,
+    Cuerpo: {"pIdCarrito":7,"pLoginCliente":"v_pLoginCliente","pIdSucursal":"v_pIdSucursal","pMensajeEnFactura":"v_pMensajeEnFactura","pMensajeEnRemito":"v_pMensajeEnRemito","pTipoEnvio":"v_pTipoEnvio","pLoginTelefonista":null,"pListaProducto":[{"codProductoNombre":null,"IdTransfer":0,"cantidad":0,"isOferta":false}],"pIsUrgente":false},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"CreditoInicial":0}]
+  },
+  {
+    Metodo: TomarPedidoDeTransfersTelefonistaAsync,
+    Destino: DKcore,
+    Endpoint: TomarPedidoDeTransfersTelefonista,
+    Cuerpo: {"pIdCarrito":7,"pLoginCliente":"v_pLoginCliente","pIdSucursal":"v_pIdSucursal","pMensajeEnFactura":"v_pMensajeEnFactura","pMensajeEnRemito":"v_pMensajeEnRemito","pTipoEnvio":"v_pTipoEnvio","pLoginTelefonista":"v_pLoginTelefonista","pListaProducto":[{"codProductoNombre":null,"IdTransfer":0,"cantidad":0,"isOferta":false}],"pIsUrgente":false},
+    RespuestaNull: null,
+    RespuestaObjeto: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"CreditoInicial":0}]
+  },
+  {
+    Metodo: TomarPedidoTelefonistaAsync,
+    Destino: DKcore,
+    Endpoint: TomarPedidoTelefonista,
+    Cuerpo: {"pIdCarrito":7,"pLoginCliente":"v_pLoginCliente","pIdSucursal":"v_pIdSucursal","pMensajeEnFactura":"v_pMensajeEnFactura","pMensajeEnRemito":"v_pMensajeEnRemito","pTipoEnvio":"v_pTipoEnvio","pLoginTelefonista":"v_pLoginTelefonista","pListaProducto":[{"codProductoNombre":null,"IdTransfer":0,"cantidad":0,"isOferta":false}],"pIsUrgente":false},
+    RespuestaNull: null,
+    RespuestaObjeto: cDllPedido {"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0}
+  },
+  {
+    Metodo: ValidarExistenciaDeCarritoWebPasadoAsync,
+    Destino: DKdll,
+    Endpoint: ValidarExistenciaDeCarritoWebPasado,
+    Cuerpo: {"pIdCarrito":7,"pLoginCliente":null,"pIdSucursal":null,"pMensajeEnFactura":null,"pMensajeEnRemito":null,"pTipoEnvio":null,"pLoginTelefonista":null,"pListaProducto":null,"pIsUrgente":false},
+    RespuestaNull: Boolean false,
+    RespuestaObjeto: Boolean true
+  }
+]

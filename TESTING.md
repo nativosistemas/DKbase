@@ -30,6 +30,21 @@ tools/mutacion.sh          # reporte en tests/StrykerOutput/reports/mutation-rep
 
 `reportgenerator` se instala con `dotnet tool install -g dotnet-reportgenerator-globaltool`.
 
+### Linux con glibc 2.41 o superior
+
+En distribuciones con glibc 2.41 o superior (por ejemplo Ubuntu 25.04 en adelante), **todos** los tests fallan en el
+constructor de `TestBase` con `DllNotFoundException ... mm-exhelper.so ... cannot enable executable stack`.
+Pasa porque `Lib.Harmony` 2.3.3 carga, vía MonoMod, una librería auxiliar que pide *executable stack*, y esas
+versiones de glibc ya no lo permiten por defecto. No es un problema del código de DKbase.
+Se resuelve habilitándolo solo para el proceso de los tests:
+
+```bash
+export GLIBC_TUNABLES=glibc.rtld.execstack=2
+dotnet test DKbase.Tests
+```
+
+Se puede ver la versión con `ldd --version`. En Windows no hace falta.
+
 ### Por qué hay un script para Stryker
 
 Stryker analiza `DKbase.csproj` por su cuenta y choca con el SDK 5 fijado en el `global.json` de la raíz.

@@ -1,0 +1,218 @@
+﻿[
+  {
+    Metodo: AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga_java Item),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spAgregarItemDevolucion(@numerocliente=0, @numerofactura=NULL, @nombreproductodevolucion=NULL, @motivo=0, @numeroitemfactura=NULL, @nombreproductofactura=NULL, @cantidad=0, @numerolote=NULL, @fechavencimientolote=NULL, @idsucursal=NULL, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga_java Item),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spAgregarItemReclamoFacturadoNoEnviado(@numerocliente=0, @numerofactura=NULL, @nombreproducto=NULL, @cantidad=0, @idsucursal=NULL, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: ConvertToItemDevPrecarga(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: EliminarDevolucionItemPrecarga(Int32 NumeroItem),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spElimminarItemDevolucionPrecarga(@NumeroItem=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaDevolucionFacturaCompletaPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaDevolucionFacturaCompletaPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaDevolucionPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaDevolucionPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaDevolucionVencidosPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaDevolucionVencidosPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaReclamoFNEPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaReclamoFNEPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: ElimminarItemReclamoFNEPrecarga(Int32 NumeroItem),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spElimminarItemReclamoFNEPrecarga(@NumeroItem=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsDevolucionesPrecargaFacturaCompletaPorCliente(@numerocliente=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarItemsDevolucionPrecargaPorCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsDevolucionesPrecargaPorCliente(@numerocliente=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarItemsDevolucionPrecargaVencidosPorCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsDevolucionesPrecargaVencidosPorCliente(@numerocliente=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarItemsReclamoFacturadoNoEnviado(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsReclamoFacturadoNoEnviado(@numerocliente=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

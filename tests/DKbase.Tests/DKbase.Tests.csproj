@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);CS0618;SYSLIB0014;CA1416;NU1903;NU1904;NU1902</NoWarn>
+    <RootNamespace>DKbase.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="Verify.Xunit" Version="26.6.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="FluentAssertions" Version="6.12.1" />
+    <PackageReference Include="Lib.Harmony" Version="2.3.3" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- La librería compila con globbing por defecto desde la raíz del repo; se excluye tests/ para no compilar los tests dentro de ella -->
+    <ProjectReference Include="..\..\DKbase.csproj" AdditionalProperties="DefaultItemExcludes=bin/**;obj/**;**/*.user;**/*.*proj;**/*.sln;**/*.vssscc;**/.*/**;tests/**" />
+  </ItemGroup>
+
+</Project>

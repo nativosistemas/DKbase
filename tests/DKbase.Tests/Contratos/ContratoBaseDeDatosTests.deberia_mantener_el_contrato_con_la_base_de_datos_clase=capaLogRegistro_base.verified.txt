@@ -1,0 +1,320 @@
+﻿[
+  {
+    Metodo: AgregarHistorialSubirArchivo(Int32 has_codCliente, String has_NombreArchivo, String has_NombreArchivoOriginal, String has_sucursal, DateTime has_fecha),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spAgregarHistorialSubirArchivo(@has_NombreArchivo=v_has_NombreArchivo, @has_NombreArchivoOriginal=v_has_NombreArchivoOriginal, @has_codCliente=7, @has_sucursal=v_has_sucursal, @has_fecha=2024-03-15T10:00:00)
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarProductoAlCarritoDesdeArchivoPedidosV5(String pSucursalElejida, String pSucursalCliente, DataTable pTabla, String pTipoDeArchivo, Int32 pIdCliente, String pCli_codprov, Boolean pCli_isGLN, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spCargarCarritoProductoSucursalDesdeArchivoPedidosV5(@lrc_codSucursal=v_pSucursalElejida, @Sucursal=v_pSucursalCliente, @lrc_codCliente=7, @lcp_codUsuario=7, @Tabla_Detalle=TVP[col](1), @TipoDeArchivo=v_pTipoDeArchivo, @cli_codprov=v_pCli_codprov, @cli_isGLN=True)
+      ],
+      Devuelve: DataSet[ProductosBuscador(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[ProductosBuscador(2), ProductosBuscador1(2), ProductosBuscador2(2), ProductosBuscador3(2)]
+    }
+  },
+  {
+    Metodo: AgregarProductosBuscadosDelCarrito(Int32 pIdCliente, String pIdProducto, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spAgregarProductosBuscadosDelCarrito(@hpb_codUsuario=7, @hpb_codCliente=7, @hpb_codProducto=v_pIdProducto)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: AgregarProductosBuscadosDelCarritoTransfer(Int32 pIdCliente, DataTable pTablaProducto, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spAgregarProductosBuscadosDelCarritoTransferPorNombreProducto(@hpb_codUsuario=7, @hpb_codCliente=7, @Tabla_Detalle=TVP[col](1))
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: BorrarPorProductosFaltasProblemasCrediticios(String fpc_codSucursal, Int32 fpc_codCliente, Int32 fpc_tipo, String fpc_nombreProducto),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spBorrarPorProductosFaltasProblemasCrediticios(@fpc_codSucursal=v_fpc_codSucursal, @fpc_codCliente=7, @fpc_tipo=7, @fpc_nombreProducto=v_fpc_nombreProducto)
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: BorrarPorProductosFaltasProblemasCrediticiosV3(DataTable pTablaProducto, String fpc_codSucursal, Int32 fpc_codCliente, Int32 fpc_tipo, Int32 pCantidadDia),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spBorrarPorProductosFaltasProblemasCrediticiosV3(@Tabla_Detalle=TVP[col](1), @fpc_codSucursal=v_fpc_codSucursal, @fpc_codCliente=7, @fpc_tipo=7, @cantidadDia=7)
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: ConvertToHistorialArchivoSubir(DataRow pFila),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: GestiónFaltantesProblemasCrediticios(Nullable`1 fpc_id, Nullable`1 fpc_codCarrito, String fpc_codSucursal, Nullable`1 fpc_codCliente, String fpc_nombreProducto, Nullable`1 fpc_cantidad, Nullable`1 fpc_tipo, Nullable`1 fpc_fecha, String accion),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spGestionFaltasProblemasCrediticios(@fpc_id=7, @fpc_codCarrito=7, @fpc_codSucursal=v_fpc_codSucursal, @fpc_codCliente=7, @fpc_nombreProducto=v_fpc_nombreProducto, @fpc_cantidad=7, @fpc_tipo=7, @fpc_fecha=2024-03-15T10:00:00, @accion=v_accion)
+      ],
+      Devuelve: DataSet[FaltantesProblemasCrediticios(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[FaltantesProblemasCrediticios(2), FaltantesProblemasCrediticios1(2), FaltantesProblemasCrediticios2(2), FaltantesProblemasCrediticios3(2)]
+    }
+  },
+  {
+    Metodo: IngresarPalabraBusqueda(Nullable`1 pIdUsuario, String pNombreTabla, String pPalabra),
+    BaseVacia: {
+      Llamadas: [
+        Scalar LogRegistro.spIngresarPalabraBusqueda(@idUsuario=7, @nombreTabla=v_pNombreTabla, @hbp_Palabra=v_pPalabra)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarFaltantesProblemasCrediticios(Nullable`1 fpc_codCarrito, String fpc_codSucursal, Int32 fpc_codCliente, String fpc_nombreProducto, Int32 fpc_cantidad, Int32 fpc_tipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spGestionFaltasProblemasCrediticios(@fpc_id=NULL, @fpc_codCarrito=7, @fpc_codSucursal=v_fpc_codSucursal, @fpc_codCliente=7, @fpc_nombreProducto=v_fpc_nombreProducto, @fpc_cantidad=7, @fpc_tipo=7, @fpc_fecha=NULL, @accion=INSERT)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION FormatException
+    }
+  },
+  {
+    Metodo: RecuperarFaltasProblemasCrediticios(Int32 fpc_codCliente, Int32 fpc_tipo, Int32 pDia, String pSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spRecuperarFaltasProblemasCrediticiosV2(@fpc_codCliente=7, @fpc_tipo=7, @cantidadDia=7, @Sucursal=v_pSucursal)
+      ],
+      Devuelve: DataSet[ProductosBuscador(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[ProductosBuscador(2), ProductosBuscador1(2), ProductosBuscador2(2), ProductosBuscador3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarFaltasProblemasCrediticios_TodosEstados(Int32 fpc_codCliente, Int32 fpc_tipo, Int32 pDia, String pSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spRecuperarFaltasProblemasCrediticiosTodosEstadosV2(@fpc_codCliente=7, @fpc_tipo=7, @cantidadDia=7, @Sucursal=v_pSucursal)
+      ],
+      Devuelve: DataSet[ProductosBuscador(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[ProductosBuscador(2), ProductosBuscador1(2), ProductosBuscador2(2), ProductosBuscador3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarHistorialSubirArchivo(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperarHistorialSubirArchivo(@has_codCliente=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarHistorialSubirArchivoPorId(Int32 pId),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperarHistorialSubirArchivoPorId(@has_id=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarHistorialSubirArchivoPorNombreArchivoOriginal(String pNombreArchivoOriginal),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperarHistorialSubirArchivoPorNombreArchivoOriginal(@has_NombreArchivoOriginal=v_pNombreArchivoOriginal)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: spForceChangePasswordDeleteCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery spForceChangePasswordDeleteCliente(codCliente=7)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 1
+    }
+  },
+  {
+    Metodo: spForceChangePasswordFindCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader spForceChangePasswordFindCliente(codCliente=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: spForceChangePasswordHistoryAdd(Int32 pIdCliente, Int32 pIdUsuario, String pAction),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery spForceChangePasswordHistoryAdd(codCliente=7, codUsuario=7, action=v_pAction)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 1
+    }
+  },
+  {
+    Metodo: spUltimoProductoSeleccionado(Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Scalar LogRegistro.spUltimoProductoSeleccionado(codCliente=7)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: "7"
+    }
+  }
+]

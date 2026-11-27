@@ -1,0 +1,16 @@
+{
+  "stryker-config": {
+    "project": "DKbase.csproj",
+    "test-projects": [ "DKbase.Tests/DKbase.Tests.csproj" ],
+    "mutate": [
+      "**/web/FuncionesPersonalizadas_base.cs",
+      "**/generales/Numerica.cs",
+      "**/web/cSubirpedido_base.cs",
+      "**/web/capaDatos/capaCAR_WebService.cs"
+    ],
+    "reporters": [ "html", "json", "progress", "cleartext" ],
+    "concurrency": 4,
+    "additional-timeout": 5000,
+    "thresholds": { "high": 80, "low": 60, "break": 0 }
+  }
+}

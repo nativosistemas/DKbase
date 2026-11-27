@@ -1,0 +1,48 @@
+﻿[
+  {
+    Metodo: ConvertToCatalogo(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: RecuperarTodoCatalogo_PublicarHome(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Catalogo.spRecuperarTodoCatalogo_PublicarHome()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosCatalogos(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Catalogo.spRecuperarTodosCatalogos()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

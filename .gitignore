@@ -338,3 +338,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+# Tests de caracterización
+*.received.*
+tests/**/TestResults/
+tests/coverage/
+tests/StrykerOutput/

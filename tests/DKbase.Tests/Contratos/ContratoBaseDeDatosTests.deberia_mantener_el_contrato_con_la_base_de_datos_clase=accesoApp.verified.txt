@@ -1,0 +1,200 @@
+﻿[
+  {
+    Metodo: AddDatosCliente(AppCargaDatosClientes pDatosCliente, String pConnectionStringSQL),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: AddPedido(AppPedido pPedido, String pConnectionStringSQL),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToInfoPedido(DataRow pItem, AppInfoPedido obj),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToLaboratorio(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToModulo(DataRow pItem, Modulo obj),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToModuloDetalle(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: DeleteModulo(Int32 id),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery app.spDeleteModulo(id=7)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: GetLaboratorios(String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetLaboratorios()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 3,
+      Devuelve: List`1 [{"idParaArchivo":7,"id":7,"nombre":"x_lab_laboratorio","imagen":"x_arc_nombre","imagenBase64":null},{"idParaArchivo":7,"id":7,"nombre":"x_lab_laboratorio","imagen":"x_arc_nombre","imagenBase64":null}]
+    }
+  },
+  {
+    Metodo: getList_ModuloDetalle(DataRow[] listaFila),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: mailDatosCliente(AppCargaDatosClientes pDatosCliente),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: RecuperarFarmacias(String pPromotor, String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesByPromotor(@cli_promotor=v_pPromotor)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"objCliente":{"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_…
+    }
+  },
+  {
+    Metodo: RecuperarTodoInfoPedidos(String pPromotor, String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetInfoPedidos(promotor=v_pPromotor)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION FormatException
+    }
+  },
+  {
+    Metodo: RecuperarTodoPedidoModuloHistorial(String pPromotor, String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetHistorialPedidos(promotor=v_pPromotor)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION FormatException
+    }
+  },
+  {
+    Metodo: RecuperarTodosModulos(String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetModulos()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"id":7,"nombre_laboratorio":"x_lab_laboratorio","descripcion":"x_mod_descripcion","cantidadMinimos":7,"idLaboratorio":7,"laboratorio":null,"moduloDetalle":[{"objProducto":{"pro_codigo":"x_pro_codigo","pro_nombre":"x_pro_nombre","pro_precio":12.5,"pro_preciofarmacia":12.5,"pro_ofeunidades":7,"pro_ofeporcentaje":12.5,"pro_neto":true,"pro_codtpopro":"X_PRO_CODTPOPRO","pro_descuentoweb":12.5,"pro_la…
+    }
+  }
+]

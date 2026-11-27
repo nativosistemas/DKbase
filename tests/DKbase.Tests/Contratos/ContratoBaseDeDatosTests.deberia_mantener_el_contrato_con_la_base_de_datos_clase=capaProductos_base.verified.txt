@@ -1,0 +1,315 @@
+﻿[
+  {
+    Metodo: ActualizarInsertarProductosImagen(String connectionString, String pCodigoProducto, String pNombreArchivo),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: DescargaMedicamentosYAccesoriosNoIncluidosEnAlfaBeta(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spMedicamentosYAccesoriosNoIncluidosEnAlfaBeta()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: DescargaTodosProductos(String pProvincia),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spDescargaTodosProductos(@cli_codprov=v_pProvincia)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: DescargaTodosProductosDrogueria(String pProvincia),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spDescargaTodosProductosDrogueria(@cli_codprov=v_pProvincia)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: DescargaTodosProductosEnOferta(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spDescargaTodosProductosEnOferta()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: DescargaTodosProductosPerfumeria(String pProvincia),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spDescargaTodosProductosPerfumeria(@cli_codprov=v_pProvincia)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: isColumnaWhereDefault(List`1 pListaColumna),
+    BaseVacia: {
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Devuelve: Boolean False
+    }
+  },
+  {
+    Metodo: ObtenerProductosImagenes(),
+    BaseVacia: {
+      Llamadas: [
+        Reader dbo.spObtenerProductosImagenes()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: ObtenerReservasVacunas(),
+    BaseVacia: {
+      Llamadas: [
+        Reader dbo.spObtenerReservasVacunas()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarProductoParametrizadoCantidad(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperarProductoParametrizadoCantidad()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarProductoPorNombre(String pNombreProducto),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperadorTodosProductosPorNombre(@pro_nombre=v_pNombreProducto)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarProductoPorTablaNombre(DataTable pTabla),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperadorTodosProductosPorTablaNombre(@Tabla_Detalle=TVP[col](1))
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarProductosDesdeTabla(DataTable pTablaProducto, String pSucursalPerteneciente, String pCli_codprov, Int32 pCodCliente),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarProductosDesdeTabla(@Tabla_Detalle=TVP[col](1), @Sucursal=v_pSucursalPerteneciente, @cli_codprov=v_pCli_codprov, @codCliente=7)
+      ],
+      Devuelve: DataSet[Productos(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Productos(2), Productos1(2), Productos2(2), Productos3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarStockPorProductosAndSucursal(DataTable pTablaSucursales, DataTable pTablaProductos),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperarStockPorProductosAndSucursal(@Tabla_Sucursales=TVP[col](1), @Tabla_Productos=TVP[col](1))
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosProductosBuscadorEnOferta(String pSucursalPerteneciente, Nullable`1 pIdCliente, String pCli_codprov),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarTodosProductosBuscadorEnOferta(@Sucursal=v_pSucursalPerteneciente, @codCliente=7, @cli_codprov=v_pCli_codprov)
+      ],
+      Devuelve: DataSet[ProductosBuscador(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[ProductosBuscador(2), ProductosBuscador1(2), ProductosBuscador2(2), ProductosBuscador3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarTodosProductosBuscadorEnTransfer(String pSucursalPerteneciente, Nullable`1 pIdCliente, String pCli_codprov),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarTodosProductosBuscadorEnTransfer(@Sucursal=v_pSucursalPerteneciente, @codCliente=7, @cli_codprov=v_pCli_codprov)
+      ],
+      Devuelve: DataSet[ProductosBuscador(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[ProductosBuscador(2), ProductosBuscador1(2), ProductosBuscador2(2), ProductosBuscador3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarTodosProductosBuscadorOferta(Int32 pIdOferta, String pSucursalPerteneciente, Nullable`1 pIdCliente, String pCli_codprov),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarTodosProductosBuscadorOferta(@ofe_idOferta=7, @Sucursal=v_pSucursalPerteneciente, @codCliente=7, @cli_codprov=v_pCli_codprov)
+      ],
+      Devuelve: DataSet[ProductosBuscador(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[ProductosBuscador(2), ProductosBuscador1(2), ProductosBuscador2(2), ProductosBuscador3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarTodosProductosBuscadorV3(String pTextoBuscador, List`1 pListaColumna, String pSucursalPerteneciente, Nullable`1 pIdCliente, String pCli_codprov),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarTodosProductosBuscadorV3(@Where= (  v_pListaColumna collate SQL_Latin1_General_Cp1_CI_AI like '%v_pTextoBuscador%'  ) , @WherePrimeraOrdenacion= pro_nombre collate SQL_Latin1_General_Cp1_CI_AI like 'v_pTextoBuscador%' , @Sucursal=v_pSucursalPerteneciente, @codCliente=7, @cli_codprov=v_pCli_codprov)
+      ],
+      Devuelve: DataSet[ProductosBuscador(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[ProductosBuscador(2), ProductosBuscador1(2), ProductosBuscador2(2), ProductosBuscador3(2)]
+    }
+  },
+  {
+    Metodo: spRecuperarNombreArchivoPorCodigoProducto(String pPri_codigo),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperarNombreArchivoPorCodigoProducto(pri_codigo=v_pPri_codigo)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

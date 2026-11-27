@@ -1,0 +1,181 @@
+﻿[
+  {
+    Metodo: ConvertAddOferta(DataRow pItem, cOfertaHome obj),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertTocOfertaHome(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToHomeSlide(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToOferta(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToRecall(DataRow item),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: RecuperarOfertaPorId(Int32 pIdOferta),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarOfertaPorId(@ofe_idOferta=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodaReCall_aux(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spGetRecall()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodasHomeSlidePublicar(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasHomeSlide()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodasOfertaParaHome(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasOfertaParaHome()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodasOfertaPublicar(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasOfertaPublicar()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodasOfertas(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasOferta()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: spOferta_Rating(Int32 pIdCliente, Int32 pIdOferta, Boolean pIsDesdeHome),
+    BaseVacia: {
+      Llamadas: [
+        Reader dbo.spOferta_Rating(@ofr_idCliente=7, @ofr_idOferta=7, @ofr_isDesdeHome=True)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

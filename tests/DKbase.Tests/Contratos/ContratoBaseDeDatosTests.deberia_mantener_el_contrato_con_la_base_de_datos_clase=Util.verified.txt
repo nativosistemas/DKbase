@@ -1,0 +1,2335 @@
+﻿[
+  {
+    Metodo: ActualizarStockListaProductos_SubirArchico(cClientes pClientes, List`1 pListaSucursal, List`1 pListaProductos, String pSucursalElegida),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodasSucursal()
+      ],
+      Devuelve: List`1 [{"pro_Ranking":0,"isTieneTransfer":false,"isValePsicotropicos":false,"cantidad":0,"nroordenamiento":0,"isProductoNoEncontrado":false,"isProductoFacturacionDirecta":false,"codProducto":null,"idUsuario":0,"stk_stock":null,"fpc_nombreProducto":null,"fpc_cantidad":0,"PrecioFinalRecuperador":0,"tde_codtfr":0,"tde_codpro":null,"tde_descripcion":null,"tde_prepublico":null,"tde_predescuento":null,"tde_mi…
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"pro_Ranking":0,"isTieneTransfer":false,"isValePsicotropicos":false,"cantidad":0,"nroordenamiento":0,"isProductoNoEncontrado":false,"isProductoFacturacionDirecta":false,"codProducto":null,"idUsuario":0,"stk_stock":null,"fpc_nombreProducto":null,"fpc_cantidad":0,"PrecioFinalRecuperador":0,"tde_codtfr":0,"tde_codpro":null,"tde_descripcion":null,"tde_prepublico":null,"tde_predescuento":null,"tde_mi…
+    }
+  },
+  {
+    Metodo: ActualizarStockListaProductos_Transfer(cClientes pClientes, List`1 pListaSucursal, String pro_codigo, List`1 pSucursalStocks),
+    BaseVacia: {
+      Devuelve: List`1 [{"stk_codpro":null,"stk_codsuc":null,"stk_stock":null,"cantidadSucursal":0}]
+    },
+    BaseCaida: {
+      Devuelve: List`1 [{"stk_codpro":null,"stk_codsuc":null,"stk_stock":null,"cantidadSucursal":0}]
+    },
+    BaseConDatos: {
+      Devuelve: List`1 [{"stk_codpro":null,"stk_codsuc":null,"stk_stock":null,"cantidadSucursal":0}]
+    }
+  },
+  {
+    Metodo: AgregarDevolucionItemPrecarga(cDevolucionItemPrecarga_java Item),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spAgregarItemDevolucion(@numerocliente=0, @numerofactura=NULL, @nombreproductodevolucion=NULL, @motivo=0, @numeroitemfactura=NULL, @nombreproductofactura=NULL, @cantidad=0, @numerolote=NULL, @fechavencimientolote=NULL, @idsucursal=NULL, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarHistorialProductoCarritoTransfer(Int32 pIdCliente, List`1 pListaProductosMasCantidad, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spAgregarProductosBuscadosDelCarritoTransferPorNombreProducto(@hpb_codUsuario=7, @hpb_codCliente=7, @Tabla_Detalle=TVP[codProducto|cantidad](1))
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: AgregarHistorialSubirArchivo(Int32 pIdCliente, String pSucursal, String pNombreArchivo, String pNombreArchivoOriginal, DateTime pFecha),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spAgregarHistorialSubirArchivo(@has_NombreArchivo=v_pNombreArchivo, @has_NombreArchivoOriginal=v_pNombreArchivoOriginal, @has_codCliente=7, @has_sucursal=v_pSucursal, @has_fecha=2024-03-15T10:00:00)
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarReclamoFacturadoNoEnviadoCliente(List`1 Item, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: AgregarReclamoFacturadoNoEnviadoItemPrecarga(cDevolucionItemPrecarga_java Item),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spAgregarItemReclamoFacturadoNoEnviado(@numerocliente=0, @numerofactura=NULL, @nombreproducto=NULL, @cantidad=0, @idsucursal=NULL, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarSolicitudDevolucionCliente(List`1 Item, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: AgregarVariableSessionComposicionSaldo(DateTime pFechaDesde, DateTime pFechaHasta, Int32 pPendiente, Int32 pCancelado, String pCli_login),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: CambiarContraseñaPersonal(cClientes pCliente, Usuario pUsuario, String pContraseñaVieja, String pContraseñaNueva),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=77, @usu_codRol=NULL, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=NULL, @usu_observacion=NULL, @usu_codUsuarioUltMov=NULL, @usu_codAccion=NULL, @usu_estado=NULL, @filtro=NULL, @accion=SELECT)
+      ],
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 2,
+      Devuelve: Int32 0
+    }
+  },
+  {
+    Metodo: CambiarContraseñaUsuario(Int32 pIdUsuario, String pConstraseña, Nullable`1 pIdUsuarioEnSession),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=NULL, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=v_pConstraseña, @usu_observacion=NULL, @usu_codUsuarioUltMov=7, @usu_codAccion=4, @usu_estado=NULL, @filtro=NULL, @accion=CAMBIOCONTRASEÑA)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: CambiarContraseñaUsuario(Usuario pUsuario, Int32 pIdUsuario, String pPass),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=NULL, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=v_pPass, @usu_observacion=NULL, @usu_codUsuarioUltMov=77, @usu_codAccion=4, @usu_estado=NULL, @filtro=NULL, @accion=CAMBIOCONTRASEÑA)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 0
+    }
+  },
+  {
+    Metodo: CambiarEstadoUsuario(Usuario pUsuario, Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=NULL, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=NULL, @usu_observacion=NULL, @usu_codUsuarioUltMov=NULL, @usu_codAccion=NULL, @usu_estado=NULL, @filtro=NULL, @accion=SELECT)
+      ],
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 3,
+      Devuelve: Int32 0
+    }
+  },
+  {
+    Metodo: CambiarEstadoUsuarioPorId(Int32 pIdUsuario, Int32 pIdEstado, Int32 pIdUsuarioEnSession),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=NULL, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=NULL, @usu_observacion=NULL, @usu_codUsuarioUltMov=7, @usu_codAccion=3, @usu_estado=7, @filtro=NULL, @accion=ESTADO)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: CerrarSession(Int32 pIdUsuarioLog),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Seguridad.spCerrarSession(IdUsuarioLog=7)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: ConvertDataTableAClase(DataTable tabla, DataTable tablaSucursalStocks, List`1 listaTransferDetalle, cClientes pCliente),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: createFileClear(String pPathFile, DataTable pDataTable),
+    BaseVacia: {
+      Devuelve: void
+    },
+    BaseCaida: {
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: EliminarDevolucionItemPrecarga(Int32 NumeroItem),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spElimminarItemDevolucionPrecarga(@NumeroItem=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaDevolucionFacturaCompletaPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaDevolucionFacturaCompletaPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaDevolucionPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaDevolucionPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaDevolucionVencidosPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaDevolucionVencidosPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarPrecargaReclamoFNEPorCliente(Int32 NumeroCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spEliminarPrecargaReclamoFNEPorCliente(@NumeroCliente=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EliminarRegla(Int32 rgl_codRegla),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRegla(@rgl_codRegla=7, @rgl_Descripcion=NULL, @rgl_PalabraClave=NULL, @rgl_IsAgregarSoporta=NULL, @rgl_IsEditarSoporta=NULL, @rgl_IsEliminarSoporta=NULL, @rgl_codReglaPadre=NULL, @filtro=NULL, @accion=DELETE)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: EliminarUsuario(Int32 usu_codigo),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=NULL, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=NULL, @usu_observacion=NULL, @usu_codUsuarioUltMov=NULL, @usu_codAccion=NULL, @usu_estado=NULL, @filtro=NULL, @accion=DELETE)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: ElimminarItemReclamoFNEPrecarga(Int32 NumeroItem),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery Devoluciones.spElimminarItemReclamoFNEPrecarga(@NumeroItem=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: enviarConsultaCtaCte(Usuario pUsuario, String pMail, String pComentario),
+    BaseVacia: {
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Devuelve: Int32 0
+    }
+  },
+  {
+    Metodo: enviarConsultaReclamos(Usuario pUsuario, String pMail, String pComentario, String pNombreProducto),
+    BaseVacia: {
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Devuelve: Int32 0
+    }
+  },
+  {
+    Metodo: enviarConsultaValePsicotropico(Usuario pUsuario, String pMail, String pComentario, String pNombreProducto),
+    BaseVacia: {
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Devuelve: Int32 0
+    }
+  },
+  {
+    Metodo: enviarSolicitudSobresRemesa(cClientes oCliente),
+    BaseVacia: {
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Devuelve: Int32 0
+    }
+  },
+  {
+    Metodo: EsFacturaConDevolucionesEnProceso(String pNumeroFactura, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Devuelve: Boolean False
+    }
+  },
+  {
+    Metodo: generar_archivo(cClientes pCliente, String factura),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: generar_factura_csv(cClientes pCliente, String factura),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: GenerarArchivo(String RutaNombreArchivo, DataTable pTabla),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: GenerarArchivo_MedicamentosYAccesoriosNoIncluidosEnAlfaBeta(String RutaNombreArchivo, DataTable pTabla),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: GenerarArchivo_ProductosEnOferta(String RutaNombreArchivo, DataTable pTabla),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: GenerateDocument_getNameFile(Int32 id),
+    BaseVacia: {
+      Devuelve: "ProductosPerfumeria.csv"
+    },
+    BaseCaida: {
+      Devuelve: "ProductosPerfumeria.csv"
+    },
+    BaseConDatos: {
+      Devuelve: "ProductosPerfumeria.csv"
+    }
+  },
+  {
+    Metodo: GenerateDocument_getPathFile(Int32 id),
+    BaseVacia: {
+      Devuelve: "{TempPath}{Carpeta}/temp/ProductosPerfumeria.csv"
+    },
+    BaseCaida: {
+      Devuelve: "{TempPath}{Carpeta}/temp/ProductosPerfumeria.csv"
+    },
+    BaseConDatos: {
+      Devuelve: "{TempPath}{Carpeta}/temp/ProductosPerfumeria.csv"
+    }
+  },
+  {
+    Metodo: getCatalogosParaDescarga(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Catalogo.spRecuperarTodosCatalogos()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 []
+    }
+  },
+  {
+    Metodo: getConsultaDeComprobantesEntreFechaCSV(cClientes pClientes, List`1 pLista),
+    BaseVacia: {
+      Devuelve: "farmacia1234-ConsultaDeComprobantes.csv"
+    },
+    BaseCaida: {
+      Devuelve: "farmacia1234-ConsultaDeComprobantes.csv"
+    },
+    BaseConDatos: {
+      Devuelve: "farmacia1234-ConsultaDeComprobantes.csv"
+    }
+  },
+  {
+    Metodo: getDeudaVencidaCSV(cClientes pClientes, List`1 pLista, String pTipo),
+    BaseVacia: {
+      Devuelve: "farmacia1234-v_pTipo.csv"
+    },
+    BaseCaida: {
+      Devuelve: "farmacia1234-v_pTipo.csv"
+    },
+    BaseConDatos: {
+      Devuelve: "farmacia1234-v_pTipo.csv"
+    }
+  },
+  {
+    Metodo: getHiddenDeudaVencida(String pCli_login),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: getObraSocialEntreFechasCSV(cClientes pClientes, List`1 pLista),
+    BaseVacia: {
+      Devuelve: "farmacia1234-ObrasSociales.csv"
+    },
+    BaseCaida: {
+      Devuelve: "farmacia1234-ObrasSociales.csv"
+    },
+    BaseConDatos: {
+      Devuelve: "farmacia1234-ObrasSociales.csv"
+    }
+  },
+  {
+    Metodo: GetRoles(String sortExpression, String pFiltro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRol(@rol_codRol=NULL, @rol_Nombre=NULL, @filtro=v_pFiltro, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"rol_codRol":7,"rol_Nombre":"x_rol_Nombre"},{"rol_codRol":7,"rol_Nombre":"x_rol_Nombre"}]
+    }
+  },
+  {
+    Metodo: GetUsuariosDeCliente(String sortExpression, Int32 pIdCliente, String pFiltro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spRecuperarUsuariosPorIdCliente(@filtro=v_pFiltro, @usu_codRol=3, @usu_codCliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 3,
+      Devuelve: List`1 [{"usu_codigo":7,"usu_codRol":7,"usu_codCliente":7,"rol_Nombre":"x_rol_Nombre","NombreYapellido":"x_NombreYapellido","ApNombre":null,"usu_nombre":"x_usu_nombre","usu_apellido":"x_usu_apellido","usu_login":"x_usu_login","usu_mail":"x_usu_mail","usu_pswDesencriptado":"x_usu_pswDesencriptado","usu_observacion":"x_usu_observacion","usu_estado":7,"usu_estadoToString":"","cli_nombre":"x_cli_nombre","lis…
+    }
+  },
+  {
+    Metodo: GrabarFacturaCSV(cClientes pClientes, String pRuta, String pFactura),
+    BaseVacia: {
+      Devuelve: ""
+    },
+    BaseCaida: {
+      Devuelve: ""
+    },
+    BaseConDatos: {
+      Devuelve: ""
+    }
+  },
+  {
+    Metodo: GrabarFacturaTXT(cClientes pClientes, String pRuta, String pFactura),
+    BaseVacia: {
+      Devuelve: ""
+    },
+    BaseCaida: {
+      Devuelve: ""
+    },
+    BaseConDatos: {
+      Devuelve: ""
+    }
+  },
+  {
+    Metodo: GuardarUsuario(cClientes pCliente, Int32 pIdUsuario, String pNombre, String pApellido, String pMail, String pLogin, String pContraseña, String pObservaciones1, List`1 pListaPermisos),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spIsRepetidoLogin(@usu_codigo=7, @usu_login=v_pLogin),
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=3, @usu_codCliente=1234, @usu_nombre=v_pNombre, @usu_apellido=v_pApellido, @usu_mail=v_pMail, @usu_login=v_pLogin, @usu_psw=v_pContraseña, @usu_observacion=v_pObservaciones1, @usu_codUsuarioUltMov=NULL, @usu_codAccion=2, @usu_estado=NULL, @filtro=NULL, @accion=UPDATE),
+        Scalar Seguridad.spInsertarSinPermisoUsuarioIntranet(@idUsuario=7, @Tabla_NombreSeccion=TVP[NombreSeccion](1))
+      ],
+      Devuelve: Int32 7
+    },
+    BaseCaida: {
+      Conexiones: 6,
+      Devuelve: Int32 7
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 -2
+    }
+  },
+  {
+    Metodo: ImprimirComprobante(String pTipoComprobante, String pNroComprobante),
+    BaseVacia: {
+      Devuelve: void
+    },
+    BaseCaida: {
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: InsertarActualizarArchivo(Int32 arc_codRecurso, Int32 arc_codRelacion, String arc_galeria, String arc_tipo, String arc_mime, String arc_nombre, String arc_titulo, String arc_descripcion, String arc_hash, Int32 arc_codUsuarioUltMov),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spGestionArchivo(@arc_codRecurso=7, @arc_codRelacion=7, @arc_galeria=v_arc_galeria, @arc_tipo=v_arc_tipo, @arc_mime=v_arc_mime, @arc_nombre=v_arc_nombre, @arc_titulo=v_arc_titulo, @arc_descripcion=v_arc_descripcion, @arc_hash=v_arc_hash, @arc_codUsuarioUltMov=7, @arc_estado=NULL, @arc_accion=2, @filtro=NULL, @accion=UPDATE)
+      ],
+      Devuelve: Int32 7
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: Int32 7
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarActualizarRegla(Int32 rgl_codRegla, String rgl_Descripcion, String rgl_PalabraClave, Boolean rgl_IsAgregarSoporta, Boolean rgl_IsEditarSoporta, Boolean rgl_IsEliminarSoporta, Nullable`1 rgl_codReglaPadre),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRegla(@rgl_codRegla=7, @rgl_Descripcion=v_rgl_Descripcion, @rgl_PalabraClave=v_rgl_PalabraClave, @rgl_IsAgregarSoporta=True, @rgl_IsEditarSoporta=True, @rgl_IsEliminarSoporta=True, @rgl_codReglaPadre=7, @filtro=NULL, @accion=UPDATE)
+      ],
+      Devuelve: Int32 7
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 7
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarActualizarRelacionRolRegla(Int32 pIdRol, String pXML),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRelacionRoleRegla(@rrr_codRol=7, @rrr_codRegla=NULL, @strXML=v_pXML, @accion=UPDATE)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: InsertarActualizarRol(Int32 rol_codRol, String rol_Nombre),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRol(@rol_codRol=7, @rol_Nombre=v_rol_Nombre, @filtro=NULL, @accion=UPDATE)
+      ],
+      Devuelve: Int32 7
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 7
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarActualizarUsuario(cUsuario pUsuario, Int32 pCodUsuarioModif),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=0, @usu_codRol=0, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=, @usu_observacion=NULL, @usu_codUsuarioUltMov=7, @usu_codAccion=1, @usu_estado=2, @filtro=NULL, @accion=INSERT)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarActualizarUsuario(Int32 usu_codigo, Int32 usu_codRol, Nullable`1 usu_codCliente, String usu_nombre, String usu_apellido, String usu_mail, String usu_login, String usu_psw, String usu_observacion, Nullable`1 usu_codUsuarioUltMov),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=7, @usu_codCliente=7, @usu_nombre=v_usu_nombre, @usu_apellido=v_usu_apellido, @usu_mail=v_usu_mail, @usu_login=v_usu_login, @usu_psw=v_usu_psw, @usu_observacion=v_usu_observacion, @usu_codUsuarioUltMov=7, @usu_codAccion=2, @usu_estado=NULL, @filtro=NULL, @accion=UPDATE)
+      ],
+      Devuelve: Int32 7
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 7
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarCurriculumVitae(String tcv_nombre, String tcv_comentario, String tcv_mail, String tcv_dni, String tcv_puesto, String tcv_sucursal, Nullable`1 tcv_fechaPresentacion),
+    BaseVacia: {
+      Llamadas: [
+        Fill spCurriculumVitae(@tcv_codCV=NULL, @tcv_fecha=2024-03-15T10:00:00, @tcv_nombre=v_tcv_nombre, @tcv_comentario=v_tcv_comentario, @tcv_mail=v_tcv_mail, @tcv_dni=v_tcv_dni, @tcv_estado=4, @filtro=NULL, @accion=INSERT, @tcv_puesto=v_tcv_puesto, @tcv_sucursal=v_tcv_sucursal, @tcv_fechaPresentacion=2024-03-15T10:00:00)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarOfertaRating(Int32 ofr_idOferta, Int32 ofr_idCliente, Boolean ofr_isDesdeHome),
+    BaseVacia: {
+      Llamadas: [
+        Reader dbo.spOferta_Rating(@ofr_idCliente=7, @ofr_idOferta=7, @ofr_isDesdeHome=True)
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean True
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: InsertarPalabraBuscada(String pPalabra, Int32 pIdUsuario, String pNombreTabla),
+    BaseVacia: {
+      Llamadas: [
+        Scalar LogRegistro.spIngresarPalabraBusqueda(@idUsuario=7, @nombreTabla=v_pNombreTabla, @hbp_Palabra=v_pPalabra)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: InsertarSinPermisoUsuarioIntranetPorIdUsuario(Int32 pIdUsuario, List`1 pListaNombreSeccion),
+    BaseVacia: {
+      Llamadas: [
+        Scalar Seguridad.spInsertarSinPermisoUsuarioIntranet(@idUsuario=7, @Tabla_NombreSeccion=TVP[NombreSeccion](1))
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean True
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: IsRepetidoLogin(Int32 pIdUsuario, String pLogin),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spIsRepetidoLogin(@usu_codigo=7, @usu_login=v_pLogin)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: Login(String pLogin, String pPassword, String pIp, String pHostName, String pUserAgent),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spInicioSession(@login=v_pLogin, @Password=v_pPassword, @Ip=v_pIp, @Host=v_pHostName, @UserName=v_pUserAgent)
+      ],
+      Devuelve: Usuario {"id":-1,"idRol":0,"NombreYApellido":"","ApNombre":null,"usu_pswDesencriptado":null,"idUsuarioLog":-1,"usu_estado":0,"usu_codCliente":null,"usu_login":null,"rol_Nombre":null}
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION FormatException
+    }
+  },
+  {
+    Metodo: LogInfo(MethodBase method, String pMensaje, String pInfoAdicional, String pType, String pFile_type, Byte[] pFile_content, Object[] values),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spError(err_Nombre=getParameters, err_Parameters=<t>System.Object</t><nombre>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Index was outside the bounds of the array., err_Source=DKbase, err_StackTrace={stack}, err_fecha=2024-03-15T10:00:00, err_tipo=test),
+        NonQuery LogRegistro.spLogInfo(log_Nombre=DKbase.Tests.Contratos.ContratoBaseDeDatosTests, DKbase.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, log_Mensaje=v_pMensaje, log_InfoAdicional=v_pInfoAdicional, log_Parameters=<t>System.Object</t><nombre>, log_fecha=2024-03-15T10:00:00, log_app=test, log_type=v_pType, log_file_type=v_pFile_type, log_file_content=bytes(3))
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 2,
+      Devuelve: void,
+      ErroresLogueados: [
+        getParameters: Index was outside the bounds of the array.
+      ]
+    }
+  },
+  {
+    Metodo: ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente(String NombreProducto, String NumeroFactura, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: Int64 0
+    },
+    BaseCaida: {
+      Devuelve: Int64 0
+    },
+    BaseConDatos: {
+      Devuelve: Int64 0
+    }
+  },
+  {
+    Metodo: ObtenerChequesEnCartera(String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerComprobantesAImprimirEnBaseAResumen(String pNumeroResumen),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas(String pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerComprobantesEntreFechas(String pTipoComprobante, DateTime pDesde, DateTime pHasta, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas(String pLoginWeb, String pPlan, DateTime pFechaDesde, DateTime pFechaHasta),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerCreditoDisponible(String pCli_login),
+    BaseVacia: {
+      Devuelve: ResultCreditoDisponible {"CreditoDisponibleSemanal":null,"CreditoDisponibleTotal":null}
+    },
+    BaseCaida: {
+      Devuelve: ResultCreditoDisponible {"CreditoDisponibleSemanal":null,"CreditoDisponibleTotal":null}
+    },
+    BaseConDatos: {
+      Devuelve: ResultCreditoDisponible {"CreditoDisponibleSemanal":null,"CreditoDisponibleTotal":null}
+    }
+  },
+  {
+    Metodo: ObtenerCreditoDisponibleSemanal(String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerCreditoDisponibleTotal(String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerFactura(String pNroFactura, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerFacturasPorUltimosNumeros(String pNumeroFactura, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerItemsDePedidoPorNumeroDeFactura(String pNumeroFactura, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerMovimientosDeCuentaCorriente(Boolean pIsIncluyeCancelado, DateTime pFechaDesde, DateTime pFechaHasta, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerMovimientosDeFichaCtaCte(String pLoginWeb, DateTime pFechaDesde, DateTime pFechaHasta),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerNotaDeCredito(String pNroNotaDeCredito, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerNotaDeDebito(String pNroNotaDeDebito, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena(String pNombreProducto, String pNumeroLote, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerObraSocialCliente(String pNumeroObraSocialCliente, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerPlanesDeObrasSociales(),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes(String pNombrePlan, String pLoginWeb, Int32 pAnio, Int32 pMes),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena(String pNombrePlan, String pLoginWeb, Int32 pAnio, Int32 pMes, Int32 pQuincena),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana(String pNombrePlan, String pLoginWeb, Int32 pAnio, Int32 pSemana),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerPrecioFinalTransfer(cClientes pClientes, cTransfer pTransfer, cTransferDetalle pTransferDetalle),
+    BaseVacia: {
+      Devuelve: EXCEPCION InvalidOperationException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION InvalidOperationException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION InvalidOperationException
+    }
+  },
+  {
+    Metodo: ObtenerRangoFecha_pedidos(cClientes pCliente, Int32 pDia),
+    BaseVacia: {
+      Devuelve: cRangoFecha_Pedidos {"lista":["8","3","2024","16","3","2024"],"resultadoObj":null}
+    },
+    BaseCaida: {
+      Devuelve: cRangoFecha_Pedidos {"lista":["8","3","2024","16","3","2024"],"resultadoObj":null}
+    },
+    BaseConDatos: {
+      Devuelve: cRangoFecha_Pedidos {"lista":["8","3","2024","16","3","2024"],"resultadoObj":null}
+    }
+  },
+  {
+    Metodo: ObtenerRecibo(String pNumeroDoc, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerReclamosFacturadoNoEnviadoPorCliente(cClientes pCliente),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero(String pNumeroDevolucion, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerResumenAbierto(String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerResumenCerrado(String pNroResumen, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerSaldoFinalADiciembrePorCliente(String pCli_login),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerSaldosPresentacionParaComposicion(String pLoginWeb, DateTime pFecha),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerSolicitudesDevolucionCliente(cClientes pCliente),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerSolicitudesDevolucionClientePorNumero(String pNumeroDevolucion, String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerTiposDeComprobantesAMostrar(String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerUltimos10ResumenesDePuntoDeVenta(String pLoginWeb),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerVencimientosResumenPorFecha(String pNumeroResumen, DateTime pFechaVencimiento),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: RecuperarClientePorId(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarClientePorId(@cli_codigo=7)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cClientes {"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_pordesnetos":12…
+    }
+  },
+  {
+    Metodo: RecuperarFaltasProblemasCrediticios(cClientes pCliente, Int32 fpc_tipo, Int32 pCantidadDia, String pSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spRecuperarFaltasProblemasCrediticiosV2(@fpc_codCliente=1234, @fpc_tipo=7, @cantidadDia=7, @Sucursal=v_pSucursal)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: RecuperarFaltasProblemasCrediticios_TodosEstados(cClientes pCliente, Int32 fpc_tipo, Int32 pCantidadDia, String pSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Fill LogRegistro.spRecuperarFaltasProblemasCrediticiosTodosEstadosV2(@fpc_codCliente=1234, @fpc_tipo=7, @cantidadDia=7, @Sucursal=v_pSucursal)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: RecuperarHistorialSubirArchivo(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperarHistorialSubirArchivo(@has_codCliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"has_id":7,"has_codCliente":7,"has_NombreArchivo":"x_has_NombreArchivo","has_NombreArchivoOriginal":"x_has_NombreArchivoOriginal","has_sucursal":"x_has_sucursal","suc_nombre":"x_suc_nombre","has_fecha":"2024-01-02T03:04:05","has_fechaToString":"01/02/2024 03:04:05"},{"has_id":7,"has_codCliente":7,"has_NombreArchivo":"x_has_NombreArchivo","has_NombreArchivoOriginal":"x_has_NombreArchivoOriginal",…
+    }
+  },
+  {
+    Metodo: RecuperarHistorialSubirArchivoPorId(Int32 pId),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperarHistorialSubirArchivoPorId(@has_id=7)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cHistorialArchivoSubir {"has_id":7,"has_codCliente":7,"has_NombreArchivo":"x_has_NombreArchivo","has_NombreArchivoOriginal":"x_has_NombreArchivoOriginal","has_sucursal":"x_has_sucursal","suc_nombre":"x_suc_nombre","has_fecha":"2024-01-02T03:04:05","has_fechaToString":"01/02/2024 03:04:05"}
+    }
+  },
+  {
+    Metodo: RecuperarHistorialSubirArchivoPorNombreArchivoOriginal(String pNombreArchivoOriginal),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperarHistorialSubirArchivoPorNombreArchivoOriginal(@has_NombreArchivoOriginal=v_pNombreArchivoOriginal)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"has_id":7,"has_codCliente":7,"has_NombreArchivo":"x_has_NombreArchivo","has_NombreArchivoOriginal":"x_has_NombreArchivoOriginal","has_sucursal":"x_has_sucursal","suc_nombre":"x_suc_nombre","has_fecha":"2024-01-02T03:04:05","has_fechaToString":"01/02/2024 03:04:05"},{"has_id":7,"has_codCliente":7,"has_NombreArchivo":"x_has_NombreArchivo","has_NombreArchivoOriginal":"x_has_NombreArchivoOriginal",…
+    }
+  },
+  {
+    Metodo: RecuperarItemsDevolucionPrecargaFacturaCompletaPorCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsDevolucionesPrecargaFacturaCompletaPorCliente(@numerocliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"dev_numeroitem":7,"dev_numerocliente":7,"dev_numerofactura":"x_dev_numerofactura","dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":"x_dev_nombreproductodevolucion","dev_fecha":"2024-01-02T03:04:05","dev_fechaToString":"01/02/2024","dev_motivo":7,"dev_numeroitemfactura":7,"dev_nombreproductofactura":"x_dev_nombreproductofactura","dev_cantidad":7,"dev_numerolote":"x_dev_numerol…
+    }
+  },
+  {
+    Metodo: RecuperarItemsDevolucionPrecargaPorCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsDevolucionesPrecargaPorCliente(@numerocliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"dev_numeroitem":7,"dev_numerocliente":7,"dev_numerofactura":"x_dev_numerofactura","dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":"x_dev_nombreproductodevolucion","dev_fecha":"2024-01-02T03:04:05","dev_fechaToString":"01/02/2024","dev_motivo":7,"dev_numeroitemfactura":7,"dev_nombreproductofactura":"x_dev_nombreproductofactura","dev_cantidad":7,"dev_numerolote":"x_dev_numerol…
+    }
+  },
+  {
+    Metodo: RecuperarItemsDevolucionPrecargaVencidosPorCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsDevolucionesPrecargaVencidosPorCliente(@numerocliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"dev_numeroitem":7,"dev_numerocliente":7,"dev_numerofactura":"x_dev_numerofactura","dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":"x_dev_nombreproductodevolucion","dev_fecha":"2024-01-02T03:04:05","dev_fechaToString":"01/02/2024","dev_motivo":7,"dev_numeroitemfactura":7,"dev_nombreproductofactura":"x_dev_nombreproductofactura","dev_cantidad":7,"dev_numerolote":"x_dev_numerol…
+    }
+  },
+  {
+    Metodo: RecuperarItemsReclamoFacturadoNoEnviado(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader Devoluciones.spRecuperarItemsReclamoFacturadoNoEnviado(@numerocliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"dev_numeroitem":7,"dev_numerocliente":7,"dev_numerofactura":"x_dev_numerofactura","dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":"x_dev_nombreproductodevolucion","dev_fecha":"2024-01-02T03:04:05","dev_fechaToString":"01/02/2024","dev_motivo":7,"dev_numeroitemfactura":7,"dev_nombreproductofactura":"x_dev_nombreproductofactura","dev_cantidad":7,"dev_numerolote":"x_dev_numerol…
+    }
+  },
+  {
+    Metodo: RecuperarLimiteSaldo(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarLimiteSaldo()
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Decimal 12.5
+    }
+  },
+  {
+    Metodo: RecuperarOfertaPorId(Int32 pIdOferta),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarOfertaPorId(@ofe_idOferta=7)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cOferta {"ofe_idOferta":7,"ofe_titulo":"x_ofe_titulo","ofe_descr":"x_ofe_descr","ofe_tipo":7,"ofe_nombreTransfer":"x_ofe_nombreTransfer","tfr_codigo":7,"ofe_descuento":"x_ofe_descuento","ofe_etiqueta":"x_ofe_etiqueta","ofe_etiquetaColor":"x_ofe_etiquetaColor","ofe_publicar":true,"ofe_activo":true,"ofe_fecha":"2024-01-02T03:04:05","ofe_fechaToString":"01/02/2024 03:04:05","nameImagen":"x_nameImagen","nameI…
+    }
+  },
+  {
+    Metodo: RecuperarPopUpPorCliente(Int32 pIdCliente, String pSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spGestionArchivo(@arc_codRecurso=NULL, @arc_codRelacion=1, @arc_galeria=popup, @arc_tipo=NULL, @arc_mime=NULL, @arc_nombre=NULL, @arc_titulo=NULL, @arc_descripcion=NULL, @arc_hash=NULL, @arc_codUsuarioUltMov=NULL, @arc_estado=NULL, @arc_accion=NULL, @filtro=, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 []
+    }
+  },
+  {
+    Metodo: RecuperarProductoParametrizadoCantidad(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperarProductoParametrizadoCantidad()
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 0
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: RecuperarProductosGeneralSubirPedidos(cClientes pClientes, String pSucursalEleginda, List`1 pListaSucursal, List`1 pListaProveedor),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodasSucursal()
+      ],
+      Devuelve: cjSonBuscadorProductos {"listaSucursal":["v_pListaSucursal"],"listaProductos":[{"pro_Ranking":0,"isTieneTransfer":false,"isValePsicotropicos":false,"cantidad":0,"nroordenamiento":0,"isProductoNoEncontrado":false,"isProductoFacturacionDirecta":false,"codProducto":null,"idUsuario":0,"stk_stock":null,"fpc_nombreProducto":null,"fpc_cantidad":0,"PrecioFinalRecuperador":0,"tde_codtfr":0,"tde_codpro":null,"tde_descripcion":nul…
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cjSonBuscadorProductos {"listaSucursal":["v_pListaSucursal"],"listaProductos":[{"pro_Ranking":0,"isTieneTransfer":false,"isValePsicotropicos":false,"cantidad":0,"nroordenamiento":0,"isProductoNoEncontrado":false,"isProductoFacturacionDirecta":false,"codProducto":null,"idUsuario":0,"stk_stock":null,"fpc_nombreProducto":null,"fpc_cantidad":0,"PrecioFinalRecuperador":0,"tde_codtfr":0,"tde_codpro":null,"tde_descripcion":nul…
+    }
+  },
+  {
+    Metodo: RecuperarReglaPorId(Int32 pIdRegla),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRegla(@rgl_codRegla=7, @rgl_Descripcion=NULL, @rgl_PalabraClave=NULL, @rgl_IsAgregarSoporta=NULL, @rgl_IsEditarSoporta=NULL, @rgl_IsEliminarSoporta=NULL, @rgl_codReglaPadre=NULL, @filtro=NULL, @accion=SELECT)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cRegla {"rgl_codRegla":7,"rgl_Descripcion":"x_rgl_Descripcion","rgl_PalabraClave":"x_rgl_PalabraClave","rgl_IsAgregarSoporta":true,"rgl_IsEditarSoporta":true,"rgl_IsEliminarSoporta":true,"rgl_codReglaPadre":7}
+    }
+  },
+  {
+    Metodo: RecuperarRelacionRolReglasPorRol(Int32 pIdRol),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRelacionRoleRegla(@rrr_codRol=7, @rrr_codRegla=NULL, @strXML=NULL, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"idRegla":7,"idRelacionReglaRol":7,"isActivo":true,"isAgregar":true,"isEditar":true,"isEliminar":true},{"idRegla":7,"idRelacionReglaRol":7,"isActivo":true,"isAgregar":true,"isEditar":true,"isEliminar":true}]
+    }
+  },
+  {
+    Metodo: RecuperarRolPorId(Int32 pIdRol),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRol(@rol_codRol=7, @rol_Nombre=NULL, @filtro=NULL, @accion=SELECT)
+      ],
+      Devuelve: cRol {"rol_codRol":0,"rol_Nombre":null}
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: cRol {"rol_codRol":0,"rol_Nombre":null}
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cRol {"rol_codRol":7,"rol_Nombre":"x_rol_Nombre"}
+    }
+  },
+  {
+    Metodo: RecuperarSinPermisosSecciones(Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spRecuperarSinPermisoUsuarioIntranetPorIdUsuario(@idUsuario=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 ["X_USP_NOMBRESECCION","X_USP_NOMBRESECCION"]
+    }
+  },
+  {
+    Metodo: RecuperarSucursalDependienteTipoEnvioCliente_TipoEnvios_TodasLasExcepciones(Int32 pIdSucursalDependienteTipoEnvioCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarSucursalDependienteTipoEnvioCliente_TipoEnvios_TodasLasExcepciones(@tdr_idSucursalDependienteTipoEnvioCliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tdt_id":0,"tdt_idSucursalDependienteTipoEnvioCliente":7,"tdt_idTipoEnvio":7,"env_id":7,"env_codigo":"x_env_codigo","env_nombre":"x_env_nombre","tdr_codReparto":"x_tdr_codReparto"},{"tdt_id":0,"tdt_idSucursalDependienteTipoEnvioCliente":7,"tdt_idTipoEnvio":7,"env_id":7,"env_codigo":"x_env_codigo","env_nombre":"x_env_nombre","tdr_codReparto":"x_tdr_codReparto"}]
+    }
+  },
+  {
+    Metodo: RecuperarTiposDeEnvios(cClientes pCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosSucursalDependienteTipoEnvioCliente()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 []
+    }
+  },
+  {
+    Metodo: RecuperarTodaReCall(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spGetRecall()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"rec_id":7,"rec_titulo":"x_rec_titulo","rec_descripcion":"x_rec_descripcion","rec_descripcionReducido":"x_rec_descripcionReducido","rec_descripcionHTML":"x_rec_descripcionHTML","rec_FechaNoticia":"2024-01-02T03:04:05","rec_FechaFinNoticia":"2024-01-02T03:04:05","rec_Fecha":"2024-01-02T03:04:05","rec_visible":true,"rec_FechaNoticiaToString":"01/02/2024","descripcionReducidoMostrar":"x_rec_descrip…
+    }
+  },
+  {
+    Metodo: RecuperarTodasAccionesPorIdRol(Int32 pIdRol),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spRecuperarAccionesUsuario(@IdRol=7)
+      ],
+      Devuelve: ListaAcccionesRol {"lista":[]}
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: ListaAcccionesRol {"lista":[{"idRegla":7,"idReglaRol":7,"palabraClave":"x_rgl_PalabraClave","isActivo":true,"isAgregar":true,"isEditar":true,"isEliminar":true},{"idRegla":7,"idReglaRol":7,"palabraClave":"x_rgl_PalabraClave","isActivo":true,"isAgregar":true,"isEditar":true,"isEliminar":true}]}
+    }
+  },
+  {
+    Metodo: RecuperarTodasHomeSlidePublicar(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasHomeSlide()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"hsl_idHomeSlide":7,"hsl_titulo":"x_hsl_titulo","hsl_descr":"x_hsl_descr","hsl_descrReducido":"x_hsl_descrReducido","hsl_descrHtml":"x_hsl_descrHtml","hsl_descrHtmlReducido":"x_hsl_descrHtmlReducido","hsl_tipo":7,"tipoRecurso":"slider","hsl_idRecursoDoc":7,"hsl_NombreRecursoDoc":"x_hsl_NombreRecursoDoc","hsl_idRecursoImgPC":7,"arc_nombrePC":"x_arc_nombrePC","hsl_idRecursoImgMobil":7,"arc_nombreM…
+    }
+  },
+  {
+    Metodo: RecuperarTodasOfertaParaHome(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasOfertaParaHome()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"ofh_idOfertaHome":7,"ofh_orden":7,"ofh_idOferta":7,"ofe_idOferta":7,"ofe_titulo":"x_ofe_titulo","ofe_descr":"x_ofe_descr","ofe_tipo":7,"ofe_nombreTransfer":"x_ofe_nombreTransfer","tfr_codigo":7,"ofe_descuento":"x_ofe_descuento","ofe_etiqueta":"x_ofe_etiqueta","ofe_etiquetaColor":"x_ofe_etiquetaColor","ofe_publicar":true,"ofe_activo":true,"ofe_fecha":"2024-01-02T03:04:05","ofe_fechaToString":"01…
+    }
+  },
+  {
+    Metodo: RecuperarTodasOfertaPublicar(Boolean isNuevosLanzamiento),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasOfertaPublicar()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"ofe_idOferta":7,"ofe_titulo":"x_ofe_titulo","ofe_descr":"x_ofe_descr","ofe_tipo":7,"ofe_nombreTransfer":"x_ofe_nombreTransfer","tfr_codigo":7,"ofe_descuento":"x_ofe_descuento","ofe_etiqueta":"x_ofe_etiqueta","ofe_etiquetaColor":"x_ofe_etiquetaColor","ofe_publicar":true,"ofe_activo":true,"ofe_fecha":"2024-01-02T03:04:05","ofe_fechaToString":"01/02/2024 03:04:05","nameImagen":"x_nameImagen","name…
+    }
+  },
+  {
+    Metodo: RecuperarTodasOfertas_generico(),
+    BaseVacia: {
+      Llamadas: [
+        Reader spRecuperarTodasOferta()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"ofe_idOferta":7,"ofe_titulo":"x_ofe_titulo","ofe_descr":"x_ofe_descr","ofe_tipo":7,"ofe_nombreTransfer":"x_ofe_nombreTransfer","tfr_codigo":7,"ofe_descuento":"x_ofe_descuento","ofe_etiqueta":"x_ofe_etiqueta","ofe_etiquetaColor":"x_ofe_etiquetaColor","ofe_publicar":true,"ofe_activo":true,"ofe_fecha":"2024-01-02T03:04:05","ofe_fechaToString":"01/02/2024 03:04:05","nameImagen":"x_nameImagen","name…
+    }
+  },
+  {
+    Metodo: RecuperarTodasReglas(String pFiltro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRegla(@rgl_codRegla=NULL, @rgl_Descripcion=NULL, @rgl_PalabraClave=NULL, @rgl_IsAgregarSoporta=NULL, @rgl_IsEditarSoporta=NULL, @rgl_IsEliminarSoporta=NULL, @rgl_codReglaPadre=NULL, @filtro=v_pFiltro, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"rgl_codRegla":7,"rgl_Descripcion":"x_rgl_Descripcion","rgl_PalabraClave":"x_rgl_PalabraClave","rgl_IsAgregarSoporta":true,"rgl_IsEditarSoporta":true,"rgl_IsEliminarSoporta":true,"rgl_codReglaPadre":7},{"rgl_codRegla":7,"rgl_Descripcion":"x_rgl_Descripcion","rgl_PalabraClave":"x_rgl_PalabraClave","rgl_IsAgregarSoporta":true,"rgl_IsEditarSoporta":true,"rgl_IsEliminarSoporta":true,"rgl_codReglaPad…
+    }
+  },
+  {
+    Metodo: RecuperarTodasReglas_Combo(),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRegla(@rgl_codRegla=NULL, @rgl_Descripcion=NULL, @rgl_PalabraClave=NULL, @rgl_IsAgregarSoporta=NULL, @rgl_IsEditarSoporta=NULL, @rgl_IsEliminarSoporta=NULL, @rgl_codReglaPadre=NULL, @filtro=NULL, @accion=COMBO)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"id":7,"nombre":"x_rgl_Descripcion"},{"id":7,"nombre":"x_rgl_Descripcion"}]
+    }
+  },
+  {
+    Metodo: RecuperarTodasRoles(String pFiltro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionRol(@rol_codRol=NULL, @rol_Nombre=NULL, @filtro=v_pFiltro, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"rol_codRol":7,"rol_Nombre":"x_rol_Nombre"},{"rol_codRol":7,"rol_Nombre":"x_rol_Nombre"}]
+    }
+  },
+  {
+    Metodo: RecuperarTodasSucursales(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodasSucursal()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"sde_codigo":0,"sde_sucursal":"x_suc_codigo","suc_montoMinimo":12.5,"suc_codigo":"x_suc_codigo","suc_nombre":"x_suc_nombre","suc_provincia":"x_suc_provincia","suc_facturaTrazables":true,"suc_facturaTrazablesEnOtrasProvincias":true,"sde_sucursalDependiente":null,"sucursal_sucursalDependiente":null,"suc_pedirCC_ok":true,"suc_pedirCC_sucursalReferencia":"x_suc_pedirCC_sucursalReferencia","suc_pedir…
+    }
+  },
+  {
+    Metodo: RecuperarTodoCatalogo_PublicarHome(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Catalogo.spRecuperarTodoCatalogo_PublicarHome()
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cCatalogo {"tbc_codigo":7,"tbc_titulo":"x_tbc_titulo","tbc_descripcion":"x_tbc_descripcion","tbc_orden":7,"tbc_fecha":"2024-01-02T03:04:05","tbc_fechaToString":"01/02/2024 03:04:05","tbc_estado":7,"tbc_publicarHome":true,"tbc_publicarHomeToString":"Publicar Home","tbc_estadoToString":"x_est_nombre","arc_rating":7}
+    }
+  },
+  {
+    Metodo: RecuperarTodosArchivos(Int32 pArc_codRelacion, String pArc_galeria, String pFiltro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spGestionArchivo(@arc_codRecurso=NULL, @arc_codRelacion=7, @arc_galeria=v_pArc_galeria, @arc_tipo=NULL, @arc_mime=NULL, @arc_nombre=NULL, @arc_titulo=NULL, @arc_descripcion=NULL, @arc_hash=NULL, @arc_codUsuarioUltMov=NULL, @arc_estado=NULL, @arc_accion=NULL, @filtro=v_pFiltro, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"arc_codRecurso":7,"arc_codRelacion":7,"arc_galeria":"x_arc_galeria","arc_orden":7,"arc_tipo":"x_arc_tipo","arc_mime":"x_arc_mime","arc_nombre":"x_arc_nombre","arc_titulo":"x_arc_titulo","arc_descripcion":"x_arc_descripcion","arc_hash":"x_arc_hash","arc_fecha":"2024-01-02T03:04:05","arc_fechaToString":"01/02/2024 03:04:05","arc_accion":7,"arc_estado":7,"arc_estadoToString":"","arc_fechaUltMov":"…
+    }
+  },
+  {
+    Metodo: RecuperarTodosCadeteriaRestricciones(),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosCadeteriaRestricciones()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tcr_id":7,"tcr_codigoSucursal":"x_tcr_codigoSucursal","tcr_UnidadesMinimas":7,"tcr_UnidadesMaximas":7,"tcr_MontoMinimo":12.5,"tcr_MontoIgnorar":12.5,"suc_nombre":"x_suc_nombre"},{"tcr_id":7,"tcr_codigoSucursal":"x_tcr_codigoSucursal","tcr_UnidadesMinimas":7,"tcr_UnidadesMaximas":7,"tcr_MontoMinimo":12.5,"tcr_MontoIgnorar":12.5,"suc_nombre":"x_suc_nombre"}]
+    }
+  },
+  {
+    Metodo: RecuperarTodosCatalogos(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Catalogo.spRecuperarTodosCatalogos()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tbc_codigo":7,"tbc_titulo":"x_tbc_titulo","tbc_descripcion":"x_tbc_descripcion","tbc_orden":7,"tbc_fecha":"2024-01-02T03:04:05","tbc_fechaToString":"01/02/2024 03:04:05","tbc_estado":7,"tbc_publicarHome":true,"tbc_publicarHomeToString":"Publicar Home","tbc_estadoToString":"x_est_nombre","arc_rating":7},{"tbc_codigo":7,"tbc_titulo":"x_tbc_titulo","tbc_descripcion":"x_tbc_descripcion","tbc_orden"…
+    }
+  },
+  {
+    Metodo: RecuperarTodosClientes(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientes()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_pordesnetos":1…
+    }
+  },
+  {
+    Metodo: RecuperarTodosClientesByGrupoCliente(String pGC),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesByGrupoCliente(@cli_GrupoCliente=v_pGC)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_pordesnetos":1…
+    }
+  },
+  {
+    Metodo: RecuperarTodosClientesBySucursal(String pSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesBySucursal(@cli_sucursal=v_pSucursal)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_pordesnetos":1…
+    }
+  },
+  {
+    Metodo: RecuperarTodosMensajesPorIdCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperartTodosMensajesPorIdCliente(@idClienteDestinatario=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tme_codigo":7,"tme_asunto":"x_tme_asunto","tme_mensaje":"x_tme_mensaje","tme_codClienteDestinatario":7,"cli_nombre":null,"tme_codUsuario":7,"tme_fecha":"2024-01-02T03:04:05","tme_fechaToString":"01/02/2024","tme_estado":7,"tme_todos":7,"est_nombre":"x_est_nombre","tme_fechaDesde":"2024-01-02T03:04:05","tme_fechaDesdeToString":"01/02/2024","tme_fechaHasta":"2024-01-02T03:04:05","tme_fechaHastaTo…
+    }
+  },
+  {
+    Metodo: RecuperarTodosSinPermisosIntranetPorIdUsuario(Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spRecuperarSinPermisoUsuarioIntranetPorIdUsuario(@idUsuario=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"usp_id":7,"usp_codUsuario":7,"usp_nombreSeccion":"x_usp_nombreSeccion"},{"usp_id":7,"usp_codUsuario":7,"usp_nombreSeccion":"x_usp_nombreSeccion"}]
+    }
+  },
+  {
+    Metodo: RecuperarTodosSucursalDependienteTipoEnvioCliente(),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosSucursalDependienteTipoEnvioCliente()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tsd_id":7,"tsd_idSucursalDependiente":7,"tsd_idTipoEnvioCliente":7,"sde_codigo":7,"sde_sucursal":"x_sde_sucursal","sde_sucursalDependiente":"x_sde_sucursalDependiente","env_id":7,"env_codigo":"x_env_codigo","env_nombre":"x_env_nombre"},{"tsd_id":7,"tsd_idSucursalDependiente":7,"tsd_idTipoEnvioCliente":7,"sde_codigo":7,"sde_sucursal":"x_sde_sucursal","sde_sucursalDependiente":"x_sde_sucursalDepe…
+    }
+  },
+  {
+    Metodo: RecuperarTodosSucursalDependienteTipoEnvioCliente_cliente(cClientes pCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosSucursalDependienteTipoEnvioCliente()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 []
+    }
+  },
+  {
+    Metodo: RecuperarTodosSucursalDependienteTipoEnvioCliente_TiposEnvios(),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosSucursalDependienteTipoEnvioCliente_TipoEnvios()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tdt_id":7,"tdt_idSucursalDependienteTipoEnvioCliente":7,"tdt_idTipoEnvio":7,"env_id":7,"env_codigo":"x_env_codigo","env_nombre":"x_env_nombre","tdr_codReparto":null},{"tdt_id":7,"tdt_idSucursalDependienteTipoEnvioCliente":7,"tdt_idTipoEnvio":7,"env_id":7,"env_codigo":"x_env_codigo","env_nombre":"x_env_nombre","tdr_codReparto":null}]
+    }
+  },
+  {
+    Metodo: RecuperarTodosSucursalDependienteTipoEnvioCliente_TiposEnvios_Excepciones(Int32 pIdSucursalDependienteTipoEnvioCliente, String tdr_codReparto),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarSucursalDependienteTipoEnvioCliente_TipoEnvios_Excepciones(@tdr_idSucursalDependienteTipoEnvioCliente=7, @tdr_codReparto=v_tdr_codReparto)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tdt_id":0,"tdt_idSucursalDependienteTipoEnvioCliente":7,"tdt_idTipoEnvio":7,"env_id":7,"env_codigo":"x_env_codigo","env_nombre":"x_env_nombre","tdr_codReparto":"x_tdr_codReparto"},{"tdt_id":0,"tdt_idSucursalDependienteTipoEnvioCliente":7,"tdt_idTipoEnvio":7,"env_id":7,"env_codigo":"x_env_codigo","env_nombre":"x_env_nombre","tdr_codReparto":"x_tdr_codReparto"}]
+    }
+  },
+  {
+    Metodo: RecuperarTodosTransfer(),
+    BaseVacia: {
+      Llamadas: [
+        Fill Transfers.RecuperarTodosTransfer()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tfr_codigo":7,"tfr_accion":"x_tfr_accion","tfr_nombre":"x_tfr_nombre","tfr_deshab":true,"tfr_pordesadi":12.5,"tfr_tipo":"x_tfr_tipo","tfr_mospap":true,"tfr_minrenglones":7,"tfr_minunidades":7,"tfr_maxunidades":7,"tfr_mulunidades":7,"tfr_fijunidades":7,"tfr_facturaciondirecta":true,"tfr_descripcion":"x_tfr_descripcion","tfr_provincia":"x_tfr_provincia","listaDetalle":null},{"tfr_codigo":7,"tfr_a…
+    }
+  },
+  {
+    Metodo: RecuperarTodosTransferMasDetallePorIdProducto(String pNombreProducto, cClientes pClientes, List`1 pListaSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Fill Transfers.spRecuperarTodosTransferMasDetallePorIdProducto(@tde_codpro=v_pNombreProducto, @sucursal=CC, @codCliente=1234)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 []
+    }
+  },
+  {
+    Metodo: RecuperarTransferMasDetallePorIdTransfer(Int32 pIdTransfer, cClientes pClientes, List`1 pListaSucursal),
+    BaseVacia: {
+      Llamadas: [
+        Fill Transfers.spRecuperarTransferMasDetallePorIdTransfer(@tfr_codigo=7, @sucursal=CC, @codCliente=1234)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cTransfer {"tfr_codigo":7,"tfr_accion":"x_tfr_accion","tfr_nombre":"x_tfr_nombre","tfr_deshab":true,"tfr_pordesadi":12.5,"tfr_tipo":"x_tfr_tipo","tfr_mospap":true,"tfr_minrenglones":7,"tfr_minunidades":7,"tfr_maxunidades":7,"tfr_mulunidades":7,"tfr_fijunidades":7,"tfr_facturaciondirecta":true,"tfr_descripcion":"x_tfr_descripcion","tfr_provincia":"x_tfr_provincia","listaDetalle":[]}
+    }
+  },
+  {
+    Metodo: RecuperartTodosMensajeNewPorSucursal(String pSucursal, String pReparto),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperartTodosMensajeNewPorSucursal(@codSucursal=v_pSucursal, @codReparto=v_pReparto)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"tme_codigo":0,"tme_asunto":"x_tmn_asunto","tme_mensaje":"x_tmn_mensaje","tme_codClienteDestinatario":0,"cli_nombre":null,"tme_codUsuario":0,"tme_fecha":"0001-01-01T00:00:00","tme_fechaToString":null,"tme_estado":0,"tme_todos":null,"est_nombre":null,"tme_fechaDesde":null,"tme_fechaDesdeToString":null,"tme_fechaHasta":null,"tme_fechaHastaToString":null,"tme_importante":false,"tme_importanteToStri…
+    }
+  },
+  {
+    Metodo: RecuperarUsuarioPorId(Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spGestionUsuario(@usu_codigo=7, @usu_codRol=NULL, @usu_codCliente=NULL, @usu_nombre=NULL, @usu_apellido=NULL, @usu_mail=NULL, @usu_login=NULL, @usu_psw=NULL, @usu_observacion=NULL, @usu_codUsuarioUltMov=NULL, @usu_codAccion=NULL, @usu_estado=NULL, @filtro=NULL, @accion=SELECT)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 2,
+      Devuelve: cUsuario {"usu_codigo":7,"usu_codRol":7,"usu_codCliente":7,"rol_Nombre":"x_rol_Nombre","NombreYapellido":"x_NombreYapellido","ApNombre":null,"usu_nombre":"x_usu_nombre","usu_apellido":"x_usu_apellido","usu_login":"x_usu_login","usu_mail":"x_usu_mail","usu_pswDesencriptado":"x_usu_pswDesencriptado","usu_observacion":"x_usu_observacion","usu_estado":7,"usu_estadoToString":"","cli_nombre":"x_cli_nombre","list…
+    }
+  },
+  {
+    Metodo: RecuperarUsuariosDeCliente(Int32 usu_codRol, Int32 usu_codCliente, String filtro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spRecuperarUsuariosPorIdCliente(@filtro=v_filtro, @usu_codRol=7, @usu_codCliente=7)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 3,
+      Devuelve: List`1 [{"usu_codigo":7,"usu_codRol":7,"usu_codCliente":7,"rol_Nombre":"x_rol_Nombre","NombreYapellido":"x_NombreYapellido","ApNombre":null,"usu_nombre":"x_usu_nombre","usu_apellido":"x_usu_apellido","usu_login":"x_usu_login","usu_mail":"x_usu_mail","usu_pswDesencriptado":"x_usu_pswDesencriptado","usu_observacion":"x_usu_observacion","usu_estado":7,"usu_estadoToString":"","cli_nombre":"x_cli_nombre","lis…
+    }
+  },
+  {
+    Metodo: spForceChangePasswordDeleteCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery spForceChangePasswordDeleteCliente(codCliente=7)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: spForceChangePasswordFindCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader spForceChangePasswordFindCliente(codCliente=7)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: spForceChangePasswordHistoryAdd(Int32 pIdCliente, Int32 pIdUsuario, String pAction),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery spForceChangePasswordHistoryAdd(codCliente=7, codUsuario=7, action=v_pAction)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: spInsertSessionApp(String pName),
+    BaseVacia: {
+      Llamadas: [
+        Scalar spInsertSessionApp(name=v_pName)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: "7"
+    }
+  },
+  {
+    Metodo: spRecuperarTodosClientesByPromotor(String pPromotor),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosClientesByPromotor(@cli_promotor=v_pPromotor)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_pordesnetos":1…
+    }
+  },
+  {
+    Metodo: SubirCountadorHomeSlideRating(Int32 hsl_idHomeSlide),
+    BaseVacia: {
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Devuelve: Boolean True
+    },
+    BaseConDatos: {
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: verCurrentDirectory(),
+    BaseVacia: {
+      Devuelve: "{CurrentDirectory}"
+    },
+    BaseCaida: {
+      Devuelve: "{CurrentDirectory}"
+    },
+    BaseConDatos: {
+      Devuelve: "{CurrentDirectory}"
+    }
+  },
+  {
+    Metodo: verExisteArchivo(),
+    BaseVacia: {
+      Devuelve: "No"
+    },
+    BaseCaida: {
+      Devuelve: "No"
+    },
+    BaseConDatos: {
+      Devuelve: "No"
+    }
+  },
+  {
+    Metodo: verRutaArchivo(),
+    BaseVacia: {
+      Devuelve: "{TempPath}{Carpeta}/archivos/ofertas/aIMG_20210603_081731660.jpg"
+    },
+    BaseCaida: {
+      Devuelve: "{TempPath}{Carpeta}/archivos/ofertas/aIMG_20210603_081731660.jpg"
+    },
+    BaseConDatos: {
+      Devuelve: "{TempPath}{Carpeta}/archivos/ofertas/aIMG_20210603_081731660.jpg"
+    }
+  }
+]

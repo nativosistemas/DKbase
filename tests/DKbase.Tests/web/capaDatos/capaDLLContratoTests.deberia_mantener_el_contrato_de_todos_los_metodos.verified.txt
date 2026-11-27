@@ -1,0 +1,607 @@
+﻿[
+  {
+    Metodo: AgregarReclamoFacturadoNoEnviado,
+    Endpoints: [
+      DKdll:AgregarReclamoFacturadoNoEnviado
+    ],
+    ConRespuesta: texto,
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      AgregarReclamoFacturadoNoEnviado: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: AgregarSolicitudDevolucionCliente,
+    Endpoints: [
+      DKdll:AgregarSolicitudDevolucionCliente
+    ],
+    ConRespuesta: texto,
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      AgregarSolicitudDevolucionCliente: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: AgregarVacunas,
+    Endpoints: [
+      DKdll:AgregarVacunas
+    ],
+    ConRespuesta: Boolean true,
+    ConError500: Boolean false,
+    ConJsonInvalido: Boolean false,
+    LogJsonInvalido: [
+      getParameters: Index was outside the bounds of the array.,
+      AgregarVacunas: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: EsFacturaConDevolucionesEnProceso,
+    Endpoints: [
+      DKdll:EsFacturaConDevolucionesEnProceso
+    ],
+    ConRespuesta: Boolean true,
+    ConError500: Boolean false,
+    ConJsonInvalido: Boolean false,
+    LogJsonInvalido: [
+      EsFacturaConDevolucionesEnProceso: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ImprimirComprobante,
+    Endpoints: [
+      DKdll:ImprimirComprobante
+    ],
+    ConRespuesta: void,
+    ConError500: void,
+    ConJsonInvalido: void
+  },
+  {
+    Metodo: ModificarPasswordWEB,
+    Endpoints: [
+      DKdll:ModificarPasswordWEB
+    ],
+    ConRespuesta: void,
+    ConError500: void,
+    ConJsonInvalido: void
+  },
+  {
+    Metodo: ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente,
+    Endpoints: [
+      DKdll:ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente
+    ],
+    ConRespuesta: Int64 12,
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerCantidadSolicitadaDevolucionPorProductoFacturaYCliente: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerChequesEnCartera,
+    Endpoints: [
+      DKdll:ObtenerChequesEnCartera
+    ],
+    ConRespuesta: List`1 [{"Banco":null,"Estado":0,"EstadoToString":null,"Fecha":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Importe":0,"Numero":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerChequesEnCartera: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerComprobantesAImprimirEnBaseAResumen,
+    Endpoints: [
+      DKdll:ObtenerComprobantesAImprimirEnBaseAResumen
+    ],
+    ConRespuesta: List`1 [{"FechaComprobante":"0001-01-01T00:00:00","FechaComprobanteToString":null,"NumeroComprobante":null,"TipoComprobante":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerComprobantesAImprimirEnBaseAResumen: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas,
+    Endpoints: [
+      DKdll:ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas
+    ],
+    ConRespuesta: List`1 [{"Comprobante":null,"Destinatario":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionesDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"MontoPercepcionesMunicipal":0,"NumeroComprobante":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerComprobantesDiscriminadosDePuntoDeVentaEntreFechas: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerComprobantesEntreFechas,
+    Endpoints: [
+      DKdll:ObtenerComprobantesEntreFechas
+    ],
+    ConRespuesta: List`1 [{"Comprobante":null,"Destinatario":null,"DetallePercepciones":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"NumeroComprobante":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerComprobantesEntreFechas: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas,
+    Endpoints: [
+      DKdll:ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas
+    ],
+    ConRespuesta: List`1 [{"Detalle":null,"FechaComprobante":"0001-01-01T00:00:00","FechaComprobanteToString":null,"Importe":0,"NumeroComprobante":null,"TipoComprobante":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerComprobantesObrasSocialesDePuntoDeVentaEntreFechas: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerCreditoDisponibleSemanal,
+    Endpoints: [
+      DKdll:ObtenerCreditoDisponibleSemanal
+    ],
+    ConRespuesta: Decimal 12.5,
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerCreditoDisponibleSemanal: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerCreditoDisponibleTotal,
+    Endpoints: [
+      DKdll:ObtenerCreditoDisponibleTotal
+    ],
+    ConRespuesta: Decimal 12.5,
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerCreditoDisponibleTotal: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerFactura,
+    Endpoints: [
+      DKdll:ObtenerFactura
+    ],
+    ConRespuesta: cFactura {"CantidadHojas":null,"CantidadRenglones":0,"CodigoFormaDePago":null,"DescuentoEspecial":0,"DescuentoNetos":0,"DescuentoPerfumeria":0,"DescuentoWeb":0,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Numero":null,"NumeroCuentaCorriente":0,"NumeroRemito":null,"TotalUnidades":0,"MontoPercepcionMunicipal":0,"FacturaTrazable":null,"lista":null},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerFactura: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerFacturasPorUltimosNumeros,
+    Endpoints: [
+      DKdll:ObtenerFacturasPorUltimosNumeros
+    ],
+    ConRespuesta: List`1 [{"CantidadHojas":null,"CantidadRenglones":0,"CodigoFormaDePago":null,"DescuentoEspecial":0,"DescuentoNetos":0,"DescuentoPerfumeria":0,"DescuentoWeb":0,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Numero":null,"NumeroCuentaCorriente":0,"NumeroRemito":null,"TotalUnidades":0,"MontoPercepcionMunicipal":0,"FacturaTrazable":null,"lista":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerFacturasPorUltimosNumeros: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerItemsDePedidoPorNumeroDeFactura,
+    Endpoints: [
+      DKdll:ObtenerItemsDePedidoPorNumeroDeFactura
+    ],
+    ConRespuesta: List`1 [{"NombreObjetoComercial":null,"Cantidad":0,"Faltas":0,"Caracteristica":null,"FechaIngreso":null,"FechaIngresoToString":null,"PrecioPublico":null,"PrecioUnitario":null,"Importe":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerItemsDePedidoPorNumeroDeFactura: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerMovimientosDeCuentaCorriente,
+    Endpoints: [
+      DKdll:ObtenerMovimientosDeCuentaCorriente
+    ],
+    ConRespuesta: List`1 [{"Atraso":null,"Fecha":null,"FechaToString":null,"FechaPago":null,"FechaPagoToString":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Importe":null,"MedioPago":null,"NumeroComprobante":null,"NumeroRecibo":null,"Pago":null,"Saldo":null,"Semana":null,"TipoComprobante":0,"TipoComprobanteToString":null,"lista":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerMovimientosDeCuentaCorriente: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerMovimientosDeFichaCtaCte,
+    Endpoints: [
+      DKdll:ObtenerMovimientosDeFichaCtaCte
+    ],
+    ConRespuesta: List`1 [{"Fecha":"0001-01-01T00:00:00","FechaToString":null,"TipoComprobante":0,"TipoComprobanteToString":null,"Comprobante":null,"Motivo":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Debe":null,"Haber":null,"Saldo":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerMovimientosDeFichaCtaCte: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerNotaDeCredito,
+    Endpoints: [
+      DKdll:ObtenerNotaDeCredito
+    ],
+    ConRespuesta: cNotaDeCredito {"CantidadHojas":null,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Motivo":null,"Numero":null,"TotalUnidades":0,"lista":null},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerNotaDeCredito: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerNotaDeDebito,
+    Endpoints: [
+      DKdll:ObtenerNotaDeDebito
+    ],
+    ConRespuesta: cNotaDeDebito {"CantidadHojas":null,"Destinatario":null,"Fecha":null,"FechaToString":null,"MontoExento":0,"MontoGravado":0,"MontoIvaInscripto":0,"MontoIvaNoInscripto":0,"MontoPercepcionDGR":0,"MontoPercepcionIVA":0,"MontoTotal":0,"Motivo":null,"Numero":null,"lista":null},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerNotaDeDebito: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena,
+    Endpoints: [
+      DKdll:ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena
+    ],
+    ConRespuesta: List`1 [{"ID":null,"NombreProducto":null,"NumeroLote":null,"FechaVencimiento":null,"FechaVencimientoToString":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerNumerosLoteDeProductoDeFacturaProveedorLogLotesConCadena: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerObraSocialCliente,
+    Endpoints: [
+      DKdll:ObtenerObraSocialCliente
+    ],
+    ConRespuesta: cObraSocialCliente {"CantidadHojas":null,"Destinatario":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"MontoTotal":0,"NombrePlan":null,"NumeroPlanilla":0,"lista":null},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerObraSocialCliente: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerPedidosEntreFechas,
+    Endpoints: [
+      DKdll:ObtenerPedidosEntreFechas
+    ],
+    ConRespuesta: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerPedidosEntreFechas: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerPlanesDeObrasSociales,
+    Endpoints: [
+      DKdll:ObtenerPlanesDeObrasSociales
+    ],
+    ConRespuesta: List`1 [{"Nombre":null,"PideSemana":false}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerPlanesDeObrasSociales: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes,
+    Endpoints: [
+      DKdll:ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes
+    ],
+    ConRespuesta: List`1 [{"Anio":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"Importe":0,"Mes":null,"Quincena":null,"Semana":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMes: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena,
+    Endpoints: [
+      DKdll:ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena
+    ],
+    ConRespuesta: List`1 [{"Anio":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"Importe":0,"Mes":null,"Quincena":null,"Semana":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioMesQuincena: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana,
+    Endpoints: [
+      DKdll:ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana
+    ],
+    ConRespuesta: List`1 [{"Anio":null,"Fecha":"0001-01-01T00:00:00","FechaToString":null,"Importe":0,"Mes":null,"Quincena":null,"Semana":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerPlanillasObraSocialClientesDeObraSocialPorAnioSemana: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerRecibo,
+    Endpoints: [
+      DKdll:ObtenerRecibo
+    ],
+    ConRespuesta: cRecibo {"Numero":null,"Fecha":null,"FechaToString":null,"FechaAnulacion":null,"Destinatario":null,"DireccionDestinatario":null,"LocalidadDestinatario":null,"CondicionIVADestinatarioToString":null,"CuitDestinatario":0,"NumeroCliente":0,"NumeroCuentaCorriente":0,"TipoEnvioToString":null,"CodigoReparto":null,"MontoTotal":0,"MontoTOTALenLetras":null,"CantidadHojas":null,"MontoEnDolares":null,"ComprobantePAMI":false,"lista":null},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerRecibo: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerReclamosFacturadoNoEnviadoPorCliente,
+    Endpoints: [
+      DKdll:ObtenerReclamosFacturadoNoEnviadoPorCliente
+    ],
+    ConRespuesta: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerReclamosFacturadoNoEnviadoPorCliente: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero,
+    Endpoints: [
+      DKdll:ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero
+    ],
+    ConRespuesta: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerReclamosFacturadoNoEnviadoPorClientePorNumero: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerReservasDeVacunasPorClienteEntreFechas,
+    Endpoints: [
+      DKdll:ObtenerReservasDeVacunasPorClienteEntreFechas
+    ],
+    ConRespuesta: List`1 [{"ID":0,"NombreProducto":null,"FechaAlta":"0001-01-01T00:00:00","FechaAltaToString":null,"Estado":null,"DescripcionPack":null,"TomaWeb":false,"UnidadesVendidas":0}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerReservasDeVacunasPorClienteEntreFechas: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerResumenAbierto,
+    Endpoints: [
+      DKdll:ObtenerResumenAbierto
+    ],
+    ConRespuesta: cDllRespuestaResumenAbierto {"lista":null,"isPoseeCuenta":false,"ImporteTotal":0},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerResumenAbierto: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerResumenCerrado,
+    Endpoints: [
+      DKdll:ObtenerResumenCerrado
+    ],
+    ConRespuesta: cResumen {"Numero":null,"NumeroSemana":null,"PeriodoDesde":null,"PeriodoDesdeToString":null,"PeriodoHasta":null,"PeriodoHastaToString":null,"TotalResumen":null,"lista":null},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerResumenCerrado: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerSaldoFinalADiciembrePorCliente,
+    Endpoints: [
+      DKdll:ObtenerSaldoFinalADiciembrePorCliente
+    ],
+    ConRespuesta: Double 12.5,
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerSaldoFinalADiciembrePorCliente: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerSaldosPresentacionParaComposicion,
+    Endpoints: [
+      DKdll:ObtenerSaldosPresentacionParaComposicion
+    ],
+    ConRespuesta: cDllSaldosComposicion {"SaldoTotal":null,"SaldoCtaCte":null,"SaldoResumenAbierto":null,"SaldoChequeCartera":null,"isPoseeCuentaResumen":false},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerSaldosPresentacionParaComposicion: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerSolicitudesDevolucionCliente,
+    Endpoints: [
+      DKdll:ObtenerSolicitudesDevolucionCliente
+    ],
+    ConRespuesta: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerSolicitudesDevolucionCliente: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerSolicitudesDevolucionClientePorNumero,
+    Endpoints: [
+      DKdll:ObtenerSolicitudesDevolucionClientePorNumero
+    ],
+    ConRespuesta: List`1 [{"dev_numeroitem":0,"dev_numerocliente":0,"dev_numerofactura":null,"dev_numerosolicituddevolucion":null,"dev_nombreproductodevolucion":null,"dev_fecha":"0001-01-01T00:00:00","dev_fechaToString":null,"dev_motivo":0,"dev_numeroitemfactura":0,"dev_nombreproductofactura":null,"dev_cantidad":0,"dev_numerolote":null,"dev_fechavencimientolote":"0001-01-01T00:00:00","dev_fechavencimientoloteToString":null,"dev_estado":null,"dev_mensaje":null,"dev_cantidadrecibida":0,"dev_cantidadrechazada":0,"dev_idsucursal":null,"dev_numerosolicitudNC":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerSolicitudesDevolucionClientePorNumero: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerTiposDeComprobantesAMostrar,
+    Endpoints: [
+      DKdll:ObtenerTiposDeComprobantesAMostrar
+    ],
+    ConRespuesta: List`1 ["texto"],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerTiposDeComprobantesAMostrar: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerTotalReservasDeVacunasPorClienteEntreFechas,
+    Endpoints: [
+      DKdll:ObtenerTotalReservasDeVacunasPorClienteEntreFechas
+    ],
+    ConRespuesta: List`1 [{"ID":0,"Login":null,"NombreProducto":null,"UnidadesVendidas":0}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerTotalReservasDeVacunasPorClienteEntreFechas: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerUltimos10ResumenesDePuntoDeVenta,
+    Endpoints: [
+      DKdll:ObtenerUltimos10ResumenesDePuntoDeVenta
+    ],
+    ConRespuesta: List`1 [{"Numero":null,"NumeroSemana":null,"PeriodoDesde":null,"PeriodoDesdeToString":null,"PeriodoHasta":null,"PeriodoHastaToString":null,"TotalResumen":null,"lista":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerUltimos10ResumenesDePuntoDeVenta: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ObtenerVencimientosResumenPorFecha,
+    Endpoints: [
+      DKdll:ObtenerVencimientosResumenPorFecha
+    ],
+    ConRespuesta: List`1 [{"Tipo":null,"NumeroComprobante":null,"Fecha":null,"FechaToString":null,"FechaVencimiento":null,"FechaVencimientoToString":null,"Importe":null}],
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      ObtenerVencimientosResumenPorFecha: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: TomarPedido,
+    Endpoints: [
+      DKdll:TomarPedido
+    ],
+    ConRespuesta: cDllPedido {"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0},
+    ConError500: null,
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      TomarPedido: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: TomarPedidoConIdCarrito,
+    Endpoints: [
+      DKdll:TomarPedidoConIdCarrito
+    ],
+    Base: [
+      CAR.spInicioCarritoEnProceso,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConRespuesta: cDllPedido {"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0},
+    ConError500: null,
+    BaseConError: [
+      CAR.spInicioCarritoEnProceso,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      TomarPedidoConIdCarrito: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: TomarPedidoDeTransfersConIdCarrito,
+    Endpoints: [
+      DKdll:TomarPedidoDeTransfersConIdCarrito
+    ],
+    Base: [
+      CAR.spInicioCarritoEnProceso,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConRespuesta: List`1 [{"web_Sucursal":null,"web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"CreditoInicial":0}],
+    ConError500: null,
+    BaseConError: [
+      CAR.spInicioCarritoEnProceso,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      TomarPedidoDeTransfersConIdCarrito: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: TomarPedidoDeTransfersTelefonistaAsync,
+    Endpoints: [
+      DKcore:TomarPedidoDeTransfersTelefonista
+    ],
+    Base: [
+      CAR.spInicioCarritoEnProceso,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConRespuesta: List`1 [{"web_Sucursal":"v_pIdSucursal","web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"CreditoInicial":0}],
+    ConError500: null,
+    BaseConError: [
+      CAR.spInicioCarritoEnProceso,
+      LogRegistro.spError,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      TomarPedidoDeTransfersTelefonistaAsync: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: TomarPedidoTelefonistaAsync,
+    Endpoints: [
+      DKcore:TomarPedidoTelefonista
+    ],
+    Base: [
+      CAR.spInicioCarritoEnProceso,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConRespuesta: cDllPedido {"web_Sucursal":"v_pIdSucursal","web_Error":"","web_Error_StackTrace":"","CantidadRenglones":0,"CantidadUnidad":0,"Error":"","Estado":0,"EstadoToString":null,"FechaIngreso":null,"FechaIngresoToString":null,"FechaIngresoHoraToString":null,"Items":null,"ItemsConProblemasDeCreditos":null,"Login":null,"MensajeEnFactura":null,"MensajeEnRemito":null,"MontoTotal":0,"NumeroFactura":null,"NumeroRemito":null,"Cancelado":false,"DetalleSucursal":null,"CreditoInicial":0},
+    ConError500: null,
+    BaseConError: [
+      CAR.spInicioCarritoEnProceso,
+      LogRegistro.spError,
+      CAR.spEndCarritoEnProceso
+    ],
+    ConJsonInvalido: null,
+    LogJsonInvalido: [
+      TomarPedidoTelefonistaAsync: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  },
+  {
+    Metodo: ValidarExistenciaDeCarritoWebPasado,
+    Endpoints: [
+      DKdll:ValidarExistenciaDeCarritoWebPasado
+    ],
+    ConRespuesta: Boolean true,
+    ConError500: Boolean false,
+    ConJsonInvalido: Boolean false,
+    LogJsonInvalido: [
+      ValidarExistenciaDeCarritoWebPasado: One or more errors occurred. ('no-json' is an invalid JSON literal. Expected the literal 'null'. Path: $ | LineNumber: 0 | BytePositionInLine: 1.)
+    ]
+  }
+]

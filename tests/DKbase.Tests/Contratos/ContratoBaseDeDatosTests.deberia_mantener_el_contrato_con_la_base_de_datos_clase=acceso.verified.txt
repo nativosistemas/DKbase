@@ -1,0 +1,379 @@
+﻿[
+  {
+    Metodo: AgregarProductosDelRecuperardorAlCarrito(cClientes pCliente, Usuario pUsuario, String pSucursal, String[] pArrayNombreProducto, Int32[] pArrayCantidad, Boolean[] pArrayOferta, Int32 pRecuperador_Tipo, Int32 pRecuperador_CantidadDia),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarProductosDesdeTabla(@Tabla_Detalle=TVP[codProducto|codigobarra|codigoalfabeta|troquel|cantidad|nroordenamiento](1), @Sucursal=CC, @cli_codprov=Santa Fe, @codCliente=1234)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION InvalidOperationException
+    }
+  },
+  {
+    Metodo: BorrarPorProductosFaltasProblemasCrediticiosV3(List`1 pListaProducto, String fpc_codSucursal, Int32 fpc_codCliente, Int32 fpc_tipo, Int32 pCantidadDia),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery LogRegistro.spBorrarPorProductosFaltasProblemasCrediticiosV3(@Tabla_Detalle=TVP[codProducto|codigobarra|codigoalfabeta|troquel|cantidad|nroordenamiento](1), @fpc_codSucursal=v_fpc_codSucursal, @fpc_codCliente=7, @fpc_tipo=7, @cantidadDia=7)
+      ],
+      Devuelve: Boolean True
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: cargarProductosBuscadorArchivos(cClientes pCliente, DataTable tablaProductos, DataTable tablaSucursalStocks, List`1 listaTransferDetalle, CargarProductosBuscador pCargarProductosBuscador, String pSucursalElejida),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentException
+    }
+  },
+  {
+    Metodo: convertDataSetToSucursalCarritoTransfer(cClientes pCliente, DataSet dsProductoCarrito),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ConvertToArchivo(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToCliente(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToPalabrasBusquedas(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToProductos(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToProductosImagen(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToReservasVacunas(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToSucursal(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToTransfer(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToTransferDetalle(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: Login(String pLogin, String pPassword, String pIp, String pHostName, String pUserAgent),
+    BaseVacia: {
+      Llamadas: [
+        Fill Seguridad.spInicioSession(@login=v_pLogin, @Password=v_pPassword, @Ip=v_pIp, @Host=v_pHostName, @UserName=v_pUserAgent)
+      ],
+      Devuelve: Usuario {"id":-1,"idRol":0,"NombreYApellido":"","ApNombre":null,"usu_pswDesencriptado":null,"idUsuarioLog":-1,"usu_estado":0,"usu_codCliente":null,"usu_login":null,"rol_Nombre":null}
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION FormatException
+    }
+  },
+  {
+    Metodo: ObtenerReservasVacunas(Boolean pIsSinTroquel),
+    BaseVacia: {
+      Llamadas: [
+        Reader dbo.spObtenerReservasVacunas()
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"rdv_id":7,"rdv_codigo":"x_rdv_codigo","rdv_nombre":"x_rdv_nombre","rdv_condicion":"x_rdv_condicion","rdv_plazo":"x_rdv_plazo","rdv_multiplo":7,"unidadPedidas":0,"unidadTotales":0,"rdv_sinTroquel":true,"fecha":"0001-01-01T00:00:00","fechaToString":null},{"rdv_id":7,"rdv_codigo":"x_rdv_codigo","rdv_nombre":"x_rdv_nombre","rdv_condicion":"x_rdv_condicion","rdv_plazo":"x_rdv_plazo","rdv_multiplo":7…
+    }
+  },
+  {
+    Metodo: ObtenerReservasVacunas_mis(cClientes pCliente),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: ObtenerReservasVacunas_total(cClientes pCliente),
+    BaseVacia: {
+      Devuelve: null
+    },
+    BaseCaida: {
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Devuelve: null
+    }
+  },
+  {
+    Metodo: RecuperarIdClientesConCarritos(Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Reader CAR.spRecuperarIdClientesConCarritos(codUsuario=7)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"cli_codigo":7,"cli_nombre":"x_cli_nombre","cli_direcci\u00F3n":"x_cli_direcci\u00F3n","cli_estado":"x_cli_estado","cli_telefono":"x_cli_Telefono","cli_codprov":"x_cli_codprov","cli_localidad":"x_cli_localidad","cli_email":"x_cli_email","cli_password":"x_cli_password","cli_paginaweb":"x_cli_paginaweb","cli_codsuc":"x_cli_codsuc","cli_pordesespmed":12.5,"cli_pordesbetmed":12.5,"cli_pordesnetos":1…
+    }
+  },
+  {
+    Metodo: RecuperarNombreArchivoPorCodigoProducto(String pPri_codigo),
+    BaseVacia: {
+      Llamadas: [
+        Reader Productos.spRecuperarNombreArchivoPorCodigoProducto(pri_codigo=v_pPri_codigo)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: cProductos {"pro_codigo":"x_pro_codigo","pro_nombre":"x_pro_nombre","pro_precio":0,"pro_preciofarmacia":0,"pro_ofeunidades":0,"pro_ofeporcentaje":0,"pro_neto":false,"pro_codtpopro":null,"pro_descuentoweb":0,"pro_laboratorio":null,"pro_monodroga":null,"pro_codtpovta":null,"pro_codigobarra":null,"pro_troquel":null,"pro_codigoalfabeta":null,"PrecioFinal":0,"PrecioConDescuentoOferta":0,"pro_isTrazable":false,"pr…
+    }
+  },
+  {
+    Metodo: RecuperarTodasAccionesPorIdRol(Int32 pIdRol),
+    BaseVacia: {
+      Llamadas: [
+        Reader Seguridad.spRecuperarAccionesUsuario(@IdRol=7)
+      ],
+      Devuelve: ListaAcccionesRol {"lista":[]}
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: ListaAcccionesRol {"lista":[{"idRegla":7,"idReglaRol":7,"palabraClave":"x_rgl_PalabraClave","isActivo":true,"isAgregar":true,"isEditar":true,"isEliminar":true},{"idRegla":7,"idReglaRol":7,"palabraClave":"x_rgl_PalabraClave","isActivo":true,"isAgregar":true,"isEditar":true,"isEliminar":true}]}
+    }
+  },
+  {
+    Metodo: RecuperarTodasSucursalesDependientes(),
+    BaseVacia: {
+      Llamadas: [
+        Fill Clientes.spGestionSucursal(@sde_codigo=NULL, @sde_sucursal=NULL, @sde_sucursalDependiente=NULL, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"sde_codigo":7,"sde_sucursal":"x_sde_sucursal","suc_montoMinimo":0,"suc_codigo":null,"suc_nombre":null,"suc_provincia":null,"suc_facturaTrazables":false,"suc_facturaTrazablesEnOtrasProvincias":false,"sde_sucursalDependiente":"x_sde_sucursalDependiente","sucursal_sucursalDependiente":"x_sde_sucursal - x_sde_sucursalDependiente","suc_pedirCC_ok":false,"suc_pedirCC_sucursalReferencia":null,"suc_ped…
+    }
+  },
+  {
+    Metodo: RecuperarTodosArchivos(Int32 pArc_codRelacion, String pArc_galeria, String pFiltro),
+    BaseVacia: {
+      Llamadas: [
+        Fill Recursos.spGestionArchivo(@arc_codRecurso=NULL, @arc_codRelacion=7, @arc_galeria=v_pArc_galeria, @arc_tipo=NULL, @arc_mime=NULL, @arc_nombre=NULL, @arc_titulo=NULL, @arc_descripcion=NULL, @arc_hash=NULL, @arc_codUsuarioUltMov=NULL, @arc_estado=NULL, @arc_accion=NULL, @filtro=v_pFiltro, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: List`1 []
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"arc_codRecurso":7,"arc_codRelacion":7,"arc_galeria":"x_arc_galeria","arc_orden":7,"arc_tipo":"x_arc_tipo","arc_mime":"x_arc_mime","arc_nombre":"x_arc_nombre","arc_titulo":"x_arc_titulo","arc_descripcion":"x_arc_descripcion","arc_hash":"x_arc_hash","arc_fecha":"2024-01-02T03:04:05","arc_fechaToString":"01/02/2024 03:04:05","arc_accion":7,"arc_estado":7,"arc_estadoToString":"","arc_fechaUltMov":"…
+    }
+  },
+  {
+    Metodo: RecuperarTodosCodigoReparto(),
+    BaseVacia: {
+      Llamadas: [
+        Reader Clientes.spRecuperarTodosCodigoReparto()
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 ["x_cli_codrep","x_cli_codrep"]
+    }
+  },
+  {
+    Metodo: RecuperarTodosHorariosSucursalDependiente(),
+    BaseVacia: {
+      Llamadas: [
+        Fill Clientes.spGestionSucursalHorarios(@sdh_SucursalDependienteHorario=NULL, @sdh_sucursal=NULL, @sdh_sucursalDependiente=NULL, @sdh_codReparto=NULL, @sdh_diaSemana=NULL, @sdh_horario=NULL, @accion=SELECT)
+      ],
+      Devuelve: List`1 []
+    },
+    BaseCaida: {
+      Conexiones: 1,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 [{"sdh_SucursalDependienteHorario":7,"sdh_sucursal":"x_sdh_sucursal","sdh_sucursalDependiente":"x_sdh_sucursalDependiente","sdh_codReparto":"x_sdh_codReparto","sdh_diaSemana":"x_sdh_diaSemana","sdh_horario":"x_sdh_horario","listaHorarios":["x_sdh_horario"]},{"sdh_SucursalDependienteHorario":7,"sdh_sucursal":"x_sdh_sucursal","sdh_sucursalDependiente":"x_sdh_sucursalDependiente","sdh_codReparto":"x_…
+    }
+  },
+  {
+    Metodo: RecuperarTodosProductosDesdeTabla(cClientes pCliente, List`1 pListaProducto, String pSucursalPerteneciente, String pCli_codprov, Int32 pCli_codigo),
+    BaseVacia: {
+      Llamadas: [
+        Fill Productos.spRecuperarProductosDesdeTabla(@Tabla_Detalle=TVP[codProducto|codigobarra|codigoalfabeta|troquel|cantidad|nroordenamiento](1), @Sucursal=v_pSucursalPerteneciente, @cli_codprov=v_pCli_codprov, @codCliente=7)
+      ],
+      Devuelve: EXCEPCION IndexOutOfRangeException
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: List`1 []
+    }
+  },
+  {
+    Metodo: RecuperarUltimoProductoSeleccionado(Int32 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        Scalar LogRegistro.spUltimoProductoSeleccionado(codCliente=7)
+      ],
+      Devuelve: null
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: "7"
+    }
+  }
+]

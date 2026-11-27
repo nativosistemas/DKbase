@@ -1,0 +1,53 @@
+﻿[
+  {
+    Metodo: RecuperarTodosTransfer(),
+    BaseVacia: {
+      Llamadas: [
+        Fill Transfers.RecuperarTodosTransfer()
+      ],
+      Devuelve: DataSet[Transfers(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Transfers(2), Transfers1(2), Transfers2(2), Transfers3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarTodosTransferMasDetallePorIdProducto(String pSucursal, String pNombreProducto, Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Fill Transfers.spRecuperarTodosTransferMasDetallePorIdProducto(@tde_codpro=v_pNombreProducto, @sucursal=v_pSucursal, @codCliente=7)
+      ],
+      Devuelve: DataSet[Transfers(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Transfers(2), Transfers1(2), Transfers2(2), Transfers3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarTransferMasDetallePorIdTransfer(String pSucursal, Int32 pTfr_codigo, Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Fill Transfers.spRecuperarTransferMasDetallePorIdTransfer(@tfr_codigo=7, @sucursal=v_pSucursal, @codCliente=7)
+      ],
+      Devuelve: DataSet[Transfers(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Transfers(2), Transfers1(2), Transfers2(2), Transfers3(2)]
+    }
+  }
+]

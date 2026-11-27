@@ -1,0 +1,60 @@
+﻿[
+  {
+    Metodo: ConvertToMensaje(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToMensajeNew(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: RecuperartTodosMensajeNewPorSucursal(String pSucursal, String pReparto),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperartTodosMensajeNewPorSucursal(@codSucursal=v_pSucursal, @codReparto=v_pReparto)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperartTodosMensajesPorIdCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader LogRegistro.spRecuperartTodosMensajesPorIdCliente(@idClienteDestinatario=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

@@ -1,0 +1,43 @@
+﻿[
+  {
+    Metodo: ConvertToCurriculumVitae(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: GenerarHtmlCuerpoMail(String tcv_nombre, String tcv_comentario, String tcv_mail),
+    BaseVacia: {
+      Devuelve: "<table><tr><td>Nombre:</td><td>v_tcv_nombre</td></tr><tr><td>Mail:</td><td>v_tcv_mail</td></tr><tr><td>Comentario:</td><td>v_tcv_comentario</td></tr></table>"
+    },
+    BaseCaida: {
+      Devuelve: "<table><tr><td>Nombre:</td><td>v_tcv_nombre</td></tr><tr><td>Mail:</td><td>v_tcv_mail</td></tr><tr><td>Comentario:</td><td>v_tcv_comentario</td></tr></table>"
+    },
+    BaseConDatos: {
+      Devuelve: "<table><tr><td>Nombre:</td><td>v_tcv_nombre</td></tr><tr><td>Mail:</td><td>v_tcv_mail</td></tr><tr><td>Comentario:</td><td>v_tcv_comentario</td></tr></table>"
+    }
+  },
+  {
+    Metodo: GestiónCurriculumVitae(Nullable`1 tcv_codCV, Nullable`1 tcv_fecha, String tcv_nombre, String tcv_comentario, String tcv_mail, String tcv_dni, Nullable`1 tcv_estado, String filtro, String accion, String tcv_puesto, String tcv_sucursal, Nullable`1 tcv_fechaPresentacion),
+    BaseVacia: {
+      Llamadas: [
+        Fill spCurriculumVitae(@tcv_codCV=7, @tcv_fecha=2024-03-15T10:00:00, @tcv_nombre=v_tcv_nombre, @tcv_comentario=v_tcv_comentario, @tcv_mail=v_tcv_mail, @tcv_dni=v_tcv_dni, @tcv_estado=7, @filtro=v_filtro, @accion=v_accion, @tcv_puesto=v_tcv_puesto, @tcv_sucursal=v_tcv_sucursal, @tcv_fechaPresentacion=2024-03-15T10:00:00)
+      ],
+      Devuelve: DataSet[CurriculumVitae(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[CurriculumVitae(2), CurriculumVitae1(2), CurriculumVitae2(2), CurriculumVitae3(2)]
+    }
+  }
+]

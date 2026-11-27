@@ -1,0 +1,135 @@
+﻿[
+  {
+    Metodo: ConvertToCadeteriaRestricciones(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToTiposEnviosSucursalDependiente(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToTiposEnviosSucursalDependiente_TiposEnvios(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: ConvertToTiposEnviosSucursalDependiente_TiposEnvios_Excepciones(DataRow pItem),
+    BaseVacia: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION NullReferenceException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION NullReferenceException
+    }
+  },
+  {
+    Metodo: RecuperarSucursalDependienteTipoEnvioCliente_TipoEnvios_TodasLasExcepciones(Int32 pIdSucursalDependienteTipoEnvioCliente),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarSucursalDependienteTipoEnvioCliente_TipoEnvios_TodasLasExcepciones(@tdr_idSucursalDependienteTipoEnvioCliente=7)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTipoEnviosExcepcionesPorSucursalDependiente(Int32 pIdSucursalDependienteTipoEnvioCliente, String tdr_codReparto),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarSucursalDependienteTipoEnvioCliente_TipoEnvios_Excepciones(@tdr_idSucursalDependienteTipoEnvioCliente=7, @tdr_codReparto=v_tdr_codReparto)
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosCadeteriaRestricciones(),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosCadeteriaRestricciones()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosSucursalDependienteTipoEnvioCliente(),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosSucursalDependienteTipoEnvioCliente()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  },
+  {
+    Metodo: RecuperarTodosSucursalDependienteTipoEnvioCliente_TiposEnvios(),
+    BaseVacia: {
+      Llamadas: [
+        Reader TiposEnvios.spRecuperarTodosSucursalDependienteTipoEnvioCliente_TipoEnvios()
+      ],
+      Devuelve: DataTable (0 cols, 0 filas)
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataTable (376 cols, 2 filas)
+    }
+  }
+]

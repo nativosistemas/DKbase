@@ -1,0 +1,129 @@
+﻿[
+  {
+    Metodo: spAddDatosCliente(AppCargaDatosClientes pDatosCliente, String pTablaXml_Proveedor, String pTablaXml_Responsable, String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery app.spInsertCargarCliente(cdc_promotor=NULL, cdc_NombreFantasia=NULL, cdc_NombreFarmaceutico=NULL, cdc_NumeroMatricula=NULL, cdc_Direccion=NULL, cdc_Localidad=NULL, cdc_Provincia=NULL, cdc_CPA=NULL, cdc_Telefono=NULL, cdc_Email=NULL, cdc_CUIT=NULL, cdc_IVA=NULL, cdc_NroInscripcionDGR=NULL, cdc_CodigoPAMI=NULL, cdc_GLN=NULL, cdc_DescuentoPlazoPago=NULL, cdc_MontoDeCreditoAcordado=NULL, cdc_MontoDeCreditoAcordado_Periodo=NULL, cdc_Reparto=NULL, strXML_Proveedor=v_pTablaXml_Proveedor, strXML_Responsable=v_pTablaXml_Responsable, GUID=NULL)
+      ],
+      Devuelve: Guid "00000000-0000-0000-0000-000000000000"
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Guid "00000000-0000-0000-0000-000000000000"
+    },
+    BaseConDatos: {
+      Llamadas: 3,
+      Devuelve: Guid "00000000-0000-0000-0000-000000000000",
+      ErroresLogueados: [
+        getParameters: Index was outside the bounds of the array.,
+        spAddDatosCliente: Unrecognized Guid format.
+      ]
+    }
+  },
+  {
+    Metodo: spAddPedido(String pPromotor, String pTablaXml, String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery app.spAddPedido(promotor=v_pPromotor, strXML=v_pTablaXml, GUID=NULL)
+      ],
+      Devuelve: Guid "00000000-0000-0000-0000-000000000000"
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Guid "00000000-0000-0000-0000-000000000000"
+    },
+    BaseConDatos: {
+      Llamadas: 3,
+      Devuelve: Guid "00000000-0000-0000-0000-000000000000",
+      ErroresLogueados: [
+        getParameters: Index was outside the bounds of the array.,
+        spAddPedido: Unrecognized Guid format.
+      ]
+    }
+  },
+  {
+    Metodo: spDeleteModulo(Int32 lab_id),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery app.spDeleteModulo(id=7)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: spGetHistorialPedidos(String pPromotor, String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetHistorialPedidos(promotor=v_pPromotor)
+      ],
+      Devuelve: DataSet[dsGeneric(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[dsGeneric(2), dsGeneric1(2), dsGeneric2(2), dsGeneric3(2)]
+    }
+  },
+  {
+    Metodo: spGetInfoPedidos(String pPromotor, String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetInfoPedidos(promotor=v_pPromotor)
+      ],
+      Devuelve: DataSet[dsGeneric(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[dsGeneric(2), dsGeneric1(2), dsGeneric2(2), dsGeneric3(2)]
+    }
+  },
+  {
+    Metodo: spGetLaboratorios(String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetLaboratorios()
+      ],
+      Devuelve: DataSet[dsGeneric(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[dsGeneric(2), dsGeneric1(2), dsGeneric2(2), dsGeneric3(2)]
+    }
+  },
+  {
+    Metodo: spGetModulos(String pConnectionStringSQL),
+    BaseVacia: {
+      Llamadas: [
+        Fill app.spGetModulos()
+      ],
+      Devuelve: DataSet[dsGeneric(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[dsGeneric(2), dsGeneric1(2), dsGeneric2(2), dsGeneric3(2)]
+    }
+  }
+]

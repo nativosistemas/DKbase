@@ -1,0 +1,368 @@
+﻿[
+  {
+    Metodo: AgregarProductoAlCarrito(String pSucursal, String pIdProducto, Int32 pCantidadProducto, Int32 pIdCliente, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoProductoSucursal(@codSucursal=v_pSucursal, @codCliente=7, @codUsuario=7, @codProducto=v_pIdProducto, @car_tipo=Carrito, @cantidad=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarProductoAlCarrito_generica(String pSucursal, String pIdProducto, Int32 pCantidadProducto, String pTipo, Int32 pIdCliente, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoProductoSucursal(@codSucursal=v_pSucursal, @codCliente=7, @codUsuario=7, @codProducto=v_pIdProducto, @car_tipo=v_pTipo, @cantidad=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: AgregarProductosTransfersAlCarrito(DataTable pTablaDetalleProductos, Int32 pIdCliente, Int32 pIdUsuario, Int32 pIdTransfers, String pCodSucursal, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoTransferPorDetalles(@idUsuario=7, @idCliente=7, @Tabla_Detalle=TVP[col](1), @idTransfer=7, @ctr_codSucursal=v_pCodSucursal, @tipo=v_pTipo, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: BorrarCarrito(Int32 pIdCliente, String pSucursal, String pTipo, String pAccion),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spBorrarCarrito(@codCliente=7, @sucursal=v_pSucursal, @tipo=v_pTipo, @accion=v_pAccion, @idCarrito=NULL)
+      ],
+      Devuelve: Int32 0
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Int32 -1
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Int32 7
+    }
+  },
+  {
+    Metodo: BorrarCarritoPorId(Int32 car_id, String pAccion),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: BorrarCarritoPorId_SleepTimer(Int32 car_id, String pAccion),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=v_pAccion, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 22,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: CargarCarritoDiferido(String pSucursal, String pIdProducto, Int32 pCantidadProducto, Int32 pIdCliente, Nullable`1 pIdUsuario),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarCarritoProductoSucursal(@codSucursal=v_pSucursal, @codCliente=7, @codUsuario=7, @codProducto=v_pIdProducto, @car_tipo=CarritoDiferido, @cantidad=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: EndCarritoEnProceso(Int32 car_id),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spEndCarritoEnProceso(@car_id=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: guardarPedido(Int32 pCodigoCliente, cCarrito pCarrito, String pTipo, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarPedido(@car_id=0, @car_codSucursal=NULL, @car_codCliente=7, @tipo=v_pTipo, @FechaPedido=2024-03-15T10:00:00, @MensajeEnFactura=v_pMensajeEnFactura, @MensajeEnRemito=v_pMensajeEnRemito, @TipoEnvio=v_pTipoEnvio, @IsUrgente=True, @strXML=<Root></Root>)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: guardarPedido(Int32 pCodigoCliente, List`1 pListaProductos, Int32 car_id, String codSucursal, String pTipo, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente),
+    BaseVacia: {
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseCaida: {
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Devuelve: EXCEPCION ArgumentNullException
+    }
+  },
+  {
+    Metodo: guardarPedido_base(Int32 pCodigoCliente, String strXML, Int32 car_id, String codSucursal, String pTipo, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spCargarPedido(@car_id=7, @car_codSucursal=v_codSucursal, @car_codCliente=7, @tipo=v_pTipo, @FechaPedido=2024-03-15T10:00:00, @MensajeEnFactura=v_pMensajeEnFactura, @MensajeEnRemito=v_pMensajeEnRemito, @TipoEnvio=v_pTipoEnvio, @IsUrgente=True, @strXML=v_strXML)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: GuardarPedidoBorrarCarrito(Usuario pUsuario, cClientes pCliente, cCarrito pCarrito, String pTipo, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=0, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spCargarPedido(@car_id=0, @car_codSucursal=NULL, @car_codCliente=1234, @tipo=v_pTipo, @FechaPedido=2024-03-15T10:00:00, @MensajeEnFactura=v_pMensajeEnFactura, @MensajeEnRemito=v_pMensajeEnRemito, @TipoEnvio=v_pTipoEnvio, @IsUrgente=True, @strXML=<Root></Root>)
+      ],
+      Devuelve: void
+    },
+    BaseCaida: {
+      Conexiones: 24,
+      Devuelve: void
+    },
+    BaseConDatos: {
+      Llamadas: 2,
+      Devuelve: void
+    }
+  },
+  {
+    Metodo: GuardarPedidoBorrarCarrito(Usuario pUsuario, cClientes pCliente, List`1 pListaProductos, Int32 car_id, String pSucursal, String pTipo, String pMensajeEnFactura, String pMensajeEnRemito, String pTipoEnvio, Boolean pIsUrgente),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL),
+        NonQuery CAR.spBorrarCarritoPorId(@car_id=7, @accion=TOMAR PEDIDO, @isOk=NULL)
+      ],
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseCaida: {
+      Conexiones: 22,
+      Devuelve: EXCEPCION ArgumentNullException
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: EXCEPCION ArgumentNullException
+    }
+  },
+  {
+    Metodo: InicioCarritoEnProceso(Int32 car_id, String pAccion),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spInicioCarritoEnProceso(@car_id=7, @accion=v_pAccion, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: IsCarritoEnProceso(Int32 car_id),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spIsCarritoEnProceso(@car_id=7, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  },
+  {
+    Metodo: RecuperarCarritosDiferidosPorCliente(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritosPorSucursalYProductos(@car_codCliente=7, @car_tipo=CarritoDiferido)
+      ],
+      Devuelve: DataSet[CarritosPorSucursalYProductos(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[CarritosPorSucursalYProductos(2), CarritosPorSucursalYProductos1(2), CarritosPorSucursalYProductos2(2), CarritosPorSucursalYProductos3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarCarritosPorSucursalYProductos(Int32 pIdCliente),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritosPorSucursalYProductos(@car_codCliente=7, @car_tipo=Carrito)
+      ],
+      Devuelve: DataSet[CarritosPorSucursalYProductos(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[CarritosPorSucursalYProductos(2), CarritosPorSucursalYProductos1(2), CarritosPorSucursalYProductos2(2), CarritosPorSucursalYProductos3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarCarritosPorSucursalYProductos_generica(Int32 pIdCliente, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritosPorSucursalYProductos(@car_codCliente=7, @car_tipo=v_pTipo)
+      ],
+      Devuelve: DataSet[CarritosPorSucursalYProductos(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[CarritosPorSucursalYProductos(2), CarritosPorSucursalYProductos1(2), CarritosPorSucursalYProductos2(2), CarritosPorSucursalYProductos3(2)]
+    }
+  },
+  {
+    Metodo: RecuperarCarritoTransferPorIdCliente(Int32 pIdCliente, String pTipo),
+    BaseVacia: {
+      Llamadas: [
+        Fill CAR.spRecuperarCarritoTransferPorIdCliente(@lrc_codCliente=7, @tipo=v_pTipo)
+      ],
+      Devuelve: DataSet[Transfers(0)]
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: null
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: DataSet[Transfers(2), Transfers1(2), Transfers2(2), Transfers3(2)]
+    }
+  },
+  {
+    Metodo: SubirPedido(String pTablaXml, Int32 pIdCliente, Int32 pIdUsuario, String pTipoCarrito, String pTipoCarritoTransfer),
+    BaseVacia: {
+      Llamadas: [
+        NonQuery CAR.spSubirPedido(@idUsuario=7, @idCliente=7, @strXML=v_pTablaXml, @tipoCarrito=v_pTipoCarrito, @tipoCarritoTransfer=v_pTipoCarritoTransfer, @isOk=NULL)
+      ],
+      Devuelve: Boolean False
+    },
+    BaseCaida: {
+      Conexiones: 2,
+      Devuelve: Boolean False
+    },
+    BaseConDatos: {
+      Llamadas: 1,
+      Devuelve: Boolean True
+    }
+  }
+]

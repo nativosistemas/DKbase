@@ -181,7 +181,8 @@ namespace DKbase.Tests.Contratos
 
         private static string Describir(DbLlamada l)
         {
-            var ps = l.Parametros.Select(p => p.Key + "=" + DescribirParam(p.Value));
+            // El stack trace depende de la ruta del checkout y de los números de línea: se reemplaza por un marcador.
+            var ps = l.Parametros.Select(p => p.Key + "=" + (p.Key == "err_StackTrace" && p.Value != null ? "{stack}" : DescribirParam(p.Value)));
             return l.Tipo + " " + l.Comando + (l.CommandType == CommandType.StoredProcedure ? "" : " [" + l.CommandType + "]") + "(" + string.Join(", ", ps) + ")";
         }
 

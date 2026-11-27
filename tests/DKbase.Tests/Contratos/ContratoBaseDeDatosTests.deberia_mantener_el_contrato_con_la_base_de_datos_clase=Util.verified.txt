@@ -900,7 +900,7 @@
     Metodo: LogInfo(MethodBase method, String pMensaje, String pInfoAdicional, String pType, String pFile_type, Byte[] pFile_content, Object[] values),
     BaseVacia: {
       Llamadas: [
-        NonQuery LogRegistro.spError(err_Nombre=getParameters, err_Parameters=<t>System.Object</t><nombre>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Index was outside the bounds of the array., err_Source=DKbase, err_StackTrace=   at DKbase.generales.Log.getParameters(MethodBase method, Object[] values) in /home/user/DKbase/generales/Log.cs:line 30, err_fecha=2024-03-15T10:00:00, err_tipo=test),
+        NonQuery LogRegistro.spError(err_Nombre=getParameters, err_Parameters=<t>System.Object</t><nombre>, err_Data=System.Collections.ListDictionaryInternal, err_HelpLink=NULL, err_InnerException=NULL, err_Message=Index was outside the bounds of the array., err_Source=DKbase, err_StackTrace={stack}, err_fecha=2024-03-15T10:00:00, err_tipo=test),
         NonQuery LogRegistro.spLogInfo(log_Nombre=DKbase.Tests.Contratos.ContratoBaseDeDatosTests, DKbase.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, log_Mensaje=v_pMensaje, log_InfoAdicional=v_pInfoAdicional, log_Parameters=<t>System.Object</t><nombre>, log_fecha=2024-03-15T10:00:00, log_app=test, log_type=v_pType, log_file_type=v_pFile_type, log_file_content=bytes(3))
       ],
       Devuelve: void

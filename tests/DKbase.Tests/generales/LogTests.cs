@@ -70,7 +70,8 @@ namespace DKbase.Tests.generales
             l.Param("err_Message").Should().Be("algo falló");
             l.Param("err_Data").Should().BeNull();
             l.Param("err_StackTrace").Should().BeNull();
-            l.Param("err_fecha").Should().Be(FakeClock.Ahora); // ignora la fecha recibida, usa la actual
+            // CARACTERIZACIÓN: posible bug - LogError ignora la fecha recibida (pFechaActual) y usa DateTime.Now.
+            l.Param("err_fecha").Should().Be(FakeClock.Ahora);
             l.Param("err_tipo").Should().Be("web");
             l.CommandType.Should().Be(System.Data.CommandType.StoredProcedure);
         }
@@ -103,6 +104,7 @@ namespace DKbase.Tests.generales
         [Fact]
         public void deberia_loguear_error_extra_y_parametros_parciales_cuando_faltan_valores()
         {
+            // CARACTERIZACIÓN: posible bug - con menos valores que parámetros, getParameters lanza IndexOutOfRange y se registra un error extra "getParameters".
             // Menos valores que parámetros: getParameters falla con IndexOutOfRange y lo registra aparte.
             Log.LogError(Metodo, "m", DateTime.Now, 1);
 

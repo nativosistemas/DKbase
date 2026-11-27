@@ -69,6 +69,7 @@ namespace DKbase.Tests.web.cSubirpedido
         [Fact]
         public async Task deberia_quitar_puntos_intermedios_del_nombre_cuando_tiene_varios()
         {
+            // CARACTERIZACIÓN: posible bug - se eliminan los puntos intermedios del nombre del archivo subido.
             var r = await Subir("mi.pedido.del.dia.ASC", "a,b,1,d,779\n");
 
             r.nombreArchivoCompleto.Should().Be("mipedidodeldia.ASC");
@@ -97,6 +98,17 @@ namespace DKbase.Tests.web.cSubirpedido
             TablaEnviada().Rows.Cast<DataRow>().Single()["codigoalfabeta"].Should().Be("ALFA000001");
         }
 
+        [Theory]
+        [InlineData(21, 0)] // por debajo del mínimo: la línea se ignora sin intentar parsearla
+        [InlineData(22, 1)] // en el mínimo (22) se intenta parsear y, como el parseo necesita 38, se loguea un error
+        public async Task deberia_intentar_parsear_lineas_S_desde_22_caracteres(int largo, int erroresEsperados)
+        {
+            var r = await Subir("S_pedido.dat", new string('1', largo) + "\n");
+
+            r.isCorrect.Should().BeTrue();
+            FakeDb.ErroresLogueados.Should().HaveCount(erroresEsperados);
+        }
+
         [Fact]
         public async Task deberia_parsear_formato_F_por_la_primera_letra_del_nombre()
         {
@@ -109,6 +121,7 @@ namespace DKbase.Tests.web.cSubirpedido
         [Fact]
         public async Task deberia_ignorar_lineas_F_de_22_o_23_caracteres_aunque_sean_parseables()
         {
+            // CARACTERIZACIÓN: posible bug - las líneas F exigen 24 caracteres aunque el formato usa 22.
             // El lector exige 24 caracteres aunque el formato F solo usa 22.
             await Subir("Fpedido.dat", "1234" + "00007" + "PRODUCTO00001" + "\n");
 
@@ -127,6 +140,7 @@ namespace DKbase.Tests.web.cSubirpedido
         [Fact]
         public async Task deberia_devolver_resultado_correcto_cuando_formato_desconocido_esta_vacio()
         {
+            // CARACTERIZACIÓN: posible bug - un archivo vacío de formato desconocido se acepta como correcto.
             // Archivo vacío: no hay líneas, nunca se detecta formato erróneo.
             var r = await Subir("Xpedido.dat", "");
 
@@ -137,6 +151,7 @@ namespace DKbase.Tests.web.cSubirpedido
         [Fact]
         public async Task deberia_leer_solo_celdas_numericas_y_saltear_encabezado_cuando_es_excel()
         {
+            // CARACTERIZACIÓN: posible bug - los códigos de barra guardados como texto compartido (shared string) en Excel se ignoran.
             var bytes = Excel.Crear(
                 new[] { "s:codigo", "s:cantidad" },
                 new[] { "n:7791234567890", "n:4" },
@@ -153,6 +168,7 @@ namespace DKbase.Tests.web.cSubirpedido
         [Fact]
         public async Task deberia_enviar_tabla_nula_cuando_excel_esta_corrupto()
         {
+            // CARACTERIZACIÓN: posible bug - un Excel corrupto envía una tabla null a la base y el resultado queda como correcto.
             var r = await Subir("pedido.xlsx", "no es un excel");
 
             r.isCorrect.Should().BeTrue();
@@ -178,6 +194,7 @@ namespace DKbase.Tests.web.cSubirpedido
         [Fact]
         public async Task deberia_marcar_correcto_aunque_falle_la_base()
         {
+            // CARACTERIZACIÓN: posible bug - el resultado queda como correcto aunque falle la base.
             FakeDb.Cuando(SpCargar).Fallar();
             FakeDb.Cuando(SpHistorial).Fallar();
 

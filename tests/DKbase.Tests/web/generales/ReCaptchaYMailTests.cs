@@ -27,6 +27,7 @@ namespace DKbase.Tests.web.generales
         [InlineData("{\"success\": false, \"hostname\": \"true.example.com\"}", true)]
         public void deberia_aceptar_cuando_la_respuesta_contiene_true(string respuesta, bool esperado)
         {
+            // CARACTERIZACIÓN: posible bug - se acepta cualquier respuesta de Google que contenga el texto "true" (no se parsea el JSON).
             // El último caso documenta que basta con que aparezca "true" en cualquier parte de la respuesta.
             FakeWeb.Responder = _ => respuesta;
 

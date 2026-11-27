@@ -108,6 +108,7 @@ namespace DKbase.Tests.web.capaDatos
         [Fact]
         public async Task deberia_lanzar_JsonException_cuando_la_respuesta_no_es_json_valido()
         {
+            // CARACTERIZACIÓN: posible bug - una respuesta que no es JSON válido lanza JsonException sin capturar a nivel API.
             Http.ResponderJson("<html>error</html>");
 
             var act = () => capaAPI.ObtenerFacturaAsync("F1", "login");
@@ -221,6 +222,7 @@ namespace DKbase.Tests.web.capaDatos
         [Fact]
         public async Task deberia_devolver_vacio_siempre_cuando_modifica_password()
         {
+            // CARACTERIZACIÓN: posible bug - ModificarPasswordWEB siempre devuelve "", haya funcionado o no.
             Http.ResponderStatus(HttpStatusCode.InternalServerError);
 
             (await capaAPI.ModificarPasswordWEBAsync("id", "a", "b")).Should().BeEmpty();

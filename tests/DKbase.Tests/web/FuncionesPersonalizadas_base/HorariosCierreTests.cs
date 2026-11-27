@@ -144,6 +144,7 @@ namespace DKbase.Tests.web.FuncionesPersonalizadas
         [Fact]
         public void deberia_lanzar_FormatException_cuando_horario_no_es_numerico()
         {
+            // CARACTERIZACIÓN: posible bug - un horario con formato "ab:cd" lanza FormatException sin manejar.
             Horarios(H("VI", "ab:cd"));
 
             var act = () => Cierre(Viernes10hs);
@@ -195,6 +196,17 @@ namespace DKbase.Tests.web.FuncionesPersonalizadas
         [InlineData(2024, 3, 14, 23, 0, 0, "22:15 hs. VI")]
         [InlineData(2024, 3, 15, 23, 0, 0, "22:15 hs. LU")]   // viernes después → lunes
         [InlineData(2024, 3, 15, 10, 0, 0, "22:15 hs. ")]
+        // Límite exacto: a las 22:15:30 todavía no pasó el cierre (comparación estricta); a las 22:15:31 sí.
+        [InlineData(2024, 3, 11, 22, 15, 30, "22:15 hs. ")]
+        [InlineData(2024, 3, 11, 22, 15, 31, "22:15 hs. MA")]
+        [InlineData(2024, 3, 12, 22, 15, 30, "22:15 hs. ")]
+        [InlineData(2024, 3, 12, 22, 15, 31, "22:15 hs. MI")]
+        [InlineData(2024, 3, 13, 22, 15, 30, "22:15 hs. ")]
+        [InlineData(2024, 3, 13, 22, 15, 31, "22:15 hs. JU")]
+        [InlineData(2024, 3, 14, 22, 15, 30, "22:15 hs. ")]
+        [InlineData(2024, 3, 14, 22, 15, 31, "22:15 hs. VI")]
+        [InlineData(2024, 3, 15, 22, 15, 30, "22:15 hs. ")]
+        [InlineData(2024, 3, 15, 22, 15, 31, "22:15 hs. LU")]
         [InlineData(2024, 3, 16, 9, 0, 0, "22:15 hs. LU")]    // sábado siempre lunes
         [InlineData(2024, 3, 17, 9, 0, 0, "22:15 hs. LU")]    // domingo siempre lunes
         public void deberia_aplicar_cierre_fijo_2215_cuando_reparto_es_S7_y_sucursal_SF(int a, int m, int d, int hh, int mm, int ss, string esperado)
